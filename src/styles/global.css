@@ -599,6 +599,13 @@ code {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.portal-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-card-hover);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 20px rgba(56, 189, 248, 0.12);
 }
 
 .portal-card-top {
@@ -609,11 +616,87 @@ code {
 .portal-badge-bar {
   display: flex;
   align-items: center;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.portal-card-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.portal-icon-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-card);
+  color: var(--accent-primary);
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  transition: all var(--transition-fast);
+}
+
+.portal-icon-box svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+
+.portal-card:hover .portal-icon-box {
+  transform: scale(1.08);
+}
+
+.portal-icon-box.badge-cosmos {
+  color: #fbbf24;
+  border-color: rgba(245, 158, 11, 0.35);
+  background: rgba(245, 158, 11, 0.08);
+}
+.portal-card:hover .portal-icon-box.badge-cosmos {
+  border-color: rgba(245, 158, 11, 0.65);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.35);
+}
+
+.portal-icon-box.badge-chaos {
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.08);
+}
+.portal-card:hover .portal-icon-box.badge-chaos {
+  border-color: rgba(239, 68, 68, 0.65);
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.35);
+}
+
+.portal-icon-box.badge-new {
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.35);
+  background: rgba(56, 189, 248, 0.08);
+}
+.portal-card:hover .portal-icon-box.badge-new {
+  border-color: rgba(56, 189, 248, 0.65);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
+}
+
+.portal-icon-box.badge-crystal {
+  color: #c084fc;
+  border-color: rgba(168, 85, 247, 0.35);
+  background: rgba(168, 85, 247, 0.08);
+}
+.portal-card:hover .portal-icon-box.badge-crystal {
+  border-color: rgba(168, 85, 247, 0.65);
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.35);
+}
+
+.portal-card-text {
+  flex: 1;
+  min-width: 0;
 }
 
 .portal-card-title {
-  margin: 0 0 0.65rem 0;
+  margin: 0 0 0.55rem 0;
   font-size: 1.25rem;
   line-height: 1.25;
   color: var(--text-main);
