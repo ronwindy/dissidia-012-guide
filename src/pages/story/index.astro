@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+
+const scenarios = [
+  {
+    code: "012",
+    title: "012: Treachery of the Gods",
+    subtitle: "The 12th Cycle of Conflict",
+    badge: "New Prequel Story",
+    badgeClass: "badge-cosmos",
+    href: `${baseUrl}story/012-treachery/`,
+    desc: "Follow Lightning, Vaan, Laguna, Yuna, Kain, and Tifa as they fight to close the Dimensional Rift before the 12th cycle concludes. Features 8 complete chapters, gateway maps, enemy parties, and hidden chest locations.",
+    features: ["Prologue to Chapter 7 + Epilogue", "Party mechanics & KP Chances", "Key items and Moogle shops"]
+  },
+  {
+    code: "013",
+    title: "013: Light to All",
+    subtitle: "The 13th Cycle of Conflict",
+    badge: "Remastered Classic",
+    badgeClass: "badge-crystal",
+    desc: "The complete remastered storyline from the original Dissidia. Follow the original 10 Cosmos warriors through their individual Destiny Odysseys and the ultimate clash with Chaos.",
+    features: ["Chapters 1 through 10 + Epilogue", "All 10 original Destiny Odysseys", "Remastered mechanics with Assist support"]
+  },
+  {
+    code: "000",
+    title: "000: Confessions of the Creator",
+    subtitle: "Open-World Post-Game Gauntlet",
+    badge: "Ultimate Challenge",
+    badgeClass: "badge-chaos",
+    desc: "Roam the expansive World Map of World B. Challenge multi-floor super-dungeons (Dragon King's Gateway, The Forsaken Lands), unlock locked teleport zones, buy high-end items from secret Moogles, and confront Level 130 Feral Chaos.",
+    features: ["10-floor endgame dungeons", "Secret Moogle shops & dusty elixirs", "Feral Chaos final boss gauntlet"]
+  }
+];
+---
+
+<BaseLayout title="Story Scenarios Overview" currentPath="story-hub">
+  <div style="margin-bottom: 2rem;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+      <span class="badge-pill badge-cosmos">Main Campaigns</span>
+    </div>
+    <h1 style="margin: 0;">STORY SCENARIOS & CYCLES</h1>
+    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem;">
+      Dissidia 012 contains three full campaigns spanning the 12th cycle prequel, the remastered 13th cycle, and the expansive post-game 000 open world.
+    </p>
+  </div>
+
+  <AlertCallout type="tip" title="PLAY ORDER RECOMMENDATION">
+    For the optimal narrative and progression curve, complete <strong>012: Treachery of the Gods</strong> first to unlock characters and high-tier equipment, transition into <strong>013: Light to All</strong>, and finally conquer <strong>000: Confessions of the Creator</strong>.
+  </AlertCallout>
+
+  <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem;">
+    {scenarios.map(s => (
+      <div class="glass-card" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1.5rem; border-left: 4px solid var(--accent-primary);">
+        <div style="flex: 1; min-width: 300px;">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.35rem;">
+            <span style="font-size: 1.8rem; font-family: var(--font-heading); font-weight: 800; color: var(--accent-primary);">{s.code}</span>
+            <span class={`badge-pill ${s.badgeClass}`}>{s.badge}</span>
+          </div>
+          <h2 style="margin: 0.2rem 0; font-size: 1.6rem; border: none; padding: 0;">{s.title}</h2>
+          <div style="font-size: 0.9rem; color: var(--accent-cosmos); font-weight: 500; margin-bottom: 0.75rem;">{s.subtitle}</div>
+          <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1rem;">
+            {s.desc}
+          </p>
+
+          <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.85rem; color: var(--text-dim);">
+            {s.features.map(f => (
+              <li>{f}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: flex-end; align-self: center;">
+          <a href={s.href} class="btn-action" style="padding: 0.65rem 1.5rem; font-size: 1rem;">
+            Enter Scenario &rarr;
+          </a>
+        </div>
+      </div>
+    ))}
+  </div>
+</BaseLayout>

@@ -1,0 +1,158 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Lightning - Character Guide" currentPath="lightning">
+  <CharacterHeader
+    name="Lightning"
+    title="The Rose of Mayhem"
+    game="Final Fantasy XIII"
+    alignment="New"
+    style="Optima Paradigm All-Rounder"
+    exModeName="Equipped with Omega Weapon!"
+    exModeEffect="Grants Graviton Barrier (reduces Bravery damage received) and Stagger (significantly increases Bravery damage dealt to staggered or broken opponents)."
+    exBurstName="Gestalt Drive (Odin Summon)"
+    exBurstInput="Directional inputs corresponding to on-screen prompts (Up, Down, Left, Right) to execute Odin's blade flurry and Zantetsuken finish."
+    bestStages={["Orphan's Cradle", "Eden", "Order's Sanctuary"]}
+    worstStages={["Planet's Core", "Pandaemonium"]}
+    assistRole="Fast mid-range support. Excellent at catching dodges with Watera and launching opponents for Assist Chases."
+    recommendedAssists={[
+      { name: "Squall", reason: "Quick multi-hit trigger assistance for easy HP conversions." },
+      { name: "Terra", reason: "Graviga pressure combos directly into Army of One." },
+      { name: "Kuja", reason: "Allows instant Assist Chase setups after Crushing Blow." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="PARADIGM SHIFT (OPTIMA SYSTEM)">
+    Lightning's signature mechanic is <strong>Optima Paradigm Shift</strong> (L + R). She seamlessly cycles between three roles:
+    <ul style="margin: 0.5rem 0 0 0; padding-left: 1.2rem;">
+      <li><strong>Commando (COM):</strong> Physical sword strikes with heavy stagger and wall rush properties.</li>
+      <li><strong>Ravager (RAV):</strong> Multi-elemental magic (Watera, Thundara, Aerora) that tracks opponents and rapidly builds Bravery.</li>
+      <li><strong>Medic (MED):</strong> Activates Curaga to gradually restore lost Bravery points.</li>
+    </ul>
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Combat Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Extreme versatility across all combat ranges through instantaneous Paradigm Shifts.</li>
+        <li><em>Crushing Blow</em> and <em>Army of One</em> provide guaranteed HP conversions from Bravery links.</li>
+        <li><em>Watera</em> has aggressive homing and linger traps that punish predictable dashes.</li>
+        <li>Medic role allows safe Bravery regeneration behind stage obstacles.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Combat Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Requires constant paradigm management; wrong stance at close range results in punishing lag.</li>
+        <li>Physical Commando hitboxes have modest horizontal range compared to Sephiroth or Cloud.</li>
+        <li>High CP cost when equipping comprehensive movesets across all three roles.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Rush Assault"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Short / Melee"
+    wallRush="Forward Wall Rush"
+    chase={true}
+    description="Rapid three-hit slash combo that sends opponents tumbling backward. Can be dodge-canceled early into aerial pursuits."
+  />
+
+  <MoveCard
+    name="Sparkstrike"
+    type="BRV Ground"
+    cpCost={30}
+    apMaster={240}
+    range="Mid-Range Lunge"
+    wallRush="Ground Slam"
+    blockStagger={true}
+    description="Imbues Gunblade with lightning and lunges forward with high velocity. Crushes standard guards."
+  />
+
+  <MoveCard
+    name="Watera"
+    type="BRV Ground"
+    cpCost={20}
+    apMaster={150}
+    range="Long / Homing Trap"
+    description="Summons homing water vortexes that track the target and suspend them in mid-air, creating an ideal opening for an Assist call or HP attack."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Aerora"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Mid / Aerial Vortex"
+    wallRush="Ceiling"
+    description="Conjures a localized wind cyclone that drags aerial targets upward toward the stage ceiling."
+  />
+
+  <MoveCard
+    name="Thundara"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={220}
+    range="Long / Vertical Strike"
+    chase={true}
+    description="Calls down lightning bolts from above the opponent. Excellent for catching grounded enemies while maintaining air superiority."
+  />
+
+  <MoveCard
+    name="Launch"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={260}
+    range="Short / Uppercut"
+    chase={true}
+    wallRush="Ceiling"
+    description="Upward slash launcher that seamlessly initiates the Chase sequence."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Crushing Blow"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={300}
+    range="Mid-Range Dash"
+    wallRush="Direct Wall Rush"
+    description="Dashes toward target and delivers a flurry of slashes ending in a crushing overhead strike. High vertical hitbox."
+  />
+
+  <MoveCard
+    name="Army of One"
+    type="HP Aerial"
+    cpCost={45}
+    apMaster={400}
+    range="Long-Range Teleport Strike"
+    description="Lightning's ultimate signature assault. Warps directly in front of the target and unleashes an 11-hit gunblade cascade before blasting them with magical burst damage."
+  />
+
+  <MoveCard
+    name="Razor Gale"
+    type="HP Aerial"
+    cpCost={35}
+    apMaster={280}
+    range="Mid-Range Wave"
+    description="Releases cross-shaped shockwaves that traverse the stage and pierce through physical barriers."
+  />
+
+  <AlertCallout type="tip" title="TACTICAL TIP / LINK GLITCH">
+    By canceling <em>Watera</em> on the exact hit before the final blast with a Paradigm Shift into Commando, you can bypass recovery frames and land an unblockable <em>Crushing Blow</em> before the enemy recovers from hitstun!
+  </AlertCallout>
+</BaseLayout>

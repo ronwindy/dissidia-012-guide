@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Kain Highwind - Character Guide" currentPath="kain">
+  <CharacterHeader
+    name="Kain Highwind"
+    title="Dragoon of the Moon"
+    game="Final Fantasy IV"
+    alignment="New"
+    style="High-Flying Aerial Dragoon"
+    exModeName="Equipped with Holy Lance / Dragon Whisker!"
+    exModeEffect="Grants Lance of the Dragon (all attacks gain extended reach and additional chip Bravery damage)."
+    exBurstName="Dragon's Dive"
+    exBurstInput="Rotate the analog nub continuously in a circle to charge the dragoon spear with lunar energy, culminating in a celestial drop."
+    bestStages={["Edge of Madness"]}
+    worstStages={["Dream's End", "Crystal World", "Planet's Core"]}
+    assistRole="Provides heavy striking power, but has poor combo linkage compared to top-tier assists."
+    recommendedAssists={[
+      { name: "Cecil", reason: "Ideal for punishing opponent recovery after Kain's wall rushes." },
+      { name: "Terra", reason: "Graviga projectile traps pull enemies directly into Kain's Jump descent." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="SPECIAL DRAGOON DASH CANCEL">
+    After executing any Bravery attack, press <strong>Triangle</strong> to perform Kain's exclusive <em>Special Dash</em>. This is significantly safer and faster than a standard dodge cancel, allowing you to sustain non-stop offensive pressure!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Traits</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Kain Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Deals massive multi-hit Bravery damage with every spear thrust.</li>
+        <li>HP attacks hit multiple times before detonation, easily Breaking opponents prior to dealing HP damage.</li>
+        <li>Special Triangle dash cancel maintains offensive momentum with minimal recovery vulnerability.</li>
+        <li>Directional input control allows precise flinging of opponents into walls or ceilings.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Kain Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Has one of the weakest EX Modes and EX Bursts among the new cast.</li>
+        <li>On stages without solid footing (Dream's End, Planet's Core), he cannot execute ground <em>Jump</em>, severely handicapping his tactics.</li>
+        <li>Relatively slow ground movement speed outside of his special dash.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Directional BRV Control & Damage Optimization</h2>
+  <div class="glass-card">
+    <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6;">
+      To maximize Kain's Bravery output and choose where the enemy is flung:
+    </p>
+    <ul style="color: var(--text-muted); font-size: 0.9rem; padding-left: 1.3rem;">
+      <li><strong>Lance Barrage:</strong> Press <code>Circle</code> neutrally during the combo to fling the enemy straight forward.</li>
+      <li><strong>Celestial Shooter:</strong> Press <code>Circle + Up</code> during the combo to launch the enemy toward the ceiling for a ceiling wall rush.</li>
+      <li><strong>Crashing Dive:</strong> Press <code>Circle + Down</code> during the combo to drive the opponent straight into the ground.</li>
+      <li><strong>Build Synergy:</strong> Kain thrives exceptionally well with <em>Iai Strike</em>, <em>Assist Builds</em>, and <em>EX Boost Builds</em>.</li>
+    </ul>
+  </div>
+
+  <h2>Signature Attacks</h2>
+  <MoveCard
+    name="Jump"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={350}
+    range="Full Arena Tracking"
+    wallRush="Ground Slam"
+    description="Kain's most valuable and signature attack. Leaps completely off-screen, rendering him completely invulnerable to enemy attacks, before plunging down directly onto the target."
+  />
+
+  <MoveCard
+    name="Gungnir"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={320}
+    range="Long / Projectile Spear"
+    wallRush="Forward"
+    description="Hurls a charged energy spear across the stage that pierces barriers and inflicts high wall rush damage."
+  />
+
+  <MoveCard
+    name="Dragon's Claws"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={220}
+    range="Mid-Range Thrust"
+    chase={true}
+    description="Rapid aerial multi-thrust combo. Seamlessly cancels into Triangle Special Dash."
+  />
+</BaseLayout>

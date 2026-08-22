@@ -1,0 +1,58 @@
+---
+interface Props {
+  title: string;
+  part?: string;
+  author: string;
+  format: string;
+  characters: string;
+  summary: string;
+  slot?: number | string;
+  version?: string;
+  authorNote?: string;
+  reviewerNote?: string;
+}
+
+const {
+  title,
+  part,
+  author,
+  format,
+  characters,
+  summary,
+  slot,
+  version = "USA",
+  authorNote,
+  reviewerNote
+} = Astro.props;
+---
+
+<div class="glass-card quest-card" style="margin-bottom: 1.5rem; border-left: 3px solid var(--accent-primary);">
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;">
+    <div>
+      {part && <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--accent-cosmos); text-transform: uppercase;">{part}</div>}
+      <h4 style="margin: 0.1rem 0; font-size: 1.3rem; color: var(--text-main);">{title}</h4>
+      <div style="font-size: 0.85rem; color: var(--text-dim);">Created by: <strong style="color: var(--text-muted);">{author}</strong></div>
+    </div>
+    <div style="display: flex; gap: 0.5rem; font-size: 0.75rem; font-family: var(--font-mono);">
+      <span class="badge-pill badge-new">{format}</span>
+      {slot !== undefined && <span class="badge-pill badge-cosmos">Slot: {slot}</span>}
+      <span class="badge-pill badge-crystal">{version}</span>
+    </div>
+  </div>
+
+  <div style="background: rgba(0, 0, 0, 0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.88rem; margin-bottom: 0.85rem;">
+    <div style="margin-bottom: 0.35rem;"><strong style="color: var(--accent-primary);">Playable Cast:</strong> {characters}</div>
+    <div style="color: var(--text-muted); font-style: italic;">&ldquo;{summary}&rdquo;</div>
+  </div>
+
+  {(authorNote || reviewerNote) && (
+    <div style="display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.82rem; border-top: 1px solid var(--border-card-subtle); padding-top: 0.6rem; color: var(--text-muted);">
+      {authorNote && (
+        <div><strong>Author Note:</strong> {authorNote}</div>
+      )}
+      {reviewerNote && (
+        <div><strong style="color: var(--accent-cosmos);">Suih / Zahlzeit Review:</strong> {reviewerNote}</div>
+      )}
+    </div>
+  )}
+</div>

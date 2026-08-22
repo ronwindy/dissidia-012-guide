@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import QuestCard from '../../components/quests/QuestCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+import DataTable from '../../components/common/DataTable.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+
+const farmingCards = [
+  { cardName: "Exulus-", targetDrops: "Rosetta Stones, Megalixers, Genji Equipment Set", strat: "Equip Item Drop Rate Up & Battlegen Rate Up in PP Catalog. Fast HP finishes." },
+  { cardName: "Edgar", targetDrops: "Megalixers, Machine Equipment Set pieces", strat: "Punish Edgar's heavy tool startups with rapid rushdown characters like Squall or Tifa." },
+  { cardName: "Ryuuhime", targetDrops: "High-Tier Component Accessories & Megalixers", strat: "Use zoning characters (Terra/Kuja) to safely trigger component accessory drops." },
+  { cardName: "No. 1 Moogle", targetDrops: "Excalibur II (Legendary Greatsword)", strat: "Acquired via in-game Mognet mail exchange; farm drops during ghost battles." }
+];
+---
+
+<BaseLayout title="Custom Quests & Friend Cards Directory" currentPath="quests">
+  <div style="margin-bottom: 2rem;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+      <span class="badge-pill badge-new">Community Content & Saves</span>
+    </div>
+    <h1 style="margin: 0;">CUSTOM QUESTS & FRIEND CARDS</h1>
+    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem;">
+      Community-created Original Quests and high-efficiency Friend Cards curated by Suih / Zahlzeit. Includes full save injection instructions for PSP hardware and emulators (PPSSPP).
+    </p>
+  </div>
+
+  <AlertCallout type="tip" title="PSP SAVE DATA INSTALLATION GUIDE">
+    <ol style="margin: 0.5rem 0 0 0; padding-left: 1.2rem; line-height: 1.6;">
+      <li>Extract the quest folder (e.g. <code>ULUS10566Quest01</code>).</li>
+      <li>Connect your PSP via USB or open your emulator directory.</li>
+      <li>Copy the folder directly into <code>PSP/SAVEDATA/</code> on your Memory Stick.</li>
+      <li>Launch <em>Dissidia 012 [duodecim]</em> and enter <strong>Communications &rarr; Original Quests</strong> to play!</li>
+    </ol>
+  </AlertCallout>
+
+  <!-- Farming Friend Cards Matrix -->
+  <h2>Top-Tier Farming Friend Cards</h2>
+  <DataTable title="High-Yield Ghost Battle Cards" caption="Fastest route to endgame materials">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Card Name</th>
+          <th>Target Rare Drops</th>
+          <th>Combat Strategy</th>
+        </tr>
+      </thead>
+      <tbody>
+        {farmingCards.map(fc => (
+          <tr>
+            <td><strong style="color: var(--accent-primary);">{fc.cardName}</strong></td>
+            <td style="color: #fde68a;">{fc.targetDrops}</td>
+            <td style="color: var(--text-muted); font-size: 0.88rem;">{fc.strat}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </DataTable>
+
+  <!-- Curated Quests -->
+  <h2 style="margin-top: 2.5rem;">Curated Original Quests</h2>
+
+  <QuestCard
+    title="Food Rush!"
+    author="Aiphrem"
+    format="Round-Robin"
+    characters="Prishe (Lv50)"
+    summary="Join Prishe as she attends Shantotto's boring lecture, gets suddenly starving, and embarks on an epic quest to reach the store and buy food!"
+    slot={0}
+    version="USA"
+    authorNote="Prishe wants to leave Shantotto's lecture, but is stopped by Shantotto (first boss fight)."
+    reviewerNote="A tricky, creative, and humorous quest."
+  />
+
+  <QuestCard
+    title="Final Fantasy Frustra Amare (Part 1 - Forgotten)"
+    part="Part 1 of 8"
+    author="Ryken07"
+    format="Round-Robin"
+    characters="Squall (100), Firion (49), Zidane (100), Sephiroth (20)"
+    summary="Upon forgetting his past life, a warrior seeks to rebuild his memories."
+    slot={0}
+    version="USA"
+    authorNote="Some fights you are meant to lose for dramatic narrative effect. Focus on the story."
+  />
+
+  <QuestCard
+    title="Final Fantasy Frustra Amare (Part 3 - Performer)"
+    part="Part 3 of 8"
+    author="Ryken07"
+    format="Round-Robin"
+    characters="Zidane (100), Squall (100), Tifa (30)"
+    summary="Using the newly found theater ship Prima Vista, Zidane arranges a theatrical play. Squall reluctantly joins in."
+    slot={2}
+    version="USA"
+    reviewerNote="The character roles and comedic timing in the play were spot on!"
+  />
+
+  <QuestCard
+    title="A Pet Dragon"
+    author="Remijia"
+    format="Round-Robin"
+    characters="Kain Highwind"
+    summary="Shantotto and Prishe, deeply concerned that Kain lacks a pet dragon unlike Vana'dielian dragoons, decide to help him find one across the realms."
+    slot={0}
+    version="USA"
+    reviewerNote="A perfect quest—no annoying cheap obstacles, wonderful characterization, and a charming storyline."
+  />
+
+  <QuestCard
+    title="D: FFIV"
+    author="CharizardFire"
+    format="Round-Robin"
+    characters="Cecil Harvey (Lv100)"
+    summary="Final Fantasy IV's iconic boss progression re-imagined with Dissidia characters and custom battle rules."
+    slot={0}
+    version="USA"
+    authorNote="Pay attention to the custom rules; ignoring them makes this quest significantly harder!"
+  />
+
+  <QuestCard
+    title="Parallel Memories"
+    author="BeRnYGP"
+    format="Round-Robin"
+    characters="Zidane (100), Tifa (100), Golbez (100), Bartz (100), Vaan (100)"
+    summary="Dimensional side-effects are corrupting the warriors, making them immensely strong and possessing them with alternate personalities."
+    slot={20}
+    version="USA"
+  />
+</BaseLayout>

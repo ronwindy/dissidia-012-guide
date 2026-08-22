@@ -1,0 +1,36 @@
+---
+interface Props {
+  type?: 'tip' | 'warning' | 'missable' | 'strategy' | 'boss' | 'lore' | 'note';
+  title?: string;
+}
+
+const { type = 'tip', title } = Astro.props;
+
+const defaultTitles: Record<string, string> = {
+  tip: 'PRO TIP / MECHANIC',
+  warning: 'CAUTION',
+  missable: 'MISSABLE REWARD',
+  strategy: 'TACTICAL STRATEGY',
+  boss: 'BOSS COUNTER STRATEGY',
+  lore: 'ARCHIVAL RECORD',
+  note: 'NOTE'
+};
+
+const displayTitle = title || defaultTitles[type] || 'NOTE';
+---
+
+<div class={`callout-box ${type}`}>
+  <div class="callout-title">
+    {type === 'tip' && <span>💡</span>}
+    {type === 'warning' && <span>⚠️</span>}
+    {type === 'missable' && <span>⏳</span>}
+    {type === 'strategy' && <span>⚔️</span>}
+    {type === 'boss' && <span>🔥</span>}
+    {type === 'lore' && <span>📜</span>}
+    {type === 'note' && <span>ℹ️</span>}
+    <span>{displayTitle}</span>
+  </div>
+  <div class="callout-body">
+    <slot />
+  </div>
+</div>

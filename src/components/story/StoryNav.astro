@@ -1,0 +1,33 @@
+---
+interface NavItem {
+  id: string;
+  label: string;
+  sublabel?: string;
+}
+
+interface Props {
+  title: string;
+  items: NavItem[];
+}
+
+const { title, items } = Astro.props;
+---
+
+<div class="glass-card story-nav-box" style="margin-bottom: 2rem; padding: 1.25rem;">
+  <div style="font-size: 0.8rem; font-family: var(--font-mono); text-transform: uppercase; color: var(--accent-primary); margin-bottom: 0.5rem; font-weight: bold;">
+    {title} Table of Contents
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem;">
+    {items.map(item => (
+      <a 
+        href={`#${item.id}`} 
+        style="padding: 0.5rem 0.75rem; background: rgba(255,255,255,0.03); border: 1px solid var(--border-card-subtle); border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--text-muted); display: block; text-decoration: none; transition: all var(--transition-fast);"
+        onmouseover="this.style.color='var(--accent-primary)'; this.style.borderColor='var(--border-card-hover)';"
+        onmouseout="this.style.color='var(--text-muted)'; this.style.borderColor='var(--border-card-subtle)';"
+      >
+        <div style="font-weight: 600; color: var(--text-main);">{item.label}</div>
+        {item.sublabel && <div style="font-size: 0.72rem; color: var(--text-dim);">{item.sublabel}</div>}
+      </a>
+    ))}
+  </div>
+</div>

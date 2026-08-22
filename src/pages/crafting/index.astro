@@ -1,0 +1,174 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CraftingCard from '../../components/crafting/CraftingCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+import DataTable from '../../components/common/DataTable.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Crafting, Equipment Sets & Farming Guide" currentPath="crafting">
+  <div style="margin-bottom: 2rem;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+      <span class="badge-pill badge-cosmos">Endgame Equipment & Economy</span>
+    </div>
+    <h1 style="margin: 0;">CRAFTING, HIGH-TIER SETS & FARMING</h1>
+    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem;">
+      Full recipes, shop locations, and optimal farming exploits for the strongest armor sets, weapons, KP, AP, Rosetta Stones, and Megalixers.
+    </p>
+  </div>
+
+  <!-- Economy & Farming Exploits -->
+  <h2>Fast Currency & Material Farming Exploits</h2>
+
+  <div class="glass-card" style="border-left: 3px solid var(--accent-success); margin-bottom: 1.5rem;">
+    <h3 style="margin-top: 0; color: var(--accent-success); font-size: 1.25rem;">1. Unlimited AP Farming Loop</h3>
+    <ol style="color: var(--text-muted); font-size: 0.92rem; padding-left: 1.2rem; line-height: 1.6;">
+      <li>Travel to the <strong>Gateway of Melting Snows</strong> in the World Map.</li>
+      <li>Enter and navigate immediately to the <strong>Accessory Protection Emblem</strong> on the grid (prevents breakable accessories from breaking during battles).</li>
+      <li>Equip <em>Diamond Ring</em> (AP x3), <em>Beckoning Cat</em> (AP x2), and all breakable AP booster accessories you possess—they will never break inside this zone!</li>
+      <li>Use a <strong>Multichain</strong> skill token on adjacent enemy manikins to chain all battles into a single hyper-boosted AP payout.</li>
+    </ol>
+  </div>
+
+  <div class="glass-card" style="border-left: 3px solid var(--accent-cosmos); margin-bottom: 1.5rem;">
+    <h3 style="margin-top: 0; color: var(--accent-cosmos); font-size: 1.25rem;">2. Rapid KP (Kupoints) Maximization</h3>
+    <ol style="color: var(--text-muted); font-size: 0.92rem; padding-left: 1.2rem; line-height: 1.6;">
+      <li>Select deep multi-floor gateways with high Bonus Lines (e.g. <em>The Forsaken Lands</em> or <em>Dragon King's Gateway</em>).</li>
+      <li>Equip <strong>KP Bonus Tokens</strong> (bought from Moglin for 10 KP) before entering.</li>
+      <li>Always fulfill the listed <em>KP Chance</em> (e.g. Break within 60s, Win without taking damage).</li>
+      <li>If you accidentally fail a KP chance during a battle, whittle the opponent down to critical low HP and let them defeat you—upon retry, the KP chance resets while opponent stays wounded!</li>
+    </ol>
+  </div>
+
+  <div class="glass-card" style="border-left: 3px solid var(--accent-crystal); margin-bottom: 1.5rem;">
+    <h3 style="margin-top: 0; color: var(--accent-crystal); font-size: 1.25rem;">3. Ghost Battle Item Duplication Exploit</h3>
+    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
+      Create an export of your own Friend Card equipped with rare accessories (e.g. <em>Megalixers</em>, <em>Lufenian Gear</em>, <em>Rosetta Stones</em>). Import the card onto your PSP (or secondary slot), equip <em>Battlegen Rate Up</em> and <em>Item Drop Rate Up</em> from the PP Catalog, and fight ghost battles against your own card repeatedly to clone all rare gear!
+    </p>
+  </div>
+
+  <!-- High-Tier Equipment Sets -->
+  <h2 style="margin-top: 2.5rem;">Legendary Equipment Sets</h2>
+
+  <CraftingCard
+    id="lufenian-set"
+    name="Lufenian Equipment Set"
+    type="Set"
+    effect="EX Intake Range +3m, EX Force Absorption +20%, Wall Rush Defense Boost +30%"
+    pieces={["Lufenian Helm", "Lufenian Armor", "Lufenian Shield", "Lufenian Boots"]}
+    farmingMethod={[
+      "In Scenario 000, teleport to Mirage Tower.",
+      "Head to 'Dreams of a Flying Castle' in the middle of the desert with False Stalwarts.",
+      "Descend to Floor 4 and defeat all Mirror Pieces.",
+      "Step directly onto the tile where the left mirror piece stood—this triggers a secret event spawning Red Chests across the entire floor!",
+      "Defeat every Red Chest piece; every chest is guaranteed to contain a piece of random Lufenian Armor."
+    ]}
+  />
+
+  <CraftingCard
+    id="genji-set"
+    name="Genji Armor Set"
+    type="Set"
+    effect="Defense +15, Bravery Boost on EX Mode +50%, Physical Damage +20%"
+    pieces={["Genji Helm", "Genji Armor", "Genji Shield", "Genji Glove"]}
+    materials={[
+      { name: "Heike Armor Set", qty: 1, source: "Moogle Shop east of Elven Castle (Frozen Continent)" },
+      { name: "Samurai Spirit", qty: 4, source: "Moogle Shop in Onrac Western Desert" },
+      { name: "Giant's Hopes / Dream / Desire", qty: "5 each", source: "Battlegen drops from Gilgamesh in Report 19" }
+    ]}
+    farmingMethod={[
+      "Purchase Heike armor from the Frozen Continent Moogle.",
+      "Teleport to Onrac and purchase 4 Samurai Spirits from the desert Moogle.",
+      "Purchase Battlegen Rate Up in the PP Catalog, fight Gilgamesh in Report 19, and farm his Giant material drops.",
+      "Alternative Method: Import the 'Exulus-' Friend Card and farm drops directly."
+    ]}
+  />
+
+  <CraftingCard
+    id="machine-set"
+    name="Machine Equipment Set"
+    type="Set"
+    prerequisites="Must purchase 'Chemist Lore' in the normal shop, unlock the skill in the 'etc' tab, and equip it."
+    effect="Consumable Potion/Ether effects tripled; massive Defense scaling."
+    pieces={["Machine Cap", "Machine Vest", "Machine Guard", "Machine Treads"]}
+    materials={[
+      { name: "Gear Collection", qty: 6, source: "Moogle Shop near Ancient Volcano Ring - Gulg (Pravoka)" },
+      { name: "Gunner's Hopes (x10) / Dream (x5) / Desire (x5)", qty: "20 total", source: "Battlegen drops from Laguna in M.S. Prima" },
+      { name: "Mallet", qty: 16, source: "Shop crafting component" }
+    ]}
+    farmingMethod={[
+      "Teleport to Pravoka and travel south to Gulg Moogle to buy 6 Gear Collections.",
+      "Equip Battlegen Boosts and fight Laguna in M.S. Prima for Gunner materials.",
+      "Alternative: Farm pieces directly from the 'Edgar' Friend Card."
+    ]}
+  />
+
+  <CraftingCard
+    id="smiting-soul"
+    name="Smiting Soul (Ultimate Accessory)"
+    type="Accessory"
+    effect="Initial Bravery +100%, Bravery Recovery +50% after HP attacks."
+    materials={[
+      { name: "Discord's Dream", qty: 3, source: "Battlegen from Chaos in Scenario 013 Finale" },
+      { name: "Discord's Hopes", qty: 2, source: "Battlegen from Chaos in Scenario 013 Finale" },
+      { name: "Tome of the Orator", qty: 1, source: "Chest on Floor 5 of 'Dreams of a Flying Castle' (Mirage Tower 000)" }
+    ]}
+  />
+
+  <!-- Rare Materials Quick Reference -->
+  <h2 style="margin-top: 2.5rem;">Rare Materials Quick Acquisition Table</h2>
+  <DataTable title="Key Materials & Locations" caption="Verified by Suih / Zahlzeit">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Material</th>
+          <th>Primary Location / Source</th>
+          <th>Secondary / Farming Method</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="color: var(--accent-primary);">Rosetta Stones</strong></td>
+          <td>Chests in 012 Story & Moogle Shops in 012/013/000</td>
+          <td>Farm repeatedly from <code>Exulus-</code> Friend Card with Item Drop Rate Up</td>
+        </tr>
+        <tr>
+          <td><strong style="color: var(--accent-primary);">Megalixers</strong></td>
+          <td>Defeat final boss Feral Chaos (Lv130) in 000</td>
+          <td>Finish Time Attack under 15 min, buy from Cornelia Moglin, or farm <code>Edgar</code> Friend Card</td>
+        </tr>
+        <tr>
+          <td><strong style="color: var(--accent-primary);">Dragon's Tear</strong></td>
+          <td>Floor 10 of <em>The Dragon King's Gateway</em> (Dragon Cave 000)</td>
+          <td>Chest respawns on every fresh dungeon descent</td>
+        </tr>
+        <tr>
+          <td><strong style="color: var(--accent-primary);">Electrum</strong></td>
+          <td>Floor 2, 5, 9, 10 chests in <em>The Forsaken Lands</em> (Gaia 000)</td>
+          <td>Guaranteed chest loot on Floor 10</td>
+        </tr>
+        <tr>
+          <td><strong style="color: var(--accent-primary);">Scarletites & Pink Tails</strong></td>
+          <td>Gulg Moogle Shop next to <em>Encounters and Treason</em> (Pravoka)</td>
+          <td>Unlimited quantity purchase with KP</td>
+        </tr>
+        <tr>
+          <td><strong style="color: var(--accent-primary);">Shell Armor</strong></td>
+          <td>Exclusive chest in Scenario 013 Chapter 10 (Tidus)</td>
+          <td>Floor 1 near the end of the chapter</td>
+        </tr>
+        <tr>
+          <td><strong style="color: var(--accent-primary);">Allure of Honey Set</strong></td>
+          <td>Shantotto Gateway in Scenario 000</td>
+          <td>Random chest drop inside the dungeon</td>
+        </tr>
+        <tr>
+          <td><strong style="color: var(--accent-primary);">Excalibur II</strong></td>
+          <td>Special Friend Card drop from <code>No. 1 Moogle</code></td>
+          <td>Acquired by exchanging letters regularly with Moogles</td>
+        </tr>
+      </tbody>
+    </table>
+  </DataTable>
+</BaseLayout>

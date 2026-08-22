@@ -1,0 +1,196 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ReportEntry from '../../components/reports/ReportEntry.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="20 Archival Reports & Secret Battles" currentPath="reports">
+  <div style="margin-bottom: 2rem;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+      <span class="badge-pill badge-crystal">Lore & Character Unlocks</span>
+    </div>
+    <h1 style="margin: 0;">20 ARCHIVAL REPORTS & SECRET BATTLES</h1>
+    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem;">
+      Full archival lore logs from Lufenia, Cid of the Lufaine, and the ancient researchers. Highlight specific text phrases within the Reports menu in-game to trigger secret battles and unlock Prishe, Gilgamesh, and Feral Chaos!
+    </p>
+  </div>
+
+  <AlertCallout type="tip" title="HOW TO TRIGGER SECRET INFILTRATION BATTLES">
+    When reading Reports in the in-game Museum menu, text phrases highlighted in <strong>bold / yellow</strong> can be selected with the cursor. Pressing <code>Circle</code> on these phrases initiates hidden battles that unlock secret characters in the PP Catalog!
+  </AlertCallout>
+
+  <!-- Report 01-07: Inherited Memories -->
+  <h2>Inherited Memories (Reports 01 - 07)</h2>
+
+  <ReportEntry
+    id="report-05"
+    number="05"
+    title="Inherited Memories -05-"
+    world="World A"
+    place="Town on the Hawk's Wing"
+    unlockCondition="Complete Scenario 012 &bull; Chapter 4"
+    secretBattles={[
+      {
+        title: "Unexpected Fulfillment -1-",
+        triggerPhrase: "used",
+        recommendedLevel: 5,
+        battles: [{ name: "Battle 1", matchup: "Sephiroth vs. Tifa (Lv6)", level: 6 }]
+      },
+      {
+        title: "Unexpected Fulfillment -2-",
+        triggerPhrase: "the child was no longer himself",
+        recommendedLevel: 5,
+        battles: [{ name: "Battle 1", matchup: "Cloud vs. Sephiroth (Lv8)", level: 8 }]
+      }
+    ]}
+  >
+    <p>We were incarcerated in a cave where many monsters roamed.</p>
+    <p>I studied the monsters' behavior and <strong>used</strong> them to our advantage to break out with my husband. Running as fugitives, we managed to arrive at the laboratory where the child was supposed to be kept.</p>
+    <p>What we found was a similitude of me in the making... and <strong>the child was no longer himself</strong>. He was emaciated beyond recognition. And I saw wisps of hatred seething deep inside his empty eyes.</p>
+    <p>We had no time to explain much. I only told him briefly about our situation, and urged him to join us in our escape. Just as my husband and I were about to escape with the child in tow—I was caught by soldiers and shot. In front of the child was born a tiny rip in the time-space continuum that quickly grew to an immense shadow that swallowed everything...</p>
+  </ReportEntry>
+
+  <ReportEntry
+    id="report-06"
+    number="06"
+    title="Inherited Memories -06-"
+    world="World A"
+    place="Town on the Hawk's Wing"
+    unlockCondition="Complete Scenario 012 &bull; Chapter 5"
+    secretBattles={[
+      {
+        title: "My Road",
+        triggerPhrase: "the shadow",
+        recommendedLevel: 16,
+        battles: [
+          { name: "Battle 1", matchup: "Kain vs. Fallacious Wanderer (Lv12)", level: 12 },
+          { name: "Battle 2", matchup: "Kain vs. Imitation Liegeman (Lv14)", level: 14 },
+          { name: "Battle 3", matchup: "Kain vs. Capricious Thief (Lv16) w/ Ephemeral Vision Assist", level: 16 },
+          { name: "Battle 4", matchup: "Kain vs. Fleeting Flash (Lv18)", level: 18 },
+          { name: "Battle 5", matchup: "Kain vs. Exdeath (Lv22) w/ Golbez Assist", level: 22 }
+        ]
+      }
+    ]}
+  >
+    <p>We originate from a tribe that inherits memories through ceremony. The knowledge and skills in my husband were inherited as well. I had intended to use the teleportation device as a part of our escape, but I decided to use it to return to my tribe. I felt the need to pass on my memories even if I were to die there and then.</p>
+    <p>I arrived in the town on the Hawk's Wing, where my tribe still lived in the middle of the forest. They were trying to use one of my husband's levistones to elevate the whole town in order to escape <strong>the shadow</strong> that appeared so suddenly.</p>
+  </ReportEntry>
+
+  <ReportEntry
+    id="report-07"
+    number="07"
+    title="Inherited Memories -07-"
+    world="World A"
+    place="Town on the Hawk's Wing (Dialogue with Lukahn)"
+    unlockCondition="Complete Scenario 012 &bull; Chapter 7"
+    secretBattles={[
+      {
+        title: "Unexpected Fulfillment -3-",
+        triggerPhrase: "save the world from calamity",
+        recommendedLevel: 5,
+        battles: [{ name: "Battle 1", matchup: "Cloud vs. Chaos (Lv1)", level: 1 }],
+        notes: "Note: Chaos is Level 1 with reduced HP—this is fully winnable!"
+      }
+    ]}
+  >
+    <p>&ldquo;Lukahn, please let me ask you one question before we finish. The Warrior of Light—the one you predicted would <strong>save the world from calamity</strong> with crystal in hand—is he really coming?&rdquo;</p>
+    <p>&ldquo;I am called an oracle, but I am actually a historian. <strong>History must always converge</strong>. I feel faint signs of it coming from distant worlds. The Warrior of Light shall come indeed. And he shall liberate this world from the cycle of negativity.&rdquo;</p>
+  </ReportEntry>
+
+  <!-- Report 08: Key Character Unlocks -->
+  <h2>Exploration Report & Character Unlocks (Report 08)</h2>
+
+  <ReportEntry
+    id="report-08"
+    number="08"
+    title="Exploration Report (Prishe & Gilgamesh Unlocks)"
+    world="World A-B"
+    place="Onrac Region Camp"
+    unlockCondition="Clear Shantotto & Bartz Gateways in Scenario 000"
+    secretBattles={[
+      {
+        title: "The Maiden Bringer of Light -1-",
+        triggerPhrase: "beyond \"the door to the Rift\"",
+        recommendedLevel: 5,
+        battles: [{ name: "Battle 1", matchup: "Shantotto vs. Gabranth (Lv10)", level: 10 }],
+        unlockReward: "Prishe becomes available to purchase in the PP Catalog!"
+      },
+      {
+        title: "The Duel of Dreams",
+        triggerPhrase: "tremendous force",
+        recommendedLevel: 12,
+        battles: [{ name: "Battle 1", matchup: "Bartz vs. Gilgamesh (Lv15)", level: 15 }],
+        unlockReward: "Gilgamesh becomes available to purchase in the PP Catalog!"
+      }
+    ]}
+  >
+    <p><strong>Report 003:</strong> World <strong>beyond &ldquo;the door to the Rift&rdquo;</strong> in ruins and had no signs of life. &ldquo;Crystal ore&rdquo; obtained in the alien world now undergoing experiments at the lab.</p>
+    <p><strong>Report 019:</strong> Dragon discovered in the alien world. Armed forces deployed, contact attempted. Half of our troops are now dead. <strong>It is thought to have intelligence.</strong> But communication remains difficult.</p>
+    <p><strong>Report 038:</strong> To open the Rift again requires <strong>tremendous force</strong>. Perhaps enough to destroy our world.</p>
+  </ReportEntry>
+
+  <!-- Report 09-11: Researcher's Notes -->
+  <h2>Researcher's Notes & Manikins (Reports 09 - 11)</h2>
+
+  <ReportEntry
+    id="report-09"
+    number="09"
+    title="From a Researcher's Notes -01-"
+    world="World A"
+    place="Cardian Islands Laboratory"
+    unlockCondition="Complete Scenario 013 &bull; Chapter 3"
+    secretBattles={[
+      {
+        title: "The Girl Awakens",
+        triggerPhrase: "still no sign of will",
+        recommendedLevel: 15,
+        battles: [
+          { name: "Battle 1", matchup: "Onion Knight vs. Counterfeit Wraith (Lv12)", level: 12 },
+          { name: "Battle 2", matchup: "Onion Knight vs. Phantasmal Harlequin (Lv15)", level: 15 }
+        ]
+      }
+    ]}
+  >
+    <p><strong>Notes 008:</strong> Mass-production of simulated life based on crystal ore successful. We name them manikins. But <strong>still no sign of will</strong>. Employing help of a capable Lufenian scientist to attempt transplanting memory facsimiles.</p>
+    <p><strong>Notes 020:</strong> Monster shows extraordinary potential in physical and magic abilities. Growing military interest as practical weapon application. Currently under observation at scientist's residence. Hope for no confusion with human <strong>child</strong>.</p>
+  </ReportEntry>
+
+  <ReportEntry
+    id="report-12"
+    number="12"
+    title="One Man's Monologue (Garland & Chaos Origin)"
+    world="World B"
+    place="Hill with View of the Water Temple"
+    unlockCondition="Complete Scenario 013 &bull; Chapter 8"
+    secretBattles={[
+      {
+        title: "A Convenient Loss of Memory",
+        triggerPhrase: "where we would return",
+        recommendedLevel: 30,
+        battles: [
+          { name: "Battle 1", matchup: "Bartz / Tidus vs. Transient Witch (Lv28)", level: 28 },
+          { name: "Battle 2", matchup: "Bartz / Tidus vs. Imitation Despot (Lv33)", level: 33 },
+          { name: "Battle 3", matchup: "Bartz / Tidus vs. False Stalwart (Lv36)", level: 36 }
+        ]
+      }
+    ]}
+  >
+    <p>I heard a voice speak to me as I laid dying—and that voice was my own.</p>
+    <p>I as Chaos summon me from the future; once summoned, I became Chaos. This cursed cycle could not have started unless one other than myself carried me to the past.</p>
+    <p>The beast often spoke of whence he came—of ships that used wind to sail the skies, of precision machines that moved like humans. Intrigued, we told one another about ourselves and imagined <strong>where we would return</strong>. I shall give a name to this beast one day.</p>
+  </ReportEntry>
+
+  <!-- Report 20: Feral Chaos Unlock -->
+  <ReportEntry
+    id="report-20"
+    number="20"
+    title="Dissidia -04- (Feral Chaos Unlock)"
+    world="World B"
+    place="Edge of Discord"
+    unlockCondition="Defeat Level 130 Feral Chaos on Floor 5 of Edge of Discord (Scenario 000)"
+  >
+    <p>The untamed essence of Chaos transcends the cycle. With the defeat of his primeval incarnation in the rift of Edge of Discord, Feral Chaos is unlocked for permanent acquisition in the PP Catalog for 300 PP!</p>
+  </ReportEntry>
+</BaseLayout>

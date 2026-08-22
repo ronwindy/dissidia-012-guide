@@ -1,0 +1,20 @@
+---
+interface Props {
+  title?: string;
+  caption?: string;
+}
+
+const { title, caption } = Astro.props;
+---
+
+<div class="data-table-container" style="margin: 1.5rem 0;">
+  {title && (
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+      <h4 style="margin: 0; font-size: 1.1rem; color: var(--text-main); font-family: var(--font-heading);">{title}</h4>
+      {caption && <span style="font-size: 0.8rem; color: var(--text-dim); font-family: var(--font-mono);">{caption}</span>}
+    </div>
+  )}
+  <div class="table-responsive">
+    <slot />
+  </div>
+</div>

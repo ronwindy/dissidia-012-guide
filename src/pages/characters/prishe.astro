@@ -1,0 +1,143 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import SkillchainTable from '../../components/character/SkillchainTable.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+
+const prisheSkillchains = [
+  {
+    baseMove: "Combo",
+    links: [
+      { followup: "Backhand Blow", skillchain: "Detonation" },
+      { followup: "Spinning Attack", skillchain: "Liquefaction" }
+    ]
+  },
+  {
+    baseMove: "Howling Fist",
+    links: [
+      { followup: "Shoulder Tackle", skillchain: "Reverberation" },
+      { followup: "Backhand Blow", skillchain: "Detonation" },
+      { followup: "Spinning Attack", skillchain: "Liquefaction" },
+      { followup: "One Inch Punch", skillchain: "Compression" }
+    ]
+  },
+  {
+    baseMove: "Shoulder Tackle",
+    links: [
+      { followup: "Combo", skillchain: "Impaction" },
+      { followup: "Howling Fist", skillchain: "Impaction" },
+      { followup: "Shoulder Tackle", skillchain: "Impaction" },
+      { followup: "Backhand Blow", skillchain: "Detonation" },
+      { followup: "Spinning Attack", skillchain: "Impaction" },
+      { followup: "Raging Fists", skillchain: "Impaction" }
+    ]
+  },
+  {
+    baseMove: "Backhand Blow",
+    links: [
+      { followup: "One Inch Punch", skillchain: "Gravitation" }
+    ]
+  },
+  {
+    baseMove: "Spinning Attack",
+    links: [
+      { followup: "Combo", skillchain: "Fusion" },
+      { followup: "Howling Fist", skillchain: "Fusion" },
+      { followup: "Shoulder Tackle", skillchain: "Fusion" },
+      { followup: "Backhand Blow", skillchain: "Detonation" },
+      { followup: "Spinning Attack", skillchain: "Fusion" },
+      { followup: "Raging Fists", skillchain: "Fusion" }
+    ]
+  },
+  {
+    baseMove: "Raging Fists",
+    links: [
+      { followup: "Backhand Blow", skillchain: "Detonation" },
+      { followup: "Spinning Attack", skillchain: "Liquefaction" }
+    ]
+  },
+  {
+    baseMove: "One Inch Punch",
+    links: [
+      { followup: "Howling Fist", skillchain: "Transfixion" },
+      { followup: "Backhand Blow", skillchain: "Detonation" }
+    ]
+  }
+];
+---
+
+<BaseLayout title="Prishe - Skillchains & Character Guide" currentPath="prishe">
+  <CharacterHeader
+    name="Prishe"
+    title="The Inscrutable Youth"
+    game="Final Fantasy XI"
+    alignment="New"
+    style="Dynamic Martial Arts & Skillchain Links"
+    exModeName="Equipped with Monk's Black Belt / Hundred Fists!"
+    exModeEffect="During EX Mode, Prishe automatically duplicates the second move in any BRV combination. If both chain links fulfill skillchain requirements, two full elemental skillchain explosions detonate!"
+    exBurstName="Brillo Entelchia (Auroral Magic)"
+    exBurstInput="Successive button taps timed to the converging light runes to unleash the ultimate light explosion."
+    assistRole="Extremely fast rush assist that knocks enemies away, but does not allow standard Assist Chase follow-ups."
+    recommendedAssists={[
+      { name: "Cloud of Darkness", reason: "Enables endless combo extensions with Tentacle of Suffering + Auroral Uppercut." },
+      { name: "Firion", reason: "Provides ground lockdown for easy Prishe weaponskill initiations." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="CLOUD OF DARKNESS ASSIST COMBO ROUTE">
+    <strong>Suih's Infinite Damage Loop:</strong><br />
+    <code>Raging Fists (call CoD Assist on 4th punch) &rarr; Tentacle of Suffering &rarr; (Assist Chase) &rarr; Raging Fists (delayed for lag) &rarr; Raging Fists (call CoD on 4th punch) &rarr; Tentacle of Suffering &rarr; (teleport) &rarr; Spinning Attack (Wall Rush) &rarr; Tentacle of Suffering &rarr; Auroral Uppercut HP Finish!</code>
+  </AlertCallout>
+
+  <h2>Attributes & Combat Breakdown</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Prishe Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Lightning-fast dynamic onslaught allows surprise ambushes and effortless punishes.</li>
+        <li>Unmatched burst damage potential when chaining high-tier Skillchains.</li>
+        <li>Deep customization: customize base moves and branching follow-ups to match any playstyle.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Prishe Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Attacks have almost zero horizontal range; must be right next to the target.</li>
+        <li>Magic-based BRV attacks (Banish, Holy) are highly situational.</li>
+        <li>Sub-optimal combo branches yield low damage; player must memorize exact Skillchain paths.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Prishe Skillchain Matrix</h2>
+  <SkillchainTable skillchains={prisheSkillchains} />
+
+  <AlertCallout type="note" title="EXCEPTIONS TO SKILLCHAINS">
+    The only moves in Prishe's arsenal that <strong>cannot</strong> form Skillchains are <em>Holy</em>, <em>Dragon Kick</em>, and <em>Banish</em>. All other physical weaponskills follow the matrix above.
+  </AlertCallout>
+
+  <h2>Key HP Attacks</h2>
+  <MoveCard
+    name="Auroral Uppercut"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={300}
+    range="Short / Launcher"
+    wallRush="Ceiling"
+    description="Channels pure luminous aether into a crushing upward fist. Perfect finisher for all ground assist loops."
+  />
+
+  <MoveCard
+    name="Nullifying Dropkick"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={300}
+    range="Mid-Range Dive"
+    wallRush="Ground Slam"
+    description="Flies downward with immense kinetic energy, driving aerial targets into the floor for high wall rush damage."
+  />
+</BaseLayout>

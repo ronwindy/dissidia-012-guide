@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+import DataTable from '../../components/common/DataTable.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+
+const bossCounters = [
+  { hero: "Firion", strategy: "Spam Lord of Arms from across the map, inserting a dodge roll after each cast to cancel recovery lag. If airborne, Weaponmaster is effective." },
+  { hero: "Golbez", strategy: "On ground, wait for FC to approach and cast Nightglow repeatedly. In air, use Sector Ray (he jumps into it) and Genesis Rock, chaining Float System to Cosmic Ray D." },
+  { hero: "Gabranth", strategy: "The most dominant counter. Stay in the air charging EX gauge non-stop. Once in EX Mode, unleash limitless Bravery combos or spam Innocence." },
+  { hero: "Sephiroth", strategy: "Use Octaslash in constant succession, executing a backward Dodge Cancel between each flurry." },
+  { hero: "Squall", strategy: "Rough Divide has stage-wide reach and rapid startup; dodge cancel after each hit. Alternatively, Blasting Zone has higher attack priority than FC's moves." },
+  { hero: "Terra", strategy: "Fly to the stage ceiling and spam Level 3 Meltdown followed by dodge cancels. Equip BRV accessories and Snooze or Lose to chip him down." },
+  { hero: "Kuja", strategy: "Ascend to the ceiling and spam Ultima, especially potent when EX Cores spawn." },
+  { hero: "Ultimecia", strategy: "Precisely time Knight's Lance to block FC's strikes and trigger block stagger, then punish with slightly charged Shockwave Pulsar." },
+  { hero: "Cloud", strategy: "Meteorain is surprisingly effective at safe mid-range artillery." },
+  { hero: "Kain", strategy: "Jump relentlessly; FC's ground AoE cannot touch him during jump descent." },
+  { hero: "Yuna", strategy: "Spam Megaflare from long range." },
+  { hero: "Gilgamesh", strategy: "Rapidly fire off Rocket Punch." },
+  { hero: "Onion Knight", strategy: "Mash out Wind Shear in rapid succession." },
+  { hero: "Jecht", strategy: "Jecht Beam works consistently at punishing FC recovery." },
+  { hero: "Tifa", strategy: "Use Meteor Strike with selective charge timing." },
+  { hero: "Exdeath", strategy: "Cast Grand Cross with defensive dodges." }
+];
+---
+
+<BaseLayout title="Feral Chaos - Boss & Character Guide" currentPath="feral-chaos">
+  <CharacterHeader
+    name="Feral Chaos"
+    title="God of Absolute Discord"
+    game="Dissidia 012 [duodecim]"
+    alignment="Chaos"
+    style="Colossal Unblockable Powerhouse"
+    exModeName="Primal Chaos Awakening"
+    exModeEffect="Colossal boost to damage, hyper-armor on all attack frames, and global field disruption."
+    exBurstName="Regnum Dei (Cataclysmic Ruin)"
+    exBurstInput="Rapid button mashing prompts to unleash planetary eruptions and crushing magma blasts."
+    assistRole="Massive AoE assist strikes that shatter opponent guards and launch them across the arena."
+    recommendedAssists={[
+      { name: "Cloud", reason: "For crushing wall rush follow-ups after Via hits." },
+      { name: "Aerith", reason: "Seal Evil freezes foes in place for guaranteed FC HP attacks." }
+    ]}
+  />
+
+  <AlertCallout type="boss" title="BOSS ALERT: 000 CONFESSIONS ENCOUNTER">
+    In Scenario 000, Feral Chaos appears as a Level 130 ultimate encounter with over 100,000 HP. All of his standard attacks stagger blocks, meaning normal guards will instantly fail unless using specialized shield counters like Exdeath's High Block or Ultimecia's Knight's Lance.
+  </AlertCallout>
+
+  <h2>Attributes & Trait Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Feral Chaos Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Massive area of effect on virtually every Bravery and HP attack.</li>
+        <li>Innate shield stagger on all attacks—effectively making his strikes unblockable.</li>
+        <li>High base agility and rush velocity for a heavyweight colossal fighter.</li>
+        <li>Top-tier HP attacks modeled on augmented versions of existing boss skills (e.g. enhanced Lord of Arms).</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Feral Chaos Cons / Penalties</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Massive hitbox makes him an easy target for long-range projectiles and multi-hit snipers.</li>
+        <li>Moves require immense CP investments.</li>
+        <li>Passive Bravery depletion over time unless negated with high-cost abilities.</li>
+        <li>EX Gauge and Assist Gauges are initially locked out unless specific CP slots are dedicated.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Universal Player Tactics against Feral Chaos</h2>
+  <div class="glass-card">
+    <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.65;">
+      Never attempt a direct head-on brawl with Feral Chaos—his attack priority and speed will overwhelm standard characters. Instead, adopt a disciplined <strong>zoning strategy</strong>. Keep your distance, monitor his distinct start-up animations, and punish recovery windows.
+    </p>
+    <ul style="color: var(--text-muted); font-size: 0.92rem; padding-left: 1.3rem;">
+      <li><strong>Evading <em>Via</em> (Flame Eruption):</strong> Watch for his startup gesture. Run on the ground (boosted by <em>Speed Boost</em>), jump, or dodge early for the initial burst and immediately dodge a second time for the tracking follow-up.</li>
+      <li><strong>Surviving EX Burst:</strong> If Chaos initiates EX Burst, focus on depleting his Bravery before execution. Alternatively, equip <strong>Alexander</strong> (seals opponent BRV at base level) or <strong>Malboro</strong> (gradually reduces Bravery to zero).</li>
+      <li><strong>Shinryu Summon Reversal:</strong> When Feral Chaos triggers Shinryu's Bravery swap, intentionally take light damage to inflate his Bravery, trigger the swap, and immediately lock your new 9,999 BRV with <em>Alexander</em>! Use <em>Zalera, the Death Seraph</em> to instantly Break him when he hits 9,999.</li>
+    </ul>
+  </div>
+
+  <h2>16 Character Specific Counter-Strategies</h2>
+  <DataTable title="Hero vs. Feral Chaos Strategy Matrix" caption="Verified by Suih / Zahlzeit & Community">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 140px;">Hero</th>
+          <th>Optimal Counter Strategy</th>
+        </tr>
+      </thead>
+      <tbody>
+        {bossCounters.map(bc => (
+          <tr>
+            <td><strong style="color: var(--accent-primary);">{bc.hero}</strong></td>
+            <td style="color: var(--text-muted); font-size: 0.9rem;">{bc.strategy}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </DataTable>
+
+  <h2>Signature Moves & Boss Properties</h2>
+  <MoveCard
+    name="Via (Flame Geyser)"
+    type="BRV Ground"
+    range="Global Tracking"
+    blockStagger={true}
+    description="Erupts columns of flame beneath the opponent anywhere on the battlefield. Must be dodged in two timed sequences."
+  />
+
+  <MoveCard
+    name="Deus Iratus"
+    type="HP Aerial"
+    range="Wide Arena Blast"
+    wallRush="Global Wall Rush"
+    blockStagger={true}
+    description="Unleashes a cataclysmic shockwave that drags in all surrounding targets and detonates for catastrophic HP damage."
+  />
+</BaseLayout>

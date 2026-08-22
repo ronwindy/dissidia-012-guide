@@ -1,0 +1,69 @@
+---
+interface Props {
+  name: string;
+  type: 'BRV Ground' | 'BRV Aerial' | 'HP Ground' | 'HP Aerial' | 'Branch HP' | 'EX Mode Attack';
+  cpCost?: number;
+  apMaster?: number;
+  range?: string;
+  wallRush?: string;
+  chase?: boolean;
+  blockStagger?: boolean;
+  branchTo?: string;
+  description: string;
+}
+
+const {
+  name,
+  type,
+  cpCost,
+  apMaster,
+  range,
+  wallRush,
+  chase,
+  blockStagger,
+  branchTo,
+  description
+} = Astro.props;
+
+const isHP = type.includes('HP');
+const badgeTypeClass = isHP ? 'badge-hp' : 'badge-brv';
+---
+
+<div class="glass-card move-card" style="margin-bottom: 1rem; border-left: 3px solid var(--border-card);">
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.65rem;">
+    <div>
+      <h4 style="margin: 0; font-size: 1.2rem; color: var(--text-main); display: inline-flex; align-items: center; gap: 0.5rem;">
+        {name}
+        <span class={`badge-pill ${badgeTypeClass}`} style="font-size: 0.7rem; padding: 0.15rem 0.5rem;">{type}</span>
+      </h4>
+    </div>
+
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; font-size: 0.78rem; font-family: var(--font-mono);">
+      {cpCost !== undefined && (
+        <span style="background: rgba(255,255,255,0.06); padding: 0.15rem 0.45rem; border-radius: 4px; color: var(--text-muted);">
+          CP: <strong style="color: var(--text-main);">{cpCost}</strong>
+        </span>
+      )}
+      {apMaster !== undefined && (
+        <span style="background: rgba(255,255,255,0.06); padding: 0.15rem 0.45rem; border-radius: 4px; color: var(--text-muted);">
+          AP: <strong style="color: var(--accent-cosmos);">{apMaster}</strong>
+        </span>
+      )}
+    </div>
+  </div>
+
+  <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">
+    {description}
+  </p>
+
+  <!-- Move Properties Bar -->
+  <div style="display: flex; gap: 0.85rem; flex-wrap: wrap; font-size: 0.8rem; border-top: 1px solid var(--border-card-subtle); padding-top: 0.5rem; color: var(--text-dim);">
+    {range && <div><strong style="color: var(--text-muted);">Range:</strong> {range}</div>}
+    {wallRush && <div><strong style="color: var(--accent-chaos);">Wall Rush:</strong> {wallRush}</div>}
+    {chase && <div><strong style="color: var(--accent-primary);">Chase:</strong> Yes</div>}
+    {blockStagger && <div><strong style="color: var(--accent-warning);">Stagger on Block:</strong> Yes</div>}
+    {branchTo && <div><strong style="color: var(--accent-crystal);">Link Ability:</strong> <code>{branchTo}</code></div>}
+  </div>
+
+  <slot />
+</div>

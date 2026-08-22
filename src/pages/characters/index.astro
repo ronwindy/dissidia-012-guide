@@ -1,0 +1,361 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterCard from '../../components/character/CharacterCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+
+const characters = [
+  // 10 New Characters
+  {
+    name: "Lightning",
+    title: "The Rose of Mayhem",
+    origin: "Final Fantasy XIII",
+    alignment: "New" as const,
+    type: "Paradigm Shift / All-Rounder",
+    href: `${baseUrl}characters/lightning/`,
+    description: "Versatile soldier capable of switching roles (Commando, Ravager, Medic) dynamically in battle to control range and restore Bravery."
+  },
+  {
+    name: "Vaan",
+    title: "Skyward Youth",
+    origin: "Final Fantasy XII",
+    alignment: "New" as const,
+    type: "Switch Weapon / Tactical Trapper",
+    description: "Switches between 8 weapon types dynamically. Powerful switch-cancel loops and trap-heavy zoning capabilities."
+  },
+  {
+    name: "Laguna",
+    title: "The Tactless Marksman",
+    origin: "Final Fantasy VIII",
+    alignment: "New" as const,
+    type: "Heavy Gunner / Long-Range Zoning",
+    description: "Suppressive firearm master armed with Machine Gun, Shotgun, Homing Bazooka, and Ragnarok Satellite Laser."
+  },
+  {
+    name: "Yuna",
+    title: "High Summoner of Spira",
+    origin: "Final Fantasy X",
+    alignment: "New" as const,
+    type: "Summoner / Mid-Long Spells",
+    description: "Commands Valefor, Ifrit, Shiva, Ixion, and Bahamut to strike foes from afar with unblockable pressure and multi-hit HP attacks."
+  },
+  {
+    name: "Kain",
+    title: "Dragoon of the Moon",
+    origin: "Final Fantasy IV",
+    alignment: "New" as const,
+    type: "High Mobility / Aerial Dragoon",
+    href: `${baseUrl}characters/kain/`,
+    description: "High-flying dragoon with multi-hit spear assaults, directional combo launches, and the legendary invulnerable Jump."
+  },
+  {
+    name: "Tifa",
+    title: "Feint Brawler",
+    origin: "Final Fantasy VII",
+    alignment: "New" as const,
+    type: "Rushdown / Feint Specialist",
+    description: "High-speed martial artist whose feints evade incoming attacks mid-combo and confuse defensive opponents."
+  },
+  {
+    name: "Prishe",
+    title: "The Inscrutable Youth",
+    origin: "Final Fantasy XI",
+    alignment: "New" as const,
+    type: "Combo Customizer / Skillchain Master",
+    href: `${baseUrl}characters/prishe/`,
+    description: "Chains varied martial arts and weapon skills into explosive elemental Skillchains for massive bonus BRV bursts."
+  },
+  {
+    name: "Gilgamesh",
+    title: "Sword Collector",
+    origin: "Final Fantasy V",
+    alignment: "New" as const,
+    type: "Random Weapon / Heavy Close Range",
+    description: "Draws random legendary blades (Excalibur, Masamune, Zantetsuken, Excalipoor) with devastating Death Claw hitboxes."
+  },
+  {
+    name: "Feral Chaos",
+    title: "God of Absolute Discord",
+    origin: "Dissidia 012 [duodecim]",
+    alignment: "New" as const,
+    type: "Colossal Boss / Unblockable Powerhouse",
+    href: `${baseUrl}characters/feral-chaos/`,
+    description: "Untamed manifestation of Chaos with colossal area-of-effect strikes, relentless speed, and stagger on block."
+  },
+  {
+    name: "Aerith",
+    title: "The Last Cetra",
+    origin: "Final Fantasy VII",
+    alignment: "Assist" as const,
+    type: "Dedicated Assist / Support Mage",
+    description: "Provides unrivaled assist utility with Seal Evil, Bravery Cure, Planet Protector invincibility, and Holy."
+  },
+
+  // 11 Returning Cosmos
+  {
+    name: "Warrior of Light",
+    title: "Champion of Harmony",
+    origin: "Final Fantasy I",
+    alignment: "Cosmos" as const,
+    type: "Shield Fighter / Aerial Dominance",
+    description: "Excels at aerial guard counters, shield throws, and punishing dashes with Radiant Sword and Bitter End."
+  },
+  {
+    name: "Firion",
+    title: "Master of Weapons",
+    origin: "Final Fantasy II",
+    alignment: "Cosmos" as const,
+    type: "Ground Specialist / Weapon Links",
+    description: "Commands sword, lance, and bow ground combos with versatile branch links and Lord of Arms sniping."
+  },
+  {
+    name: "Onion Knight",
+    title: "Speedy Polymath",
+    origin: "Final Fantasy III",
+    alignment: "Cosmos" as const,
+    type: "High Speed / Physical-Magic Switch",
+    description: "Fastest ground speed in the game with branching Ninja physical combos and Sage elemental barrage links."
+  },
+  {
+    name: "Cecil",
+    title: "Split Soul of the Moon",
+    origin: "Final Fantasy IV",
+    alignment: "Cosmos" as const,
+    type: "Dark Knight / Paladin Switcher",
+    description: "Switches dynamically between heavy Dark Knight ground power and swift Paladin aerial tracking attacks."
+  },
+  {
+    name: "Bartz",
+    title: "The Mimic Traveler",
+    origin: "Final Fantasy V",
+    alignment: "Cosmos" as const,
+    type: "Skill Mimic / Link Master",
+    description: "Wields signature moves of all Cosmos companions. Features powerful Holy to Flare spell links."
+  },
+  {
+    name: "Terra",
+    title: "Esper Maiden",
+    origin: "Final Fantasy VI",
+    alignment: "Cosmos" as const,
+    type: "Charge Magic / Zoning Nuker",
+    description: "Long-range spellcaster with charge-level Meltdown, Graviga pressure, and high mobility Trance in EX Mode."
+  },
+  {
+    name: "Cloud",
+    title: "Ex-SOLDIER Buster",
+    origin: "Final Fantasy VII",
+    alignment: "Cosmos" as const,
+    type: "Heavy Wall Rush / High Crits",
+    description: "Crushing heavy blade strikes with guaranteed wall rush conversions, Slash Blow, and Omnislash EX Burst."
+  },
+  {
+    name: "Squall",
+    title: "Gunblade Duelist",
+    origin: "Final Fantasy VIII",
+    alignment: "Cosmos" as const,
+    type: "Multi-Hit Burst / Fast Rushdown",
+    description: "Rapid gunblade trigger combos (Solid Barrel, Beat Fang, Rough Divide) with massive multi-hit Bravery output."
+  },
+  {
+    name: "Zidane",
+    title: "Aerial Acrobat",
+    origin: "Final Fantasy IX",
+    alignment: "Cosmos" as const,
+    type: "Aerial Mobility / Dodge Attacks",
+    description: "Supreme air maneuverability with dual-daggers, aerial jump cancels, Free Energy, and Grand Lethal."
+  },
+  {
+    name: "Tidus",
+    title: "Dodge Striker",
+    origin: "Final Fantasy X",
+    alignment: "Cosmos" as const,
+    type: "Evasive Attacker / Swift Counter",
+    description: "Built-in dodge frames on Hop Step, Dart & Weave, and Cut & Run allow seamless counter-attacks while evading."
+  },
+  {
+    name: "Shantotto",
+    title: "The Rhyming Sorceress",
+    origin: "Final Fantasy XI",
+    alignment: "Cosmos" as const,
+    type: "BRV Tier Scaling / Mana Sniping",
+    description: "Magic spells scale up in tier (Tier 1 to Tier 3) based on current Bravery value. Unrivaled magic pressure."
+  },
+
+  // 11 Returning Chaos
+  {
+    name: "Garland",
+    title: "Armor of the Loop",
+    origin: "Final Fantasy I",
+    alignment: "Chaos" as const,
+    type: "Heavy Blade / Super Armor",
+    description: "Devastating greatsword attacks with innate poise and unblockable smash properties (Highfall, Round Edge)."
+  },
+  {
+    name: "The Emperor",
+    title: "Arrogant Overlord",
+    origin: "Final Fantasy II",
+    alignment: "Chaos" as const,
+    type: "Trap Architect / Spatial Lock",
+    description: "Controls the entire arena with Mine traps, Bomb traps, Light Crests, and tracking Starfall cataclysms."
+  },
+  {
+    name: "Cloud of Darkness",
+    title: "Wrath of the Void",
+    origin: "Final Fantasy III",
+    alignment: "Chaos" as const,
+    type: "Tentacle Strikes / Particle Beams",
+    description: "Zoning powerhouse with 0-frame Feint Particle Beam counters and wide-arcing tentacle multi-hits."
+  },
+  {
+    name: "Golbez",
+    title: "Dark Shadow Mage",
+    origin: "Final Fantasy IV",
+    alignment: "Chaos" as const,
+    type: "Hybrid Melee-Magic / Spatial Burst",
+    description: "Surrounds foes with dual physical and magical beams, Nightglow area eruptions, and Genesis Rock shields."
+  },
+  {
+    name: "Exdeath",
+    title: "Warlock of the Void",
+    origin: "Final Fantasy V",
+    alignment: "Chaos" as const,
+    type: "Omni-Block / Counter Specialist",
+    description: "High Block and Omni Block nullify all opponent attacks, instantly retaliating with Delta Attack or Grand Cross."
+  },
+  {
+    name: "Kefka",
+    title: "Mad Court Mage",
+    origin: "Final Fantasy VI",
+    alignment: "Chaos" as const,
+    type: "Erratic Magic / Unpredictable Trajectory",
+    description: "Bizarre magic trajectories (Scatter-Spray Blizzaga, Waggle-Wobbly Firaga) that confuse enemy dodge timing."
+  },
+  {
+    name: "Sephiroth",
+    title: "The One-Winged Angel",
+    origin: "Final Fantasy VII",
+    alignment: "Chaos" as const,
+    type: "Long Blade / Multi-Slash Pressure",
+    description: "Tremendous melee reach with Masamune, rapid Shadow Flare projectile setups, and fast Octaslash cancels."
+  },
+  {
+    name: "Ultimecia",
+    title: "Sorceress of Time",
+    origin: "Final Fantasy VIII",
+    alignment: "Chaos" as const,
+    type: "Arrow-Blade Stream / Time Compression",
+    description: "Infinite sustained projectile streams (Knight's Axe/Sword/Arrow) with charge-delay Shockwave Pulsar."
+  },
+  {
+    name: "Kuja",
+    title: "Grim Reaper of the Sky",
+    origin: "Final Fantasy IX",
+    alignment: "Chaos" as const,
+    type: "Glide Striker / Multi-Ring Orbs",
+    description: "Unmatched aerial glide speed with tracking ring flurries, Flare Star, and explosive Ultima finishes."
+  },
+  {
+    name: "Jecht",
+    title: "Blitzball Legend",
+    origin: "Final Fantasy X",
+    alignment: "Chaos" as const,
+    type: "Rhythm Cancel / Unblockable Rush",
+    description: "Manual timing inputs on Jecht Stream and Jecht Block create devastating unblockable combo loops."
+  },
+  {
+    name: "Gabranth",
+    title: "Judge Magister",
+    origin: "Final Fantasy XII",
+    alignment: "Chaos" as const,
+    type: "EX Mode Powerhouse / Gauge Charge",
+    description: "Charges EX Gauge at will. Weak in normal mode but transforms into the most overpowered beast in EX Mode with Innocence."
+  }
+];
+---
+
+<BaseLayout title="Character Roster Database" currentPath="roster">
+  <div style="margin-bottom: 2rem;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+      <span class="badge-pill badge-new">32 Fighters + 1 Assist</span>
+    </div>
+    <h1 style="margin: 0;">CHARACTER ROSTER DATABASE</h1>
+    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem;">
+      Complete move sets, frame data properties, assist recommendations, EX Bursts, and matchup tips for all heroes and villains.
+    </p>
+  </div>
+
+  <!-- Interactive Filter Bar -->
+  <div class="glass-card" style="padding: 0.75rem 1rem; margin-bottom: 2rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+    <span style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--text-dim); text-transform: uppercase; margin-right: 0.5rem;">Filter:</span>
+    <button class="filter-btn active" data-filter="all">All (33)</button>
+    <button class="filter-btn" data-filter="New">New (10)</button>
+    <button class="filter-btn" data-filter="Cosmos">Cosmos (11)</button>
+    <button class="filter-btn" data-filter="Chaos">Chaos (11)</button>
+    <button class="filter-btn" data-filter="Assist">Assist (1)</button>
+  </div>
+
+  <!-- Character Card Grid -->
+  <div class="card-grid" id="characterGrid">
+    {characters.map(c => (
+      <div class="character-item" data-alignment={c.alignment}>
+        <CharacterCard {...c} />
+      </div>
+    ))}
+  </div>
+
+  <AlertCallout type="tip" title="ASSIST PAIRING SYSTEM">
+    Looking to build the optimal team? Characters like <strong>Terra</strong> (Graviga pressure), <strong>Jecht</strong> (HP combo crutch), and <strong>Aerith</strong> (Seal Evil + BRV Cure) offer the highest universal assist synergy across the entire cast.
+  </AlertCallout>
+
+  <style>
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      font-family: var(--font-subheading);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.85rem;
+      cursor: pointer;
+      min-height: 38px;
+      transition: all var(--transition-fast);
+    }
+    .filter-btn:hover {
+      color: var(--text-main);
+      border-color: var(--accent-primary);
+    }
+    .filter-btn.active {
+      background: var(--accent-primary);
+      color: var(--text-inverse);
+      border-color: var(--accent-primary);
+    }
+  </style>
+
+  <script is:inline>
+    if (typeof document !== "undefined") {
+      const filterBtns = document.querySelectorAll(".filter-btn");
+      const items = document.querySelectorAll(".character-item");
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          filterBtns.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+
+          const filter = btn.getAttribute("data-filter");
+          items.forEach(item => {
+            const align = item.getAttribute("data-alignment");
+            if (filter === "all" || align === filter) {
+              item.style.display = "block";
+            } else {
+              item.style.display = "none";
+            }
+          });
+        });
+      });
+    }
+  </script>
+</BaseLayout>

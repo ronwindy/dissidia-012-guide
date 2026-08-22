@@ -1,0 +1,189 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  currentPath?: string;
+}
+
+const { 
+  title, 
+  description = "Complete move lists, story gateways, reports, crafting recipes, and combat strategies for Dissidia 012 [duodecim] Final Fantasy (PSP).",
+  currentPath = ""
+} = Astro.props;
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+
+const navGroups = [
+  {
+    title: "Guide Overview",
+    links: [
+      { label: "Portal Hub", href: `${baseUrl}`, id: "home" },
+      { label: "FAQ & Mechanics", href: `${baseUrl}faq/`, id: "faq" }
+    ]
+  },
+  {
+    title: "Characters (32+)",
+    links: [
+      { label: "Character Roster", href: `${baseUrl}characters/`, id: "roster" },
+      { label: "Lightning (Showcase)", href: `${baseUrl}characters/lightning/`, id: "lightning" },
+      { label: "Feral Chaos (Boss Guide)", href: `${baseUrl}characters/feral-chaos/`, id: "feral-chaos" },
+      { label: "Prishe (Skillchains)", href: `${baseUrl}characters/prishe/`, id: "prishe" },
+      { label: "Kain Highwind", href: `${baseUrl}characters/kain/`, id: "kain" }
+    ]
+  },
+  {
+    title: "Story Walkthroughs",
+    links: [
+      { label: "Scenario Overview", href: `${baseUrl}story/`, id: "story-hub" },
+      { label: "012: Treachery of Gods", href: `${baseUrl}story/012-treachery/`, id: "story-012" },
+      { label: "013: Light to All", href: `${baseUrl}story/013-light/`, id: "story-013" },
+      { label: "000: Creator's Gateways", href: `${baseUrl}story/000-creator/`, id: "story-000" }
+    ]
+  },
+  {
+    title: "Lore & Secrets",
+    links: [
+      { label: "20 Reports & Unlocks", href: `${baseUrl}reports/`, id: "reports" }
+    ]
+  },
+  {
+    title: "Equipment & Farming",
+    links: [
+      { label: "Sets, KP & AP Grinding", href: `${baseUrl}crafting/`, id: "crafting" }
+    ]
+  },
+  {
+    title: "Community & Cards",
+    links: [
+      { label: "Quests & Friend Cards", href: `${baseUrl}quests/`, id: "quests" }
+    ]
+  }
+];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | Dissidia 012 [duodecim] Guide</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={`${baseUrl}favicon.svg`} />
+    <meta name="theme-color" content="#0b0e17" />
+  </head>
+  <body style={`--site-bg: url('${baseUrl}background.jpg');`}>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="app-container">
+      <!-- Left Persistent Sidebar / Mobile Drawer -->
+      <aside class="app-sidebar" id="appSidebar">
+        <div class="sidebar-header">
+          <a href={baseUrl} class="brand-link" title="Dissidia 012 [duodecim] Strategy Guide">
+            <img src={`${baseUrl}logo.png`} alt="Dissidia 012 Logo" class="sidebar-brand-img" />
+            <div class="brand-text">
+              <h1>DISSIDIA</h1>
+              <span>DUODECIM GUIDE</span>
+            </div>
+          </a>
+        </div>
+
+        <nav class="sidebar-nav">
+          {navGroups.map(group => (
+            <div class="nav-group">
+              <div class="nav-group-title">{group.title}</div>
+              {group.links.map(link => {
+                const isActive = currentPath === link.id || (link.id === 'home' && (currentPath === '' || currentPath === 'home'));
+                return (
+                  <a href={link.href} class={`nav-link ${isActive ? 'active' : ''}`}>
+                    <span>{link.label}</span>
+                  </a>
+                );
+              })}
+            </div>
+          ))}
+        </nav>
+
+        <div style="padding: 1rem 1.25rem; border-top: 1px solid var(--border-card); font-size: 0.78rem; color: var(--text-dim);">
+          <div>Saved Progress: <span id="globalProgressCount" style="color: var(--accent-primary); font-weight: bold;">0</span> items</div>
+        </div>
+      </aside>
+
+      <!-- Main Content Shell -->
+      <div class="app-main">
+        <header class="app-header">
+          <div class="header-left">
+            <button class="mobile-toggle-btn" id="sidebarToggle" aria-label="Toggle Navigation Menu">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+            </button>
+            <a href={baseUrl} class="header-logo-link" title="Dissidia 012 [duodecim] Final Fantasy">
+              <img src={`${baseUrl}logo.png`} alt="Dissidia 012 Logo" class="header-logo-img" />
+            </a>
+            <div class="header-breadcrumbs">
+              <a href={baseUrl}>Home</a>
+              {title !== "Dissidia 012 [duodecim] Guide Portal" && (
+                <>
+                  <span class="breadcrumb-sep">/</span>
+                  <span style="color: var(--text-main); font-weight: 500;">{title}</span>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div class="header-actions">
+            <a href={`${baseUrl}characters/`} class="badge-pill badge-new" style="text-decoration: none;">
+              32 Characters
+            </a>
+            <a href={`${baseUrl}crafting/`} class="badge-pill badge-cosmos" style="text-decoration: none;">
+              Farming & Sets
+            </a>
+          </div>
+        </header>
+
+        <main class="content-wrapper">
+          <slot />
+        </main>
+      </div>
+    </div>
+
+    <script is:inline>
+      // Pure client-side drawer & progress script with defensive SSR guards
+      if (typeof document !== "undefined") {
+        const toggleBtn = document.getElementById("sidebarToggle");
+        const sidebar = document.getElementById("appSidebar");
+        const overlay = document.getElementById("sidebarOverlay");
+
+        function toggleMenu() {
+          sidebar?.classList.toggle("open");
+          overlay?.classList.toggle("open");
+        }
+
+        toggleBtn?.addEventListener("click", toggleMenu);
+        overlay?.addEventListener("click", toggleMenu);
+
+        // Update global progress badge
+        function updateGlobalProgress() {
+          try {
+            const raw = localStorage.getItem("dissidia-012-guide-progress");
+            if (raw) {
+              const list = JSON.parse(raw);
+              const countEl = document.getElementById("globalProgressCount");
+              if (countEl && Array.isArray(list)) {
+                countEl.textContent = list.length.toString();
+              }
+            }
+          } catch (e) {
+            console.warn("Could not load progress", e);
+          }
+        }
+        updateGlobalProgress();
+        window.addEventListener("storage", updateGlobalProgress);
+      }
+    </script>
+  </body>
+</html>

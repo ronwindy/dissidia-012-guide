@@ -1,0 +1,175 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AlertCallout from '../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+
+const quickStats = [
+  { label: "Playable Characters", value: "32 + 1", desc: "10 New, 11 Cosmos, 11 Chaos, Aerith Assist" },
+  { label: "Story Scenarios", value: "3 Cycles", desc: "012 Treachery, 013 Light, 000 Confessions" },
+  { label: "Archival Reports", value: "20 Reports", desc: "Lore secrets, battle triggers, PP catalog unlocks" },
+  { label: "Equipment Sets", value: "7+ High Sets", desc: "Lufenian, Genji, Machine, Honey, Shell & Excalibur II" }
+];
+
+const portals = [
+  {
+    title: "Character Database & Movelists",
+    badge: "32 Fighters",
+    badgeClass: "badge-new",
+    desc: "Complete move properties, frame cancels, wall rush triggers, EX Bursts, and assist synergy for all 32 playable heroes and villains.",
+    href: `${baseUrl}characters/`,
+    cta: "Explore Roster & Moves"
+  },
+  {
+    title: "012: Treachery of the Gods",
+    badge: "Main Story",
+    badgeClass: "badge-cosmos",
+    desc: "Full walkthrough for the 12th cycle: Prologue to Chapter 7, Epilogue, all gateway floors, enemy parties, KP conditions, and treasure chests.",
+    href: `${baseUrl}story/012-treachery/`,
+    cta: "Start 012 Walkthrough"
+  },
+  {
+    title: "013: Light to All",
+    badge: "Classic Cycle",
+    badgeClass: "badge-crystal",
+    desc: "Full remastered 13th cycle walkthrough covering Chapters 1 through 10, Destiny Odysseys, terms, and final boss showdowns.",
+    href: `${baseUrl}story/013-light/`,
+    cta: "Start 013 Walkthrough"
+  },
+  {
+    title: "000: Confessions of the Creator",
+    badge: "Post-Game / Open World",
+    badgeClass: "badge-chaos",
+    desc: "Open-world navigation, Dragon King's Gateway, The Forsaken Lands, Chasm of the Rotting Land, Moogle shops, and Feral Chaos gauntlets.",
+    href: `${baseUrl}story/000-creator/`,
+    cta: "Explore 000 Gateways"
+  },
+  {
+    title: "Crafting, Sets & Grinding Hub",
+    badge: "Equipment & KP",
+    badgeClass: "badge-cosmos",
+    desc: "Step-by-step acquisition for Lufenian, Genji, Machine, and Smiting Soul sets. Includes fastest KP, AP, and Megalixer farming tricks.",
+    href: `${baseUrl}crafting/`,
+    cta: "View Crafting & Farming"
+  },
+  {
+    title: "20 Reports & Secret Unlocks",
+    badge: "Lore & Characters",
+    badgeClass: "badge-crystal",
+    desc: "Full archival logs with highlightable battle triggers. Unlock Prishe, Gilgamesh, and Feral Chaos in the PP Catalog.",
+    href: `${baseUrl}reports/`,
+    cta: "Unlock Secret Reports"
+  },
+  {
+    title: "Custom Quests & Friend Cards",
+    badge: "Community",
+    badgeClass: "badge-new",
+    desc: "Community quest storylines (Frustra Amare, Food Rush, A Pet Dragon) and high-yield Friend Cards for farming rare drops and Rosetta Stones.",
+    href: `${baseUrl}quests/`,
+    cta: "View Quests & Cards"
+  },
+  {
+    title: "FAQ & Mechanics Glossary",
+    badge: "Reference",
+    badgeClass: "badge-new",
+    desc: "Answers to common mechanics questions, dodge block frame timing, booster accessories, credit roll, and version changelog.",
+    href: `${baseUrl}faq/`,
+    cta: "View FAQ & System Guide"
+  }
+];
+---
+
+<BaseLayout title="Dissidia 012 [duodecim] Guide Portal" currentPath="home">
+  <!-- Hero Section -->
+  <div class="glass-card" style="padding: 2.5rem 2rem; margin-bottom: 2rem; border-left: 4px solid var(--accent-primary); background: linear-gradient(135deg, rgba(18, 24, 40, 0.9), rgba(11, 14, 23, 0.95));">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.25rem;">
+      <span class="badge-pill badge-cosmos">PSP Ultimate Strategy Guide</span>
+      <span class="badge-pill badge-new">Static & Zero-JS Core</span>
+    </div>
+
+    <div class="hero-brand">
+      <img 
+        src={`${baseUrl}logo.png`} 
+        alt="Dissidia 012 [duodecim] Final Fantasy Logo" 
+        class="hero-logo-img" 
+        width="420" 
+        height="240"
+        loading="eager"
+        decoding="async"
+      />
+    </div>
+
+    <h1 style="font-size: clamp(2.2rem, 4.5vw, 3.4rem); margin-bottom: 0.5rem; line-height: 1.05; letter-spacing: 0.05em;">
+      DISSIDIA 012 [duodecim]
+    </h1>
+    <p style="font-size: 1.12rem; color: var(--accent-primary); font-family: var(--font-subheading); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1.25rem;">
+      FINAL FANTASY &bull; Complete Master Walkthrough, Move Lists & Mechanics Compendium
+    </p>
+    <p style="font-size: 1rem; color: var(--text-muted); max-width: 850px; line-height: 1.7; margin-bottom: 1.5rem;">
+      Welcome to the definitive static knowledge base for <em>Dissidia 012 [duodecim] Final Fantasy</em> on the PlayStation Portable. Built directly from comprehensive community guides by Suih / Zahlzeit, this guide provides 100% data fidelity with zero missing mechanics: frame cancel data, assist synergy, story gateway floor layouts, secret report battle triggers, and advanced crafting recipes.
+    </p>
+
+    <!-- Stat Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem; border-top: 1px solid var(--border-card-subtle); padding-top: 1.25rem;">
+      {quickStats.map(stat => (
+        <div style="background: rgba(0,0,0,0.3); padding: 0.85rem 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-card);">
+          <div style="font-size: 1.6rem; font-family: var(--font-heading); font-weight: 800; color: var(--accent-primary); line-height: 1.15;">{stat.value}</div>
+          <div style="font-size: 0.88rem; font-family: var(--font-subheading); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 0.2rem;">{stat.label}</div>
+          <div style="font-size: 0.76rem; color: var(--text-dim);">{stat.desc}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <AlertCallout type="tip" title="HOW TO USE THIS STATIC GUIDE">
+    Use the persistent left sidebar (or top hamburger drawer on mobile) to jump between chapters. Check off completed story gateways and unlocked reports using the built-in <strong>Progress Trackers</strong>—your progress is securely saved in your browser's local storage without requiring any account or backend!
+  </AlertCallout>
+
+  <!-- Portal Navigation Grid -->
+  <h2 style="margin-top: 2.5rem;">Guide Portals & Core Modules</h2>
+  <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+    {portals.map(p => (
+      <div class="glass-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+            <h3 style="margin: 0; font-size: 1.25rem; color: var(--text-main);">{p.title}</h3>
+            <span class={`badge-pill ${p.badgeClass}`}>{p.badge}</span>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.55; margin-bottom: 1.25rem;">
+            {p.desc}
+          </p>
+        </div>
+        <div>
+          <a href={p.href} class="btn-action" style="width: 100%; box-sizing: border-box;">
+            {p.cta} &rarr;
+          </a>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Featured Highlights -->
+  <h2 style="margin-top: 3rem;">Combat Mechanics Quick Look</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-top: 1rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-brv);">
+      <h3 style="margin-top: 0; font-size: 1.2rem; color: var(--accent-brv);">Bravery & HP Battle System</h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted);">
+        Attacks are divided into <strong>Bravery (BRV)</strong> attacks that steal the opponent's battle power and <strong>HP attacks</strong> that deal actual damage equal to your current Bravery. Reduce opponent Bravery below zero to inflict <strong>BREAK</strong> and gain the stage's Bravery Pool bonus.
+      </p>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-cosmos);">
+      <h3 style="margin-top: 0; font-size: 1.2rem; color: var(--accent-cosmos);">Assist System & Gauge Management</h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted);">
+        Spend 1 Assist Bar to summon a partner for a <strong>Bravery Attack</strong> or <strong>Assist Change</strong> (dodge out of hitstun), or spend 2 bars for an <strong>Assist HP Attack</strong> or <strong>Assist Charge</strong> to break out of enemy combos and initiate Assist Chases.
+      </p>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.2rem; color: var(--accent-chaos);">EX Mode & EX Revenge</h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted);">
+        Gather EX Cores and Force to max out the EX Gauge. Activate <strong>EX Mode</strong> (R+Square) for empowered abilities and fatal EX Bursts, or activate <strong>EX Revenge</strong> while taking damage to freeze time and retaliate with an unblockable combo flurry.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AlertCallout from '../components/common/AlertCallout.astro';
+import DataTable from '../components/common/DataTable.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+
+const faqs = [
+  {
+    q: "What is Main Scenario 013?",
+    a: "It is a complete, enhanced remake of the first Dissidia storyline updated with Dissidia 012's new battle system, graphics engine, and Assist mechanics. Shantotto and Gabranth's dungeons are relocated to Scenario 000."
+  },
+  {
+    q: "How do I unlock Prishe and Gilgamesh?",
+    a: "Access Report 08 in the Museum. Trigger the secret battle 'The Maiden Bringer of Light -1-' on the phrase \"beyond the door to the Rift\" to unlock Prishe, and trigger 'The Duel of Dreams' on the phrase \"tremendous force\" to unlock Gilgamesh. Both can then be purchased in the PP Catalog."
+  },
+  {
+    q: "How do I unlock Feral Chaos?",
+    a: "Clear the main storyline of Scenario 000: Confessions of the Creator and defeat the Level 130 incarnation of Feral Chaos on Floor 5 of the Edge of Discord gateway. You can then purchase him in the PP Catalog for 300 PP."
+  },
+  {
+    q: "How do I unlock the locked / sealed regions across World Map 000?",
+    a: "Conquer the gateway dungeon 'Chasm of the Rotting Land'. Clearing it dissolves the barriers obstructing the teleportation stones and mountain passes."
+  },
+  {
+    q: "Why did my dodge register as a block?",
+    a: "When you execute a dodge in the exact initial frames when an incoming attack connects, the game's startup window triggers an instant Guard/Block interaction rather than an evasion."
+  },
+  {
+    q: "What are Booster Accessories and how do they work?",
+    a: "Booster accessories (identified by their white icons) provide multiplier bonuses (e.g. 1.2x, 1.5x) to your equipped basic accessories as long as their specific combat condition (e.g. 'HP = 100%', 'Opponent in EX Mode', 'Stage Damage Taken') is met."
+  },
+  {
+    q: "What is a 'Bravery Attack Finish'?",
+    a: "It refers to landing the complete sequence of a Bravery attack combo without interruption, triggering the final hit or branch transition."
+  },
+  {
+    q: "Are Zack Fair, Angeal, or Genesis in this game?",
+    a: "No. Aerith appears as an Assist character, but Crisis Core characters are not featured on the playable roster."
+  }
+];
+
+const changelog = [
+  { ver: "v1.39", date: "03/16/2012", desc: "Fixed wording and polished grammar across all move lists and gateway walkthroughs." },
+  { ver: "v1.37", date: "02/01/2012", desc: "Added 4th KP grinding method and Megalixer farming update." },
+  { ver: "v1.34", date: "08/24/2011", desc: "Added Terra link glitch and Lightning Paradigm cancel glitches. Expanded Golbez, Kefka, Firion, and CoD sections." },
+  { ver: "v1.28", date: "07/10/2011", desc: "Major character strategy updates for Exdeath, Cecil, Emperor, Squall, Onion Knight, and Cloud." },
+  { ver: "v1.01", date: "04/15/2011", desc: "Added complete Prishe skillchain combinations matrix." },
+  { ver: "v1.00", date: "04/14/2011", desc: "Initial full release of the complete Dissidia 012 Move List & Master Guide." }
+];
+---
+
+<BaseLayout title="FAQ & System Mechanics Glossary" currentPath="faq">
+  <div style="margin-bottom: 2rem;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+      <span class="badge-pill badge-cosmos">Reference Compendium</span>
+    </div>
+    <h1 style="margin: 0;">FREQUENTLY ASKED QUESTIONS & MECHANICS</h1>
+    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem;">
+      Essential system answers, frame mechanics, community credits, and the complete version archive for Dissidia 012 [duodecim].
+    </p>
+  </div>
+
+  <!-- FAQ Accordion / Cards -->
+  <h2>Common Gameplay Questions</h2>
+  <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem;">
+    {faqs.map(f => (
+      <div class="glass-card" style="margin-bottom: 0;">
+        <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-primary); display: flex; align-items: center; gap: 0.5rem;">
+          <span>Q:</span> {f.q}
+        </h3>
+        <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; margin: 0.5rem 0 0 0;">
+          <strong>A:</strong> {f.a}
+        </p>
+      </div>
+    ))}
+  </div>
+
+  <!-- Credits & Acknowledgements -->
+  <h2>Credits & Archival Acknowledgements</h2>
+  <div class="glass-card" style="border-left: 3px solid var(--accent-crystal); margin-bottom: 2.5rem;">
+    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.65; margin-bottom: 1rem;">
+      Special gratitude to <strong>Suih / Zahlzeit</strong> for authoring the master Move List & Guide on GameFAQs, and to the dedicated Dissidia fighting community who contributed data, frame findings, and strategies:
+    </p>
+    <ul style="color: var(--text-muted); font-size: 0.88rem; padding-left: 1.3rem; line-height: 1.6;">
+      <li><strong>piratekingVyse2, furix, n4bcake, ChekhovsGunman, Burisu, Arc166:</strong> Moogle shop item inventories, summon pricing, and gateway corrections.</li>
+      <li><strong>Piers B, Michael Rabinowitz, Isaac Ashton, gkrebs24, Solid Steve, Bryant Jamal E., Casta Medora, KillerOfDespair:</strong> Character-specific counter strategies against Level 130 Feral Chaos.</li>
+      <li><strong>Paul Brown:</strong> Full Prishe Weaponskill Skillchain matrix.</li>
+      <li><strong>Hernan Pessolani:</strong> Ghost battle item duplication discovery.</li>
+      <li><strong>Satsukun:</strong> Lightning Paradigm Shift and Terra Link cancel discoveries.</li>
+      <li><strong>Max Raschke, Franklin Jingga, TerraBunny95:</strong> KP optimization and Gateway chest coordinates.</li>
+    </ul>
+  </div>
+
+  <!-- Version History -->
+  <h2>Version Changelog Archive</h2>
+  <DataTable title="Changelog History (v1.00 - v1.39)">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 100px;">Version</th>
+          <th style="width: 120px;">Date</th>
+          <th>Summary of Changes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {changelog.map(c => (
+          <tr>
+            <td><strong style="color: var(--accent-primary);">{c.ver}</strong></td>
+            <td style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-dim);">{c.date}</td>
+            <td style="font-size: 0.9rem; color: var(--text-muted);">{c.desc}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </DataTable>
+</BaseLayout>
