@@ -1,10 +1,13 @@
 ---
+import { charactersData } from '../../data/charactersData';
+
 interface Props {
   name: string;
   title: string;
   game: string;
   alignment: 'Cosmos' | 'Chaos' | 'New' | 'Assist';
   style: string;
+  image?: string;
   exModeName: string;
   exModeEffect: string;
   exBurstName: string;
@@ -21,6 +24,7 @@ const {
   game,
   alignment,
   style,
+  image,
   exModeName,
   exModeEffect,
   exBurstName,
@@ -31,50 +35,88 @@ const {
   recommendedAssists = []
 } = Astro.props;
 
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+
+const foundChar = charactersData.find(
+  c => c.name.toLowerCase() === name.toLowerCase() || 
+       name.toLowerCase().startsWith(c.name.toLowerCase()) ||
+       c.id === name.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+);
+
+const imagePath = image || (foundChar ? foundChar.image : null);
+const fullImageSrc = imagePath ? `${baseUrl}${imagePath.startsWith('/') ? imagePath.slice(1) : imagePath}` : null;
+
 const badgeClass = 
   alignment === 'Cosmos' ? 'badge-cosmos' :
   alignment === 'Chaos' ? 'badge-chaos' :
   alignment === 'New' ? 'badge-new' : 'badge-crystal';
+
+const factionIcon = 
+  alignment === 'Cosmos' ? '✨' :
+  alignment === 'Chaos' ? '🔥' :
+  alignment === 'New' ? '⚡' : '🌸';
+
+const factionLabel = 
+  alignment === 'New' ? '012 New' : alignment;
 ---
 
-<div class="glass-card character-header-box" style="margin-bottom: 2rem; border-left: 4px solid var(--accent-primary);">
-  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;">
-    <div>
-      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-        <span style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--text-dim); text-transform: uppercase;">{game}</span>
-        <span class={`badge-pill ${badgeClass}`}>{alignment}</span>
+<div class="glass-card character-header-box">
+  <div class="header-hero-layout">
+    <div class="hero-text-content">
+      <div class="hero-tag-row">
+        <span class="hero-game-badge">{game}</span>
+        <span class={`badge-pill ${badgeClass}`}>
+          <span>{factionIcon}</span>
+          {factionLabel}
+        </span>
       </div>
-      <h1 style="margin: 0; font-size: clamp(2.2rem, 4vw, 3.4rem); line-height: 1.05;">{name}</h1>
-      <div style="font-size: 1.1rem; color: var(--accent-primary); font-weight: 600; font-family: var(--font-heading);">{title} &bull; <span style="color: var(--text-muted);">{style}</span></div>
+
+      <h1 class="hero-character-name">{name}</h1>
+      <div class="hero-character-title">
+        {title} <span class="title-sep">&bull;</span> <span class="hero-style-tag">{style}</span>
+      </div>
     </div>
+
+    {fullImageSrc && (
+      <div class="hero-portrait-stage">
+        <div class="portrait-aura"></div>
+        <img 
+          src={fullImageSrc} 
+          alt={`${name} artwork render`} 
+          class="hero-portrait-img" 
+          width="200" 
+          height="190" 
+        />
+      </div>
+    )}
   </div>
 
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-top: 1.25rem; border-top: 1px solid var(--border-card-subtle); padding-top: 1.25rem;">
+  <div class="header-details-grid">
     <!-- EX Mode & Burst -->
-    <div style="background: rgba(0,0,0,0.25); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-card);">
-      <div style="font-size: 0.75rem; font-family: var(--font-mono); text-transform: uppercase; color: var(--accent-cosmos); margin-bottom: 0.4rem; font-weight: bold;">EX Mode & Burst</div>
-      <div style="font-weight: 700; color: var(--text-main); font-size: 1.05rem;">{exModeName}</div>
-      <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0.35rem 0 0.75rem 0; line-height: 1.45;">{exModeEffect}</p>
+    <div class="detail-box">
+      <div class="detail-box-tag ex-tag">EX Mode & Burst</div>
+      <div class="ex-mode-title">{exModeName}</div>
+      <p class="ex-mode-effect">{exModeEffect}</p>
       
-      <div style="border-top: 1px dashed var(--border-card-subtle); padding-top: 0.5rem;">
-        <div style="font-size: 0.9rem; font-weight: 600; color: #f43f5e;">{exBurstName}</div>
-        <div style="font-size: 0.82rem; color: var(--text-muted);"><strong>Input:</strong> <code>{exBurstInput}</code></div>
+      <div class="ex-burst-row">
+        <div class="ex-burst-title">{exBurstName}</div>
+        <div class="ex-burst-input"><strong>Input:</strong> <code>{exBurstInput}</code></div>
       </div>
     </div>
 
     <!-- Assist & Stage Synergy -->
-    <div style="background: rgba(0,0,0,0.25); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-card);">
+    <div class="detail-box">
       {assistRole && (
-        <div style="margin-bottom: 0.75rem;">
-          <div style="font-size: 0.75rem; font-family: var(--font-mono); text-transform: uppercase; color: var(--accent-primary); margin-bottom: 0.25rem; font-weight: bold;">Role as Assist</div>
-          <div style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.45;">{assistRole}</div>
+        <div class="assist-role-section">
+          <div class="detail-box-tag assist-tag">Role as Assist</div>
+          <div class="assist-role-desc">{assistRole}</div>
         </div>
       )}
 
       {recommendedAssists.length > 0 && (
-        <div style="margin-bottom: 0.75rem;">
-          <div style="font-size: 0.75rem; font-family: var(--font-mono); text-transform: uppercase; color: var(--accent-success); margin-bottom: 0.25rem; font-weight: bold;">Recommended Assists</div>
-          <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.86rem; color: var(--text-muted);">
+        <div class="assist-list-section">
+          <div class="detail-box-tag partner-tag">Recommended Assists</div>
+          <ul class="partner-list">
             {recommendedAssists.map(a => (
               <li><strong>{a.name}</strong> {a.reason ? `— ${a.reason}` : ''}</li>
             ))}
@@ -83,15 +125,221 @@ const badgeClass =
       )}
 
       {(bestStages.length > 0 || worstStages.length > 0) && (
-        <div style="display: flex; gap: 1rem; font-size: 0.82rem; margin-top: 0.5rem; flex-wrap: wrap;">
+        <div class="stage-synergy-row">
           {bestStages.length > 0 && (
-            <div><span style="color: var(--accent-success); font-weight: bold;">Best:</span> {bestStages.join(', ')}</div>
+            <div><span class="stage-best">Best:</span> {bestStages.join(', ')}</div>
           )}
           {worstStages.length > 0 && (
-            <div><span style="color: var(--accent-danger); font-weight: bold;">Worst:</span> {worstStages.join(', ')}</div>
+            <div><span class="stage-worst">Worst:</span> {worstStages.join(', ')}</div>
           )}
         </div>
       )}
     </div>
   </div>
 </div>
+
+<style>
+  .character-header-box {
+    margin-bottom: 2.25rem;
+    border-left: 4px solid var(--accent-primary);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header-hero-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-text-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .hero-tag-row {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-game-badge {
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    color: var(--text-dim);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-card-subtle);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .hero-character-name {
+    margin: 0;
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    line-height: 1.08;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .hero-character-title {
+    font-size: 1.1rem;
+    color: var(--accent-primary);
+    font-weight: 600;
+    font-family: var(--font-heading);
+    margin-top: 0.35rem;
+  }
+
+  .title-sep {
+    color: var(--text-dim);
+    margin: 0 0.25rem;
+  }
+
+  .hero-style-tag {
+    color: var(--text-muted);
+    font-family: var(--font-subheading);
+    font-weight: 600;
+  }
+
+  /* Portrait Stage */
+  .hero-portrait-stage {
+    position: relative;
+    width: 170px;
+    height: 170px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .portrait-aura {
+    position: absolute;
+    inset: -10px;
+    background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-portrait-img {
+    max-height: 165px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.75));
+    z-index: 1;
+    transition: transform var(--transition-normal);
+  }
+
+  .hero-portrait-stage:hover .hero-portrait-img {
+    transform: scale(1.06);
+  }
+
+  /* Details Grid */
+  .header-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+    border-top: 1px solid var(--border-card-subtle);
+    padding-top: 1.25rem;
+  }
+
+  .detail-box {
+    background: rgba(0, 0, 0, 0.25);
+    padding: 1.15rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-card);
+  }
+
+  .detail-box-tag {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    font-weight: bold;
+    letter-spacing: 0.06em;
+  }
+
+  .ex-tag { color: var(--accent-cosmos); }
+  .assist-tag { color: var(--accent-primary); }
+  .partner-tag { color: var(--accent-success); }
+
+  .ex-mode-title {
+    font-weight: 700;
+    color: var(--text-main);
+    font-size: 1.05rem;
+  }
+
+  .ex-mode-effect {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin: 0.35rem 0 0.75rem 0;
+    line-height: 1.48;
+  }
+
+  .ex-burst-row {
+    border-top: 1px dashed var(--border-card-subtle);
+    padding-top: 0.55rem;
+  }
+
+  .ex-burst-title {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #f43f5e;
+  }
+
+  .ex-burst-input {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+  }
+
+  .assist-role-section, .assist-list-section {
+    margin-bottom: 0.75rem;
+  }
+
+  .assist-role-desc {
+    font-size: 0.86rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+
+  .partner-list {
+    margin: 0;
+    padding-left: 1.2rem;
+    font-size: 0.86rem;
+    color: var(--text-muted);
+  }
+
+  .stage-synergy-row {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.82rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+    border-top: 1px dashed var(--border-card-subtle);
+    padding-top: 0.45rem;
+  }
+
+  .stage-best { color: var(--accent-success); font-weight: bold; }
+  .stage-worst { color: var(--accent-danger); font-weight: bold; }
+
+  @media (max-width: 640px) {
+    .header-hero-layout {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+    }
+    .hero-portrait-stage {
+      align-self: center;
+      width: 140px;
+      height: 140px;
+    }
+    .hero-portrait-img {
+      max-height: 130px;
+    }
+  }
+</style>

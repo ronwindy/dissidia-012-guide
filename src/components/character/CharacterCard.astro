@@ -1,46 +1,354 @@
 ---
 interface Props {
+  id?: string;
   name: string;
   title: string;
   origin: string;
+  originShort?: string;
   alignment: 'Cosmos' | 'Chaos' | 'New' | 'Assist';
   type: string;
+  image?: string;
   href?: string;
   description: string;
 }
 
-const { name, title, origin, alignment, type, href, description } = Astro.props;
+const { id, name, title, origin, originShort, alignment, type, image, href, description } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
-const targetUrl = href ? href : `${baseUrl}characters/${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}/`;
+
+const characterSlug = id || name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+const targetUrl = href ? href : `${baseUrl}characters/${characterSlug}/`;
+
+const imageSrc = image 
+  ? `${baseUrl}${image.startsWith('/') ? image.slice(1) : image}` 
+  : null;
+
+const factionTheme = 
+  alignment === 'Cosmos' ? 'faction-cosmos' :
+  alignment === 'Chaos' ? 'faction-chaos' :
+  alignment === 'New' ? 'faction-new' : 'faction-assist';
 
 const badgeClass = 
   alignment === 'Cosmos' ? 'badge-cosmos' :
   alignment === 'Chaos' ? 'badge-chaos' :
   alignment === 'New' ? 'badge-new' : 'badge-crystal';
+
+const factionIcon = 
+  alignment === 'Cosmos' ? '✨' :
+  alignment === 'Chaos' ? '🔥' :
+  alignment === 'New' ? '⚡' : '🌸';
+
+const factionLabel = 
+  alignment === 'New' ? '012 New' : alignment;
 ---
 
-<div class="glass-card character-card" style="display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;">
-  <div>
-    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
-      <div>
-        <span style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--text-dim); text-transform: uppercase;">{origin}</span>
-        <h3 style="margin: 0.1rem 0 0.2rem 0; font-size: 1.4rem; color: var(--text-main);">{name}</h3>
-        <div style="font-size: 0.85rem; color: var(--accent-primary); font-weight: 500;">{title}</div>
-      </div>
-      <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.35rem;">
-        <span class={`badge-pill ${badgeClass}`}>{alignment}</span>
-        <span style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--text-muted);">{type}</span>
-      </div>
+<div class={`glass-card character-card ${factionTheme}`}>
+  <!-- Card Header Meta -->
+  <div class="card-meta-bar">
+    <span class="origin-pill" title={origin}>
+      {originShort || origin}
+    </span>
+    <span class={`badge-pill ${badgeClass}`}>
+      <span class="faction-icon">{factionIcon}</span>
+      {factionLabel}
+    </span>
+  </div>
+
+  <!-- Character Artwork Showcase -->
+  <a href={targetUrl} class="art-showcase-link" aria-label={`View guide for ${name}`}>
+    <div class="art-container">
+      <div class="art-aura"></div>
+      {imageSrc ? (
+        <img 
+          src={imageSrc} 
+          alt={`${name} portrait render`} 
+          class="character-art" 
+          loading="lazy" 
+          width="240"
+          height="220"
+        />
+      ) : (
+        <div class="art-fallback">
+          <span>{name.charAt(0)}</span>
+        </div>
+      )}
+    </div>
+  </a>
+
+  <!-- Character Identity & Archetype -->
+  <div class="card-content">
+    <div class="name-block">
+      <h3 class="char-name">
+        <a href={targetUrl}>{name}</a>
+      </h3>
+      <div class="char-title">{title}</div>
     </div>
 
-    <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem;">
+    <!-- Archetype Chip (Dedicated Row - Zero Collision) -->
+    <div class="archetype-bar">
+      <span class="archetype-icon">⚔️</span>
+      <span class="archetype-text">{type}</span>
+    </div>
+
+    <!-- Tactical Summary -->
+    <p class="char-desc">
       {description}
     </p>
   </div>
 
-  <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-card-subtle); padding-top: 0.85rem; margin-top: 0.5rem;">
-    <a href={targetUrl} class="btn-action" style="font-size: 0.85rem; padding: 0.4rem 0.9rem; min-height: 38px;">
-      View Moves & Strategy &rarr;
+  <!-- Card Action Footer -->
+  <div class="card-footer">
+    <a href={targetUrl} class="btn-action card-action-btn">
+      <span>View Moves & Strategy</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-arrow">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
     </a>
   </div>
 </div>
+
+<style>
+  .character-card {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    padding: 1.15rem;
+    height: 100%;
+    margin-bottom: 0;
+    transition: transform var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
+  }
+
+  .character-card:hover {
+    transform: translateY(-5px);
+  }
+
+  /* Faction-specific Ambient Glows */
+  .faction-new {
+    border-color: rgba(56, 189, 248, 0.22);
+    background: linear-gradient(180deg, rgba(56, 189, 248, 0.07) 0%, rgba(18, 24, 40, 0.8) 40%);
+  }
+  .faction-new:hover {
+    border-color: rgba(56, 189, 248, 0.6);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6), 0 0 20px rgba(56, 189, 248, 0.25);
+  }
+  .faction-new .art-aura {
+    background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.25) 0%, rgba(56, 189, 248, 0.05) 55%, transparent 75%);
+  }
+
+  .faction-cosmos {
+    border-color: rgba(245, 158, 11, 0.22);
+    background: linear-gradient(180deg, rgba(245, 158, 11, 0.07) 0%, rgba(18, 24, 40, 0.8) 40%);
+  }
+  .faction-cosmos:hover {
+    border-color: rgba(245, 158, 11, 0.6);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6), 0 0 20px rgba(245, 158, 11, 0.25);
+  }
+  .faction-cosmos .art-aura {
+    background: radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.25) 0%, rgba(245, 158, 11, 0.05) 55%, transparent 75%);
+  }
+
+  .faction-chaos {
+    border-color: rgba(239, 68, 68, 0.22);
+    background: linear-gradient(180deg, rgba(239, 68, 68, 0.07) 0%, rgba(18, 24, 40, 0.8) 40%);
+  }
+  .faction-chaos:hover {
+    border-color: rgba(239, 68, 68, 0.6);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6), 0 0 20px rgba(239, 68, 68, 0.25);
+  }
+  .faction-chaos .art-aura {
+    background: radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.25) 0%, rgba(239, 68, 68, 0.05) 55%, transparent 75%);
+  }
+
+  .faction-assist {
+    border-color: rgba(168, 85, 247, 0.22);
+    background: linear-gradient(180deg, rgba(168, 85, 247, 0.07) 0%, rgba(18, 24, 40, 0.8) 40%);
+  }
+  .faction-assist:hover {
+    border-color: rgba(168, 85, 247, 0.6);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6), 0 0 20px rgba(168, 85, 247, 0.25);
+  }
+  .faction-assist .art-aura {
+    background: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.25) 0%, rgba(168, 85, 247, 0.05) 55%, transparent 75%);
+  }
+
+  /* Card Meta Bar */
+  .card-meta-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    z-index: 2;
+  }
+
+  .origin-pill {
+    font-size: 0.76rem;
+    font-family: var(--font-mono);
+    color: var(--text-dim);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-card-subtle);
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  .faction-icon {
+    font-size: 0.8rem;
+  }
+
+  /* Art Showcase */
+  .art-showcase-link {
+    display: block;
+    text-decoration: none;
+  }
+
+  .art-container {
+    height: 195px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid var(--border-card-subtle);
+  }
+
+  .art-aura {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-normal);
+  }
+
+  .character-art {
+    max-height: 180px;
+    width: auto;
+    max-width: 90%;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.7));
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 1;
+  }
+
+  .character-card:hover .character-art {
+    transform: translateY(-6px) scale(1.05);
+  }
+
+  .art-fallback {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: var(--text-muted);
+  }
+
+  /* Card Content */
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .name-block {
+    margin-bottom: 0.65rem;
+  }
+
+  .char-name {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .char-name a {
+    color: var(--text-main);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .char-name a:hover {
+    color: var(--accent-primary);
+  }
+
+  .char-title {
+    font-family: var(--font-subheading);
+    font-size: 0.95rem;
+    color: var(--accent-primary);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    margin-top: 0.15rem;
+  }
+
+  /* Archetype Bar (Dedicated Row) */
+  .archetype-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-sm);
+    padding: 0.35rem 0.65rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .archetype-icon {
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  .archetype-text {
+    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    color: #cbd5e1;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.02em;
+  }
+
+  .char-desc {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+    flex-grow: 1;
+  }
+
+  /* Card Footer */
+  .card-footer {
+    margin-top: auto;
+    border-top: 1px solid var(--border-card-subtle);
+    padding-top: 0.85rem;
+  }
+
+  .card-action-btn {
+    width: 100%;
+    font-size: 0.88rem;
+    padding: 0.5rem 1rem;
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .btn-arrow {
+    transition: transform var(--transition-fast);
+  }
+
+  .card-action-btn:hover .btn-arrow {
+    transform: translateX(4px);
+  }
+</style>

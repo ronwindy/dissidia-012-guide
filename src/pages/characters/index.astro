@@ -2,313 +2,207 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CharacterCard from '../../components/character/CharacterCard.astro';
 import AlertCallout from '../../components/common/AlertCallout.astro';
+import { charactersData } from '../../data/charactersData';
 
-const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
-
-const characters = [
-  // 10 New Characters
-  {
-    name: "Lightning",
-    title: "The Rose of Mayhem",
-    origin: "Final Fantasy XIII",
-    alignment: "New" as const,
-    type: "Paradigm Shift / All-Rounder",
-    href: `${baseUrl}characters/lightning/`,
-    description: "Versatile soldier capable of switching roles (Commando, Ravager, Medic) dynamically in battle to control range and restore Bravery."
-  },
-  {
-    name: "Vaan",
-    title: "Skyward Youth",
-    origin: "Final Fantasy XII",
-    alignment: "New" as const,
-    type: "Switch Weapon / Tactical Trapper",
-    description: "Switches between 8 weapon types dynamically. Powerful switch-cancel loops and trap-heavy zoning capabilities."
-  },
-  {
-    name: "Laguna",
-    title: "The Tactless Marksman",
-    origin: "Final Fantasy VIII",
-    alignment: "New" as const,
-    type: "Heavy Gunner / Long-Range Zoning",
-    description: "Suppressive firearm master armed with Machine Gun, Shotgun, Homing Bazooka, and Ragnarok Satellite Laser."
-  },
-  {
-    name: "Yuna",
-    title: "High Summoner of Spira",
-    origin: "Final Fantasy X",
-    alignment: "New" as const,
-    type: "Summoner / Mid-Long Spells",
-    description: "Commands Valefor, Ifrit, Shiva, Ixion, and Bahamut to strike foes from afar with unblockable pressure and multi-hit HP attacks."
-  },
-  {
-    name: "Kain",
-    title: "Dragoon of the Moon",
-    origin: "Final Fantasy IV",
-    alignment: "New" as const,
-    type: "High Mobility / Aerial Dragoon",
-    href: `${baseUrl}characters/kain/`,
-    description: "High-flying dragoon with multi-hit spear assaults, directional combo launches, and the legendary invulnerable Jump."
-  },
-  {
-    name: "Tifa",
-    title: "Feint Brawler",
-    origin: "Final Fantasy VII",
-    alignment: "New" as const,
-    type: "Rushdown / Feint Specialist",
-    description: "High-speed martial artist whose feints evade incoming attacks mid-combo and confuse defensive opponents."
-  },
-  {
-    name: "Prishe",
-    title: "The Inscrutable Youth",
-    origin: "Final Fantasy XI",
-    alignment: "New" as const,
-    type: "Combo Customizer / Skillchain Master",
-    href: `${baseUrl}characters/prishe/`,
-    description: "Chains varied martial arts and weapon skills into explosive elemental Skillchains for massive bonus BRV bursts."
-  },
-  {
-    name: "Gilgamesh",
-    title: "Sword Collector",
-    origin: "Final Fantasy V",
-    alignment: "New" as const,
-    type: "Random Weapon / Heavy Close Range",
-    description: "Draws random legendary blades (Excalibur, Masamune, Zantetsuken, Excalipoor) with devastating Death Claw hitboxes."
-  },
-  {
-    name: "Feral Chaos",
-    title: "God of Absolute Discord",
-    origin: "Dissidia 012 [duodecim]",
-    alignment: "New" as const,
-    type: "Colossal Boss / Unblockable Powerhouse",
-    href: `${baseUrl}characters/feral-chaos/`,
-    description: "Untamed manifestation of Chaos with colossal area-of-effect strikes, relentless speed, and stagger on block."
-  },
-  {
-    name: "Aerith",
-    title: "The Last Cetra",
-    origin: "Final Fantasy VII",
-    alignment: "Assist" as const,
-    type: "Dedicated Assist / Support Mage",
-    description: "Provides unrivaled assist utility with Seal Evil, Bravery Cure, Planet Protector invincibility, and Holy."
-  },
-
-  // 11 Returning Cosmos
-  {
-    name: "Warrior of Light",
-    title: "Champion of Harmony",
-    origin: "Final Fantasy I",
-    alignment: "Cosmos" as const,
-    type: "Shield Fighter / Aerial Dominance",
-    description: "Excels at aerial guard counters, shield throws, and punishing dashes with Radiant Sword and Bitter End."
-  },
-  {
-    name: "Firion",
-    title: "Master of Weapons",
-    origin: "Final Fantasy II",
-    alignment: "Cosmos" as const,
-    type: "Ground Specialist / Weapon Links",
-    description: "Commands sword, lance, and bow ground combos with versatile branch links and Lord of Arms sniping."
-  },
-  {
-    name: "Onion Knight",
-    title: "Speedy Polymath",
-    origin: "Final Fantasy III",
-    alignment: "Cosmos" as const,
-    type: "High Speed / Physical-Magic Switch",
-    description: "Fastest ground speed in the game with branching Ninja physical combos and Sage elemental barrage links."
-  },
-  {
-    name: "Cecil",
-    title: "Split Soul of the Moon",
-    origin: "Final Fantasy IV",
-    alignment: "Cosmos" as const,
-    type: "Dark Knight / Paladin Switcher",
-    description: "Switches dynamically between heavy Dark Knight ground power and swift Paladin aerial tracking attacks."
-  },
-  {
-    name: "Bartz",
-    title: "The Mimic Traveler",
-    origin: "Final Fantasy V",
-    alignment: "Cosmos" as const,
-    type: "Skill Mimic / Link Master",
-    description: "Wields signature moves of all Cosmos companions. Features powerful Holy to Flare spell links."
-  },
-  {
-    name: "Terra",
-    title: "Esper Maiden",
-    origin: "Final Fantasy VI",
-    alignment: "Cosmos" as const,
-    type: "Charge Magic / Zoning Nuker",
-    description: "Long-range spellcaster with charge-level Meltdown, Graviga pressure, and high mobility Trance in EX Mode."
-  },
-  {
-    name: "Cloud",
-    title: "Ex-SOLDIER Buster",
-    origin: "Final Fantasy VII",
-    alignment: "Cosmos" as const,
-    type: "Heavy Wall Rush / High Crits",
-    description: "Crushing heavy blade strikes with guaranteed wall rush conversions, Slash Blow, and Omnislash EX Burst."
-  },
-  {
-    name: "Squall",
-    title: "Gunblade Duelist",
-    origin: "Final Fantasy VIII",
-    alignment: "Cosmos" as const,
-    type: "Multi-Hit Burst / Fast Rushdown",
-    description: "Rapid gunblade trigger combos (Solid Barrel, Beat Fang, Rough Divide) with massive multi-hit Bravery output."
-  },
-  {
-    name: "Zidane",
-    title: "Aerial Acrobat",
-    origin: "Final Fantasy IX",
-    alignment: "Cosmos" as const,
-    type: "Aerial Mobility / Dodge Attacks",
-    description: "Supreme air maneuverability with dual-daggers, aerial jump cancels, Free Energy, and Grand Lethal."
-  },
-  {
-    name: "Tidus",
-    title: "Dodge Striker",
-    origin: "Final Fantasy X",
-    alignment: "Cosmos" as const,
-    type: "Evasive Attacker / Swift Counter",
-    description: "Built-in dodge frames on Hop Step, Dart & Weave, and Cut & Run allow seamless counter-attacks while evading."
-  },
-  {
-    name: "Shantotto",
-    title: "The Rhyming Sorceress",
-    origin: "Final Fantasy XI",
-    alignment: "Cosmos" as const,
-    type: "BRV Tier Scaling / Mana Sniping",
-    description: "Magic spells scale up in tier (Tier 1 to Tier 3) based on current Bravery value. Unrivaled magic pressure."
-  },
-
-  // 11 Returning Chaos
-  {
-    name: "Garland",
-    title: "Armor of the Loop",
-    origin: "Final Fantasy I",
-    alignment: "Chaos" as const,
-    type: "Heavy Blade / Super Armor",
-    description: "Devastating greatsword attacks with innate poise and unblockable smash properties (Highfall, Round Edge)."
-  },
-  {
-    name: "The Emperor",
-    title: "Arrogant Overlord",
-    origin: "Final Fantasy II",
-    alignment: "Chaos" as const,
-    type: "Trap Architect / Spatial Lock",
-    description: "Controls the entire arena with Mine traps, Bomb traps, Light Crests, and tracking Starfall cataclysms."
-  },
-  {
-    name: "Cloud of Darkness",
-    title: "Wrath of the Void",
-    origin: "Final Fantasy III",
-    alignment: "Chaos" as const,
-    type: "Tentacle Strikes / Particle Beams",
-    description: "Zoning powerhouse with 0-frame Feint Particle Beam counters and wide-arcing tentacle multi-hits."
-  },
-  {
-    name: "Golbez",
-    title: "Dark Shadow Mage",
-    origin: "Final Fantasy IV",
-    alignment: "Chaos" as const,
-    type: "Hybrid Melee-Magic / Spatial Burst",
-    description: "Surrounds foes with dual physical and magical beams, Nightglow area eruptions, and Genesis Rock shields."
-  },
-  {
-    name: "Exdeath",
-    title: "Warlock of the Void",
-    origin: "Final Fantasy V",
-    alignment: "Chaos" as const,
-    type: "Omni-Block / Counter Specialist",
-    description: "High Block and Omni Block nullify all opponent attacks, instantly retaliating with Delta Attack or Grand Cross."
-  },
-  {
-    name: "Kefka",
-    title: "Mad Court Mage",
-    origin: "Final Fantasy VI",
-    alignment: "Chaos" as const,
-    type: "Erratic Magic / Unpredictable Trajectory",
-    description: "Bizarre magic trajectories (Scatter-Spray Blizzaga, Waggle-Wobbly Firaga) that confuse enemy dodge timing."
-  },
-  {
-    name: "Sephiroth",
-    title: "The One-Winged Angel",
-    origin: "Final Fantasy VII",
-    alignment: "Chaos" as const,
-    type: "Long Blade / Multi-Slash Pressure",
-    description: "Tremendous melee reach with Masamune, rapid Shadow Flare projectile setups, and fast Octaslash cancels."
-  },
-  {
-    name: "Ultimecia",
-    title: "Sorceress of Time",
-    origin: "Final Fantasy VIII",
-    alignment: "Chaos" as const,
-    type: "Arrow-Blade Stream / Time Compression",
-    description: "Infinite sustained projectile streams (Knight's Axe/Sword/Arrow) with charge-delay Shockwave Pulsar."
-  },
-  {
-    name: "Kuja",
-    title: "Grim Reaper of the Sky",
-    origin: "Final Fantasy IX",
-    alignment: "Chaos" as const,
-    type: "Glide Striker / Multi-Ring Orbs",
-    description: "Unmatched aerial glide speed with tracking ring flurries, Flare Star, and explosive Ultima finishes."
-  },
-  {
-    name: "Jecht",
-    title: "Blitzball Legend",
-    origin: "Final Fantasy X",
-    alignment: "Chaos" as const,
-    type: "Rhythm Cancel / Unblockable Rush",
-    description: "Manual timing inputs on Jecht Stream and Jecht Block create devastating unblockable combo loops."
-  },
-  {
-    name: "Gabranth",
-    title: "Judge Magister",
-    origin: "Final Fantasy XII",
-    alignment: "Chaos" as const,
-    type: "EX Mode Powerhouse / Gauge Charge",
-    description: "Charges EX Gauge at will. Weak in normal mode but transforms into the most overpowered beast in EX Mode with Innocence."
-  }
-];
+const newCount = charactersData.filter(c => c.alignment === 'New' || c.alignment === 'Assist').length;
+const cosmosCount = charactersData.filter(c => c.alignment === 'Cosmos').length;
+const chaosCount = charactersData.filter(c => c.alignment === 'Chaos').length;
+const assistCount = charactersData.filter(c => c.alignment === 'Assist').length;
+const totalCount = charactersData.length;
 ---
 
 <BaseLayout title="Character Roster Database" currentPath="roster">
-  <div style="margin-bottom: 2rem;">
-    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-      <span class="badge-pill badge-new">32 Fighters + 1 Assist</span>
+  <!-- Page Hero Header -->
+  <div class="roster-hero-header">
+    <div class="roster-badge-row">
+      <span class="badge-pill badge-new">31 Playable Fighters + 1 Assist</span>
+      <span class="badge-pill badge-cosmos">Full Frame Data & Strategy</span>
     </div>
-    <h1 style="margin: 0;">CHARACTER ROSTER DATABASE</h1>
-    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem;">
-      Complete move sets, frame data properties, assist recommendations, EX Bursts, and matchup tips for all heroes and villains.
+    <h1 class="roster-title">CHARACTER ROSTER DATABASE</h1>
+    <p class="roster-subtitle">
+      Explore complete movesets, EX Bursts, frame properties, assist synergies, and combat strategies for the entire Dissidia 012 [duodecim] roster.
     </p>
   </div>
 
-  <!-- Interactive Filter Bar -->
-  <div class="glass-card" style="padding: 0.75rem 1rem; margin-bottom: 2rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
-    <span style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--text-dim); text-transform: uppercase; margin-right: 0.5rem;">Filter:</span>
-    <button class="filter-btn active" data-filter="all">All (33)</button>
-    <button class="filter-btn" data-filter="New">New (10)</button>
-    <button class="filter-btn" data-filter="Cosmos">Cosmos (11)</button>
-    <button class="filter-btn" data-filter="Chaos">Chaos (11)</button>
-    <button class="filter-btn" data-filter="Assist">Assist (1)</button>
+  <!-- Interactive Search & Filter Controls -->
+  <div class="glass-card controls-card">
+    <!-- Live Search Input -->
+    <div class="search-box-wrapper">
+      <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input 
+        type="text" 
+        id="characterSearchInput" 
+        class="search-input" 
+        placeholder="Search character by name, game (e.g. FF VII, FF XIII), or playstyle..." 
+        autocomplete="off"
+        aria-label="Search characters"
+      />
+      <button type="button" id="clearSearchBtn" class="clear-search-btn" aria-label="Clear search" style="display: none;">
+        &times;
+      </button>
+    </div>
+
+    <!-- Faction Filter Bar -->
+    <div class="filter-btn-group">
+      <span class="filter-label">Filter:</span>
+      <button class="filter-btn active" data-filter="all">All ({totalCount})</button>
+      <button class="filter-btn" data-filter="New">012 New ({charactersData.filter(c => c.alignment === 'New').length})</button>
+      <button class="filter-btn" data-filter="Cosmos">Cosmos ({cosmosCount})</button>
+      <button class="filter-btn" data-filter="Chaos">Chaos ({chaosCount})</button>
+      <button class="filter-btn" data-filter="Assist">Assist ({assistCount})</button>
+    </div>
+  </div>
+
+  <!-- Search Results Counter & Status -->
+  <div id="resultsCountBar" class="results-count-bar">
+    Showing <strong id="visibleCount">{totalCount}</strong> of {totalCount} characters
+  </div>
+
+  <!-- Empty Search Results State -->
+  <div id="emptyResultsState" class="glass-card empty-state" style="display: none;">
+    <div class="empty-icon">🔍</div>
+    <h3>No Characters Found</h3>
+    <p>No roster fighters matched your search criteria. Try adjusting your keywords or clearing the filter.</p>
+    <button type="button" id="resetFiltersBtn" class="btn-action" style="margin-top: 1rem;">
+      Reset Filters
+    </button>
   </div>
 
   <!-- Character Card Grid -->
-  <div class="card-grid" id="characterGrid">
-    {characters.map(c => (
-      <div class="character-item" data-alignment={c.alignment}>
+  <div class="card-grid character-roster-grid" id="characterGrid">
+    {charactersData.map(c => (
+      <div 
+        class="character-item" 
+        data-alignment={c.alignment}
+        data-name={c.name.toLowerCase()}
+        data-origin={c.origin.toLowerCase()}
+        data-origin-short={c.originShort.toLowerCase()}
+        data-type={c.type.toLowerCase()}
+        data-title={c.title.toLowerCase()}
+      >
         <CharacterCard {...c} />
       </div>
     ))}
   </div>
 
+  <!-- Assist Synergy Strategic Advice -->
   <AlertCallout type="tip" title="ASSIST PAIRING SYSTEM">
-    Looking to build the optimal team? Characters like <strong>Terra</strong> (Graviga pressure), <strong>Jecht</strong> (HP combo crutch), and <strong>Aerith</strong> (Seal Evil + BRV Cure) offer the highest universal assist synergy across the entire cast.
+    Looking to build the optimal team? Characters like <strong>Terra</strong> (Graviga unblockable pressure), <strong>Jecht</strong> (HP combo link crutch), and <strong>Aerith</strong> (Seal Evil stasis + BRV Cure) offer the highest universal assist synergy across the entire cast.
   </AlertCallout>
 
   <style>
+    .roster-hero-header {
+      margin-bottom: 2rem;
+    }
+
+    .roster-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .roster-title {
+      margin: 0;
+      font-size: clamp(2rem, 3.5vw, 2.75rem);
+      letter-spacing: 0.05em;
+    }
+
+    .roster-subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-top: 0.5rem;
+      max-width: 860px;
+      line-height: 1.6;
+    }
+
+    /* Controls Card */
+    .controls-card {
+      padding: 1.15rem 1.35rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    /* Search Box */
+    .search-box-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      color: var(--text-dim);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      min-height: 48px;
+      padding: 0.65rem 2.85rem 0.65rem 2.85rem;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-size: 0.98rem;
+      transition: all var(--transition-fast);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .search-input::placeholder {
+      color: var(--text-dim);
+      font-size: 0.92rem;
+    }
+
+    .clear-search-btn {
+      position: absolute;
+      right: 0.85rem;
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      line-height: 1;
+      border-radius: var(--radius-sm);
+    }
+
+    .clear-search-btn:hover {
+      color: var(--text-main);
+    }
+
+    /* Filter Buttons */
+    .filter-btn-group {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-label {
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-right: 0.25rem;
+      letter-spacing: 0.08em;
+    }
+
     .filter-btn {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border-card);
@@ -319,43 +213,187 @@ const characters = [
       font-weight: 700;
       letter-spacing: 0.05em;
       text-transform: uppercase;
-      padding: 0.35rem 0.85rem;
+      padding: 0.4rem 0.95rem;
       cursor: pointer;
-      min-height: 38px;
+      min-height: 40px;
       transition: all var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
     }
+
     .filter-btn:hover {
       color: var(--text-main);
       border-color: var(--accent-primary);
+      background: rgba(56, 189, 248, 0.1);
     }
+
     .filter-btn.active {
       background: var(--accent-primary);
       color: var(--text-inverse);
       border-color: var(--accent-primary);
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
+    }
+
+    /* Results Count Bar */
+    .results-count-bar {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      margin-bottom: 1.25rem;
+      font-family: var(--font-mono);
+      padding: 0 0.25rem;
+    }
+
+    .results-count-bar strong {
+      color: var(--accent-primary);
+    }
+
+    /* Grid */
+    .character-roster-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .character-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .empty-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .empty-state h3 {
+      font-size: 1.35rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .empty-state p {
+      color: var(--text-muted);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 640px) {
+      .character-roster-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
     }
   </style>
 
   <script is:inline>
     if (typeof document !== "undefined") {
+      const searchInput = document.getElementById("characterSearchInput");
+      const clearSearchBtn = document.getElementById("clearSearchBtn");
       const filterBtns = document.querySelectorAll(".filter-btn");
       const items = document.querySelectorAll(".character-item");
+      const visibleCountEl = document.getElementById("visibleCount");
+      const emptyStateEl = document.getElementById("emptyResultsState");
+      const resetFiltersBtn = document.getElementById("resetFiltersBtn");
 
+      let currentFilter = "all";
+      let currentQuery = "";
+
+      function filterCards() {
+        let visibleCount = 0;
+
+        items.forEach(item => {
+          const alignment = item.getAttribute("data-alignment") || "";
+          const name = item.getAttribute("data-name") || "";
+          const origin = item.getAttribute("data-origin") || "";
+          const originShort = item.getAttribute("data-origin-short") || "";
+          const type = item.getAttribute("data-type") || "";
+          const title = item.getAttribute("data-title") || "";
+
+          // Alignment Filter Check
+          const matchesFilter = (currentFilter === "all") || (alignment === currentFilter);
+
+          // Search Query Check
+          const query = currentQuery.trim().toLowerCase();
+          const matchesSearch = !query || 
+            name.includes(query) || 
+            origin.includes(query) || 
+            originShort.includes(query) || 
+            type.includes(query) ||
+            title.includes(query);
+
+          if (matchesFilter && matchesSearch) {
+            item.style.display = "flex";
+            visibleCount++;
+          } else {
+            item.style.display = "none";
+          }
+        });
+
+        if (visibleCountEl) {
+          visibleCountEl.textContent = visibleCount.toString();
+        }
+
+        if (emptyStateEl) {
+          emptyStateEl.style.display = visibleCount === 0 ? "block" : "none";
+        }
+      }
+
+      // Filter Button Clicks
       filterBtns.forEach(btn => {
         btn.addEventListener("click", () => {
           filterBtns.forEach(b => b.classList.remove("active"));
           btn.classList.add("active");
-
-          const filter = btn.getAttribute("data-filter");
-          items.forEach(item => {
-            const align = item.getAttribute("data-alignment");
-            if (filter === "all" || align === filter) {
-              item.style.display = "block";
-            } else {
-              item.style.display = "none";
-            }
-          });
+          currentFilter = btn.getAttribute("data-filter") || "all";
+          filterCards();
         });
       });
+
+      // Search Input Events
+      if (searchInput) {
+        searchInput.addEventListener("input", (e) => {
+          currentQuery = e.target.value;
+          if (clearSearchBtn) {
+            clearSearchBtn.style.display = currentQuery ? "block" : "none";
+          }
+          filterCards();
+        });
+      }
+
+      // Clear Search Button
+      if (clearSearchBtn) {
+        clearSearchBtn.addEventListener("click", () => {
+          if (searchInput) {
+            searchInput.value = "";
+            searchInput.focus();
+          }
+          currentQuery = "";
+          clearSearchBtn.style.display = "none";
+          filterCards();
+        });
+      }
+
+      // Reset Filters in Empty State
+      if (resetFiltersBtn) {
+        resetFiltersBtn.addEventListener("click", () => {
+          if (searchInput) searchInput.value = "";
+          currentQuery = "";
+          if (clearSearchBtn) clearSearchBtn.style.display = "none";
+
+          filterBtns.forEach(b => b.classList.remove("active"));
+          const allBtn = document.querySelector('.filter-btn[data-filter="all"]');
+          if (allBtn) allBtn.classList.add("active");
+          currentFilter = "all";
+
+          filterCards();
+        });
+      }
     }
   </script>
 </BaseLayout>
