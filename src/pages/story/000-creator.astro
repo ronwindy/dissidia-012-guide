@@ -27,7 +27,7 @@ const story000Nav = [
   { id: "step-gabranth-and-onrac", label: "9. Gabranth Remaster & Onrac", sublabel: "5-Floor Judge Magister" },
   { id: "step-edge-of-discord-apex", label: "10. Edge of Discord", sublabel: "Level 130 Feral Chaos Apex" },
   { id: "optional-labyrinths", label: "Optional Super-Dungeons", sublabel: "Gaia & Dragon Caves" },
-  { id: "moogle-shops-000", label: "Moogle Shops Catalog", sublabel: "Cornelia, Earth, Gulg, Secret" }
+  { id: "moogle-shops-000", label: "Moogle Shops Catalog", sublabel: "9 Regional World B Merchants" }
 ];
 ---
 
@@ -196,39 +196,62 @@ const story000Nav = [
       All Moogles encountered across World B offer unique equipment bases, catalysts, and rare accessories. Prices listed are standard KP costs (halved on Special Days).
     </p>
 
-    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-      {story000MoogleShops.map(shop => (
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+      {story000MoogleShops.map((shop, idx) => (
         <div class="glass-card" style="border-left: 4px solid var(--accent-cosmos);">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; border-bottom: 1px solid var(--border-card-subtle); padding-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; border-bottom: 1px solid var(--border-card-subtle); padding-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
             <div>
               <h3 style="margin: 0; font-size: 1.3rem; color: var(--text-main); font-family: var(--font-heading);">
                 {shop.location}
               </h3>
-              <div style="font-size: 0.8rem; color: var(--accent-cosmos); font-family: var(--font-mono);">
-                Merchant: {shop.moogleName}
-              </div>
+              {shop.moogleName && (
+                <div style="font-size: 0.82rem; color: var(--accent-cosmos); font-family: var(--font-mono); margin-top: 0.25rem;">
+                  Merchant: <strong>{shop.moogleName}</strong>
+                </div>
+              )}
               {shop.notes && (
-                <div style="font-size: 0.82rem; color: var(--text-dim); margin-top: 0.25rem;">
+                <div style="font-size: 0.85rem; color: var(--text-dim); margin-top: 0.35rem; line-height: 1.5;">
                   {shop.notes}
                 </div>
               )}
             </div>
-            <span class="badge-pill badge-cosmos">Moogle Shop</span>
+            <span class="badge-pill badge-cosmos">Shop #{idx + 1}</span>
           </div>
 
-          <DataTable
-            headers={["Item / Equipment", "Standard Cost", "Special Day (50% Off)", "Effect / Application"]}
-            rows={shop.inventory.map(inv => {
-              const numCost = parseInt(inv.cost.replace(/[^0-9]/g, ''), 10);
-              const halfCost = isNaN(numCost) ? "—" : `${Math.floor(numCost / 2)} KP`;
-              return [
-                `<strong>${inv.item}</strong>`,
-                `<span style="color: var(--accent-warning); font-family: var(--font-mono);">${inv.cost}</span>`,
-                `<span style="color: var(--accent-success); font-family: var(--font-mono);">${halfCost}</span>`,
-                inv.desc
-              ];
-            })}
-          />
+          <DataTable caption={`${shop.inventory.length} items available`}>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="min-width: 200px;">Item / Equipment</th>
+                  <th style="width: 140px; text-align: center;">Standard Cost</th>
+                  <th style="width: 170px; text-align: center;">Special Day (50% Off)</th>
+                  <th>Effect / Application / Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {shop.inventory.map(inv => {
+                  const numCost = parseInt(inv.cost.replace(/[^0-9]/g, ''), 10);
+                  const halfCost = isNaN(numCost) ? "—" : `${Math.floor(numCost / 2)} KP`;
+                  return (
+                    <tr>
+                      <td>
+                        <strong style="color: var(--text-main);">{inv.item}</strong>
+                      </td>
+                      <td style="text-align: center;">
+                        <span style="color: var(--accent-warning); font-family: var(--font-mono); font-weight: 600;">{inv.cost}</span>
+                      </td>
+                      <td style="text-align: center;">
+                        <span style="color: var(--accent-success); font-family: var(--font-mono); font-weight: 600;">{halfCost}</span>
+                      </td>
+                      <td style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.5;">
+                        {inv.desc || '—'}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </DataTable>
         </div>
       ))}
     </div>

@@ -45,6 +45,19 @@ export interface WalkthroughStep {
   gateways?: Story000Gateway[];
 }
 
+export interface MoogleShopItem {
+  item: string;
+  cost: string;
+  desc?: string;
+}
+
+export interface MoogleShop {
+  location: string;
+  moogleName?: string;
+  notes?: string;
+  inventory: MoogleShopItem[];
+}
+
 export const story000Foreword = {
   title: "000: Confessions of the Creator Overview",
   desc: "The open-world postgame campaign of Dissidia 012. Unlocked after completing Scenario 012 and purchasing it in the PP Shop for 2,000 PP, or clearing Scenario 013.",
@@ -967,79 +980,265 @@ export const story000DeepDungeons: Story000Gateway[] = [
   }
 ];
 
-export const story000MoogleShops = [
+export const story000MoogleShops: MoogleShop[] = [
   {
     location: "Castle Cornelia (Post-Game)",
     moogleName: "Moglin",
-    notes: "Requires defeating the Lv130 incarnation of Feral Chaos before these rare items become available. Limited to 1 purchase per day.",
+    notes: "Requires defeating the Lv130 incarnation of Feral Chaos before these rare items become available. Limited to 1 purchase per day. The Level Gap >= 90 booster and no-equipment boosters appear on one of the two days following your Bonus Day. Pupu and Behemoth are acquired from 2 post-special day buys.",
     inventory: [
       { item: "Dusty Elixir", cost: "25 KP", desc: "Basic crafting catalyst" },
-      { item: "Elixir", cost: "50 KP", desc: "Party HP/BRV recovery item" },
-      { item: "Hi-Elixir", cost: "75 KP", desc: "Full EX & Assist gauge recharge" },
+      { item: "Elixir", cost: "50 KP", desc: "Party HP/BRV recovery item / catalyst" },
+      { item: "Hi-Elixir", cost: "75 KP", desc: "Full EX & Assist gauge recharge / catalyst" },
       { item: "Megalixir", cost: "100 KP", desc: "Ultimate recovery and high-tier crafting base" },
       { item: "KP Bonus", cost: "10 KP", desc: "Doubles KP earned in next gateway" },
       { item: "Banish/Death", cost: "10 KP", desc: "Field board skill" },
-      { item: "Level Gap >= 90", cost: "180 KP", desc: "Appears on days following Bonus Day" },
-      { item: "Hatless / Armorless", cost: "115-140 KP", desc: "No-equipment booster accessories" },
-      { item: "Gloveless (1500+ KP)", cost: "100 KP", desc: "Unlocked after earning 1,500 lifetime KP" },
-      { item: "Weaponless (2000+ KP)", cost: "150 KP", desc: "Unlocked after earning 2,000 lifetime KP" },
-      { item: "Pre-Air Dash / Pre-EX Mode", cost: "200 KP", desc: "Special combat condition accessories" },
-      { item: "Pupu / Behemoth", cost: "50 KP", desc: "Acquired from 2 post-special day buys" },
-      { item: "Zalera / Ultima", cost: "120 KP", desc: "Rare summon stones" },
+      { item: "Level Gap >= 90", cost: "180 KP", desc: "Appears on days following Bonus Day (x10.0 Multiplier)" },
+      { item: "Hatless", cost: "140 KP", desc: "No-headgear booster accessory (x1.5 Multiplier)" },
+      { item: "Armorless", cost: "115 KP", desc: "No-armor booster accessory (x1.5 Multiplier)" },
+      { item: "Gloveless", cost: "100 KP", desc: "Appears when you have 1,500+ lifetime KP (x1.5 Multiplier)" },
+      { item: "Weaponless", cost: "150 KP", desc: "Appears when you have 2,000+ lifetime KP (x2.0 Multiplier)" },
+      { item: "Pre-Air Dash", cost: "200 KP", desc: "Special combat condition accessory (x1.5 Multiplier)" },
+      { item: "Pre-EX Mode", cost: "200 KP", desc: "Special combat condition accessory (x1.4 Multiplier)" },
+      { item: "Pre-EX Revenge", cost: "200 KP", desc: "Special combat condition accessory (x1.5 Multiplier)" },
+      { item: "Pupu", cost: "50 KP", desc: "Manual summon stone (Acquired from 2 post-special day buys)" },
+      { item: "Behemoth", cost: "50 KP", desc: "Auto summon stone (Acquired from 2 post-special day buys)" },
+      { item: "Zalera, the Death Seraph", cost: "120 KP", desc: "Auto summon stone (Prime number instant break)" },
+      { item: "Ultima, the High Seraph", cost: "120 KP", desc: "Auto summon stone" },
       { item: "Gilgamesh", cost: "1 KP", desc: "Unique summon stone" }
     ]
   },
   {
     location: "Ancient Volcano Ring - Gulg (Near Encounters and Treason)",
     moogleName: "Mogster (Volcano)",
-    notes: "Teleport to Pravoka, head South to Ancient Volcano Ring - Gulg. Essential for Machine and Ribbon sets.",
+    notes: "Teleport to Pravoka, head South to Ancient Volcano Ring - Gulg (right next to 'Encounters and Treason' Gateway). You need 6 Gear Collections to forge the Machine Set. You need 20 Pink Tails to forge the Super Ribbon.",
     inventory: [
       { item: "Scarletite", cost: "50 KP", desc: "Required for Genji & Smiting Soul sets" },
-      { item: "Gear Collection", cost: "150 KP", desc: "Need 6 to forge the Machine Set" },
+      { item: "Gear Collection", cost: "150 KP", desc: "Need 6 to forge the complete Machine Set" },
       { item: "Pink Tail", cost: "200 KP", desc: "Need 20 to forge the Super Ribbon" }
     ]
   },
   {
     location: "Elven Snowfields (Near Frozen Continent)",
     moogleName: "Moguru (Snowfields)",
-    notes: "Head east from Elven Castle teleport stone. Sells the complete Heike and Warlord / Uniter sets.",
+    notes: "Head east from Elven Castle teleport stone (near 'Frozen Continent' Gateway). Sells the complete Heike and Warlord / Uniter equipment sets.",
     inventory: [
-      { item: "Warblade", cost: "200 KP", desc: "Uniter set weapon base" },
-      { item: "Heike's Blade", cost: "200 KP", desc: "Heike set sword base" },
-      { item: "Heike's Shield", cost: "200 KP", desc: "Heike set shield base" },
-      { item: "Warlord's Soul", cost: "200 KP", desc: "Uniter set helm base" },
-      { item: "Heike's Helm", cost: "200 KP", desc: "Heike set helm base" },
-      { item: "Heike's Armor", cost: "200 KP", desc: "Heike set heavy armor" },
-      { item: "Warlord's Corselet", cost: "200 KP", desc: "Uniter set light armor" },
-      { item: "Warlord's Gauntlets", cost: "200 KP", desc: "Uniter set gauntlet base" }
+      { item: "Warblade", cost: "200 KP", desc: "Uniter set Greatsword weapon base" },
+      { item: "Heike's Blade", cost: "200 KP", desc: "Heike set 1H Sword base" },
+      { item: "Heike's Shield", cost: "200 KP", desc: "Heike set Large Shield base" },
+      { item: "Warlord's Soul", cost: "200 KP", desc: "Uniter set Helm base" },
+      { item: "Heike's Helm", cost: "200 KP", desc: "Heike set Helm base" },
+      { item: "Heike's Armor", cost: "200 KP", desc: "Heike set Heavy Armor base" },
+      { item: "Warlord's Corselet", cost: "200 KP", desc: "Uniter set Light Armor base" },
+      { item: "Warlord's Gauntlets", cost: "200 KP", desc: "Uniter set Gauntlets base" }
     ]
   },
   {
     location: "Elven Snowfields SE Island (Trade Materials)",
     moogleName: "Mogrich (Snowfields Trade)",
-    notes: "Located on the southeast island in Elven Snowfields past Gateway of the Great Will (south from Crescent Lake).",
+    notes: "Located on the southeast island in Elven Snowfields, past 'Gateway of the Great Will' (south from Crescent Lake teleport stone). Comprehensive repository for elemental equipment, ores, steels, monster drops, shells, and fabrics.",
     inventory: [
-      { item: "Flame / Ice Equipment", cost: "60-200 KP", desc: "Elemental equipment bases" },
-      { item: "Mythril / Gold / Diamond / Crystal", cost: "20-50 KP", desc: "Refining minerals" },
-      { item: "Rusted / Shiny Metal", cost: "50 KP", desc: "Forging components" },
-      { item: "Corel / Narshe Ore", cost: "50-100 KP", desc: "High-grade regional ores" },
-      { item: "Gulg / Gagazet Steel", cost: "100 KP", desc: "Elite crafting steels" },
-      { item: "Figaro / Yaschas Gravel", cost: "50 KP", desc: "Regional catalyst gravels" },
-      { item: "Basilisk / Gargoyle Pebble", cost: "50-100 KP", desc: "Monster stone reagents" },
-      { item: "Epitaph / Golem Stone", cost: "100 KP", desc: "Ancient stones" },
-      { item: "Mithra Tooth", cost: "50 KP", desc: "Rare monster component" }
+      { item: "Flame Equipment", cost: "60 KP", desc: "Elemental equipment base" },
+      { item: "Ice Equipment", cost: "200 KP", desc: "Elemental equipment base" },
+      { item: "Mythril", cost: "20 KP", desc: "Basic refining mineral" },
+      { item: "Gold", cost: "25 KP", desc: "Basic refining mineral" },
+      { item: "Diamond", cost: "50 KP", desc: "High-grade refining mineral" },
+      { item: "Crystal", cost: "30 KP", desc: "Refining mineral" },
+      { item: "Rusted Metal", cost: "50 KP", desc: "Forging metal component" },
+      { item: "Shiny Metal", cost: "50 KP", desc: "Forging metal component" },
+      { item: "Corel Ore", cost: "50 KP", desc: "High-grade regional trade ore" },
+      { item: "Narshe Ore", cost: "100 KP", desc: "High-grade regional trade ore" },
+      { item: "Gulg Steel", cost: "100 KP", desc: "Elite crafting steel" },
+      { item: "Gagazet Steel", cost: "100 KP", desc: "Elite crafting steel" },
+      { item: "Figaro Gravel", cost: "50 KP", desc: "Regional catalyst gravel" },
+      { item: "Yaschas Massif Gravel", cost: "50 KP", desc: "Regional catalyst gravel" },
+      { item: "Basilisk Pebble", cost: "50 KP", desc: "Monster stone reagent" },
+      { item: "Gargoyle Pebble", cost: "100 KP", desc: "Monster stone reagent" },
+      { item: "Epitaph Stone", cost: "100 KP", desc: "Ancient stone reagent" },
+      { item: "Golem Stone", cost: "100 KP", desc: "Ancient stone reagent" },
+      { item: "Mithra Tooth", cost: "50 KP", desc: "Monster tooth reagent" },
+      { item: "Bangaa Tooth", cost: "50 KP", desc: "Monster tooth reagent" },
+      { item: "Wererat Claw", cost: "50 KP", desc: "Monster claw reagent" },
+      { item: "Silver Lobo Claw", cost: "100 KP", desc: "Monster claw reagent" },
+      { item: "Sphinx Fang", cost: "100 KP", desc: "Monster fang reagent" },
+      { item: "Cerberus Fang", cost: "100 KP", desc: "Monster fang reagent" },
+      { item: "Chocobo Chick Powder", cost: "50 KP", desc: "Chocobo reagent" },
+      { item: "Chocobo Powder", cost: "50 KP", desc: "Chocobo reagent" },
+      { item: "Skeleton Fragment", cost: "50 KP", desc: "Monster bone reagent" },
+      { item: "Skull Knight Shard", cost: "100 KP", desc: "Monster bone reagent" },
+      { item: "Unknown's Bone", cost: "100 KP", desc: "Monster bone reagent" },
+      { item: "Dragon Lich Bone", cost: "100 KP", desc: "Monster bone reagent" },
+      { item: "Mandragora Twig", cost: "50 KP", desc: "Plant twig reagent" },
+      { item: "Alraune Twig", cost: "50 KP", desc: "Plant twig reagent" },
+      { item: "Rafflesia Vine", cost: "50 KP", desc: "Plant vine reagent" },
+      { item: "Treant Branch", cost: "100 KP", desc: "Plant branch reagent" },
+      { item: "Macalania Timber", cost: "100 KP", desc: "Regional timber wood" },
+      { item: "Golmore Timber", cost: "100 KP", desc: "Regional timber wood" },
+      { item: "Flan Membrane", cost: "50 KP", desc: "Monster skin reagent" },
+      { item: "Black Flan Membrane", cost: "50 KP", desc: "Monster skin reagent" },
+      { item: "Sahagin Skin", cost: "50 KP", desc: "Monster skin reagent" },
+      { item: "Lizardman Skin", cost: "100 KP", desc: "Monster skin reagent" },
+      { item: "Coeurl Hide", cost: "100 KP", desc: "Monster hide reagent" },
+      { item: "Chimera Hide", cost: "100 KP", desc: "Monster hide reagent" },
+      { item: "Glass Beads", cost: "50 KP", desc: "Trade bead reagent" },
+      { item: "Oerba Beads", cost: "50 KP", desc: "Trade bead reagent" },
+      { item: "Ore", cost: "50 KP", desc: "Basic trade ore" },
+      { item: "Polished Ore", cost: "100 KP", desc: "Refined trade ore" },
+      { item: "Floating Continent Gem", cost: "100 KP", desc: "Rare trade gem" },
+      { item: "Elemental Jewel", cost: "100 KP", desc: "Rare trade jewel" },
+      { item: "Fish Scale", cost: "50 KP", desc: "Monster scale reagent" },
+      { item: "Delicious Fish Scale", cost: "50 KP", desc: "Monster scale reagent" },
+      { item: "Aged Turtle Shell", cost: "50 KP", desc: "Shell reagent" },
+      { item: "Ancient Turtle Shell", cost: "100 KP", desc: "Shell reagent" },
+      { item: "Scorpion Shell", cost: "100 KP", desc: "Shell reagent" },
+      { item: "Garchimacera Husk", cost: "100 KP", desc: "Husk reagent" },
+      { item: "Zombie Rag", cost: "50 KP", desc: "Fabric rag reagent" },
+      { item: "Ghost Rag", cost: "50 KP", desc: "Fabric rag reagent" },
+      { item: "Fine Cloth", cost: "50 KP", desc: "Fabric cloth reagent" },
+      { item: "Silky Cloth", cost: "100 KP", desc: "Fabric cloth reagent" },
+      { item: "Walse Fabric", cost: "100 KP", desc: "Regional trade fabric" },
+      { item: "Troian Fabric", cost: "100 KP", desc: "Regional trade fabric" },
+      { item: "Mu Fur", cost: "50 KP", desc: "Fur reagent" },
+      { item: "Moogle Fur", cost: "50 KP", desc: "Fur reagent" },
+      { item: "Cockatrice Feather", cost: "50 KP", desc: "Feather reagent" },
+      { item: "Zu Feather", cost: "100 KP", desc: "Feather reagent" },
+      { item: "Lamia's Locks", cost: "100 KP", desc: "Monster lock reagent" },
+      { item: "Queen Lamia's Locks", cost: "100 KP", desc: "Monster lock reagent" }
     ]
   },
   {
-    location: "Secret Moogle Shop (Past 'To a Foreign World' Gate)",
-    moogleName: "Secret Mog",
-    notes: "The ultimate trade merchant in World B. Located past the 'To a Foreign World' gateway in Land of Discord.",
+    location: "Cornelia North (Booster Accessories)",
+    moogleName: "Mogbert (Cornelia North)",
+    notes: "Located north from the Cornelia Teleport Stone. Sells multiplier and situational condition booster accessories.",
     inventory: [
-      { item: "Electrum", cost: "300 KP", desc: "Crucial catalyst for Excalibur II and high-end sets" },
-      { item: "Dragon's Tear", cost: "200 KP", desc: "Rare catalyst for dragon equipment" },
-      { item: "Lufenian Fragment", cost: "200 KP", desc: "Lufenian gear crafting catalyst" },
-      { item: "Tome of the Orator", cost: "150 KP", desc: "Booster accessory recipe base" },
-      { item: "Rosetta Stone", cost: "100 KP", desc: "Adds +1 Accessory Slot (Essential)" }
+      { item: "HP = 100% (x1.5)", cost: "15 KP", desc: "Booster active when user is at full HP" },
+      { item: "HP <= 50% (x1.4)", cost: "40 KP", desc: "Booster active when user is at or below 50% HP" },
+      { item: "HP <= 25% (x1.5)", cost: "40 KP", desc: "Booster active when user is at or below 25% HP" },
+      { item: "BRV = 0 (x1.4)", cost: "20 KP", desc: "Booster active when user BRV is 0" },
+      { item: "No BRV Damage (x1.3)", cost: "15 KP", desc: "Booster active while taking no BRV damage" },
+      { item: "No Damage (x1.5)", cost: "100 KP", desc: "Booster active while taking no damage" },
+      { item: "Full EX Gauge (x1.3)", cost: "100 KP", desc: "Booster active when user EX gauge is full" },
+      { item: "Empty EX Gauge (x1.5)", cost: "100 KP", desc: "Booster active when user EX gauge is empty" },
+      { item: "EX Mode (x1.3)", cost: "100 KP", desc: "Booster active while in EX Mode" },
+      { item: "EX Revenge (x1.4)", cost: "60 KP", desc: "Booster active while in EX Revenge" },
+      { item: "Maintain EX Mode (x1.4)", cost: "100 KP", desc: "Booster active while maintaining EX Mode" },
+      { item: "Full Assist Gauge (x1.3)", cost: "40 KP", desc: "Booster active when Assist gauge is full" },
+      { item: "Empty Assist Gauge (x1.5)", cost: "100 KP", desc: "Booster active when Assist gauge is empty" },
+      { item: "Assist (x1.4)", cost: "40 KP", desc: "Booster active when Assist gauge is active" },
+      { item: "Maintain Assist (x1.5)", cost: "100 KP", desc: "Booster active while maintaining Assist gauge" },
+      { item: "Full EX & Assist Gauge (x1.5)", cost: "100 KP", desc: "Booster active when both gauges are full" },
+      { item: "Damage Time >= 5 sec (x4)", cost: "100 KP", desc: "Booster active when continuous damage persists >= 5s" },
+      { item: "Pre-Bravery Attack (x1.5)", cost: "40 KP", desc: "Booster active right before executing BRV attack" },
+      { item: "Pre-HP Attack (x1.4)", cost: "80 KP", desc: "Booster active right before executing HP attack" },
+      { item: "Pre-Jump (x1.4)", cost: "100 KP", desc: "Booster active right before jumping" },
+      { item: "Pre-Guard (x1.5)", cost: "100 KP", desc: "Booster active right before guarding" },
+      { item: "Pre-Evasion (x1.5)", cost: "100 KP", desc: "Booster active right before evading" },
+      { item: "Pre-Assist (x1.4)", cost: "100 KP", desc: "Booster active right before calling Assist" },
+      { item: "Grounded (x1.5)", cost: "40 KP", desc: "Booster active while standing on ground" },
+      { item: "Aerial (x1.5)", cost: "40 KP", desc: "Booster active while fighting in midair" },
+      { item: "(Opp) HP = 100% (x1.3)", cost: "40 KP", desc: "Booster active when opponent is at full HP" },
+      { item: "(Opp) HP <= 50% (x1.4)", cost: "40 KP", desc: "Booster active when opponent is <= 50% HP" },
+      { item: "(Opp) HP <= 25% (x1.5)", cost: "40 KP", desc: "Booster active when opponent is <= 25% HP" },
+      { item: "(Opp) Break (x1.3)", cost: "60 KP", desc: "Booster active when opponent is Broken" },
+      { item: "(Opp) Pre-Bravery Damage (x1.3)", cost: "30 KP", desc: "Booster active before dealing BRV damage to opponent" },
+      { item: "(Opp) Empty EX Gauge (x1.3)", cost: "60 KP", desc: "Booster active when opponent EX gauge is empty" },
+      { item: "(Opp) EX Mode (x1.3)", cost: "15 KP", desc: "Booster active when opponent is in EX Mode" },
+      { item: "(Opp) Pre-HP Damage (x1.3)", cost: "100 KP", desc: "Booster active before dealing HP damage to opponent" },
+      { item: "Level Gap >= 10 (x1.3)", cost: "40 KP", desc: "Level difference multiplier >= 10" },
+      { item: "Level Gap >= 20 (x1.4)", cost: "60 KP", desc: "Level difference multiplier >= 20" },
+      { item: "Level Gap >= 30 (x1.5)", cost: "80 KP", desc: "Level difference multiplier >= 30" },
+      { item: "Level Gap >= 40 (x2)", cost: "100 KP", desc: "Level difference multiplier >= 40" },
+      { item: "Level Gap >= 50 (x2.5)", cost: "120 KP", desc: "Level difference multiplier >= 50" },
+      { item: "Level Gap >= 60 (x3)", cost: "170 KP", desc: "Level difference multiplier >= 60" },
+      { item: "Level Gap >= 70 (x5)", cost: "230 KP", desc: "Level difference multiplier >= 70" },
+      { item: "Level Gap >= 80 (x8)", cost: "280 KP", desc: "Level difference multiplier >= 80" }
+    ]
+  },
+  {
+    location: "Pravoka West Island / Beach (Summons)",
+    moogleName: "Mogsum (Pravoka Island)",
+    notes: "Located between 'Gateway of Good and Evil' and 'Beyond the Continent' Gateway, west of Pravoka stone. Break the rock and run along the beach on the island to find it. Sells every summon in the game except those found in gateways or specifically listed at other shops.",
+    inventory: [
+      { item: "Ifrit", cost: "50 KP", desc: "Manual Summon / BRV Boost" },
+      { item: "Shiva", cost: "30 KP", desc: "Auto Summon / Freeze Opponent BRV" },
+      { item: "Ramuh", cost: "30 KP", desc: "Manual Summon / Swap Stage BRV" },
+      { item: "Carbuncle", cost: "50 KP", desc: "Auto Summon / Mirror Opponent BRV" },
+      { item: "Magic Pot", cost: "40 KP", desc: "Manual Summon / Copy Opponent BRV" },
+      { item: "Demon Wall", cost: "30 KP", desc: "Auto Summon / Lock Opponent BRV" },
+      { item: "Magus Sisters", cost: "30 KP", desc: "Manual Summon / Random 3-way BRV effect" },
+      { item: "Odin", cost: "40 KP", desc: "Auto Summon / 50% Instant Break" },
+      { item: "Phoenix", cost: "30 KP", desc: "Auto Summon / Prevent BRV Break" },
+      { item: "Alexander", cost: "50 KP", desc: "Manual Summon / Lock own BRV" },
+      { item: "Leviathan", cost: "50 KP", desc: "Auto Summon / Gradual Opponent BRV Drain" },
+      { item: "Bahamut", cost: "60 KP", desc: "Manual Summon / Gradual Own BRV Growth" },
+      { item: "Chocobo", cost: "60 KP", desc: "Auto Summon / Randomize BRV" },
+      { item: "Mandragora", cost: "20 KP", desc: "Auto Summon / Reduce Opponent BRV" },
+      { item: "Bomb", cost: "20 KP", desc: "Auto Summon / Counter-attack BRV Explosion" },
+      { item: "Asura", cost: "20 KP", desc: "Auto Summon / Random Dice BRV Effect" },
+      { item: "Titan", cost: "80 KP", desc: "Manual Summon / Stage Quake BRV Boost" },
+      { item: "Atomos", cost: "80 KP", desc: "Auto Summon / Gravity Vortex BRV Drain" },
+      { item: "Iron Giant", cost: "80 KP", desc: "Manual Summon / Halve Opponent Base BRV" },
+      { item: "Cactaur", cost: "60 KP", desc: "Manual Summon / Set Opponent BRV to 1,000" },
+      { item: "Tonberry", cost: "30 KP", desc: "Auto Summon / Grudge Stalker BRV Drain" },
+      { item: "Malboro", cost: "60 KP", desc: "Manual Summon / Bad Breath Status Ailments" },
+      { item: "Ultros", cost: "20 KP", desc: "Auto Summon / Ink Blindness & BRV Drain" },
+      { item: "Typhon", cost: "40 KP", desc: "Manual Summon / Snort Opponent BRV to Zero" },
+      { item: "Deathgaze", cost: "40 KP", desc: "Auto Summon / Doom Countdown Instant Break" },
+      { item: "Lich", cost: "100 KP", desc: "Manual Summon / Halve Opponent Recovered BRV" },
+      { item: "Marilith", cost: "100 KP", desc: "Manual Summon / 6-Sword Slash BRV Assault" },
+      { item: "Kraken", cost: "100 KP", desc: "Manual Summon / Invert Opponent BRV Fluctuation" },
+      { item: "Tiamat", cost: "100 KP", desc: "Manual Summon / Sky Firestorm BRV Drain" },
+      { item: "Scarmiglione", cost: "100 KP", desc: "Manual Summon / Poison Gas BRV Sap" },
+      { item: "Cagnazzo", cost: "100 KP", desc: "Manual Summon / Tsunami Water Barrier" },
+      { item: "Barbaricca", cost: "100 KP", desc: "Manual Summon / Tornado Gale BRV Storm" },
+      { item: "Rubicante", cost: "100 KP", desc: "Manual Summon / Cloak Inferno Counter" },
+      { item: "Land Worm", cost: "120 KP", desc: "Auto Summon / Earth Fissure BRV Reduction" },
+      { item: "Calcabrina", cost: "120 KP", desc: "Manual Summon / Doll Jitter BRV Fluctuation" },
+      { item: "Giant of Babil", cost: "120 KP", desc: "Manual Summon / Laser Cannon Mega BRV Strike" },
+      { item: "Syldra", cost: "120 KP", desc: "Manual Summon / Maelstrom BRV Surge" },
+      { item: "Zalera, the Death Seraph", cost: "120 KP", desc: "Auto Summon / Prime Number Instant Break" },
+      { item: "Brynhildr", cost: "120 KP", desc: "Manual Summon / Valkyrie Flame Charge BRV Boost" }
+    ]
+  },
+  {
+    location: "Lufenia North Island (Zodiac Recipes Part 1)",
+    moogleName: "Mogrecipe (Lufenia)",
+    notes: "Located north of Lufenia Teleport Stone on an offshore island. Sells the first set of 6 Zodiac Recipes for forging ultimate weapons.",
+    inventory: [
+      { item: "Aries Recipe", cost: "200 KP", desc: "Zodiac forging recipe component (FFI - Warrior of Light / Garland)" },
+      { item: "Taurus Recipe", cost: "200 KP", desc: "Zodiac forging recipe component (FFII - Firion / Emperor)" },
+      { item: "Gemini Recipe", cost: "200 KP", desc: "Zodiac forging recipe component (FFIII - Onion Knight / CoD)" },
+      { item: "Cancer Recipe", cost: "200 KP", desc: "Zodiac forging recipe component (FFIV - Cecil / Golbez / Kain)" },
+      { item: "Leo Recipe", cost: "200 KP", desc: "Zodiac forging recipe component (FFV - Bartz / Exdeath / Gilgamesh)" },
+      { item: "Virgo Recipe", cost: "200 KP", desc: "Zodiac forging recipe component (FFVI - Terra / Kefka)" }
+    ]
+  },
+  {
+    location: "Citadel of Trials South (Zodiac Recipes Part 2)",
+    moogleName: "Mogrecipe (Citadel)",
+    notes: "Located south of Citadel of Trials teleport stone, past 'Conquered Trials' Gateway. Sells the second set of 6 Zodiac Recipes for forging ultimate weapons.",
+    inventory: [
+      { item: "Libra Recipe", cost: "200 KP", desc: "Zodiac forging recipe component (FFVII - Cloud / Sephiroth / Tifa / Aerith)" },
+      { item: "Scorpio Recipe", cost: "200 KP", desc: "Zodiac forging recipe component (FFVIII - Squall / Ultimecia / Laguna)" },
+      { item: "Sagittarius Recipe", cost: "200 KP", desc: "Zodiac forging recipe component (FFIX - Zidane / Kuja)" },
+      { item: "Capricorn Recipe", cost: "200 KP", desc: "Zodiac forging recipe component (FFX - Tidus / Jecht / Yuna)" },
+      { item: "Aquarius Recipe", cost: "200 KP", desc: "Zodiac forging recipe component (FFXI & FFXII - Shantotto / Prishe / Vaan / Gabranth)" },
+      { item: "Pisces Recipe", cost: "200 KP", desc: "Zodiac forging recipe component (FFXIII & Special - Lightning / Feral Chaos)" }
+    ]
+  },
+  {
+    location: "Secret Moogle Shop (Land of Discord)",
+    moogleName: "Secret Mog",
+    notes: "Located on the southern peninsula in Land of Discord, past 'To a Foreign World' Gateway. This is the shop you need to visit to complete the 'Best Customer Kupo' accomplishment. You need 4 Adamantite to forge the Adamant Set, and 12 Samurai Spirits to forge the Genji Set.",
+    inventory: [
+      { item: "Blue Moon (Snowpetal)", cost: "300 KP", desc: "Snowpetal Set - Helm base" },
+      { item: "Chaplet (Snowpetal)", cost: "300 KP", desc: "Snowpetal Set - Headband base" },
+      { item: "Snowflake Sweater (Snowpetal)", cost: "300 KP", desc: "Snowpetal Set - Chest base" },
+      { item: "Lunate Armlet (Snowpetal)", cost: "300 KP", desc: "Snowpetal Set - Gauntlet base" },
+      { item: "Adamantite", cost: "250 KP", desc: "Required catalyst for Adamant equipment set (Need 4)" },
+      { item: "Samurai Spirit", cost: "250 KP", desc: "Required catalyst for Genji equipment set (Need 12)" },
+      { item: "Ultima Weapon", cost: "1500 KP", desc: "Unique high-tier weapon base" },
+      { item: "Omega", cost: "1500 KP", desc: "Legendary Auto summon stone" },
+      { item: "Hecatoncheir", cost: "1000 KP", desc: "Legendary Manual summon stone" }
     ]
   }
 ];
