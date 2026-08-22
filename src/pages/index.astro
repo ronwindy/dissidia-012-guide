@@ -81,7 +81,7 @@ const portals = [
 
 <BaseLayout title="Dissidia 012 [duodecim] Guide Portal" currentPath="home">
   <!-- Hero Section -->
-  <div class="glass-card" style="padding: 2.5rem 2rem; margin-bottom: 2rem; border-left: 4px solid var(--accent-primary); background: linear-gradient(135deg, rgba(18, 24, 40, 0.9), rgba(11, 14, 23, 0.95));">
+  <div class="hero-glass-card">
     <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.25rem;">
       <span class="badge-pill badge-cosmos">PSP Ultimate Strategy Guide</span>
       <span class="badge-pill badge-new">Static & Zero-JS Core</span>
@@ -112,7 +112,7 @@ const portals = [
     <!-- Stat Grid -->
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem; border-top: 1px solid var(--border-card-subtle); padding-top: 1.25rem;">
       {quickStats.map(stat => (
-        <div style="background: rgba(0,0,0,0.3); padding: 0.85rem 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-card);">
+        <div class="glass-stat-card">
           <div style="font-size: 1.6rem; font-family: var(--font-heading); font-weight: 800; color: var(--accent-primary); line-height: 1.15;">{stat.value}</div>
           <div style="font-size: 0.88rem; font-family: var(--font-subheading); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 0.2rem;">{stat.label}</div>
           <div style="font-size: 0.76rem; color: var(--text-dim);">{stat.desc}</div>
@@ -129,13 +129,13 @@ const portals = [
   <h2 style="margin-top: 2.5rem;">Guide Portals & Core Modules</h2>
   <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
     {portals.map(p => (
-      <div class="glass-card" style="display: flex; flex-direction: column; justify-content: space-between;">
-        <div>
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-            <h3 style="margin: 0; font-size: 1.25rem; color: var(--text-main);">{p.title}</h3>
+      <div class="glass-card portal-card">
+        <div class="portal-card-top">
+          <div class="portal-badge-bar">
             <span class={`badge-pill ${p.badgeClass}`}>{p.badge}</span>
           </div>
-          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.55; margin-bottom: 1.25rem;">
+          <h3 class="portal-card-title">{p.title}</h3>
+          <p class="portal-card-desc">
             {p.desc}
           </p>
         </div>
