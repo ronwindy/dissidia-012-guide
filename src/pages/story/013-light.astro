@@ -1,25 +1,15 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import GatewayCard from '../../components/story/GatewayCard.astro';
+import GatewayMapCard from '../../components/story/GatewayMapCard.astro';
 import StoryNav from '../../components/story/StoryNav.astro';
 import AlertCallout from '../../components/common/AlertCallout.astro';
+import { story013Chapters, story013Key } from '../../data/story/story013Data';
 
-const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
-
-const story013Nav = [
-  { id: "prologue-013", label: "Prologue", sublabel: "A Final Hope" },
-  { id: "ch1-wol", label: "Chapter 1", sublabel: "Beyond Doubt (WoL)" },
-  { id: "ch2-firion", label: "Chapter 2", sublabel: "Wisdom or Courage? (Firion)" },
-  { id: "ch3-ok", label: "Chapter 3", sublabel: "The Chosen Path (Onion Knight)" },
-  { id: "ch4-cecil", label: "Chapter 4", sublabel: "Guidance of Moon (Cecil)" },
-  { id: "ch5-bartz", label: "Chapter 5", sublabel: "Entrusted Power (Bartz)" },
-  { id: "ch6-terra", label: "Chapter 6", sublabel: "Seeds of Hope (Terra)" },
-  { id: "ch7-cloud", label: "Chapter 7", sublabel: "Resolve for Seclusion (Cloud)" },
-  { id: "ch8-squall", label: "Chapter 8", sublabel: "Trust (Squall)" },
-  { id: "ch9-zidane", label: "Chapter 9", sublabel: "A Treasure Hunt (Zidane)" },
-  { id: "ch10-tidus", label: "Chapter 10", sublabel: "Champions of Her Will (Tidus)" },
-  { id: "epilogue-013", label: "Epilogue", sublabel: "Conclusion of the Cycle" }
-];
+const storyNavItems = story013Chapters.map(ch => ({
+  id: ch.id,
+  label: `${ch.chapterNumber}: ${ch.title}`,
+  sublabel: `Hero: ${ch.character}`
+}));
 ---
 
 <BaseLayout title="013: Light to All Walkthrough" currentPath="story-013">
@@ -29,327 +19,94 @@ const story013Nav = [
       <span class="badge-pill badge-cosmos">The 13th Cycle Remaster</span>
     </div>
     <h1 style="margin: 0;">013: LIGHT TO ALL</h1>
-    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem;">
-      The complete remastered 13th cycle of conflict. Features all 10 Destiny Odysseys, full enemy listings, DP/KP conditions, and unique chest drops including Shell Armor.
+    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem; line-height: 1.6;">
+      The complete remastered 13th cycle of conflict. Features all 10 Destiny Odysseys for Cloud, Onion Knight, Terra, Cecil, Tidus, Firion, Squall, Zidane, Bartz, and Warrior of Light, alongside full ASCII grid maps, board emblems, Assist allies, and the 3-stage final confrontation with Chaos.
     </p>
   </div>
 
-  <StoryNav title="Scenario 013" items={story013Nav} />
+  <StoryNav title="Scenario 013 Chapters" items={storyNavItems} />
 
-  <AlertCallout type="note" title="013 REMASTER DIFFERENCES">
-    Scenario 013 in Dissidia 012 is an enhanced remaster of the original Dissidia story. Shantotto and Gabranth's original story dungeons are relocated to the open world of Scenario 000. All battles now fully support the <strong>Assist System</strong>!
-  </AlertCallout>
+  <!-- 013 Map Key & Mechanics Box -->
+  <div class="glass-card" style="margin-bottom: 2rem; border-left: 4px solid var(--accent-primary);">
+    <h3 style="margin: 0 0 0.5rem; font-size: 1.15rem; color: var(--accent-primary);">
+      013 Map Legend & Board Symbols
+    </h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; font-family: var(--font-mono); font-size: 0.85rem; margin-bottom: 1rem;">
+      {story013Key.map(k => (
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-weight: bold; color: var(--accent-primary); background: rgba(56, 189, 248, 0.1); padding: 0.1rem 0.4rem; border-radius: 3px; min-width: 28px; text-align: center;">
+            {k.key}
+          </span>
+          <span style="color: var(--text-muted);">{k.desc}</span>
+        </div>
+      ))}
+    </div>
+    <div style="font-size: 0.88rem; color: var(--text-dim); line-height: 1.5;">
+      <strong>Note:</strong> Blue gateways e.g. <span style="color: #c084fc;">(Blue)</span> are optional side dungeons that can be entered and exited freely at any time on the world map.
+    </div>
+  </div>
 
-  <!-- Prologue -->
-  <GatewayCard
-    id="prologue-013"
-    title="Prologue: A Final Hope"
-    chapter="Scenario 013 &bull; Prologue"
-    location="Sanctuary of Order"
-    strategy="The 10 chosen champions gather before Cosmos as the 13th war begins."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Gateway of Rebirth",
-        kpChance: "Achieve First Attack bonus",
-        bonusLine: 10,
-        enemies: ["Delusory Knight Lv5", "False Stalwart Lv6"],
-        chests: ["Potion x3", "150 Gil"]
-      }
-    ]}
-  />
+  <!-- Render all Chapters -->
+  {story013Chapters.map(chapter => (
+    <section id={chapter.id} class="guide-section" style="margin-bottom: 3.5rem;">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; border-bottom: 2px solid rgba(255,255,255,0.08); padding-bottom: 0.65rem; margin-bottom: 1.5rem;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+            <span class="badge-pill badge-cosmos">{chapter.chapterNumber}</span>
+            <span style="font-size: 0.85rem; color: var(--accent-primary); font-family: var(--font-mono);">
+              Hero: {chapter.character}
+            </span>
+          </div>
+          <h2 style="margin: 0; font-size: 1.75rem; color: var(--text-main); border: none; padding: 0;">
+            {chapter.title}
+          </h2>
+          {chapter.location && (
+            <div style="font-size: 0.85rem; color: var(--text-dim); margin-top: 0.2rem;">
+              Location: {chapter.location}
+            </div>
+          )}
+        </div>
+      </div>
 
-  <!-- Chapter 1 -->
-  <GatewayCard
-    id="ch1-wol"
-    title="Chapter 1: Beyond Doubt"
-    chapter="Destiny Odyssey I &bull; Warrior of Light"
-    location="Old Cornelia Region"
-    strategy="Warrior of Light seeks the true meaning of the crystals while confronting Garland."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Gateway of the Brave",
-        kpChance: "Execute Guard Counter 2 times",
-        bonusLine: 15,
-        enemies: ["Imitation Despot Lv8", "Transient Witch Lv10"],
-        chests: ["Bronze Sword", "Hi-Potion x1"]
-      },
-      {
-        floorNumber: 2,
-        name: "Sanctuary Approach",
-        kpChance: "Win without entering EX Mode",
-        bonusLine: 20,
-        enemies: ["Boss -> Garland Lv15 w/ Golbez Assist"],
-        chests: ["Crystal of Light I", "Rosetta Stone x1"]
-      }
-    ]}
-  />
+      {chapter.intro && (
+        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.25rem;">
+          {chapter.intro}
+        </p>
+      )}
 
-  <!-- Chapter 2 -->
-  <GatewayCard
-    id="ch2-firion"
-    title="Chapter 2: Wisdom or Courage?"
-    chapter="Destiny Odyssey II &bull; Firion"
-    location="Pandaemonium Approach"
-    strategy="Firion seeks the Wild Rose dream, navigating the Emperor's deceptive spatial traps."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Thorned Gateway",
-        kpChance: "Land 3 Ground Weapon Links",
-        bonusLine: 25,
-        enemies: ["Delusory Dragoon Lv14", "Counterfeit Youth Lv16"],
-        chests: ["Wild Rose Seed", "Mythril Bow"]
-      },
-      {
-        floorNumber: 2,
-        name: "Emperor's Throne Chamber",
-        kpChance: "BRV Break within 45 seconds",
-        bonusLine: 30,
-        enemies: ["Boss -> The Emperor Lv22 w/ Garland Assist"],
-        chests: ["Crystal of Light II", "Elixir x1"]
-      }
-    ]}
-  />
+      {chapter.fieldEncounters && chapter.fieldEncounters.length > 0 && (
+        <div style="background: rgba(239, 68, 68, 0.06); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: var(--radius-sm); padding: 0.75rem 1rem; margin-bottom: 1.5rem; font-size: 0.88rem; font-family: var(--font-mono);">
+          <div style="color: var(--accent-chaos); font-weight: bold; margin-bottom: 0.35rem; text-transform: uppercase; font-size: 0.75rem;">
+            Overworld Field Encounters
+          </div>
+          <ul style="margin: 0; padding-left: 1.2rem; color: var(--text-muted);">
+            {chapter.fieldEncounters.map(encounter => (
+              <li>{encounter}</li>
+            ))}
+          </ul>
+        </div>
+      )}
 
-  <!-- Chapter 3 -->
-  <GatewayCard
-    id="ch3-ok"
-    title="Chapter 3: The Chosen Path"
-    chapter="Destiny Odyssey III &bull; Onion Knight"
-    location="Crystal Tower Foothills"
-    strategy="Onion Knight proves his mettle and intellect against Cloud of Darkness."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Gateway of Curiosity",
-        kpChance: "Win with high agility / dash attack",
-        bonusLine: 35,
-        enemies: ["Ephemeral Phantom Lv20", "Transient Gunner Lv22"],
-        chests: ["Ninja Garb", "Sage Staff Fragment"]
-      },
-      {
-        floorNumber: 2,
-        name: "Darkness Cloud Chamber",
-        kpChance: "Dodge all Feint Particle Beams",
-        bonusLine: 40,
-        enemies: ["Boss -> Cloud of Darkness Lv28"],
-        chests: ["Crystal of Light III", "Megalixir x1"]
-      }
-    ]}
-  />
-
-  <!-- Chapter 4 -->
-  <GatewayCard
-    id="ch4-cecil"
-    title="Chapter 4: Guidance of the Moon"
-    chapter="Destiny Odyssey IV &bull; Cecil Harvey"
-    location="Red Wings Airspace / Lunar Path"
-    strategy="Cecil confronts his dark lineage and reconciles with Golbez."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Gateway of Dual Wills",
-        kpChance: "Switch forms 3 times during combat",
-        bonusLine: 45,
-        enemies: ["Delusory Knight Lv26", "False Hero Lv28"],
-        chests: ["Paladin Shield", "Dark Sword Material"]
-      },
-      {
-        floorNumber: 2,
-        name: "Lunar Core",
-        kpChance: "Land Paladin Force finisher",
-        bonusLine: 50,
-        enemies: ["Boss -> Golbez Lv35 w/ Exdeath Assist"],
-        chests: ["Crystal of Light IV", "Rosetta Stone x1"]
-      }
-    ]}
-  />
-
-  <!-- Chapter 5 -->
-  <GatewayCard
-    id="ch5-bartz"
-    title="Chapter 5: Entrusted Power"
-    chapter="Destiny Odyssey V &bull; Bartz Klauser"
-    location="The Interdimensional Rift Edge"
-    strategy="Bartz matches wits and mimicry against Exdeath's void magic."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Gateway of the Wind",
-        kpChance: "Perform 2 Spell Links",
-        bonusLine: 55,
-        enemies: ["Phantasmal Harlequin Lv34", "Transient Witch Lv36"],
-        chests: ["Boco's Feather", "Wind Spear"]
-      },
-      {
-        floorNumber: 2,
-        name: "Heart of the Void",
-        kpChance: "Bypass Omni Block successfully",
-        bonusLine: 60,
-        enemies: ["Boss -> Exdeath Lv42 w/ Kuja Assist"],
-        chests: ["Crystal of Light V", "Mirage Vest"]
-      }
-    ]}
-  />
-
-  <!-- Chapter 6 -->
-  <GatewayCard
-    id="ch6-terra"
-    title="Chapter 6: Seeds of Hope"
-    chapter="Destiny Odyssey VI &bull; Terra Branford"
-    location="Imperial Magitek Ruins"
-    strategy="Terra overcomes her fear of her own destructive Esper magic against Kefka's madness."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Gateway of Sorrow",
-        kpChance: "Land 2 Charged Magic Spells",
-        bonusLine: 65,
-        enemies: ["Delusory Warlock Lv40", "Idle Sky Pirate Lv42"],
-        chests: ["Esper Pendant", "Maduin Shard"]
-      },
-      {
-        floorNumber: 2,
-        name: "Cult of Kefka Sanctum",
-        kpChance: "Win during Trance EX Mode",
-        bonusLine: 70,
-        enemies: ["Boss -> Kefka Palazzo Lv48 w/ Cloud of Darkness Assist"],
-        chests: ["Crystal of Light VI", "Rosetta Stone x1"]
-      }
-    ]}
-  />
-
-  <!-- Chapter 7 -->
-  <GatewayCard
-    id="ch7-cloud"
-    title="Chapter 7: Resolve for Seclusion"
-    chapter="Destiny Odyssey VII &bull; Cloud Strife"
-    location="Midgar Wastelands"
-    strategy="Cloud resolves to fight not for vengeance, but to protect his allies from Sephiroth."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Gateway of Mako Memories",
-        kpChance: "Land 3 Wall Rushes",
-        bonusLine: 75,
-        enemies: ["False Stalwart Lv46", "Delusory Knight Lv48"],
-        chests: ["Buster Sword Hilt", "Mako Stone"]
-      },
-      {
-        floorNumber: 2,
-        name: "Edge of the Planet Core",
-        kpChance: "Execute Omnislash EX Burst",
-        bonusLine: 80,
-        enemies: ["Boss -> Sephiroth Lv55 w/ Jecht Assist"],
-        chests: ["Crystal of Light VII", "Champion Belt"]
-      }
-    ]}
-  />
-
-  <!-- Chapter 8 -->
-  <GatewayCard
-    id="ch8-squall"
-    title="Chapter 8: Trust"
-    chapter="Destiny Odyssey VIII &bull; Squall Leonhart"
-    location="Balamb Quad / Time Compressed Castle"
-    strategy="Squall opens his heart to trust his companions while facing Ultimecia."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Gateway of Solitary Duty",
-        kpChance: "Achieve 5 Gunblade Trigger Crits",
-        bonusLine: 85,
-        enemies: ["Counterfeit Youth Lv52", "Delusory Dragoon Lv54"],
-        chests: ["Griever Ring", "Lion Heart Material"]
-      },
-      {
-        floorNumber: 2,
-        name: "Clockwork Castle Core",
-        kpChance: "Win without taking Wall Rush damage",
-        bonusLine: 90,
-        enemies: ["Boss -> Ultimecia Lv60 w/ Sephiroth Assist"],
-        chests: ["Crystal of Light VIII", "Rosetta Stone x1"]
-      }
-    ]}
-  />
-
-  <!-- Chapter 9 -->
-  <GatewayCard
-    id="ch9-zidane"
-    title="Chapter 9: A Treasure Hunt"
-    chapter="Destiny Odyssey IX &bull; Zidane Tribal"
-    location="Prima Vista / Alexandria Ruins"
-    strategy="Zidane reminds Kuja that life's value is not measured by its brevity."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Gateway of the Sky Theater",
-        kpChance: "Perform 4 Aerial Jump Cancels",
-        bonusLine: 95,
-        enemies: ["Ephemeral Phantom Lv58", "Imaginary Champion Lv60"],
-        chests: ["Garnet Earring", "Theatrical Script"]
-      },
-      {
-        floorNumber: 2,
-        name: "Pandemonium Core",
-        kpChance: "Land Grand Lethal finisher",
-        bonusLine: 100,
-        enemies: ["Boss -> Kuja Lv68 w/ Kefka Assist"],
-        chests: ["Crystal of Light IX", "Thief Gauntlets"]
-      }
-    ]}
-  />
-
-  <!-- Chapter 10 -->
-  <GatewayCard
-    id="ch10-tidus"
-    title="Chapter 10: Champions of Her Will"
-    chapter="Destiny Odyssey X &bull; Tidus"
-    location="Zanarkand Stadium / Dream Sea"
-    strategy="Tidus faces his father Jecht to settle their eternal rivalry and solidify the power of all 10 crystals."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Gateway of the Dream",
-        kpChance: "Land 3 Evasive Counter Attacks",
-        bonusLine: 105,
-        enemies: ["Idle Sky Pirate Lv64", "Transient Gunner Lv66"],
-        chests: ["Blitzball Trophy", "Shell Armor (Exclusive Chest Drop!)"]
-      },
-      {
-        floorNumber: 2,
-        name: "Zanarkand Ruin Dome",
-        kpChance: "Execute Blitz Ace EX Burst",
-        bonusLine: 110,
-        enemies: ["Boss -> Jecht Lv75 w/ Garland Assist"],
-        chests: ["Crystal of Light X", "Caladbolg Hilt", "Rosetta Stone x1"],
-        notes: "Don't miss the Shell Armor chest on Floor 1 before descending to the final arena!"
-      }
-    ]}
-  />
-
-  <!-- Epilogue 013 -->
-  <GatewayCard
-    id="epilogue-013"
-    title="Epilogue: Conclusion of the Cycle"
-    chapter="Scenario 013 &bull; Final Showdown"
-    location="Edge of Madness (Chaos Realm)"
-    strategy="The 10 warriors channel the power of all 10 Crystals of Light to permanently end the war against the God of Discord."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Final Gateway: Throne of Chaos",
-        kpChance: "End the battle with a Crystal Finisher",
-        bonusLine: 120,
-        enemies: [
-          "Phase 1: Chaos Lv85",
-          "Phase 2: Chaos (True Form) Lv100"
-        ],
-        chests: ["Discord's Hopes x2", "Discord's Dream x3", "Smiting Soul Blueprint"],
-        notes: "Completing 013 unlocks Scenario 000: Confessions of the Creator, Report 9-20, and the Labyrinth mode!"
-      }
-    ]}
-  />
+      <!-- Gateways in this chapter -->
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        {chapter.gateways.map(gw => (
+          <GatewayMapCard
+            id={gw.id}
+            title={gw.title}
+            chapter={`${chapter.chapterNumber} • ${chapter.title}`}
+            character={chapter.character}
+            isOptional={gw.isOptional}
+            kpChance={gw.kpChance}
+            rules={gw.rules}
+            skills={gw.skills}
+            bonusLine={gw.bonusLine}
+            asciiMap={gw.asciiMap}
+            legend={gw.legend}
+            notes={gw.notes}
+            strategy={gw.strategy}
+          />
+        ))}
+      </div>
+    </section>
+  ))}
 </BaseLayout>

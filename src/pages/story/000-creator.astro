@@ -1,27 +1,19 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import GatewayCard from '../../components/story/GatewayCard.astro';
+import GatewayMapCard from '../../components/story/GatewayMapCard.astro';
 import StoryNav from '../../components/story/StoryNav.astro';
 import AlertCallout from '../../components/common/AlertCallout.astro';
 import DataTable from '../../components/common/DataTable.astro';
-
-const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+import { story000Foreword, story000DeepDungeons, story000MoogleShops } from '../../data/story/story000Data';
 
 const story000Nav = [
-  { id: "foreword", label: "000 Mechanics", sublabel: "World Map & Unlocks" },
-  { id: "edge-of-discord", label: "Edge of Discord", sublabel: "Feral Chaos Gauntlet (Floor 1-5)" },
-  { id: "forsaken-lands", label: "The Forsaken Lands", sublabel: "Gaia 10-Floor Super-Dungeon" },
-  { id: "dragon-king", label: "Dragon King Gateway", sublabel: "Dragon Cave (Floor 1-10)" },
-  { id: "moogle-shops-000", label: "000 Moogle Shops", sublabel: "Cornelia, Heike & Gulg Shops" }
-];
-
-const mooglePrices = [
-  { item: "Dusty Elixir", price: "25 KP", effect: "Restores party status and breaks; primary crafting catalyst" },
-  { item: "Elixir", price: "50 KP", effect: "Full HP/BRV recovery during gateway exploration" },
-  { item: "Hi-Elixir", price: "75 KP", effect: "Recovers 100% EX & Assist meters" },
-  { item: "Megalixir", price: "100 KP", effect: "Ultimate recovery and high-tier equipment crafting base" },
-  { item: "KP Bonus Token", price: "10 KP", effect: "Doubles KP earned in the subsequent gateway" },
-  { item: "Banish / Death Ring", price: "10 KP", effect: "Instant KO item for specific dungeon bypasses" }
+  { id: "foreword", label: "000 Mechanics", sublabel: "Party & Ruleset Setup" },
+  { id: "chasm-rotting-land", label: "Chasm in Rotting Land", sublabel: "10-Floor Unlocking Dungeon" },
+  { id: "curses-hopes-yore", label: "Curses of Hopes of Yore", sublabel: "Shantotto's 5-Floor Sanctum" },
+  { id: "forsaken-lands", label: "The Forsaken Lands", sublabel: "Gaia 10-Floor Resource Gauntlet" },
+  { id: "dragon-kings-gateway", label: "Dragon King's Gateway", sublabel: "Dragon Caves 10-Floor Trial" },
+  { id: "edge-of-discord", label: "Edge of Discord", sublabel: "Level 130 Feral Chaos Apex" },
+  { id: "moogle-shops-000", label: "Moogle Shops Catalog", sublabel: "Cornelia, Earth, Gulg, Gaia" }
 ];
 ---
 
@@ -32,197 +24,98 @@ const mooglePrices = [
       <span class="badge-pill badge-crystal">Post-Game Open World</span>
     </div>
     <h1 style="margin: 0;">000: CONFESSIONS OF THE CREATOR</h1>
-    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem;">
-      The ultimate post-game campaign across World B. Conquer deep multi-floor gateways, collect Lufenian/Genji armor, explore secret Moogle stores, and defeat Level 130 Feral Chaos.
+    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem; line-height: 1.6;">
+      The ultimate post-game campaign across World B. Conquer deep multi-floor super-dungeons, gather Lufenian and Genji armor components, unlock world teleporters, trade with secret regional Moogles, and overcome Level 130 Feral Chaos.
     </p>
   </div>
 
-  <StoryNav title="Scenario 000" items={story000Nav} />
+  <StoryNav title="Scenario 000 Navigation" items={story000Nav} />
 
-  <section id="foreword" class="glass-card guide-section">
-    <h2 style="margin-top: 0;">000 Overview & Locked Map Regions</h2>
-    <p style="color: var(--text-muted); line-height: 1.65;">
-      In Scenario 000, you are free to explore the full world map with any party setup. To unlock the blocked teleport stones and paths across the world, you must clear the gateway <strong>Chasm of the Rotting Land</strong>.
+  <!-- Foreword & Mechanics Section -->
+  <section id="foreword" class="glass-card guide-section" style="margin-bottom: 2.5rem;">
+    <h2 style="margin-top: 0; color: var(--accent-primary);">000 Overview & Essential Tactics</h2>
+    <p style="color: var(--text-muted); line-height: 1.65; margin-bottom: 1.25rem;">
+      {story000Foreword.desc}
     </p>
-    <AlertCallout type="tip" title="MOOGLE SPECIAL DAY DISCOUNT">
-      On your designated <strong>Special Day</strong> (configured in user profile), all Moogle Shop prices across Scenario 000 are slashed by <strong>50%</strong>!
+
+    <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
+      {story000Foreword.tips.map(tip => (
+        <div style="display: flex; align-items: flex-start; gap: 0.65rem; font-size: 0.92rem; color: var(--text-main); background: rgba(255,255,255,0.02); border: 1px solid var(--border-card-subtle); padding: 0.75rem 1rem; border-radius: var(--radius-sm);">
+          <span style="color: var(--accent-cosmos); font-weight: bold; flex-shrink: 0;">&bull;</span>
+          <span>{tip}</span>
+        </div>
+      ))}
+    </div>
+
+    <AlertCallout type="tip" title="50% MOOGLE SPECIAL DAY DISCOUNT">
+      On your designated <strong>Special Day</strong> (configured in your game user data), all Moogle Shop KP prices across Scenario 000 are slashed by <strong>50%</strong>! Plan major equipment and Rosetta Stone purchases accordingly.
     </AlertCallout>
   </section>
 
-  <!-- Edge of Discord -->
-  <GatewayCard
-    id="edge-of-discord"
-    title="Edge of Discord (Feral Chaos Boss Dungeons)"
-    chapter="Scenario 000 &bull; Main Gateway"
-    location="Land of Discord Core"
-    strategy="Floor 5 contains the Level 130 Feral Chaos boss fight. Cid will fully heal and revive all party members when you touch his node on the board prior to initiating the battle."
-    floors={[
-      {
-        floorNumber: 1,
-        enemies: ["Phantasmal Girl Lv99", "Delusory Knight Lv123"],
-        chests: ["Elixir x1", "KP 50"]
-      },
-      {
-        floorNumber: 2,
-        enemies: ["Imaginary Champion Lv127", "False Stalwart Lv125"],
-        chests: ["Rosetta Stone x1"]
-      },
-      {
-        floorNumber: 3,
-        enemies: ["Ephemeral Phantom Lv100", "Counterfeit Youth Lv122", "Imitation Liegeman Lv122"],
-        chests: ["Mythril Ring", "Tome of the Orator"]
-      },
-      {
-        floorNumber: 4,
-        enemies: ["Imaginary Champion Lv127", "False Stalwart Lv125", "Delusory Knight Lv123"],
-        chests: ["High-Tier Lufenian Chest Piece"],
-        notes: "Defeating the rear group unlocks the high-tier equipment chest."
-      },
-      {
-        floorNumber: 5,
-        name: "Cataclysmic Apex",
-        enemies: ["Boss -> Feral Chaos Lv130 w/ Garland Assist (100,000+ HP)"],
-        chests: ["Feral Chaos Armor Set Pieces", "Report 20 Unlock Key", "PP Catalog Feral Chaos Token"],
-        notes: "Defeating this version unlocks Moglin's high-tier item stock in Cornelia and allows purchasing Feral Chaos in the PP Catalog!"
-      }
-    ]}
-  />
+  <!-- Deep End-Game Gateways -->
+  <div style="margin-bottom: 3.5rem;">
+    <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem; color: var(--text-main);">
+      Major Gateways & Multi-Floor Labyrinths
+    </h2>
 
-  <!-- The Forsaken Lands -->
-  <GatewayCard
-    id="forsaken-lands"
-    title="The Forsaken Lands (10 Floors)"
-    chapter="Scenario 000 &bull; Gaia Region"
-    location="Gaia Teleport Stone"
-    strategy="A 10-floor deep dungeon. High concentration of chests containing Electrum and progressive Gil rewards."
-    floors={[
-      {
-        floorNumber: 1,
-        kpChance: "BRV Break within 60 seconds",
-        bonusLine: 100,
-        enemies: ["Delusory Warlock Lv90", "Fallacious Tree Lv90", "Idle Sky Pirate Lv120", "Delusory Dragoon Lv120", "Fleeting Flash Lv120"],
-        chests: ["Gil Chest (Scales up x10 per floor)"],
-        notes: "Use Multichain on the grid right of the party to catch all but one in a massive chain!"
-      },
-      {
-        floorNumber: 2,
-        enemies: ["Delusory Warlock Lv90", "Transient Witch Lv91", "Capricious Reaper Lv91", "Fallacious Giant Lv129"],
-        chests: ["Electrum Catalyst"]
-      },
-      {
-        floorNumber: 5,
-        name: "Midway Cache",
-        enemies: ["Fleeting Flash Lv100", "False Stalwart Lv80", "Red Chest -> Imitation Despot Lv125"],
-        chests: ["Electrum Catalyst", "Rosetta Stone x1"]
-      },
-      {
-        floorNumber: 7,
-        enemies: ["Transient Witch Lv91", "Capricious Reaper Lv91", "Red Chest -> Phantasmal Harlequin Lv127 w/ Assist"],
-        chests: ["Lufenian Weapon Piece"]
-      },
-      {
-        floorNumber: 9,
-        enemies: ["Fleeting Flash Lv120", "Transient Gunner Lv121", "Idle Sky Pirate Lv120", "False Hero Lv122", "Imitation Liegeman Lv122"],
-        chests: ["Multiple Gil Chests (10x Multipliers)", "Electrum Catalyst"]
-      },
-      {
-        floorNumber: 10,
-        name: "Forsaken Vault",
-        enemies: ["Counterfeit Youth Lv122", "False Hero Lv122", "Delusory Knight Lv123", "Imitation Liegeman Lv122"],
-        chests: ["Electrum Material (Guaranteed Drop)"]
-      }
-    ]}
-  />
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+      {story000DeepDungeons.map(gw => (
+        <GatewayMapCard
+          id={gw.id}
+          title={gw.title}
+          chapter="Scenario 000 • World B Labyrinth"
+          location={gw.location}
+          kpChance={gw.kpChance}
+          rules={gw.rules}
+          skills={gw.skills}
+          bonusLine={gw.bonusLine}
+          strategy={gw.strategy}
+          notes={gw.notes}
+          floors={gw.floors}
+        />
+      ))}
+    </div>
+  </div>
 
-  <!-- The Dragon King's Gateway -->
-  <GatewayCard
-    id="dragon-king"
-    title="The Dragon King's Gateway (10 Floors)"
-    chapter="Scenario 000 &bull; Dragon Cave"
-    location="Dragon Cave Teleport Stone"
-    strategy="Contains high-tier red chests and the iconic Final Fantasy I-V protagonist chronological party encounter on Floor 8!"
-    floors={[
-      {
-        floorNumber: 1,
-        kpChance: "Win within 60 seconds",
-        bonusLine: 100,
-        enemies: ["Fallacious Giant Lv81", "Warrior of Antiquity Lv79", "Horror of Antiquity Lv80", "Fallacious Wanderer Lv123"],
-        chests: ["Dragon Scale x1"]
-      },
-      {
-        floorNumber: 5,
-        name: "Red Chest Gauntlet",
-        enemies: [
-          "Ephemeral Phantom Lv91",
-          "Red Chest -> False Hero Lv122 w/ Assist",
-          "Red Chest -> Idle Sky Pirate Lv120 w/ Assist",
-          "Red Chest -> Imaginary Soldier Lv124 w/ Assist",
-          "Red Chest -> Delusory Knight Lv123 w/ Assist"
-        ],
-        chests: ["4x Rare Component Accessories from Red Chests"],
-        notes: "Red chests here are easy to defeat and yield top-grade accessories."
-      },
-      {
-        floorNumber: 8,
-        name: "Chronological FF I-V Protagonist Gauntlet",
-        enemies: [
-          "Imaginary Champion Lv127",
-          "Group Battle: False Hero Lv98 (WoL) + Imitation Liegeman Lv98 (Firion) + Counterfeit Youth Lv99 (OK) + Delusory Knight Lv99 (Cecil) + Fallacious Wanderer Lv99 (Bartz)",
-          "Red Chest -> Fallacious Giant Lv129 w/ Assist"
-        ],
-        chests: ["Dragon's Crest", "Rosetta Stone x1"]
-      },
-      {
-        floorNumber: 10,
-        name: "Dragon King's Lair",
-        enemies: ["Transient Giant Lv121", "Fleeting Flash Lv120", "Idle Sky Pirate Lv120", "Delusory Dragoon Lv120 w/ Fleeting Flash", "Imaginary Brawler Lv121"],
-        chests: ["Dragon's Tear (Guaranteed Floor 10 Drop!)"]
-      }
-    ]}
-  />
-
-  <!-- Moogle Shops Section -->
-  <section id="moogle-shops-000" class="glass-card guide-section">
-    <h2 style="margin-top: 0;">000 Secret Moogle Shop Catalog</h2>
-    <p style="color: var(--text-muted); font-size: 0.95rem;">
-      <strong>Moglin (Castle Cornelia):</strong> Unlocks after defeating the Level 130 Feral Chaos in Edge of Discord Floor 5.
+  <!-- Moogle Shops Full Catalog -->
+  <section id="moogle-shops-000" class="guide-section" style="margin-bottom: 3.5rem;">
+    <h2 style="font-size: 1.75rem; margin-bottom: 0.5rem; color: var(--text-main);">
+      World B Moogle Shops & Complete Stock
+    </h2>
+    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+      All Moogles encountered across World B offer unique equipment bases, catalysts, and rare accessories. Prices listed are standard KP costs (halved on Special Days).
     </p>
 
-    <DataTable title="Moglin Cornelia Inventory" caption="Halved on Special Days">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Item Name</th>
-            <th>Base Price (KP)</th>
-            <th>Item Effect & Usage</th>
-          </tr>
-        </thead>
-        <tbody>
-          {mooglePrices.map(m => (
-            <tr>
-              <td><strong style="color: var(--accent-primary);">{m.item}</strong></td>
-              <td><span class="badge-pill badge-cosmos">{m.price}</span></td>
-              <td style="color: var(--text-muted); font-size: 0.88rem;">{m.effect}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </DataTable>
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+      {story000MoogleShops.map(shop => (
+        <div class="glass-card" style="border-left: 4px solid var(--accent-cosmos);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--border-card-subtle); padding-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+            <div>
+              <h3 style="margin: 0; font-size: 1.3rem; color: var(--text-main); font-family: var(--font-heading);">
+                {shop.location}
+              </h3>
+              <div style="font-size: 0.8rem; color: var(--accent-cosmos); font-family: var(--font-mono);">
+                Merchant: {shop.moogleName}
+              </div>
+            </div>
+            <span class="badge-pill badge-cosmos">Moogle Shop</span>
+          </div>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
-      <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-card);">
-        <h4 style="margin: 0 0 0.35rem 0; color: var(--accent-cosmos);">Heike Moogle (Frozen Continent)</h4>
-        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
-          Located east of Elven Castle past the frozen icy mountains. Sells the complete <strong>Heike Armor</strong> set required to craft the Genji Set.
-        </p>
-      </div>
-
-      <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-card);">
-        <h4 style="margin: 0 0 0.35rem 0; color: var(--accent-cosmos);">Gear Collection Moogle (Mount Gulg)</h4>
-        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
-          Teleport to Pravoka, head South to Ancient Volcano Ring - Gulg next to "Encounters and Treason" Gateway. Sells <strong>Gear Collections</strong>, <strong>Scarletites</strong>, and <strong>Pink Tails</strong>.
-        </p>
-      </div>
+          <DataTable
+            headers={["Item / Equipment", "Standard Cost", "Special Day (50% Off)", "Effect / Application"]}
+            rows={shop.inventory.map(inv => {
+              const numCost = parseInt(inv.cost.replace(/[^0-9]/g, ''), 10);
+              const halfCost = isNaN(numCost) ? "—" : `${Math.floor(numCost / 2)} KP`;
+              return [
+                `<strong>${inv.item}</strong>`,
+                `<span style="color: var(--accent-warning); font-family: var(--font-mono);">${inv.cost}</span>`,
+                `<span style="color: var(--accent-success); font-family: var(--font-mono);">${halfCost}</span>`,
+                inv.desc
+              ];
+            })}
+          />
+        </div>
+      ))}
     </div>
   </section>
 </BaseLayout>

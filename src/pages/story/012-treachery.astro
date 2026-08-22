@@ -1,22 +1,15 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import GatewayCard from '../../components/story/GatewayCard.astro';
+import GatewayMapCard from '../../components/story/GatewayMapCard.astro';
 import StoryNav from '../../components/story/StoryNav.astro';
 import AlertCallout from '../../components/common/AlertCallout.astro';
+import { story012Chapters, story012Key } from '../../data/story/story012Data';
 
-const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
-
-const storyNavItems = [
-  { id: "prologue", label: "Prologue", sublabel: "Path to Sanctuary" },
-  { id: "ch1", label: "Chapter 1", sublabel: "A New Threat (Lightning)" },
-  { id: "ch2", label: "Chapter 2", sublabel: "Stern Eyes Vaan" },
-  { id: "ch3", label: "Chapter 3", sublabel: "Clues (Laguna)" },
-  { id: "ch4", label: "Chapter 4", sublabel: "Where Memories Wait (Yuna)" },
-  { id: "ch5", label: "Chapter 5", sublabel: "Decision (Kain)" },
-  { id: "ch6", label: "Chapter 6", sublabel: "Indiscernible Truth (Tifa)" },
-  { id: "ch7", label: "Chapter 7", sublabel: "Ally (Lightning)" },
-  { id: "epilogue", label: "Epilogue", sublabel: "An Undocumented Battle" }
-];
+const storyNavItems = story012Chapters.map(ch => ({
+  id: ch.id,
+  label: `${ch.chapterNumber}: ${ch.title}`,
+  sublabel: `Playable: ${ch.characters}`
+}));
 ---
 
 <BaseLayout title="012: Treachery of the Gods Walkthrough" currentPath="story-012">
@@ -26,288 +19,95 @@ const storyNavItems = [
       <span class="badge-pill badge-new">12th Cycle Prequel</span>
     </div>
     <h1 style="margin: 0;">012: TREACHERY OF THE GODS</h1>
-    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem;">
-      The definitive walkthrough for the 12th cycle of conflict. Master all gateway floor layouts, KP Chance goals, enemy manikin stats, and hidden treasure chests.
+    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem; line-height: 1.6;">
+      The definitive, complete walkthrough for the 12th cycle prequel story. Follow Lightning, Vaan, Laguna, Yuna, Kain, and Tifa through all gateways with authentic ASCII board maps, KP conditions, Bonus Lines, and loot drops.
     </p>
   </div>
 
-  <StoryNav title="Scenario 012" items={storyNavItems} />
+  <StoryNav title="Scenario 012 Chapters" items={storyNavItems} />
 
-  <AlertCallout type="tip" title="012 GATEWAY KEY & MECHANICS">
-    <strong>KP (Kupoints):</strong> Awarded upon clearing the listed <em>KP Chance</em> condition. Use KP at Moogle Shops on the World Map to purchase rare accessories, Rosetta Stones, and materials.<br />
-    <strong>Multichain:</strong> Use skill items before battles on multi-enemy grid clusters to trigger chains and multiply your final KP reward!
-  </AlertCallout>
+  <!-- 012 Map Key & Mechanics Box -->
+  <div class="glass-card" style="margin-bottom: 2rem; border-left: 4px solid var(--accent-cosmos);">
+    <h3 style="margin: 0 0 0.5rem; font-size: 1.15rem; color: var(--accent-cosmos);">
+      012 Map Legend & Gateway Mechanics
+    </h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; font-family: var(--font-mono); font-size: 0.85rem; margin-bottom: 1rem;">
+      {story012Key.map(k => (
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-weight: bold; color: var(--accent-primary); background: rgba(56, 189, 248, 0.1); padding: 0.1rem 0.4rem; border-radius: 3px; min-width: 28px; text-align: center;">
+            {k.key}
+          </span>
+          <span style="color: var(--text-muted);">{k.desc}</span>
+        </div>
+      ))}
+    </div>
+    <p style="font-size: 0.88rem; color: var(--text-dim); margin: 0; line-height: 1.5;">
+      <strong>Bonus Line:</strong> Entering a gateway at a character level lower than the Bonus Line awards bonus KP equal to <code style="color: var(--accent-warning);">(Bonus Line - Current Level)</code>. Bonus Lines become visible and active across all story modes after completing Scenario 012.
+    </p>
+  </div>
 
-  <!-- Prologue -->
-  <GatewayCard
-    id="prologue"
-    title="Prologue: Path to Sanctuary"
-    chapter="Scenario 012 &bull; Prologue"
-    location="World Map &bull; Near Cornelia"
-    strategy="Learn basic controls and Bravery mechanics. Kain and Lightning guide the new warriors toward the sanctuary."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Gateway of the First Step",
-        kpChance: "BRV Break opponent within 30 seconds",
-        bonusLine: 5,
-        enemies: [
-          "Phantasmal Harlequin Lv1 (Kefka Manikin)",
-          "Delusory Dragoon Lv2 (Kain Manikin)"
-        ],
-        chests: ["Potion x1", "Hi-Potion x1"],
-        notes: "Straightforward intro floor. Practice Paradigm Shifts with Lightning."
-      }
-    ]}
-  />
+  <!-- Render all Chapters -->
+  {story012Chapters.map(chapter => (
+    <section id={chapter.id} class="guide-section" style="margin-bottom: 3.5rem;">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; border-bottom: 2px solid rgba(255,255,255,0.08); padding-bottom: 0.65rem; margin-bottom: 1.5rem;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+            <span class="badge-pill badge-cosmos">{chapter.chapterNumber}</span>
+            <span style="font-size: 0.85rem; color: var(--accent-primary); font-family: var(--font-mono);">
+              Playable: {chapter.characters}
+            </span>
+          </div>
+          <h2 style="margin: 0; font-size: 1.75rem; color: var(--text-main); border: none; padding: 0;">
+            {chapter.title}
+          </h2>
+          {chapter.location && (
+            <div style="font-size: 0.85rem; color: var(--text-dim); margin-top: 0.2rem;">
+              Region: {chapter.location}
+            </div>
+          )}
+        </div>
+      </div>
 
-  <!-- Chapter 1 -->
-  <GatewayCard
-    id="ch1"
-    title="Chapter 1: A New Threat"
-    chapter="Scenario 012 &bull; Chapter 1"
-    location="Cavern of Earth"
-    strategy="Lightning ventures into the subterranean caverns to investigate the swarm of crystalline manikins manifesting without summoners."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Gateway of Shifting Earth",
-        kpChance: "Win without taking HP damage",
-        bonusLine: 10,
-        enemies: [
-          "Imitation Despot Lv4 (Emperor Manikin)",
-          "False Stalwart Lv5 (Garland Manikin)"
-        ],
-        chests: ["100 Gil", "Iron Ore x2"]
-      },
-      {
-        floorNumber: 2,
-        name: "Heart of the Ruin",
-        kpChance: "Execute Wall Rush at least once",
-        bonusLine: 15,
-        enemies: [
-          "Boss -> Garland Lv8 w/ Golbez Assist"
-        ],
-        chests: ["Rosetta Stone x1", "Bronze Bangle"],
-        notes: "Garland has hyper-armor on swing start-up; rely on Lightning's Watera zoning."
-      }
-    ]}
-  />
+      {chapter.intro && (
+        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.25rem;">
+          {chapter.intro}
+        </p>
+      )}
 
-  <!-- Chapter 2 -->
-  <GatewayCard
-    id="ch2"
-    title="Chapter 2: Stern Eyes Vaan"
-    chapter="Scenario 012 &bull; Chapter 2"
-    location="Giza Plains / Mirage Dunes"
-    strategy="Control Vaan as he searches for answers regarding the memory-erasing effects of the cycle."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Gateway of Mirage",
-        kpChance: "Win within 45 seconds",
-        bonusLine: 20,
-        enemies: [
-          "Transient Witch Lv12 (Ultimecia Manikin)",
-          "Delusory Knight Lv14 (Cecil Manikin)"
-        ],
-        chests: ["KP Bonus Token", "Silver Dust"]
-      },
-      {
-        floorNumber: 2,
-        name: "Sands of Treachery",
-        kpChance: "Initiate EX Mode or EX Revenge",
-        bonusLine: 25,
-        enemies: [
-          "Boss -> Exdeath Lv18 w/ Garland Assist"
-        ],
-        chests: ["Mythril Shard x3", "Elixir"],
-        notes: "Bait Exdeath's Omni Block with uncharged switch attacks, then punish during block cooldown."
-      }
-    ]}
-  />
+      {chapter.fieldEncounters && chapter.fieldEncounters.length > 0 && (
+        <div style="background: rgba(239, 68, 68, 0.06); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: var(--radius-sm); padding: 0.75rem 1rem; margin-bottom: 1.5rem; font-size: 0.88rem; font-family: var(--font-mono);">
+          <div style="color: var(--accent-chaos); font-weight: bold; margin-bottom: 0.35rem; text-transform: uppercase; font-size: 0.75rem;">
+            Overworld Field Encounters
+          </div>
+          <ul style="margin: 0; padding-left: 1.2rem; color: var(--text-muted);">
+            {chapter.fieldEncounters.map(encounter => (
+              <li>{encounter}</li>
+            ))}
+          </ul>
+        </div>
+      )}
 
-  <!-- Chapter 3 -->
-  <GatewayCard
-    id="ch3"
-    title="Chapter 3: Clues"
-    chapter="Scenario 012 &bull; Chapter 3"
-    location="Mount Gulg Surroundings"
-    strategy="Laguna leads reconnaissance, uncovering the military origin of the crystalline soldiers."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Volcanic Gateway",
-        kpChance: "Perform 3 Assist Actions",
-        bonusLine: 30,
-        enemies: [
-          "Idle Sky Pirate Lv22 (Vaan Manikin)",
-          "Transient Gunner Lv24 (Laguna Manikin)"
-        ],
-        chests: ["Hi-Ether", "500 Gil"]
-      },
-      {
-        floorNumber: 2,
-        name: "Caldera Peak",
-        kpChance: "Achieve Bravery Over 2,000",
-        bonusLine: 35,
-        enemies: [
-          "Boss -> Cloud of Darkness Lv28"
-        ],
-        chests: ["Rosetta Stone x1", "Flame Tongue Weapon"]
-      }
-    ]}
-  />
-
-  <!-- Chapter 4 -->
-  <GatewayCard
-    id="ch4"
-    title="Chapter 4: Where Memories Wait"
-    chapter="Scenario 012 &bull; Chapter 4"
-    location="Sunken Shrine & Waterfall Cave"
-    strategy="Yuna journeys to discover why her summoned aeons retain memories from Spira."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Submerged Gateway",
-        kpChance: "Win by HP attack link",
-        bonusLine: 40,
-        enemies: [
-          "Ephemeral Phantom Lv32 (Kuja Manikin)",
-          "Imaginary Champion Lv34 (Firion Manikin)"
-        ],
-        chests: ["Pearl Necklace", "Megalixir x1"]
-      },
-      {
-        floorNumber: 2,
-        name: "Sanctuary Depths",
-        kpChance: "BRV Break within 60 seconds",
-        bonusLine: 45,
-        enemies: [
-          "Boss -> Jecht Lv38 w/ Tidus Assist"
-        ],
-        chests: ["White Robe", "Locket of Memories"],
-        notes: "Jecht will constantly rush down; use Valefor's Energy Ray to create distance."
-      }
-    ]}
-  />
-
-  <!-- Chapter 5 -->
-  <GatewayCard
-    id="ch5"
-    title="Chapter 5: Decision"
-    chapter="Scenario 012 &bull; Chapter 5"
-    location="Lunar Subterrane / Tower of Zot"
-    strategy="Kain makes a heartbreaking choice to strike down his own comrades to save them from permanent extinction by the manikins."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Gateway of Solitude",
-        kpChance: "Perform Special Dash 3 times",
-        bonusLine: 50,
-        enemies: [
-          "Delusory Dragoon Lv42",
-          "False Hero Lv45 (Cloud Manikin)"
-        ],
-        chests: ["Holy Lance Fragment", "Dragon Crest"]
-      },
-      {
-        floorNumber: 2,
-        name: "Tower Apex",
-        kpChance: "Win without using EX Mode",
-        bonusLine: 55,
-        enemies: [
-          "Boss -> Golbez Lv50 w/ Kain Manikin Assist"
-        ],
-        chests: ["Rosetta Stone x1", "Dragoon Gauntlets"]
-      }
-    ]}
-  />
-
-  <!-- Chapter 6 -->
-  <GatewayCard
-    id="ch6"
-    title="Chapter 6: Indiscernible Truth"
-    chapter="Scenario 012 &bull; Chapter 6"
-    location="Northern Crater / Nibelheim Edge"
-    strategy="Tifa confronts Sephiroth and uncovers the horrifying truth about the endless cycle of death and rebirth."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Gateway of Broken Illusions",
-        kpChance: "Land 2 Feint Punishes",
-        bonusLine: 60,
-        enemies: [
-          "False Hero Lv54 (Cloud Manikin)",
-          "Counterfeit Youth Lv56 (Squall Manikin)"
-        ],
-        chests: ["Premium Heart Material", "Turbo Ether"]
-      },
-      {
-        floorNumber: 2,
-        name: "Crater Abyss",
-        kpChance: "Win with an EX Burst Finisher",
-        bonusLine: 65,
-        enemies: [
-          "Boss -> Sephiroth Lv62 w/ Cloud Assist"
-        ],
-        chests: ["Masamune Shard", "Gold Bangle"]
-      }
-    ]}
-  />
-
-  <!-- Chapter 7 -->
-  <GatewayCard
-    id="ch7"
-    title="Chapter 7: Ally"
-    chapter="Scenario 012 &bull; Chapter 7"
-    location="The Dimensional Rift Gate"
-    strategy="Lightning and the remaining new warriors unite to breach the Rift gateway and seal the portal."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "Gateway of the Breach",
-        kpChance: "Win in under 60 seconds",
-        bonusLine: 70,
-        enemies: [
-          "Phantasmal Girl Lv68 (Terra Manikin)",
-          "Imitation Despot Lv70 (Emperor Manikin)"
-        ],
-        chests: ["Elixir x2", "Rosetta Stone x1"]
-      },
-      {
-        floorNumber: 2,
-        name: "Rift Core Approach",
-        kpChance: "Land 4 Assist Chases",
-        bonusLine: 75,
-        enemies: [
-          "Boss -> Chaos Lv80 w/ Garland Assist"
-        ],
-        chests: ["Discord's Dream x2", "Omega Weapon Fragment"]
-      }
-    ]}
-  />
-
-  <!-- Epilogue -->
-  <GatewayCard
-    id="epilogue"
-    title="Epilogue: An Undocumented Battle"
-    chapter="Scenario 012 &bull; Epilogue"
-    location="The Forgotten Citadel"
-    strategy="The poignant final stand of the 012 warriors. Sacrifice ensures the survival of the 13th cycle's champions."
-    floors={[
-      {
-        floorNumber: 1,
-        name: "The Final Stand (Gauntlet)",
-        kpChance: "Defeat all manikins without dying",
-        bonusLine: 85,
-        enemies: [
-          "Manikin Swarm: 10 successive battles (Lv80-90)",
-          "Boss -> Feral Chaos (Pre-Awakened Form Lv95)"
-        ],
-        chests: ["Lufenian Armor Chest Piece", "Megalixir x3", "PP Catalog Max Token"],
-        notes: "Upon completing this battle, Scenario 013: Light to All and Report 1-8 are unlocked!"
-      }
-    ]}
-  />
+      <!-- Gateways in this chapter -->
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        {chapter.gateways.map(gw => (
+          <GatewayMapCard
+            id={gw.id}
+            title={gw.title}
+            chapter={`${chapter.chapterNumber} • ${chapter.title}`}
+            character={chapter.characters}
+            isOptional={gw.isOptional}
+            kpChance={gw.kpChance}
+            rules={gw.rules}
+            skills={gw.skills}
+            bonusLine={gw.bonusLine}
+            asciiMap={gw.asciiMap}
+            legend={gw.legend}
+            notes={gw.notes}
+            strategy={gw.strategy}
+            floors={gw.floors}
+          />
+        ))}
+      </div>
+    </section>
+  ))}
 </BaseLayout>

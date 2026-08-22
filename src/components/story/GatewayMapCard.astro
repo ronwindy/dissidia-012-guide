@@ -1,0 +1,293 @@
+---
+import ProgressTracker from '../common/ProgressTracker.astro';
+
+export interface LegendItem {
+  key: string;
+  name: string;
+  type?: 'enemy' | 'boss' | 'chest' | 'assist' | 'summon' | 'emblem' | 'deploy' | 'goal' | 'potion' | 'other';
+}
+
+export interface FloorItem {
+  floorNumber: number | string;
+  name?: string;
+  kpChance?: string;
+  rules?: string;
+  skills?: string;
+  bonusLine?: number | string;
+  asciiMap?: string;
+  legend?: (string | LegendItem)[];
+  enemies?: string[];
+  chests?: string[];
+  notes?: string;
+}
+
+interface Props {
+  id: string;
+  title: string;
+  chapter?: string;
+  character?: string;
+  isOptional?: boolean;
+  kpChance?: string;
+  rules?: string;
+  skills?: string;
+  bonusLine?: number | string;
+  asciiMap?: string;
+  legend?: (string | LegendItem)[];
+  enemies?: string[];
+  chests?: string[];
+  strategy?: string;
+  notes?: string;
+  floors?: FloorItem[];
+}
+
+const {
+  id,
+  title,
+  chapter,
+  character,
+  isOptional = false,
+  kpChance,
+  rules = "Disabled",
+  skills = "Enabled",
+  bonusLine,
+  asciiMap,
+  legend = [],
+  enemies,
+  chests,
+  strategy,
+  notes,
+  floors
+} = Astro.props;
+
+// Helper to determine legend token badge styling
+function getLegendBadgeClass(keyStr: string): string {
+  const k = keyStr.trim().toUpperCase();
+  if (k.startsWith('D')) return 'badge-deploy';
+  if (k.startsWith('G')) return 'badge-goal';
+  if (k.startsWith('B')) return 'badge-boss';
+  if (k.startsWith('A')) return 'badge-assist';
+  if (k.startsWith('C')) return 'badge-chest';
+  if (k.startsWith('S')) return 'badge-summon';
+  if (k.startsWith('E')) return 'badge-emblem';
+  if (k.startsWith('P') || k.startsWith('R')) return 'badge-potion';
+  return 'badge-enemy';
+}
+
+function parseLegendItem(item: string | LegendItem): { key: string; text: string; badgeClass: string } {
+  if (typeof item === 'object') {
+    return {
+      key: item.key,
+      text: item.name,
+      badgeClass: item.type ? `badge-${item.type}` : getLegendBadgeClass(item.key)
+    };
+  }
+  const parts = item.split('=');
+  if (parts.length >= 2) {
+    const key = parts[0].trim();
+    const text = parts.slice(1).join('=').trim();
+    return {
+      key,
+      text,
+      badgeClass: getLegendBadgeClass(key)
+    };
+  }
+  return {
+    key: '•',
+    text: item,
+    badgeClass: 'badge-enemy'
+  };
+}
+---
+
+<div class="glass-card gateway-map-card guide-section" id={id} style="margin-bottom: 2.25rem; border-top: 3px solid var(--accent-crystal);">
+  <!-- Header Bar -->
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem;">
+    <div>
+      <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.25rem;">
+        {chapter && (
+          <span style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--accent-cosmos); text-transform: uppercase; font-weight: bold;">
+            {chapter}
+          </span>
+        )}
+        {character && (
+          <span class="badge-pill" style="background: rgba(56, 189, 248, 0.15); color: var(--accent-primary); border: 1px solid rgba(56, 189, 248, 0.3);">
+            {character}
+          </span>
+        )}
+        {isOptional && (
+          <span class="badge-pill" style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3);">
+            Optional (Blue)
+          </span>
+        )}
+      </div>
+      <h3 style="margin: 0.15rem 0 0.4rem; font-size: 1.45rem; color: var(--text-main); font-family: var(--font-heading); letter-spacing: 0.02em;">
+        {title}
+      </h3>
+    </div>
+    <div>
+      <ProgressTracker id={`gateway-clear-${id}`} label={`Clear ${title}`} />
+    </div>
+  </div>
+
+  <!-- Gateway Conditions & Rules Bar -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.6rem; background: rgba(0, 0, 0, 0.35); border: 1px solid var(--border-card-subtle); border-radius: var(--radius-sm); padding: 0.75rem 1rem; margin-bottom: 1.25rem; font-size: 0.85rem; font-family: var(--font-mono);">
+    {kpChance && (
+      <div>
+        <span style="color: var(--text-dim);">KP Chance:</span>{' '}
+        <strong style="color: var(--accent-warning);">{kpChance}</strong>
+      </div>
+    )}
+    <div>
+      <span style="color: var(--text-dim);">Rules:</span>{' '}
+      <strong style={rules.toLowerCase() === 'enabled' ? 'color: var(--accent-success);' : 'color: var(--text-muted);'}>{rules}</strong>
+    </div>
+    <div>
+      <span style="color: var(--text-dim);">Skills:</span>{' '}
+      <strong style={skills.toLowerCase() === 'enabled' ? 'color: var(--accent-success);' : 'color: var(--text-muted);'}>{skills}</strong>
+    </div>
+    {bonusLine !== undefined && bonusLine !== null && (
+      <div>
+        <span style="color: var(--text-dim);">Bonus Line:</span>{' '}
+        <strong style="color: var(--accent-primary);">{bonusLine}</strong>
+      </div>
+    )}
+  </div>
+
+  <!-- Single Floor ASCII Map & Legend -->
+  {asciiMap && (
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-bottom: 1.25rem; align-items: start;">
+      <!-- ASCII Map Grid Container -->
+      <div style="background: rgba(11, 14, 23, 0.85); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: var(--radius-sm); padding: 1.15rem; box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6); overflow-x: auto; -webkit-overflow-scrolling: touch;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.35rem;">
+          <span style="font-size: 0.72rem; font-family: var(--font-mono); color: var(--accent-primary); text-transform: uppercase; font-weight: bold; letter-spacing: 0.05em;">
+            &lang; Board Layout Map &rang;
+          </span>
+          <span style="font-size: 0.7rem; color: var(--text-dim); font-family: var(--font-mono);">
+            [D]=Deploy [G]=Goal [B]=Boss
+          </span>
+        </div>
+        <pre class="ascii-grid" style="font-family: 'JetBrains Mono', 'Share Tech Mono', monospace; font-size: 0.92rem; line-height: 1.45; color: #e0f2fe; margin: 0; white-space: pre;">{asciiMap}</pre>
+      </div>
+
+      <!-- Legend Breakdown Column -->
+      {legend && legend.length > 0 && (
+        <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-card-subtle); border-radius: var(--radius-sm); padding: 1rem;">
+          <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--accent-cosmos); text-transform: uppercase; font-weight: bold; margin-bottom: 0.65rem; letter-spacing: 0.05em;">
+            Encounter & Loot Legend
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+            {legend.map(item => {
+              const parsed = parseLegendItem(item);
+              return (
+                <div style="display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.85rem; line-height: 1.4;">
+                  <span class={`map-token-pill ${parsed.badgeClass}`} style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; padding: 0.1rem 0.45rem; border-radius: 4px; flex-shrink: 0; min-width: 24px; text-align: center;">
+                    {parsed.key}
+                  </span>
+                  <span style="color: var(--text-muted);">{parsed.text}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  )}
+
+  <!-- Fallback / Multi-Floor List View -->
+  {floors && floors.length > 0 && (
+    <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.25rem;">
+      {floors.map(floor => (
+        <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-card-subtle); border-radius: var(--radius-sm); padding: 1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-card-subtle); padding-bottom: 0.4rem; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+            <h4 style="margin: 0; font-size: 1.05rem; color: var(--text-main); font-family: var(--font-heading);">
+              Floor {floor.floorNumber} {floor.name ? `— ${floor.name}` : ''}
+            </h4>
+            <div style="display: flex; gap: 0.65rem; font-size: 0.78rem; font-family: var(--font-mono);">
+              {floor.kpChance && (
+                <span style="color: var(--accent-warning);">KP: <strong>{floor.kpChance}</strong></span>
+              )}
+              {floor.bonusLine && (
+                <span style="color: var(--text-dim);">Bonus: {floor.bonusLine}</span>
+              )}
+            </div>
+          </div>
+
+          {floor.asciiMap && (
+            <div style="background: rgba(11, 14, 23, 0.85); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: var(--radius-sm); padding: 0.9rem; margin-bottom: 0.85rem; overflow-x: auto;">
+              <pre class="ascii-grid" style="font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; line-height: 1.45; color: #e0f2fe; margin: 0; white-space: pre;">{floor.asciiMap}</pre>
+            </div>
+          )}
+
+          {floor.legend && floor.legend.length > 0 && (
+            <div style="display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 0.75rem;">
+              {floor.legend.map(item => {
+                const parsed = parseLegendItem(item);
+                return (
+                  <div style="display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.84rem;">
+                    <span class={`map-token-pill ${parsed.badgeClass}`} style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; padding: 0.1rem 0.4rem; border-radius: 4px; flex-shrink: 0; min-width: 22px; text-align: center;">
+                      {parsed.key}
+                    </span>
+                    <span style="color: var(--text-muted);">{parsed.text}</span>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {floor.enemies && floor.enemies.length > 0 && (
+            <div style="margin-bottom: 0.5rem;">
+              <div style="font-size: 0.72rem; font-family: var(--font-mono); color: var(--accent-chaos); text-transform: uppercase; font-weight: bold; margin-bottom: 0.25rem;">Enemies</div>
+              <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.85rem; color: var(--text-muted);">
+                {floor.enemies.map(enemy => (
+                  <li>{enemy}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {floor.chests && floor.chests.length > 0 && (
+            <div style="margin-bottom: 0.5rem;">
+              <div style="font-size: 0.72rem; font-family: var(--font-mono); color: var(--accent-cosmos); text-transform: uppercase; font-weight: bold; margin-bottom: 0.25rem;">Chests</div>
+              <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.85rem; color: #fde68a;">
+                {floor.chests.map(chest => (
+                  <li>{chest}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {floor.notes && (
+            <div style="font-size: 0.82rem; color: var(--text-dim); border-top: 1px dashed var(--border-card-subtle); padding-top: 0.5rem; margin-top: 0.5rem;">
+              <em>{floor.notes}</em>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  )}
+
+  <!-- Strategy or Extra Notes -->
+  {strategy && (
+    <div style="background: rgba(56, 189, 248, 0.05); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: var(--radius-sm); padding: 0.75rem 1rem; font-size: 0.88rem; color: var(--text-muted); margin-top: 0.75rem;">
+      <strong style="color: var(--accent-primary);">Strategy Tip:</strong> {strategy}
+    </div>
+  )}
+
+  {notes && (
+    <div style="background: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: var(--radius-sm); padding: 0.75rem 1rem; font-size: 0.88rem; color: var(--text-muted); margin-top: 0.75rem;">
+      <strong style="color: var(--accent-warning);">Note:</strong> {notes}
+    </div>
+  )}
+</div>
+
+<style>
+  .badge-deploy { background: rgba(56, 189, 248, 0.25); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.5); }
+  .badge-goal { background: rgba(245, 158, 11, 0.25); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.5); }
+  .badge-boss { background: rgba(239, 68, 68, 0.25); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.5); }
+  .badge-assist { background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.5); }
+  .badge-chest { background: rgba(251, 191, 36, 0.2); color: #fde68a; border: 1px solid rgba(251, 191, 36, 0.4); }
+  .badge-summon { background: rgba(168, 85, 247, 0.25); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.5); }
+  .badge-emblem { background: rgba(14, 165, 233, 0.25); color: #7dd3fc; border: 1px solid rgba(14, 165, 233, 0.5); }
+  .badge-potion { background: rgba(52, 211, 153, 0.2); color: #6ee7b7; border: 1px solid rgba(52, 211, 153, 0.4); }
+  .badge-enemy { background: rgba(255, 255, 255, 0.08); color: var(--text-main); border: 1px solid rgba(255, 255, 255, 0.15); }
+</style>
