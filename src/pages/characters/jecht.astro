@@ -1,0 +1,140 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Jecht - Character Guide" currentPath="jecht">
+  <CharacterHeader
+    name="Jecht"
+    title="Blitzball Legend"
+    game="Final Fantasy X"
+    alignment="Chaos"
+    style="Rhythm Cancel / Unblockable Rush"
+    exModeName="Equipped with Sin's Power!"
+    exModeEffect="Ultimate Jecht (Jecht Block can cancel any attack string instantly and always inflicts maximum critical counter damage)."
+    exBurstName="King of the Blitz (Jecht Blade)"
+    exBurstInput="Time your button hits within the highlighted critical zone of the spinning blitz ring to unleash the blazing greatsword execute."
+    bestStages={[]}
+    worstStages={[]}
+    assistRole="The #2 most popular assist in the game: drives enemies straight into the floor or launches them upward with massive damage, perfectly setting up teammate HP attacks."
+    recommendedAssists={[
+      { name: "Tidus", reason: "Father-son synergy allows infinite loop confirmations across ground and air." },
+      { name: "Terra", reason: "Graviga keeps enemies trapped within Jecht's manual rhythm cancel loops." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="MANUAL RHYTHM CANCELS & JECHT BLOCK">
+    Jecht's core combat mechanic is manual timing inputs (<strong>Jecht Stream</strong>, <strong>Jecht Rush</strong>). By pressing the attack button precisely when his punches and sword swings connect, Jecht cancels into unblockable HP finishers! His <strong>Jecht Block</strong> can parry almost any attack in the game (including Golbez's <em>Genesis Rock</em>)!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Jecht Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Crushes through enemy guards with charged BRV attacks and unblockable timing cancels.</li>
+        <li>Can transition into HP finishers at the end of virtually any BRV string.</li>
+        <li><em>Jecht Block</em> parries physical and magical attacks with 0 startup delay.</li>
+        <li>Premier Assist character for confirming HP attacks for the entire roster.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Jecht Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Lacks long-range projectile options—must close the distance into point-blank melee.</li>
+        <li>Naked (un-comboed) HP attacks have noticeable startup frames and are easily dodged.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Jecht Stream"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Close / Rhythm Punches"
+    wallRush="Forward Wall Rush"
+    blockStagger={true}
+    branchTo="Jecht Blade (HP Link)"
+    description="Delivers a sequence of manual-timed punches and sword slashes that breaks guards and branches into Jecht Blade."
+  />
+
+  <MoveCard
+    name="Jecht Block (Ground)"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={200}
+    range="Point-Blank Parry"
+    blockStagger={true}
+    description="Instant parry shield that catches incoming melee and ranged attacks, leaving the attacker wide open to counterattack."
+  />
+
+  <MoveCard
+    name="Jecht Beam"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={200}
+    range="Mid-Long / Eye Laser"
+    description="Fires a straight laser beam from his eyes with rapid velocity to catch rolling opponents."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Jecht Rush"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Close / Air Flurry"
+    wallRush="Ground Slam"
+    branchTo="Triumphant Grasp (HP Link)"
+    description="Rapid aerial punch combo driving opponents down into the floor, branching into Triumphant Grasp."
+  />
+
+  <MoveCard
+    name="Jecht Block (Aerial)"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Mid-Air Parry"
+    blockStagger={true}
+    description="Mid-air parry shield that counters aerial lunges and reflects projectiles."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Ultimate Jecht Shot"
+    type="HP Ground"
+    cpCost={45}
+    apMaster={400}
+    range="Mid-Long / Meteor Rock"
+    wallRush="Direct Wall Rush"
+    blockStagger={true}
+    description="Hurls a massive chunk of stage rock into the air, leaps up, and kicks it violently through enemy shields."
+  />
+
+  <MoveCard
+    name="Jecht Blade"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={320}
+    range="Close / Heavy Cleave"
+    wallRush="Forward"
+    description="Delivers an explosive overhead greatsword cleave that detonates with fiery HP damage."
+  />
+
+  <MoveCard
+    name="Triumphant Grasp"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={350}
+    range="Close / Grab & Slam"
+    wallRush="Ground Slam"
+    description="Grabs the aerial target by the head and dives straight down, crashing them into the arena floor."
+  />
+</BaseLayout>

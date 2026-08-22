@@ -1,0 +1,157 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Vaan - Character Guide" currentPath="vaan">
+  <CharacterHeader
+    name="Vaan"
+    title="Skyward Youth"
+    game="Final Fantasy XII"
+    alignment="New"
+    style="Switch Weapon / Tactical Trapper"
+    exModeName="Equipped with Calamity Bazooka & Zodiark!"
+    exModeEffect="Grants Weapon Master (can execute switch attacks freely without restrictions; all weapon strikes gain upgraded frames, priority, and damage)."
+    exBurstName="Pyroclasm (Concurrence)"
+    exBurstInput="Execute Quickening button sequences (Circle/Square/Triangle/X) within the time limit to trigger Inferno, Cataclysm, and the Pyroclasm finale."
+    bestStages={["Pandaemonium", "Kefka's Tower"]}
+    worstStages={[]}
+    assistRole="Combines attributes of Cecil and Zidane: lightning-fast upward Bravery launch that creates immediate Assist Chase and teleport pressure."
+    recommendedAssists={[
+      { name: "Jecht", reason: "Standard HP combo crutch for confirmed follow-ups." },
+      { name: "Kuja", reason: "Excellent for chaining into Assist Chases from Vaan's high launcher hits." },
+      { name: "Yuna", reason: "Long-range summon lockdown complements Vaan's trap zoning." },
+      { name: "Cecil", reason: "Punishes opponent recoveries after Vaan's switch-cancels." },
+      { name: "Terra", reason: "Graviga projectile traps pull enemies directly into Pyroclasm bursts." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="SWITCH WEAPON SYSTEM & FREE-FORM PLAYSTYLE">
+    Vaan wields 8 different weapon archetypes (Sword, Greatsword, Katana, Spear, Staff, Crossbow, Axe & Shield, Bare Hands). By pressing the attack button corresponding to different weapons, Vaan executes <strong>Switch Attacks</strong>. Vaan is the Chaos side's versatile counterpart to Bartz—you can build him as an aggressive rusher, defensive turtle, or anti-mage specialist!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Vaan Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Vast selection of moves—functions as a highly adaptable weapon mime.</li>
+        <li>Multiple unblockable attacks across his weapon pool (Shield & Axe, Greatsword).</li>
+        <li>EX Mode removes switch cooldowns, greatly upgrading hitboxes and eliminating recovery lag.</li>
+        <li>Exceptional assist synergy with rapid vertical launches for Assist Chase loops.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Vaan Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Every moveset configuration has at least one blind spot (e.g. omitting Staff leaves him vulnerable to repetitive magic).</li>
+        <li>HP attacks suffer from noticeable startup frames and are unsafe on whiff.</li>
+        <li>Crossbow and Staff attacks can be heavily punished if read by experienced opponents.</li>
+        <li>Standard melee range is modest without weapon switches.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Switch Axe (Shield & Axe)"
+    type="BRV Ground"
+    cpCost={30}
+    apMaster={240}
+    range="Close / Guard Break"
+    blockStagger={true}
+    wallRush="Forward Wall Rush"
+    description="Strikes with a heavy battleaxe while guarding with shield. Unblockable property staggers standard shields."
+  />
+
+  <MoveCard
+    name="Crossbow"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={200}
+    range="Mid-Long / Projectile"
+    chase={true}
+    description="Fires a rapid spread of bolts at mid-range. Excellent for catching enemy dashes and initiating Chase."
+  />
+
+  <MoveCard
+    name="Greatsword Sweep"
+    type="BRV Ground"
+    cpCost={30}
+    apMaster={250}
+    range="Melee Arc"
+    wallRush="Ground Slam"
+    description="Swings a massive greatsword in a wide sweeping arc, knocking enemies into the ground."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Spear Thrust"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={220}
+    range="Mid-Range Thrust"
+    wallRush="Ceiling"
+    chase={true}
+    description="Thrusts upward with a spear, launching airborne targets towards the ceiling for wall rush damage."
+  />
+
+  <MoveCard
+    name="Staff (Rime)"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={180}
+    range="Long / Ice Orbs"
+    description="Casts orbiting ice crystal traps that track opponent movement and intercept aggressive dash approaches."
+  />
+
+  <MoveCard
+    name="Katana Flurry"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={210}
+    range="Close / Multi-Hit"
+    wallRush="Forward"
+    description="High-speed dual katana slashes with rapid startup, ideal for close-range aerial interrupts."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Pyroclasm / Inferno"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={320}
+    range="Mid-Range Eruption"
+    wallRush="Direct Wall Rush"
+    description="Slams the ground to summon swirling fire pillars that erupt outward, engulfing opponents in heavy flames."
+  />
+
+  <MoveCard
+    name="Torrent / White Whorl"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={300}
+    range="Long / Water Cyclone"
+    wallRush="Ceiling"
+    description="Generates a massive pressurized water vortex in mid-air that draws opponents in before crushing them."
+  />
+
+  <MoveCard
+    name="Calamity Drive"
+    type="HP Aerial"
+    cpCost={45}
+    apMaster={380}
+    range="Rushdown Thrust"
+    wallRush="Ground Slam"
+    description="Charges forward with immense thrusting force, piercing enemy projectiles and slamming them downward."
+  />
+
+  <AlertCallout type="tip" title="TACTICAL TIP: SWITCH-CANCELING">
+    Vaan can cancel the recovery animations of certain weapon strikes directly into another switch weapon input or a dodge cancel. In EX Mode, this allows continuous, unpunishable attack pressure against defensive opponents!
+  </AlertCallout>
+</BaseLayout>

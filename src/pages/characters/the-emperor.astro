@@ -1,0 +1,137 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="The Emperor - Character Guide" currentPath="the-emperor">
+  <CharacterHeader
+    name="The Emperor"
+    title="Arrogant Overlord"
+    game="Final Fantasy II"
+    alignment="Chaos"
+    style="Trap Architect / Spatial Lock"
+    exModeName="Equipped with Demon Lord Staff!"
+    exModeEffect="Blood Magic (all trap, bomb, crest, and Flare detonations drain enemy HP and restore the Emperor's health)."
+    exBurstName="Absolute Dominion"
+    exBurstInput="Mash Circle rapidly to compress the dark demonic sphere before detonating it upon the unworthy foe."
+    bestStages={["Pandaemonium", "Pandaemonium - Top Floor", "Kefka's Tower", "Phantom Train", "Edge of Madness"]}
+    worstStages={["Dream's End"]}
+    assistRole="Provides Thunder Crest lockdown on the ground and slow Flare pressure in the air."
+    recommendedAssists={[
+      { name: "Aerith", reason: "Planet Protector allows the Emperor to set up traps with reckless impunity." },
+      { name: "Jecht", reason: "Thunder Crest combos allow Jecht to execute double HP loops." },
+      { name: "Terra", reason: "Graviga pulls foes directly into pre-laid Bomb and Flare traps." },
+      { name: "Cloud of Darkness", reason: "Aerial beam pressure complements ground minefields." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="TRAP ARCHITECTURE & STARFALL SETUPS">
+    The Emperor controls arena geometry through stationary traps (<strong>Mine</strong>, <strong>Bomb</strong>, <strong>Thunder Crest</strong>, <strong>Dreary Cell</strong>, <strong>Flare</strong>). His signature cataclysm <strong>Starfall</strong> is castable when protected behind pre-laid traps and orbiting Flares. Use <em>Bombard</em> to deflect any projectile back at opponents!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">The Emperor Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Constant active attacks generate continuous Assist Gauge meter.</li>
+        <li>Unmatched area denial—crushes grounded warriors with Thunder Crest and Dreary Cell.</li>
+        <li>EX Mode Blood Magic recovers massive HP from trap detonations.</li>
+        <li><em>Bombard</em> possesses immense priority and can deflect almost all enemy HP attacks.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">The Emperor Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Many individual mines can be dashed through if not backed by heavy projectile traps.</li>
+        <li>Subpar direct melee options when caught without active traps.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Thunder Crest"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Mid / Sigil Trap"
+    blockStagger={true}
+    description="Places a lightning glyph on the floor that electrocutes and paralyzes any opponent who steps near it."
+  />
+
+  <MoveCard
+    name="Mine"
+    type="BRV Ground"
+    cpCost={20}
+    apMaster={150}
+    range="Close-Mid / Proximity Trap"
+    description="Deploys an invisible explosive mine that detonates when the opponent walks into its trigger radius."
+  />
+
+  <MoveCard
+    name="Dreary Cell"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={200}
+    range="Tracking Blue Glyph"
+    description="Summons an aetheric blue seal that slowly tracks the foe, trapping them in continuous hitstun."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Bomb"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={180}
+    range="Mid / Floating Mines"
+    description="Spawns floating fiery bombs in mid-air that drift towards opponents and explode on contact."
+  />
+
+  <MoveCard
+    name="Light Crest"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Mid-Long / Beam Trap"
+    wallRush="Ground Slam"
+    description="Summons an aerial crest that discharges continuous piercing light lasers downward."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Flare"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={350}
+    range="Full Arena Slow Homing"
+    blockStagger={true}
+    wallRush="Direct Wall Rush"
+    description="Summons a massive molten Flare orb that slowly pursues the opponent across the arena. Unblockable upon detonation."
+  />
+
+  <MoveCard
+    name="Starfall"
+    type="HP Ground"
+    cpCost={45}
+    apMaster={400}
+    range="Full Arena Cataclysm"
+    blockStagger={true}
+    description="Channels the ultimate dark magic, summoning a gigantic celestial meteor that obliterates the stage. Cannot be guarded."
+  />
+
+  <MoveCard
+    name="Accursed Storm"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={320}
+    range="Mid / Dark Cyclone"
+    wallRush="Ceiling"
+    description="Conjures a roaring dark tornado that draws in nearby aerial enemies and launches them upward."
+  />
+</BaseLayout>

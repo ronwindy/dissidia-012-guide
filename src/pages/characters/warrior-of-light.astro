@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Warrior of Light - Character Guide" currentPath="warrior-of-light">
+  <CharacterHeader
+    name="Warrior of Light"
+    title="Champion of Harmony"
+    game="Final Fantasy I"
+    alignment="Cosmos"
+    style="Shield Fighter / Aerial Dominance"
+    exModeName="Class Change: Knight!"
+    exModeEffect="Grants Protect (dramatically reduces physical damage received) and Light of Hope (enhances all shield and blade attack hitboxes)."
+    exBurstName="Radiant Sword / Oversoul"
+    exBurstInput="Input directional sword slashes timed with the circular rune flashes to unleash the ultimate light barrage."
+    bestStages={[]}
+    worstStages={[]}
+    assistRole="Fast linear assist: strikes faster than Zidane, knocking enemies into walls with rapid shield swipes."
+    recommendedAssists={[
+      { name: "Yuna", reason: "The absolute best assist pairing—unmatched synergy between Energy Ray and Shield Strike loops." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="SHIELD COUNTER MECHANICS & HP BRANCH LINKS">
+    Warrior of Light dominates the vertical airspace with unblockable shield throws and counter guards. His two key branch links are <strong>Ascending Slash &rarr; Rune Saber</strong> and <strong>Shield Strike &rarr; Bitter End</strong>.
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Warrior of Light Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Conquers all vertical airspace—unmatched aerial priority with <em>Dayflash</em>.</li>
+        <li>Attacks boast exceptionally high clash priority against standard enemy moves.</li>
+        <li>Built-in shield guards reflect weaker projectiles and counter melee lunges.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Warrior of Light Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Relatively linear and straightforward approach options that skilled opponents can anticipate.</li>
+        <li>Subpar BRV-HP mixups compared to high-tier evasive fighters.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Ascending Slash"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Close / Upward Slash"
+    wallRush="Ceiling"
+    branchTo="Rune Saber (HP Link)"
+    description="Upward sword thrust that launches the target skyward. Seamlessly links into Rune Saber HP attack."
+  />
+
+  <MoveCard
+    name="Shield Strike"
+    type="BRV Ground"
+    cpCost={30}
+    apMaster={220}
+    range="Close / Guard Bash"
+    blockStagger={true}
+    branchTo="Bitter End (HP Link)"
+    description="Bashes forward with a heavy light shield, staggering enemy guards. Links directly into Bitter End."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Dayflash"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Close / Rapid Slash"
+    wallRush="Forward"
+    chase={true}
+    description="High-speed aerial sword combo with unmatched startup priority. Essential for winning air clashes."
+  />
+
+  <MoveCard
+    name="Sword Thrust"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={240}
+    range="Mid-Range Thrust"
+    wallRush="Ground Slam"
+    description="Dives downward with an extended blade thrust, driving aerial targets into the floor."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Shining Wave"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={320}
+    range="Long / Radiant Wave"
+    wallRush="Direct Wall Rush"
+    description="Sends a soaring radiant energy wave traversing along the ground straight toward the opponent."
+  />
+
+  <MoveCard
+    name="Radiant Sword"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={300}
+    range="Mid-Long / Light Swords"
+    wallRush="Forward"
+    description="Summons multiple radiant holy swords that surround the opponent and converge for heavy HP detonation."
+  />
+
+  <MoveCard
+    name="Shield of Light"
+    type="HP Ground"
+    cpCost={45}
+    apMaster={380}
+    range="Close / Counter Shield"
+    blockStagger={true}
+    description="Deploys an impervious barrier that absorbs incoming attacks and retaliates with an explosive burst of light."
+  />
+
+  <AlertCallout type="tip" title="CEILING LINK TIP">
+    When fighting near the stage ceiling, avoid completing the <em>Rune Saber</em> branch as the vertical displacement can cause it to whiff. Instead, use <em>Shield Strike &rarr; Bitter End</em> for guaranteed damage!
+  </AlertCallout>
+</BaseLayout>

@@ -1,0 +1,128 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Bartz Klauser - Character Guide" currentPath="bartz">
+  <CharacterHeader
+    name="Bartz Klauser"
+    title="The Mimic Traveler"
+    game="Final Fantasy V"
+    alignment="Cosmos"
+    style="Skill Mimic / Link Master"
+    exModeName="Mastered All Jobs!"
+    exModeEffect="Grants Goblin Punch and job mastery stars, drastically increasing all combat stats and luck."
+    exBurstName="Spellblade Dual Wield Rapid Fire"
+    exBurstInput="Input directional commands corresponding to weapon flashes on screen to unleash the ultimate multi-job flurry."
+    bestStages={[]}
+    worstStages={[]}
+    assistRole="Unique upward wall rush assist: launches targets straight into the ceiling or airborne warp traps, keeping them suspended for easy aerial follow-ups."
+    recommendedAssists={[
+      { name: "Vaan", reason: "Complements Bartz's unblockable setups and creates high-damage Assist Chase loops." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="SKILL MIMICRY & HOLY TO FLARE LINK">
+    Bartz wields the signature weapons and moves of all Cosmos companions (Squall's gunblade, Cloud's buster sword, Zidane's daggers, Cecil's lance, etc.). His key combat staple is <strong>Holy &rarr; Flare</strong>: cast Holy, fire off a second Holy for extra Bravery damage, and then confirm into Flare for a guaranteed HP hit!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Bartz Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li><em>Reel Impulse</em> possesses respectable range and is completely unblockable.</li>
+        <li><em>Solid Ascension</em> features lightning-fast startup frames.</li>
+        <li><em>Holy &rarr; Flare</em> link provides long-range spell pressure and safe HP conversions.</li>
+        <li>Assists benefit from unique upward wall rush trajectory.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Bartz Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Many standard BRV and HP moves can be blocked if executed without spacing discipline.</li>
+        <li>Requires careful positioning to avoid predictable approach angles.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Solid Ascension"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Close / Gunblade Flurry"
+    chase={true}
+    description="Mimics Squall's gunblade strikes with rapid startup, launching opponents into the air."
+  />
+
+  <MoveCard
+    name="Smash & Slash"
+    type="BRV Ground"
+    cpCost={30}
+    apMaster={220}
+    range="Melee Arc"
+    wallRush="Forward"
+    blockStagger={true}
+    description="Mimics Cloud's buster sword with heavy knockback and guard stagger properties."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Reel Impulse"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={250}
+    range="Mid-Range / Unblockable Spear"
+    blockStagger={true}
+    wallRush="Ceiling"
+    description="Mimics Kain's spear thrust with unblockable properties, launching airborne enemies skyward."
+  />
+
+  <MoveCard
+    name="Holy (Mimic)"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Long / Radiant Spheres"
+    branchTo="Flare (HP Link)"
+    description="Summons holy light spheres that track the opponent. Links directly into the Flare HP finisher."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Knight's Charge"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={320}
+    range="Mid-Range Rush"
+    wallRush="Direct Wall Rush"
+    description="Charges forward with shield and sword, delivering an explosive high-velocity finishing blow."
+  />
+
+  <MoveCard
+    name="Paladin Force (Mimic)"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={350}
+    range="Long-Range Homing Dash"
+    wallRush="Forward"
+    description="Surrounds himself with light and charges directly at the target for a multi-hit HP detonation."
+  />
+
+  <MoveCard
+    name="Iainuki"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={300}
+    range="Close / Unblockable Katana"
+    blockStagger={true}
+    description="Adopts a samurai stance and draws his blade in an instant unblockable flash."
+  />
+</BaseLayout>

@@ -1,0 +1,135 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Sephiroth - Character Guide" currentPath="sephiroth">
+  <CharacterHeader
+    name="Sephiroth"
+    title="The One-Winged Angel"
+    game="Final Fantasy VII"
+    alignment="Chaos"
+    style="Long Blade / Multi-Slash Pressure"
+    exModeName="One-Winged Angel Awakening!"
+    exModeEffect="Grants Glide and Heartless Angel (charges an arena-wide dark spell that reduces the opponent's current Bravery directly to 1)."
+    exBurstName="Supernova"
+    exBurstInput="Input the scrolling directional commands precisely to summon the dimensional meteor that incinerates the galaxy."
+    bestStages={[]}
+    worstStages={[]}
+    assistRole="Top-tier assist: Masamune reach hits from extreme distances and provides Assist Chase setups for double link loops."
+    recommendedAssists={[
+      { name: "Cloud", reason: "Wall rush assists confirm Sephiroth's Octaslash and Hell's Gate setups." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="MASAMUNE REACH, SHADOW FLARE & OCTASLASH CANCELS">
+    Sephiroth commands the longest physical melee reach in Dissidia 012 with his nodachi <em>Masamune</em>. <strong>Shadow Flare</strong> creates orbiting dark orbs that trap foes, enabling guaranteed links into <strong>Godspeed</strong> or <strong>Octaslash</strong>. You can backward-dodge cancel between successive Octaslash slashes for endless offensive pressure!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Sephiroth Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li><em>Shadow Flare</em> links into any attack in his arsenal and creates unblockable trap setups.</li>
+        <li>Unmatched physical reach with Masamune—outranges almost all other melee characters.</li>
+        <li><em>Octaslash</em> Dodge Cancels sustain relentless close-range pressure.</li>
+        <li>EX Mode Heartless Angel reduces the enemy to 1 Bravery, setting up instant Breaks.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Sephiroth Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Standalone HP attacks (Scintilla, Black Materia) are predictable without Shadow Flare setups.</li>
+        <li>Physical blade attacks can be guarded if the opponent times their block cleanly.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Godspeed"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Long / Iai Katana Slash"
+    chase={true}
+    wallRush="Forward"
+    description="Draws Masamune with blinding speed across a huge forward distance, slashing multiple times before initiating Chase."
+  />
+
+  <MoveCard
+    name="Shadow Flare (Ground)"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={200}
+    range="Mid / Orbiting Dark Orbs"
+    description="Summons 4 dark orbs that encircle the opponent and close in. Essential setup tool for all combo routes."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Sudden Cruelty"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Mid-Range / Aerial Flurry"
+    wallRush="Ground Slam"
+    description="Multi-hit aerial katana combo with wide sweeping arcs that drives opponents toward the arena floor."
+  />
+
+  <MoveCard
+    name="Hell's Gate"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={240}
+    range="Downward Plunge"
+    wallRush="Ground Slam"
+    blockStagger={true}
+    description="Dives straight down impaling the stage floor with Masamune, creating an explosive energy shockwave."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Octaslash"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={350}
+    range="Close-Mid / 8-Slash Cascade"
+    wallRush="Direct Wall Rush"
+    description="Unleashes 8 devastating katana slashes with extreme knockback. Can be dodge-canceled between slashes."
+  />
+
+  <MoveCard
+    name="Scintilla"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={320}
+    range="Close / Counter Blade"
+    blockStagger={true}
+    description="Guards against incoming attacks with Masamune and unleashes an instant explosive cross-slash counter."
+  />
+
+  <MoveCard
+    name="Black Materia"
+    type="HP Aerial"
+    cpCost={45}
+    apMaster={400}
+    range="Long / Meteor Charge"
+    wallRush="Ground Slam"
+    description="Channels the Black Materia to drop a colossal burning meteor from the sky. Charge to increase meteor diameter."
+  />
+
+  <MoveCard
+    name="Heartless Angel (EX Skill)"
+    type="EX Mode Attack"
+    cpCost={0}
+    range="Global Arena Drain"
+    description="Channels dark energy in EX Mode to instantly drain the opponent's Bravery pool directly to 1 point."
+  />
+</BaseLayout>

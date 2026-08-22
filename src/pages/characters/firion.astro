@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Firion - Character Guide" currentPath="firion">
+  <CharacterHeader
+    name="Firion"
+    title="Master of Weapons"
+    game="Final Fantasy II"
+    alignment="Cosmos"
+    style="Ground Specialist / Weapon Links"
+    exModeName="Equipped with Blood Sword!"
+    exModeEffect="Blood Weapon (absorbs HP equal to all Bravery damage dealt during attacks and recovers full health during EX Burst)."
+    exBurstName="Fervid Blaze"
+    exBurstInput="Input sequential button prompts in rhythm with his 8-weapon assault to execute the crushing finisher."
+    bestStages={["Pandaemonium"]}
+    worstStages={["Dream's End"]}
+    assistRole="Provides exceptional combo setups with ground Fire and projectile traps that keep enemies suspended in hitstun."
+    recommendedAssists={[
+      { name: "Terra", reason: "Gravity combos set up confirmed ground weapon strings." },
+      { name: "Jecht", reason: "Allows timing of Firion's Lord of Arms as Jecht launches enemies vertically." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="GROUND WEAPON MASTER & LINGERING HITBOXES">
+    Firion possesses the most versatile ground arsenal in Dissidia 012. Moves like <strong>Reel Axe</strong> and <strong>Rope Knife</strong> feature lingering return hitboxes that catch descending enemies. His <em>Fire</em> spell is slow and easily deflected—which is exactly what you want, giving you all the time in the world to land an unblockable <em>Shield Bash</em>!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Firion Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Massive physical HP reach—can easily punish enemies behind walls and obstacles.</li>
+        <li>Covers all ranges seamlessly while grounded (Sword, Lance, Axe, Bow, Fire).</li>
+        <li>EX Mode Blood Weapon can restore up to 100% of Firion's maximum HP.</li>
+        <li><em>Straightarrow</em> and <em>Lord of Arms</em> provide unparalleled sniping accuracy.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Firion Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Heavy ground dependency: airborne capabilities are significantly weaker.</li>
+        <li>Experienced players who stay airborne can neutralize many of his grounded traps.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Reel Axe"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Mid-Range Throw"
+    chase={true}
+    description="Hurls a battleaxe on a chain that strikes the foe and pulls them back on the return swing for combo links."
+  />
+
+  <MoveCard
+    name="Rope Knife"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={200}
+    range="Close-Mid / Dagger Throw"
+    wallRush="Forward"
+    description="Throws tethered daggers that impale the target and drag them into melee range."
+  />
+
+  <MoveCard
+    name="Fire"
+    type="BRV Ground"
+    cpCost={20}
+    apMaster={150}
+    range="Long / Slow Tracking"
+    description="Fires a slow-moving fireball. If blocked or deflected, Firion can punish the opponent with Shield Bash."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Lance Combo"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={220}
+    range="Close / Multi-Thrust"
+    wallRush="Ground Slam"
+    description="Rapid aerial spear thrusts driving targets toward the ground."
+  />
+
+  <MoveCard
+    name="Swallowstroke"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Mid / Blade Arc"
+    chase={true}
+    description="Horizontal aerial sword slash that knocks foes away and initiates Chase."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Lord of Arms"
+    type="HP Ground"
+    cpCost={45}
+    apMaster={400}
+    range="Full Arena Tracking"
+    wallRush="Direct Wall Rush"
+    description="Summons an arsenal of 8 legendary weapons and fires them in rapid succession across the stage. Penetrates solid walls."
+  />
+
+  <MoveCard
+    name="Shield Bash"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={320}
+    range="Close / Counter Bash"
+    blockStagger={true}
+    description="Guards against incoming attacks and counters with a crushing shield charge."
+  />
+
+  <MoveCard
+    name="Straightarrow"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={300}
+    range="Long / Sniping Arrow"
+    wallRush="Forward"
+    description="Draws a bow and fires a high-velocity piercing arrow with pinpoint accuracy."
+  />
+
+  <MoveCard
+    name="Weaponmaster"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={350}
+    range="Close / 8-Weapon Assault"
+    wallRush="Ground Slam"
+    description="Firion's primary aerial HP attack, striking with all 8 weapons in rapid succession."
+  />
+</BaseLayout>

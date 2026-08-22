@@ -1,0 +1,137 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Exdeath - Character Guide" currentPath="exdeath">
+  <CharacterHeader
+    name="Exdeath"
+    title="Warlock of the Void"
+    game="Final Fantasy V"
+    alignment="Chaos"
+    style="Omni-Block / Counter Specialist"
+    exModeName="Power of the Void!"
+    exModeEffect="Void Protection (Omni Block deflects all attacks including unblockables, and Exdeath gains instant teleport counters)."
+    exBurstName="Neo Void (Grand Cross)"
+    exBurstInput="Hold Circle to concentrate the infinite emptiness of the Void and release at maximum dark singularity."
+    bestStages={[]}
+    worstStages={[]}
+    assistRole="Provides instant spatial lockdown: traps opponents in place for free player hits before launching into an Assist Chase."
+    recommendedAssists={[
+      { name: "Firion", reason: "Air assist setups allow Exdeath to guard deflected Fire orbs and punish opponents with Delta Attack." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="OMNI BLOCK COUNTERS & HIGH BLOCK MASTERY">
+    Exdeath is the definitive counter fighter in Dissidia 012. <strong>Omni Block</strong> deflects almost all incoming Bravery attacks from 360 degrees, while <strong>High Block</strong> absorbs and staggers incoming HP attacks! A disciplined Exdeath leaves virtually zero attack openings.
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Exdeath Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Blocks and nullifies virtually every attack in the game with <em>Omni Block</em> and <em>High Block</em>.</li>
+        <li>Undisputed master of psychological mind games—forces opponents to hesitate.</li>
+        <li>Builds Assist meter rapidly through successful defensive guard counters.</li>
+        <li>Competent Exdeath players leave virtually zero punishable openings.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Exdeath Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Extremely slow base movement speed and offensive approach options.</li>
+        <li>Requires precise timing and matchup knowledge—whiffed guards are heavily punished.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Omni Block (Ground)"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={200}
+    range="360 Counter Guard"
+    blockStagger={true}
+    description="Deploys an impervious 360-degree shield that reflects all Bravery attacks and triggers an automatic counterattack."
+  />
+
+  <MoveCard
+    name="High Block"
+    type="BRV Ground"
+    cpCost={30}
+    apMaster={250}
+    range="HP Counter Shield"
+    blockStagger={true}
+    description="High-priority guard that absorbs and deflects enemy HP attacks, stunning the attacker."
+  />
+
+  <MoveCard
+    name="Vacuum Wave"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Mid-Range / Energy Blade"
+    chase={true}
+    description="Unleashes a soaring void crescent that slices through opponents and initiates Chase."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Omni Block (Aerial)"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="360 Mid-Air Shield"
+    blockStagger={true}
+    description="Deploys an all-directional barrier in mid-air to counter aerial attacks."
+  />
+
+  <MoveCard
+    name="Sword Dance (Void)"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={180}
+    range="Close / Blade Flurry"
+    wallRush="Ground Slam"
+    description="Spins his broadsword in mid-air, delivering multi-hit void slashes that drive opponents down."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Delta Attack"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={350}
+    range="Close-Mid / Triangular Seal"
+    wallRush="Direct Wall Rush"
+    blockStagger={true}
+    description="Constructs a triangular void barrier that traps the target and detonates for heavy HP damage."
+  />
+
+  <MoveCard
+    name="Grand Cross"
+    type="HP Aerial"
+    cpCost={45}
+    apMaster={400}
+    range="Full Arena Singularity"
+    blockStagger={true}
+    description="Summons the catastrophic vortex of the Void, drawing all enemies toward the singularity before exploding."
+  />
+
+  <MoveCard
+    name="Almagest"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={320}
+    range="Long / Void Pillars"
+    wallRush="Ceiling"
+    description="Erupts pillars of pure void light beneath the target in mid-air, launching them upward."
+  />
+</BaseLayout>

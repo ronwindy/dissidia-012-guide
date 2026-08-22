@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Kefka Palazzo - Character Guide" currentPath="kefka">
+  <CharacterHeader
+    name="Kefka Palazzo"
+    title="Mad Court Mage"
+    game="Final Fantasy VI"
+    alignment="Chaos"
+    style="Erratic Magic / Unpredictable Trajectory"
+    exModeName="God of Magic Awakening!"
+    exModeEffect="Grants Havoc Wing and Glide (unlimited free-flight mobility, erratic directional teleports, and accelerated magic tracking)."
+    exBurstName="Forsaken (Light of Judgment)"
+    exBurstInput="Move the crosshair reticle over the opponent and press Circle to call down the heavenly beam of judgment."
+    bestStages={[]}
+    worstStages={[]}
+    assistRole="Highly unorthodox assist; erratic trajectories make him difficult to utilize compared to straightforward assists."
+    recommendedAssists={[]}
+  />
+
+  <AlertCallout type="strategy" title="ERRATIC MAGIC TRAJECTORIES & HAVOC WING">
+    Kefka's spells move along bizarre, curved, and zig-zagging trajectories (<strong>Waggle-Wobbly Firaga</strong>, <strong>Scatter-Spray Blizzaga</strong>, <strong>Lickety-Split Thundaga</strong>). These erratic paths confuse standard dodge timings and create unexpected openings for <em>Trine</em> or <em>Hyperdrive</em>!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Kefka Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Unorthodox, unpredictable projectile trajectories that disrupt standard dodge timings.</li>
+        <li>One of the most potent EX Modes in the game with high-speed aerial Glide and Havoc Wing.</li>
+        <li>Large pool of versatile elemental traps and spell options.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Kefka Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Paper tiger spells: once an opponent understands the trajectory gimmicks, spells are relatively easy to evade.</li>
+        <li>Extremely vulnerable when opponents successfully bypass projectiles into close range.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Waggle-Wobbly Firaga"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Mid-Long / Zig-Zag Fireball"
+    chase={true}
+    description="Launches undulating fireballs that weave unpredictably along the ground toward the opponent."
+  />
+
+  <MoveCard
+    name="Lickety-Split Thundaga"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={200}
+    range="Mid / Delayed Lightning"
+    description="Casts a delayed lightning bolt that strikes at erratic intervals to catch rolling opponents."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Scatter-Spray Blizzaga"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Mid-Long / Ice Cluster"
+    wallRush="Ground Slam"
+    description="Fires a cluster of ice crystals that disperse in mid-air and converge from unpredictable angles."
+  />
+
+  <MoveCard
+    name="Boom-Boom Blizzaga"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={220}
+    range="Long / Ice Bomb"
+    wallRush="Ceiling"
+    description="Drops large ice bombs that explode into shards upon impact or after a short delay."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Trine"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={320}
+    range="Close-Mid / Triangular Seal"
+    wallRush="Direct Wall Rush"
+    blockStagger={true}
+    description="Traps the target inside an esoteric glowing pyramid that detonates into magical ruin."
+  />
+
+  <MoveCard
+    name="Havoc Wing"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={350}
+    range="Mid-Range / Dark Wing Slash"
+    wallRush="Ground Slam"
+    description="Sprouts a colossal winged appendage of dark magic and cleaves downward with high velocity."
+  />
+
+  <MoveCard
+    name="Forsaken Null"
+    type="HP Ground"
+    cpCost={45}
+    apMaster={400}
+    range="Full Arena Light Pillar"
+    description="Summons vertical light beams of divine madness across the battlefield."
+  />
+
+  <MoveCard
+    name="Hyperdrive"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={300}
+    range="Long / Exploding Spire"
+    wallRush="Forward"
+    description="Conjures a series of volatile energy spheres that detonate in rapid succession."
+  />
+</BaseLayout>

@@ -1,0 +1,128 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Yuna - Character Guide" currentPath="yuna">
+  <CharacterHeader
+    name="Yuna"
+    title="High Summoner of Spira"
+    game="Final Fantasy X"
+    alignment="New"
+    style="Summoner / Mid-Long Spells"
+    exModeName="Equipped with Nirvana / Grand Summon!"
+    exModeEffect="Grants Double Summon (can maintain simultaneous Aeon manifestations, drastically increasing offensive coverage)."
+    exBurstName="The Sending & Energy Ray"
+    exBurstInput="Input rhythmic button prompts in time with the ritual dance to charge Bahamut's devastating Energy Ray cataclysm."
+    bestStages={[]}
+    worstStages={[]}
+    assistRole="Top-tier assist: if her first hit connects, all subsequent strikes hit regardless of distance, and her summon attacks cannot be guard-deflected."
+    recommendedAssists={[
+      { name: "Terra", reason: "Gravity combos: Energy Rain sends enemies skyward into Graviga, allowing infinite link loops." },
+      { name: "Tidus", reason: "Fast close-range support to protect Yuna while summoning." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="AEON MANIFESTATION & RANGE CONTROL">
+    Yuna manifests her 5 signature Aeons (Valefor, Ifrit, Shiva, Ixion, Bahamut) directly onto the battlefield. Because Aeon attacks originate from different spatial coordinates, Yuna can pressure enemies while staying completely safe from counterattacks.
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Yuna Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Extremely versatile mage capable of threatening opponents across all ranges.</li>
+        <li>HP attacks (Megaflare, Energy Ray, Hellfire) possess massive hitboxes and high priority.</li>
+        <li>Unmatched Assist utility with unblockable Aeon pressure and global reach.</li>
+        <li>EX Mode enables Double Summon, locking down entire arenas with multi-elemental barrage.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Yuna Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Vulnerable to aggressive rushdown characters (Tifa, Squall, Cloud) if caught without space.</li>
+        <li>Summon startup animations leave Yuna stationary until the Aeon materializes.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Valefor: Sonic Wings"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Mid-Range / Sonic Shockwaves"
+    chase={true}
+    description="Valefor flaps its wings to launch wind shockwaves that stagger opponents and push them backward."
+  />
+
+  <MoveCard
+    name="Ifrit: Meteor Strike"
+    type="BRV Ground"
+    cpCost={30}
+    apMaster={240}
+    range="Close-Mid / Fire Slam"
+    blockStagger={true}
+    wallRush="Ground Slam"
+    description="Ifrit leaps into the air and crashes down with an explosive flaming body slam, shattering blocks."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Shiva: Heavenly Strike"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Long / Ice Chunk Drop"
+    wallRush="Ground Slam"
+    description="Shiva manifests above the target and drops a gigantic glacier block straight down on their head."
+  />
+
+  <MoveCard
+    name="Ixion: Aerospark"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={220}
+    range="Long / Homing Lightning"
+    chase={true}
+    description="Ixion discharges spinning lightning discs that track aerial targets with intense homing precision."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Bahamut: Megaflare"
+    type="HP Ground"
+    cpCost={45}
+    apMaster={400}
+    range="Full Arena Tracking"
+    wallRush="Direct Wall Rush"
+    description="Bahamut descends and charges an apocalyptic laser beam that sweeps the battlefield with immense destruction."
+  />
+
+  <MoveCard
+    name="Energy Ray"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={320}
+    range="Long / Beam Matrix"
+    wallRush="Ceiling"
+    description="Concentrates aetheric energy into sweeping beam lines that converge on the target and launch them skyward."
+  />
+
+  <MoveCard
+    name="Hellfire"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={300}
+    range="Mid-Range Blast"
+    wallRush="Ground Slam"
+    description="Ifrit hurls a molten fireball that detonates into a lingering pillar of hellfire upon impact."
+  />
+</BaseLayout>

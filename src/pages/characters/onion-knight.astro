@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Onion Knight - Character Guide" currentPath="onion-knight">
+  <CharacterHeader
+    name="Onion Knight"
+    title="Speedy Polymath"
+    game="Final Fantasy III"
+    alignment="Cosmos"
+    style="High Speed / Physical-Magic Switch"
+    exModeName="Job Change: Ninja & Sage!"
+    exModeEffect="Grants Dual Wield (massive physical attack speed and multi-hits) and Continuous Magic (casts two elemental spells per cast)."
+    exBurstName="Sword and Sorcery"
+    exBurstInput="Rapidly tap Circle for Ninja physical slashes, then tap Square for Sage spell detonations."
+    bestStages={["Pandaemonium", "Kefka's Tower"]}
+    worstStages={["Sky Fortress Bahamut (Omega)"]}
+    assistRole="Fast multi-hit assist with rapid blade flurries and magic interrupts."
+    recommendedAssists={[
+      { name: "Jecht", reason: "Locks opponents in place for confirmed Onion Knight HP conversions." },
+      { name: "Exdeath", reason: "Omni-block setups complement Onion Knight's high-speed pokes." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="NINJA & SAGE JOB DYNAMICS">
+    Onion Knight possesses the highest base movement speed in Dissidia 012. Depending on whether you use physical or magical moves, he automatically switches between <strong>Ninja</strong> (high-speed close melee) and <strong>Sage</strong> (elemental barrage). Almost all of his offensive BRV attacks branch directly into HP links!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Onion Knight Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Can push enemies into corners and sustain unrelenting offensive pressure.</li>
+        <li><em>Thunder</em> spell has tricky angles and high tracking—difficult to block cleanly.</li>
+        <li>Exceptional agility: fastest ground run speed in the game.</li>
+        <li>All primary BRV moves feature direct HP branch links.</li>
+        <li><em>Wind Shear</em> is near-unavoidable when used against wall-rushed opponents.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Onion Knight Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Moves have predictable trajectories and are heavily punishable if guarded.</li>
+        <li><em>Comet</em> spell can occasionally drop targets mid-sequence before the final hit.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Swift Slash (Ninja)"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Close / High Speed"
+    chase={true}
+    branchTo="Extra Slice (HP Link)"
+    description="Blindingly fast dual sword slashes. Links directly into the Extra Slice HP finisher."
+  />
+
+  <MoveCard
+    name="Thunder (Sage)"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={200}
+    range="Mid / Lightning Shock"
+    branchTo="Firaga (HP Link)"
+    description="Fires crackling electric bolts that stun opponents and link into Firaga."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Flurry (Ninja)"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={220}
+    range="Close / Aerial Slashes"
+    wallRush="Ground Slam"
+    branchTo="Multi-Hit (HP Link)"
+    description="Spins in mid-air slashing relentlessly, driving foes downward before an HP detonation."
+  />
+
+  <MoveCard
+    name="Blizzard (Sage)"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Long / Ice Shards"
+    branchTo="Quake (HP Link)"
+    description="Conjures multiple ice spikes that home in on aerial targets and link into Quake."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Wind Shear"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={320}
+    range="Close-Mid / Cyclone"
+    wallRush="Direct Wall Rush"
+    description="Creates a rapid spinning wind vortex around himself that engulfs foes. Unavoidable after wall rush."
+  />
+
+  <MoveCard
+    name="Comet"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={300}
+    range="Long / Celestial Drops"
+    wallRush="Ground Slam"
+    description="Calls down a barrage of astral comets from above that pummel the opponent into the floor."
+  />
+</BaseLayout>

@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Aerith Gainsborough - Assist Guide" currentPath="aerith">
+  <CharacterHeader
+    name="Aerith Gainsborough"
+    title="The Last Cetra"
+    game="Final Fantasy VII"
+    alignment="Assist"
+    style="Dedicated Assist / Support White Mage"
+    exModeName="Equipped with Princess Guard!"
+    exModeEffect="Planet's Protection (passive aura prevents stagger and accelerates party assist recovery)."
+    exBurstName="Great Gospel"
+    exBurstInput="Dedicated Assist character: cannot be selected as standard playable combatant in base game."
+    bestStages={[]}
+    worstStages={[]}
+    assistRole="The absolute undisputed tier-S Assist character in competitive Dissidia 012. Grants invincibility, Bravery regeneration, and unblockable freeze setups."
+    recommendedAssists={[]}
+  />
+
+  <AlertCallout type="strategy" title="DEDICATED ASSIST MECHANICS & UTILITY">
+    Aerith is exclusive to the Assist role. Her abilities solve every offensive and defensive bottleneck in competitive play:
+    <ul style="margin: 0.5rem 0 0 0; padding-left: 1.2rem;">
+      <li><strong>Seal Evil:</strong> Airborne freeze that locks opponents in place for several seconds, guaranteeing any slow HP attack (e.g. Starfall, Ultima, Omnislash).</li>
+      <li><strong>Cure:</strong> Instantly restores a large chunk of player Bravery mid-combo.</li>
+      <li><strong>Planet Protector:</strong> Grants complete temporary invincibility, allowing hyper-aggressive berserk rushdowns.</li>
+      <li><strong>Holy:</strong> Upgraded Starfall-tier tracking light barrage that exerts unbearable mental pressure.</li>
+    </ul>
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Aerith Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Universal synergy with 100% of the playable cast.</li>
+        <li><em>Seal Evil</em> bypasses standard hitstun decay and guarantees HP confirms.</li>
+        <li><em>Planet Protector</em> negates enemy EX Bursts and counter-assists.</li>
+        <li><em>Cure</em> into <em>Seal Evil</em> combo maintains maximum Bravery across extended chains.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Aerith Limitations</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Available strictly as an Assist Character; cannot be controlled directly in single-player battles.</li>
+        <li><em>Holy</em> projectile tracking can be dissipated by persistent wide AoE shields (e.g. Kuja's Ultima).</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Assist Abilities</h2>
+  <MoveCard
+    name="Seal Evil"
+    type="BRV Aerial"
+    cpCost={0}
+    range="Aerial Freeze"
+    description="Fires a beam of Cetra energy that completely paralyzes the airborne opponent in crystal stasis. Leaves them frozen for guaranteed follow-up HP attacks."
+  />
+
+  <MoveCard
+    name="Cure"
+    type="BRV Ground"
+    cpCost={0}
+    range="Player Support"
+    description="Casts holy healing light on the player character, instantly restoring lost Bravery points and stabilizing combo damage."
+  />
+
+  <MoveCard
+    name="Planet Protector"
+    type="HP Ground"
+    cpCost={0}
+    range="Full Party Aura"
+    description="Envelops the player in an impenetrable sacred barrier, granting 100% invulnerability to all incoming Bravery and HP attacks for a short duration."
+  />
+
+  <MoveCard
+    name="Holy"
+    type="HP Aerial"
+    cpCost={0}
+    range="Full Arena Tracking"
+    wallRush="Direct Wall Rush"
+    description="Summons multiple radiant white holy orbs that track the opponent from all directions and detonate in a massive sacred explosion."
+  />
+
+  <AlertCallout type="tip" title="2-BAR ASSIST COMBO ROUTE">
+    With 2 full Assist Bars: trigger <strong>Cure</strong> to restore your Bravery &rarr; immediately call <strong>Seal Evil</strong> to freeze the enemy &rarr; land your character's strongest single-hit HP attack for maximum guaranteed damage!
+  </AlertCallout>
+</BaseLayout>

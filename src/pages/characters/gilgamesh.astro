@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Gilgamesh - Character Guide" currentPath="gilgamesh">
+  <CharacterHeader
+    name="Gilgamesh"
+    title="Sword Collector"
+    game="Final Fantasy V"
+    alignment="New"
+    style="Random Weapon / Heavy Close Range"
+    exModeName="Morphing Time! (8 Arms Mode)"
+    exModeEffect="Eight Swords Style (wields 8 weapons simultaneously, vastly increasing hit count, reach, and damage across all attacks)."
+    exBurstName="Ultimate Illusion"
+    exBurstInput="Stop the rotating weapon wheel on the legendary Excalibur or Zantetsuken for a devastating single-hit execution."
+    bestStages={[]}
+    worstStages={[]}
+    assistRole="RNG-based striker: even when drawing Excalipoor (1 damage), the hitstun and stagger allow teammates to confirm full combo strings."
+    recommendedAssists={[
+      { name: "Cloud", reason: "Wall rush assists allow Gilgamesh to close the distance and set up Death Claw traps." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="EIGHT WEAPONS RNG & DEATH CLAW HITBOX">
+    Gilgamesh randomly pulls 1 of 8 legendary weapons on every attack: <strong>Excalibur</strong> (massive holy damage), <strong>Masamune</strong> (insane reach & crits), <strong>Zantetsuken</strong> (instant Break chance), <strong>Naginata</strong> (polearm sweep), <strong>Battle Axe</strong> (heavy guard break), <strong>Genji Blade</strong> (multi-hit flurries), <strong>Murasame</strong>, and the dreaded <strong>Excalipoor</strong> (1 damage). His <em>Death Claw</em> is exceptionally hard to dodge due to lingering hitboxes!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Gilgamesh Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Tremendous burst potential with high-tier weapon rolls (Excalibur, Masamune).</li>
+        <li>EX Mode (Morphing Time) is one of the strongest transformations in the game, guaranteeing 8-fold strikes.</li>
+        <li><em>Death Claw</em> features an oppressive lingering hitbox that catches mistimed dodges.</li>
+        <li><em>Sword Dance</em> provides extended active frames and punishing dodge-cancel loops.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Gilgamesh Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Weapon rolls are RNG-dependent—rolling Excalipoor deals 1 Bravery damage.</li>
+        <li>Mostly relies on close-range poke moves, making his approaches predictable against zoning mages.</li>
+        <li>Jump cannot be dodge-canceled like Kain's and has poor tracking.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Death Claw"
+    type="BRV Ground"
+    cpCost={30}
+    apMaster={250}
+    range="Close / Lingering Trap"
+    blockStagger={true}
+    wallRush="Forward"
+    description="Strikes forward with a mechanical claw that binds the target. High active frames make it nearly impossible to roll through."
+  />
+
+  <MoveCard
+    name="Slash Flurry (Random Weapon)"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Melee Slash"
+    chase={true}
+    description="Draws a random blade and delivers a series of slashes. Damage and reach depend on the weapon pulled."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Sword Dance"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={220}
+    range="Mid-Range Whirlwind"
+    wallRush="Direct Wall Rush"
+    description="Spins in a rapid multi-blade cyclone. Catches opponents who dodge prematurely."
+  />
+
+  <MoveCard
+    name="Gilgamesh Jump"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Downward Plunge"
+    wallRush="Ground Slam"
+    description="Leaps upward and plunges downward with a spear thrust. Heavy ground wall rush."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Rocket Punch"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={320}
+    range="Long / Projectile Fist"
+    wallRush="Forward"
+    description="Fires rocket-propelled mechanical fists across the arena that home in on the opponent."
+  />
+
+  <MoveCard
+    name="Cross Slash"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={300}
+    range="Close-Mid / Cross Cut"
+    wallRush="Direct Wall Rush"
+    description="Delivers an explosive X-shaped dual-blade slash with massive knockback force."
+  />
+
+  <MoveCard
+    name="Enkidu (Summon Strike)"
+    type="HP Ground"
+    cpCost={45}
+    apMaster={380}
+    range="Mid-Range / Wind Burst"
+    wallRush="Ceiling"
+    description="Calls upon his loyal partner Enkidu to dive-bomb the enemy with wind cyclones."
+  />
+
+  <AlertCallout type="tip" title="OPTIMAL BUILD RECOMMENDATION">
+    Equip an <strong>EX Boost Build</strong> (Center of the World, Pearl Necklace, Tenacity Ring) to stay in 8-Arm Morphing Time for as long as possible—this completely mitigates RNG drawbacks!
+  </AlertCallout>
+</BaseLayout>

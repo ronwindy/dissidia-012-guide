@@ -1,0 +1,131 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Cloud Strife - Character Guide" currentPath="cloud">
+  <CharacterHeader
+    name="Cloud Strife"
+    title="Ex-SOLDIER Buster"
+    game="Final Fantasy VII"
+    alignment="Cosmos"
+    style="Heavy Wall Rush / High Crits"
+    exModeName="Equipped with Ultima Weapon!"
+    exModeEffect="Grants Crush (all physical attacks gain guard crush properties, piercing standard enemy blocks unconditionally)."
+    exBurstName="Omnislash"
+    exBurstInput="Input rapid timed button prompts matching Cloud's 15-hit sword slashes to execute the final devastating downward strike."
+    bestStages={["Pandaemonium", "Kefka's Tower"]}
+    worstStages={["Dream's End", "Kefka's Tower (Omega)", "Sky Fortress Bahamut (Omega)"]}
+    assistRole="Solid wall rush assist: slashes enemies with immense horizontal force, guaranteeing easy wall collision follow-ups."
+    recommendedAssists={[
+      { name: "Firion", reason: "Single-hit interrupt loop: hit once with Cloud, let Firion Fire hit, repeat for massive unscaled damage." },
+      { name: "Kuja", reason: "Allows damage optimization during Kuja's multi-hit assist strings." },
+      { name: "Terra", reason: "Graviga pulls opponents into Cloud's charged Cross-Slash." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="WALL RUSH DOMINANCE & ASSIST COMBO LOOPS">
+    Virtually all of Cloud's Bravery moves inflict heavy <strong>Wall Rush</strong>. Combined with his ability to cancel combos early, Cloud can stagger opponents into walls, summon assists like Firion or Kuja, and loop high-damage Bravery conversions before terminating with <em>Omnislash Ver. 5</em>!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Cloud Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Nearly every attack causes high Wall Rush damage and positional advantage.</li>
+        <li>Ability to interrupt combo strings allows advanced damage optimization with assists.</li>
+        <li>Direct HP branch links on <em>Slash Blow</em> and <em>Climhazzard</em>.</li>
+        <li>EX Mode Ultima Weapon grants passive Guard Crush on all attacks.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Cloud Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Slow swing startup frames make him easy to block outside of EX Mode.</li>
+        <li>Standard HP attacks (Cross-Slash, Braver) have noticeable whiff lag.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Slash Blow"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Close / Heavy Slash"
+    wallRush="Forward Wall Rush"
+    branchTo="Omnislash Ver. 5 (HP Link)"
+    description="Delivers a heavy two-handed greatsword slash that knocks the enemy backward. Links directly into Omnislash Ver. 5."
+  />
+
+  <MoveCard
+    name="Blade Beam"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={200}
+    range="Mid-Long / Wave"
+    chase={true}
+    description="Fires a crescent-shaped shockwave along the ground that splits into secondary waves upon impact."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Climhazzard"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={240}
+    range="Close / Upward Thrust"
+    wallRush="Ceiling"
+    branchTo="Omnislash Ver. 5 (HP Link)"
+    description="Impales the target in mid-air and charges skyward, ramming them into the ceiling before an optional HP finish."
+  />
+
+  <MoveCard
+    name="Sonic Break"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={220}
+    range="Mid-Range Lunge"
+    wallRush="Direct Wall Rush"
+    description="Dashes forward delivering heavy overhead slashes with devastating horizontal wall rush."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Cross-Slash"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={320}
+    range="Close / 3-Hit Kanji Cut"
+    wallRush="Forward"
+    blockStagger={true}
+    description="Carves the Japanese kanji symbol for 'evil' into the target with three heavy blade strikes."
+  />
+
+  <MoveCard
+    name="Meteorain"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={350}
+    range="Long / Stardust Volley"
+    wallRush="Ground Slam"
+    description="Swings the Buster Sword to launch a barrage of stardust meteors across the arena. Highly effective artillery against large targets."
+  />
+
+  <MoveCard
+    name="Braver"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={300}
+    range="Aerial Dive"
+    wallRush="Ground Slam"
+    description="Leaps high into the air and executes a crushing downward split that smashes the foe into the stage floor."
+  />
+</BaseLayout>

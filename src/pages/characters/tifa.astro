@@ -1,0 +1,127 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Tifa Lockhart - Character Guide" currentPath="tifa">
+  <CharacterHeader
+    name="Tifa Lockhart"
+    title="Feint Brawler"
+    game="Final Fantasy VII"
+    alignment="New"
+    style="Rushdown / Feint Specialist"
+    exModeName="Equipped with Premium Heart!"
+    exModeEffect="Grants Slots Master & Power Up (deal significantly higher Bravery damage scaling with current EX Gauge levels)."
+    exBurstName="Final Heaven"
+    exBurstInput="Stop the rotating slot reels on 'Yeah!' to land maximum hit multiplier and detonate the celestial blast."
+    bestStages={["Phantom Train"]}
+    worstStages={["Dream's End", "Orphan's Cradle"]}
+    assistRole="Fast physical striker, but assist attacks lack her signature Feint mechanics, limiting utility compared to top-tier assists."
+    recommendedAssists={[
+      { name: "Cloud", reason: "Wall rush assists allow Tifa to confirm high-damage ground combo setups." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="FEINT SYSTEM & TIMING CANCELS">
+    Tifa is the only character who can execute <strong>Feints</strong>. During the startup of any physical Bravery attack, pressing <strong>R</strong> or a directional input cancels the strike into an evasive illusion slide. If an opponent attacks or blocks during your feint, they will whiff completely, leaving them wide open to a punishing counter!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Tifa Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Overwhelms opponents with lightning-fast rushdown combos and unpredictable feints.</li>
+        <li>Feint maneuvers can bypass enemy guards and avoid incoming projectiles mid-string.</li>
+        <li><em>Meteor Strike</em> provides charged vertical dominance and heavy wall rush conversions.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Tifa Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>High execution requirement: poor Feint timing results in vulnerable whiffs.</li>
+        <li>Subpar aerial game compared to dedicated aerial specialists.</li>
+        <li>EX Burst slot reel timing is among the strictest and most demanding to maximize.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Beat Rush"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Short / Rapid Punches"
+    chase={true}
+    description="Delivers a rapid flurry of straight punches that knocks foes into the air. Features full Feint cancel support."
+  />
+
+  <MoveCard
+    name="Moonsault Kick"
+    type="BRV Ground"
+    cpCost={30}
+    apMaster={220}
+    range="Close / Backflip"
+    wallRush="Ceiling"
+    description="Performs an evasive backflip kick that launches opponents straight toward the ceiling."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Somersault"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Close / Overhead Arc"
+    wallRush="Ground Slam"
+    description="A sweeping overhead bicycle kick that drives aerial enemies directly into the floor."
+  />
+
+  <MoveCard
+    name="Falcon Dive"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={240}
+    range="Dive Kick"
+    chase={true}
+    description="Dives diagonally downward with tremendous kinetic force, crashing through mid-level magic projectiles."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Meteor Strike"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={320}
+    range="Grab & Throw / Chargeable"
+    wallRush="Ground Slam"
+    blockStagger={true}
+    description="Grabs the opponent, spins them rapidly, and hurls them violently into the ground. Can be charged to extend grab range and damage."
+  />
+
+  <MoveCard
+    name="Rolling Blaze"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={300}
+    range="Close-Mid / Flaming Arc"
+    wallRush="Direct Wall Rush"
+    description="Unleashes a sweeping flaming roundhouse kick that ignites the target and launches them across the arena."
+  />
+
+  <MoveCard
+    name="Burning Arrow"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={350}
+    range="Mid-Range Rush"
+    wallRush="Forward"
+    description="Dashes across the battlefield coated in fiery energy, piercing blocks and detonating on impact."
+  />
+</BaseLayout>

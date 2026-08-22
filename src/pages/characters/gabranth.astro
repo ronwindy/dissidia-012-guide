@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Judge Gabranth - Character Guide" currentPath="gabranth">
+  <CharacterHeader
+    name="Judge Gabranth"
+    title="Judge Magister"
+    game="Final Fantasy XII"
+    alignment="Chaos"
+    style="EX Mode Powerhouse / Gauge Charge"
+    exModeName="Equipped with Chaos Blade & Highway Star!"
+    exModeEffect="True Judge Transformation (unleashes god-tier movement speed, super-armor, relentless attack tracking, and extended EX Mode duration)."
+    exBurstName="Mist Vengeance (Black Hole)"
+    exBurstInput="Input successive Quickening button prompts (Circle, Square, Triangle, X) to chain Level 1-3 Mists into Black Hole."
+    bestStages={["Planet's Core", "The Rift", "Ultimecia's Castle", "Dream's End", "Sky Fortress Bahamut", "Orphan's Cradle", "Crystal World"]}
+    worstStages={["Kefka's Tower", "Phantom Train", "Pandaemonium"]}
+    assistRole="Top-tier ground combo assist: locks enemies on the ground for an extensive duration, traveling forward with relentless strikes."
+    recommendedAssists={[
+      { name: "Cloud of Darkness", reason: "Buys precious time and space for Gabranth to charge EX Gauge safely." },
+      { name: "Vaan", reason: "Switch weapon combos synergize with Gabranth's ground lockdown." },
+      { name: "Jecht", reason: "Provides both defensive cover and explosive HP follow-ups." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="EX GAUGE CHARGING & TRUE JUDGE AWAKENING">
+    Gabranth possesses a unique dual gameplay loop. In **Normal Mode**, he has limited offensive tools but can manually charge his EX Gauge at will by holding <strong>R + Square</strong>. Once he enters **EX Mode (True Judge)**, he transforms into the most overwhelmingly powerful beast in Dissidia 012—sporting godlike speed, crushing poise, and the terrifying tracking of <strong>Innocence</strong>!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Gabranth Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Can manually charge his EX Gauge from anywhere in the arena.</li>
+        <li>Becomes virtually unstoppable in EX Mode, trapping enemies with zero escape options.</li>
+        <li><em>Innocence</em> possesses exceptional tracking and startup velocity.</li>
+        <li>Ground BRV assist locks targets in hitstun longer than almost any other assist.</li>
+        <li>Hardest counter to Feral Chaos and boss encounters in Scenario 000.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Gabranth Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Extremely vulnerable and limited in Normal Mode before achieving EX transformation.</li>
+        <li>Heavily reliant on EX Mode—countered by EX-depletion builds or aggressive rushdown.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Normal Mode Abilities</h2>
+  <MoveCard
+    name="Charge (EX Boost)"
+    type="BRV Ground"
+    cpCost={10}
+    range="Self-Charge"
+    description="Holds dual blades together to rapidly channel and fill the EX Gauge. Can be activated in air or on ground."
+  />
+
+  <MoveCard
+    name="Relentless"
+    type="BRV Ground"
+    cpCost={20}
+    apMaster={150}
+    range="Close / Poke"
+    chase={true}
+    description="Basic defensive sword strike designed to push aggressive enemies back while building EX meter."
+  />
+
+  <h2>EX Mode (True Judge) Attacks</h2>
+  <MoveCard
+    name="Innocence"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={350}
+    range="Long / Dual Blade Waves"
+    wallRush="Direct Wall Rush"
+    blockStagger={true}
+    description="Fires high-speed crescent energy shockwaves from dual blades with aggressive tracking and guard stagger."
+  />
+
+  <MoveCard
+    name="Guilt"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={350}
+    range="Close-Mid / Dual Cleave"
+    wallRush="Forward"
+    description="Charges forward delivering a blinding flurry of dual-blade strikes before detonating with heavy HP damage."
+  />
+
+  <MoveCard
+    name="Hatred"
+    type="HP Ground"
+    cpCost={45}
+    apMaster={400}
+    range="Mid / Dark Eruption"
+    wallRush="Ceiling"
+    description="Slams both swords into the ground to erupt a colossal column of vengeful dark energy."
+  />
+
+  <MoveCard
+    name="Circle of Judgment"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={240}
+    range="360 Blade Spin"
+    wallRush="Ground Slam"
+    blockStagger={true}
+    description="Spins dual connected blades in a full 360-degree radius, driving all surrounding enemies into the floor."
+  />
+
+  <AlertCallout type="tip" title="SCENARIO 000 FERAL CHAOS COUNTER">
+    Against Feral Chaos in Scenario 000: take to the air and charge EX non-stop while avoiding Chaos' vertical alignment. Once EX Mode is active, spam <strong>Innocence</strong> from a safe diagonal distance to tear through his 100,000 HP with ease!
+  </AlertCallout>
+</BaseLayout>

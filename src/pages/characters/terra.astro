@@ -1,0 +1,139 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Terra Branford - Character Guide" currentPath="terra">
+  <CharacterHeader
+    name="Terra Branford"
+    title="Esper Maiden"
+    game="Final Fantasy VI"
+    alignment="Cosmos"
+    style="Charge Magic / Zoning Nuker"
+    exModeName="Esper Trance Form!"
+    exModeEffect="Grants Dualcast (all magical spells are cast twice consecutively) and Glide (supreme free-flight aerial maneuverability)."
+    exBurstName="Riot Blade"
+    exBurstInput="Rotate the analog stick continuously to gather arcane energy into a concentrated celestial blade wave."
+    bestStages={[]}
+    worstStages={[]}
+    assistRole="Top-tier assist in the entire game: Graviga creates inescapable spatial lockdown, and Blizzara provides easy wall rush confirms."
+    recommendedAssists={[
+      { name: "Jecht", reason: "Gravity to Jecht assist ensures confirmed HP attacks regardless of stage layout." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="CHARGE MAGIC TIERS & MELTDOWN TECH">
+    Terra's spells can be charged by holding the input button. A fully charged <strong>Level 3 Meltdown</strong> tracks the opponent relentlessly, bounces off stage geometry, and is nearly impossible to evade without specialized counters. In EX Mode, her <em>Dualcast</em> overwhelms any defensive guard in the game!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Terra Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li><em>Fire</em> functions like a long-range poke with instant startup and automatic HP branch.</li>
+        <li>Excels at extreme long range—dominates open arenas with charged projectile barrages.</li>
+        <li>EX Mode Trance combines Dualcast with unlimited aerial Glide for unmatched zoning safety.</li>
+        <li><em>Meltdown</em> has extreme active duration and spatial pressure.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Terra Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Struggles under relentless close-range melee rushdown if caught without space.</li>
+        <li><em>Blizzara</em> and <em>Thundara</em> have predictable trajectories outside of Trance.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Fire (Chargeable)"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Mid-Long / Fast Fireball"
+    branchTo="Firaga (HP Link)"
+    description="Fires a high-speed projectile with near-instantaneous startup. Seamlessly branches into Firaga."
+  />
+
+  <MoveCard
+    name="Graviga"
+    type="BRV Ground"
+    cpCost={30}
+    apMaster={240}
+    range="Long / Gravity Well"
+    blockStagger={true}
+    description="Conjures a gravitational black hole at the target's position that sucks them in and locks them in place."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Blizzard Combo"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Long / Ice Barrage"
+    wallRush="Ground Slam"
+    description="Rains down a cascade of jagged ice shards from above, forcing the opponent into the floor."
+  />
+
+  <MoveCard
+    name="Thundara"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={220}
+    range="Mid-Long / Electric Pillar"
+    chase={true}
+    description="Strikes with concentrated thunderbolts that erupt from below the opponent."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Meltdown (Level 1-3)"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={350}
+    range="Full Arena Bouncing Orb"
+    wallRush="Direct Wall Rush"
+    description="Launches a colossal molten energy sphere that tracks targets and bounces off stage walls. Charge to increase speed and power."
+  />
+
+  <MoveCard
+    name="Tornado"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={300}
+    range="Close-Mid / Cyclone"
+    wallRush="Ceiling"
+    description="Summons an enormous localized twister around Terra, deflecting incoming projectiles and launching foes upward."
+  />
+
+  <MoveCard
+    name="Flood"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={320}
+    range="Long / Geyser Eruption"
+    wallRush="Ground Slam"
+    description="Erupts pressurized water geysers directly at the opponent's coordinates anywhere in the air."
+  />
+
+  <MoveCard
+    name="Ultima"
+    type="HP Ground"
+    cpCost={45}
+    apMaster={400}
+    range="Wide Arena Blast"
+    description="Channels pure magical destruction, culminating in an arena-wide cataclysmic energy explosion."
+  />
+
+  <AlertCallout type="tip" title="MELTDOWN & HOLY COMBO LINK GLITCH">
+    Launch a Level 2 or Level 3 <em>Meltdown</em> and immediately follow with <em>Holy Combo</em>. If Meltdown connects, Holy Combo will register as a hit regardless of distance, granting an unblockable Flare/Ultima followup!
+  </AlertCallout>
+</BaseLayout>

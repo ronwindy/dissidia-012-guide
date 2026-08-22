@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Ultimecia - Character Guide" currentPath="ultimecia">
+  <CharacterHeader
+    name="Ultimecia"
+    title="Sorceress of Time"
+    game="Final Fantasy VIII"
+    alignment="Chaos"
+    style="Arrow-Blade Stream / Time Compression"
+    exModeName="Time Junction (Griever Fuse)!"
+    exModeEffect="Time Freeze (activates Time Compression, completely freezing time and paralyzing the opponent in place for several seconds)."
+    exBurstName="Time Compression & Apocalypse"
+    exBurstInput="Mash Circle rapidly to accelerate time compression and unleash the ultimate cosmic Apocalypse spell."
+    bestStages={[]}
+    worstStages={["Phantom Train"]}
+    assistRole="Provides continuous projectile cover fire; outclassed by top-tier assists."
+    recommendedAssists={[
+      { name: "Kuja", reason: "Aerial assist rings set up confirmed Shockwave Pulsar detonations." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="CONTINUOUS PROJECTILE STREAMS & KNIGHT'S LANCE GUARD">
+    Ultimecia commands infinite sustained projectile streams (<strong>Knight's Sword</strong>, <strong>Knight's Axe</strong>, <strong>Knight's Arrow</strong>). By timing <strong>Knight's Lance</strong>, she can block incoming enemy strikes (even HP attacks!), stagger the foe, and punish them with a charged <em>Shockwave Pulsar</em>!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Ultimecia Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Rarely leaves any attack openings—sustains continuous streams of magic weapons.</li>
+        <li>Extremely difficult for opponents to approach without suffering heavy chip damage.</li>
+        <li><em>Knight's Lance</em> can guard virtually anything, including enemy HP attacks.</li>
+        <li>EX Mode Time Freeze completely paralyzes the target for guaranteed Bravery/HP execution.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Ultimecia Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>HP attacks require assist setups or guard staggers to land reliably.</li>
+        <li>Narrow hallway stages with tight walls limit projectile trajectory freedom.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Knight's Sword"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Mid-Long / Rapid Magic Blades"
+    chase={true}
+    description="Fires continuous streams of conjured magic swords with sustained rate-of-fire."
+  />
+
+  <MoveCard
+    name="Knight's Lance"
+    type="BRV Ground"
+    cpCost={30}
+    apMaster={250}
+    range="Counter Guard"
+    blockStagger={true}
+    description="Summons rotating lances that form an impenetrable barrier, blocking incoming physical and HP attacks."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Knight's Axe"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Mid-Long / Heavy Magic Axes"
+    wallRush="Ground Slam"
+    description="Hurls spinning energy axes in arcing trajectories that knock foes into the floor."
+  />
+
+  <MoveCard
+    name="Knight's Arrow"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Long / Homing Arrows"
+    wallRush="Ceiling"
+    description="Launches heat-seeking light arrows that swarm the target and launch them toward the ceiling."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Shockwave Pulsar"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={350}
+    range="Mid-Range / Energy Singularity"
+    wallRush="Direct Wall Rush"
+    blockStagger={true}
+    description="Charges a pulsing singularity that expands rapidly, drawing in opponents and detonating with immense power."
+  />
+
+  <MoveCard
+    name="Great Attractor"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={320}
+    range="Long / Cosmic Sphere"
+    wallRush="Ground Slam"
+    description="Gathers celestial starlight into a colossal energy orb and hurls it across the stage."
+  />
+
+  <MoveCard
+    name="Hell's Judgment"
+    type="HP Ground"
+    cpCost={45}
+    apMaster={400}
+    range="360 Time Burst"
+    description="Distorts the fabric of time around Ultimecia, reducing all surrounding space to ash."
+  />
+</BaseLayout>

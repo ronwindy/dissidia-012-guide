@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Shantotto - Character Guide" currentPath="shantotto">
+  <CharacterHeader
+    name="Shantotto"
+    title="The Rhyming Sorceress"
+    game="Final Fantasy XI"
+    alignment="Cosmos"
+    style="BRV Tier Scaling / Mana Sniping"
+    exModeName="Manafont Activated!"
+    exModeEffect="Grants Manafont (executing HP attacks does not deplete Shantotto's current Bravery pool, allowing continuous lethal bombardment)."
+    exBurstName="Play Rough (Ancient Magic)"
+    exBurstInput="Input sequential elemental button presses matching the Ancient Magic runes to trigger Flood, Freeze, and Flare."
+    bestStages={[]}
+    worstStages={[]}
+    assistRole="Provides tier-scaled elemental assists; Bind and Stun can assist with setups for masochistic high-damage players."
+    recommendedAssists={[]}
+  />
+
+  <AlertCallout type="strategy" title="BRAVERY TIER SCALING SYSTEM">
+    Shantotto's magic automatically upgrades based on her current Bravery value:
+    <ul style="margin: 0.5rem 0 0 0; padding-left: 1.2rem;">
+      <li><strong>Tier 1 (&lt; 2,000 BRV):</strong> Base spells (Fire, Stone, Water, Aero, Blizzard, Thunder) — modest speed and single hits.</li>
+      <li><strong>Tier 2 (2,000–3,999 BRV):</strong> Second-tier spells (Fira, Stonera, Watera, Aerora, Blizzara, Thundara) — multi-hit tracking bursts.</li>
+      <li><strong>Tier 3 (&ge; 4,000 BRV):</strong> Ancient spells (Firaga, Stonega, Waterga, Aeroga, Blizzaga, Thundaga) — massive unblockable area-of-effect explosions that even Exdeath cannot guard!</li>
+    </ul>
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Shantotto Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Tier 3 HP spells are virtually unblockable, piercing high blocks with colossal hitboxes.</li>
+        <li>EX Mode Manafont allows her to spam lethal HP attacks without losing stored Bravery.</li>
+        <li><em>Stun</em> provides rapid projectile interruptions.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Shantotto Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Tier 1 HP spells have noticeable startup and are vulnerable to punishment.</li>
+        <li>Has limited options for rapidly building Bravery independently without high-tier setup.</li>
+        <li><em>Bio</em> projectile can be dashed through by aggressive opponents.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Stun"
+    type="BRV Ground"
+    cpCost={20}
+    apMaster={150}
+    range="Mid-Range / Lightning Poke"
+    description="Fires a crackling lightning jolt that stuns the target briefly, setting up elemental spells."
+  />
+
+  <MoveCard
+    name="A Couple of Attacks"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Close / Staff Flurry"
+    chase={true}
+    description="Physical staff swings that knock the opponent backward and trigger Chase."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Bind"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Long / Earth Roots"
+    description="Conjures earthen roots that bind the aerial target in place, locking their movement."
+  />
+
+  <MoveCard
+    name="Bio"
+    type="BRV Aerial"
+    cpCost={20}
+    apMaster={160}
+    range="Long / Poison Mist"
+    description="Fires slow poison bubbles that track the opponent, dealing gradual Bravery damage over time."
+  />
+
+  <h2>HP Attacks (Tier Scaling Spells)</h2>
+  <MoveCard
+    name="Fire / Fira / Firaga"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={350}
+    range="Mid-Long / Flaming Eruptions"
+    wallRush="Forward"
+    blockStagger={true}
+    description="Casts fiery explosions that scale in size and hit count based on Shantotto's current Bravery tier."
+  />
+
+  <MoveCard
+    name="Blizzard / Blizzara / Blizzaga"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={350}
+    range="Long / Ice Storm"
+    wallRush="Ground Slam"
+    blockStagger={true}
+    description="Summons frozen icicles from the ceiling that crash down. Tier 3 is completely unguardable."
+  />
+
+  <MoveCard
+    name="Thunder / Thundara / Thundaga"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={350}
+    range="Long / Lightning Strikes"
+    wallRush="Ceiling"
+    blockStagger={true}
+    description="Calls down celestial lightning pillars directly on the target's position with heavy ceiling wall rush."
+  />
+</BaseLayout>

@@ -1,0 +1,139 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Garland - Character Guide" currentPath="garland">
+  <CharacterHeader
+    name="Garland"
+    title="Armor of the Loop"
+    game="Final Fantasy I"
+    alignment="Chaos"
+    style="Heavy Blade / Super Armor"
+    exModeName="Equipped with Claymore & Giant Form!"
+    exModeEffect="Unsullied Poise (grants permanent hyper-armor on all attack startup frames; attacks cannot be interrupted by standard strikes)."
+    exBurstName="Soul of Chaos"
+    exBurstInput="Hold Circle to charge the massive sword smash to maximum power before unleashing the planetary fracture."
+    bestStages={[]}
+    worstStages={[]}
+    assistRole="Immediate downward assist: drives enemies down with blinding velocity, opening up combo routes that other assists cannot duplicate."
+    recommendedAssists={[
+      { name: "Gabranth", reason: "Colossal damage synergy: call Gabranth after grounding an enemy with Bardiche for looped multi-hit strikes." },
+      { name: "Kuja", reason: "Aerial ring setups maintain pressure during Garland's slow recovery frames." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="SUPER ARMOR POISE & BARDICHE LOOPS">
+    Garland is an unstoppable charging juggernaut on the ground. His moves feature innate <strong>Poise</strong>, allowing him to absorb enemy attacks while swinging. <strong>Bardiche</strong> is his fastest and most dangerous ground strike—when looped against wall-rushed foes, it inflicts immense Bravery damage!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Garland Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Virtually unstoppable on the ground—commands forward-charging unblockable BRV attacks.</li>
+        <li>Large spherical hitboxes control wide swaths of the arena.</li>
+        <li><em>Bardiche</em> deals heavy damage with enough startup speed to loop successively.</li>
+        <li><em>Thundaga</em> and <em>Cyclone</em> create inescapable defensive barriers.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Garland Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Aerial moves are slow and relatively easy to guard for experienced players.</li>
+        <li>Lacks fast HP mind games; most HP attacks require setup or wall rushes to connect.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Bardiche"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Close / Rapid Axe Chop"
+    wallRush="Ground Slam"
+    description="Garland's fastest ground attack. Delivers a crushing downward cleave that slams foes into the floor."
+  />
+
+  <MoveCard
+    name="Round Edge"
+    type="BRV Ground"
+    cpCost={30}
+    apMaster={220}
+    range="Melee Arc / 360 Spin"
+    blockStagger={true}
+    wallRush="Forward Wall Rush"
+    description="Spins his segmented sword in a wide circular perimeter, staggering guards and knocking foes away."
+  />
+
+  <MoveCard
+    name="Chain Cast"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={200}
+    range="Mid-Range / Segmented Blade"
+    chase={true}
+    description="Extends the greatsword into a whip-like chain to pull distant foes into melee range."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Highfall"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={240}
+    range="Aerial Downward Cleave"
+    wallRush="Ground Slam"
+    blockStagger={true}
+    description="Plunges from above with immense kinetic force, driving targets through shields into the arena floor."
+  />
+
+  <MoveCard
+    name="Battleaxe"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Mid-Range Lunge"
+    wallRush="Forward"
+    description="Transforms the blade into a heavy battleaxe and lunges forward with high knockback."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Earthquake"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={320}
+    range="Mid-Range / Ground Shatter"
+    wallRush="Direct Wall Rush"
+    description="Slams the earth to erupt jagged rock spires along the floor in a straight path."
+  />
+
+  <MoveCard
+    name="Cyclone"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={350}
+    range="Close-Mid / Flaming Vortex"
+    blockStagger={true}
+    description="Spins the greatsword overhead to create a raging fire cyclone that draws in opponents and incinerates them."
+  />
+
+  <MoveCard
+    name="Tsunami"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={320}
+    range="Long / Water Cascade"
+    wallRush="Ground Slam"
+    description="Summons cascading tidal waves that crash down from the sky, drowning opponents."
+  />
+</BaseLayout>

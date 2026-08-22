@@ -1,0 +1,140 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Golbez - Character Guide" currentPath="golbez">
+  <CharacterHeader
+    name="Golbez"
+    title="Dark Shadow Mage"
+    game="Final Fantasy IV"
+    alignment="Chaos"
+    style="Hybrid Melee-Magic / Spatial Burst"
+    exModeName="Equipped with Shadow Dragon!"
+    exModeEffect="Shadow Dragon Support (the Shadow Dragon fires simultaneous dark laser flurries with every melee and magic attack)."
+    exBurstName="Cosmic Flare / Twin Moon"
+    exBurstInput="Memorize and reproduce the glowing rune sequence (Square, Triangle, Circle, X) to summon the twin moon apocalypse."
+    bestStages={["Pandaemonium", "Kefka's Tower", "Phantom Train", "Edge of Madness"]}
+    worstStages={["Dream's End", "Sky Fortress Bahamut (Omega)"]}
+    assistRole="Provides vertical launch assists and heavy barrier protection."
+    recommendedAssists={[
+      { name: "Jecht", reason: "Opens up countless stylish combo routes with Nightglow and Genesis Rock." },
+      { name: "Yuna", reason: "Summon support allows seamless linking between Sector Ray and HP finishers." },
+      { name: "Cloud of Darkness", reason: "Aerial lockdown extends Golbez's float beam combos." },
+      { name: "Aerith", reason: "Seal Evil provides guaranteed Black Fang or Genesis Rock confirms." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="HYBRID DUAL-STRIKES & GENESIS ROCK VERTICAL HITBOX">
+    Golbez commands hybrid attacks that strike simultaneously with physical dark energy and magical beams. <strong>Genesis Rock</strong> boasts near-infinite vertical tracking—if an enemy ascends to the stage ceiling, Genesis Rock will snipe them from below! On the ground, <strong>Nightglow</strong> obliterates any close-range approach!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Golbez Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Deflects all close-range melee attackers on the ground with <em>Nightglow</em>.</li>
+        <li><em>Genesis Rock</em> possesses near-infinite vertical tracking hitboxes.</li>
+        <li>Can attack enemies through solid walls with greater ease than almost any other character.</li>
+        <li>Teleports when executing jumps—dodging with <em>Jump Boost</em> is an elite defensive asset.</li>
+        <li>Subtle block animation conceals recovery frames exceptionally well.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Golbez Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Vulnerable when forced into high-altitude air battles; aerial moves have punishable recovery frames.</li>
+        <li>Requires strict spacing discipline—lacks mid-range gap closers against rapid poking mages.</li>
+        <li><em>Black Fang</em> has heavy recovery lag if canceled prematurely.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Glare Hand"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Close / Energy Grasp"
+    chase={true}
+    description="Extends a dark energy hand that grasps the target and detonates with dual physical-magic damage."
+  />
+
+  <MoveCard
+    name="Rise Wave"
+    type="BRV Ground"
+    cpCost={30}
+    apMaster={220}
+    range="Mid-Range / Energy Pillars"
+    wallRush="Ceiling"
+    description="Erupts pillars of dark matter beneath the foe, launching them skyward."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Float System"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Mid / Orbiting Lasers"
+    description="Deploys orbiting energy bits that fire tracking lasers at the target while Golbez maneuvers freely."
+  />
+
+  <MoveCard
+    name="Attack System"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={240}
+    range="Close-Mid / Laser Barrage"
+    wallRush="Ground Slam"
+    description="Commands shadow bits to swarm the opponent and blast them downward into the stage floor."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Nightglow"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={350}
+    range="360 Ground Dome"
+    blockStagger={true}
+    wallRush="Direct Wall Rush"
+    description="Unleashes an expanding sphere of dark starlight around Golbez. Obliterates melee attackers and shatters blocks."
+  />
+
+  <MoveCard
+    name="Genesis Rock"
+    type="HP Aerial"
+    cpCost={45}
+    apMaster={400}
+    range="Infinite Vertical Tracking"
+    wallRush="Ground Slam"
+    description="Summons orbiting celestial meteoroids that shield Golbez before raining down on the target from any vertical distance."
+  />
+
+  <MoveCard
+    name="Sector Ray"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={300}
+    range="Mid-Long / Laser Cone"
+    wallRush="Forward"
+    description="Fires sweeping radial laser beams across the arena floor, trapping jumping opponents in continuous hitstun."
+  />
+
+  <MoveCard
+    name="Black Fang"
+    type="HP Ground"
+    cpCost={45}
+    apMaster={380}
+    range="Full Arena Countdown"
+    description="Inflicts a fatal dark curse that detonates after a timed countdown. Must be committed to once cast."
+  />
+</BaseLayout>

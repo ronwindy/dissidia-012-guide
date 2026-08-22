@@ -1,0 +1,131 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Zidane Tribal - Character Guide" currentPath="zidane">
+  <CharacterHeader
+    name="Zidane Tribal"
+    title="Aerial Acrobat"
+    game="Final Fantasy IX"
+    alignment="Cosmos"
+    style="Aerial Mobility / Dodge Attacks"
+    exModeName="Trance Form (Pink Fur)!"
+    exModeEffect="Grants Free Air (unlimited aerial jumps and mid-air dodge cancels, allowing indefinite air superiority)."
+    exBurstName="Grand Lethal"
+    exBurstInput="Alternate pressing Left and Right on the D-Pad rapidly to unleash a storm of dual-blade light beams."
+    bestStages={[]}
+    worstStages={[]}
+    assistRole="Diagonally upward wall rush assist with blistering poke speed; his Free Energy HP assist lands near-instantly."
+    recommendedAssists={[
+      { name: "Sephiroth", reason: "Enables double BRV-to-HP link combos: Meo Twister &rarr; Sephiroth assist &rarr; Meo Twister." },
+      { name: "Yuna", reason: "Summon hits maintain hitstun across Zidane's multi-jump loops." },
+      { name: "Kuja", reason: "Allows damage optimization during Kuja's aerial assists." },
+      { name: "Firion", reason: "Ground lockdown pairs with Zidane's aerial conversions." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="AIR SUPREMACY & DUAL HP BRANCH LINKS">
+    Zidane possesses the highest aerial agility in Dissidia 012. Moves like <strong>Tempest &rarr; Meo Twister</strong> and <strong>Swift Attack &rarr; Tidal Flame</strong> allow seamless conversions into HP damage. In EX Mode, <em>Free Air</em> grants infinite air jumps, letting Zidane dance around any attack!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Zidane Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Strikes with blinding speed—can nick opponents out of startup animations easily.</li>
+        <li><em>Scoop Art</em> is a highly effective projectile poke that disrupts enemy casting.</li>
+        <li>EX Mode Free Air provides unrivaled aerial evasion and maneuverability.</li>
+        <li>HP attacks (Free Energy) have lightning-fast execution and almost zero startup delay.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Zidane Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Arguably one of the weakest ground fighters—he must fight in the air to remain effective.</li>
+        <li><em>Solution 9</em> has heavy startup and is easily punished by experienced players.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Scoop Art"
+    type="BRV Ground"
+    cpCost={20}
+    apMaster={150}
+    range="Mid-Range / Wind Blade"
+    chase={true}
+    description="Fires a crescent wind blade along the floor. Excellent poke for interrupting enemy approaches."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Tempest"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={180}
+    range="Close / Multi-Dagger Slash"
+    wallRush="Forward"
+    branchTo="Meo Twister (HP Link)"
+    description="Rapid dual-dagger combo in mid-air that knocks the foe back and branches into Meo Twister."
+  />
+
+  <MoveCard
+    name="Swift Attack"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Close-Mid / Lunge"
+    wallRush="Ceiling"
+    branchTo="Tidal Flame (HP Link)"
+    description="Dashes toward the target delivering rapid upward slashes. Branches into Tidal Flame."
+  />
+
+  <MoveCard
+    name="Vortex"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={220}
+    range="Close / Cyclone"
+    wallRush="Ground Slam"
+    description="Spins like a top in mid-air, drawing the enemy in and driving them directly into the ground."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Free Energy"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={320}
+    range="Close-Mid / Kinetic Burst"
+    wallRush="Direct Wall Rush"
+    description="Warps close to the opponent and detonates a blinding burst of kinetic energy with near-zero startup frames."
+  />
+
+  <MoveCard
+    name="Grand Lethal"
+    type="HP Aerial"
+    cpCost={45}
+    apMaster={380}
+    range="Long / Radiant Bombardment"
+    wallRush="Ground Slam"
+    description="Channels pure aether into a radiant barrage of energy beams that rain down on the target."
+  />
+
+  <MoveCard
+    name="Solution 9"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={300}
+    range="Mid-Range / Light Pillars"
+    wallRush="Ceiling"
+    description="Summons vertical light pillars around Zidane that erupt skyward, launching grounded foes."
+  />
+</BaseLayout>

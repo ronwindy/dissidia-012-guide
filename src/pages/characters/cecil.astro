@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Cecil Harvey - Character Guide" currentPath="cecil">
+  <CharacterHeader
+    name="Cecil Harvey"
+    title="Split Soul of the Moon"
+    game="Final Fantasy IV"
+    alignment="Cosmos"
+    style="Dark Knight / Paladin Switcher"
+    exModeName="Class Change: Master of Light and Darkness!"
+    exModeEffect="Inner Struggle (grants instant form-switching, enhanced mobility, and greatly augmented attack power for both forms)."
+    exBurstName="Dual Affinity"
+    exBurstInput="Alternate pressing Square and Triangle rapidly to balance the scales of dark flame and sacred light."
+    bestStages={[]}
+    worstStages={[]}
+    assistRole="Solid, well-rounded assist: fast BRV catches that lock enemies and allow reliable player combo follow-ups."
+    recommendedAssists={[
+      { name: "Zidane", reason: "Wall rush synergy after Paladin Force." },
+      { name: "Exdeath", reason: "Omni-block setups complement Cecil's mid-range dashes." },
+      { name: "Vaan", reason: "Fast assist chase combos." },
+      { name: "Warrior of Light", reason: "Punishes recoveries after Cecil's aerial conversions." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="SEARCHLIGHT LINK GLITCH & FORM SHIFTING">
+    Cecil shifts between <strong>Dark Knight</strong> (ground combat, gravitational pulls, dark waves) and <strong>Paladin</strong> (aerial dominance, high tracking, built-in dashes). After landing an aerial <strong>Searchlight</strong>, Cecil can immediately execute <em>Paladin Force</em> to close in and guarantee an unblockable HP hit regardless of distance!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Cecil Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Paladin physical strikes possess built-in forward dashes—outstanding counter-attack capabilities.</li>
+        <li>Dark Knight gravitates enemies toward him, pulling evasive mages into melee range.</li>
+        <li><em>Searchlight &rarr; Paladin Force</em> link provides guaranteed long-range HP confirms.</li>
+        <li><em>Shadow Bringer</em> startup is lightning-fast on the ground.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Cecil Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Dark Knight form is noticeably less versatile than Paladin form in competitive play.</li>
+        <li>Paladin ground moves are limited, forcing players into aerial engagements.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks (Dark Knight)</h2>
+  <MoveCard
+    name="Dark Cannon"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Mid-Long / Dark Orbs"
+    description="Fires dark gravity orbs that curve around obstacles and drag the opponent toward Cecil."
+  />
+
+  <MoveCard
+    name="Soul Eater"
+    type="BRV Ground"
+    cpCost={30}
+    apMaster={220}
+    range="Close / Heavy Blade"
+    wallRush="Forward"
+    blockStagger={true}
+    description="Slams the dark sword down with crushing force, shattering enemy guards."
+  />
+
+  <h2>Aerial Bravery Attacks (Paladin)</h2>
+  <MoveCard
+    name="Searchlight"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Long / Pillar of Light"
+    description="Summons vertical light columns directly beneath the opponent that trap them in hitstun. Links into Paladin Force."
+  />
+
+  <MoveCard
+    name="Radiant Wings"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={240}
+    range="Mid-Range Lunge"
+    wallRush="Ceiling"
+    chase={true}
+    description="Performs an aerial forward dash with holy wings, striking the opponent with multi-hit light slashes."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Paladin Force (Paladin)"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={350}
+    range="Long-Range Homing Dash"
+    wallRush="Direct Wall Rush"
+    description="Surrounds Cecil with holy light and rushes the target from any distance, delivering a rapid barrage of light slashes."
+  />
+
+  <MoveCard
+    name="Shadow Bringer (Dark Knight)"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={320}
+    range="Close-Mid / Dark Eruption"
+    wallRush="Ground Slam"
+    description="Unleashes an instantaneous dark shockwave along the floor with minimal startup frames."
+  />
+
+  <MoveCard
+    name="Dark Flame (Dark Knight)"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={300}
+    range="Long / Ground Wave"
+    wallRush="Forward"
+    description="Fires a crawling dark fire wave along the arena floor that detonates on contact."
+  />
+</BaseLayout>

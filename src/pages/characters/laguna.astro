@@ -1,0 +1,142 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Laguna Loire - Character Guide" currentPath="laguna">
+  <CharacterHeader
+    name="Laguna Loire"
+    title="The Tactless Marksman"
+    game="Final Fantasy VIII"
+    alignment="New"
+    style="Heavy Gunner / Long-Range Zoning"
+    exModeName="Equipped with Machine Gun & Ragnarok Blade!"
+    exModeEffect="Grants Tactical Support (continuous automated cover fire increases pressure and enables sustained projectile storms)."
+    exBurstName="Ultimate Ragnarok Blade"
+    exBurstInput="Mash the designated attack button rapidly to charge the Ragnarok Satellite Laser cannon for maximum blast radius."
+    bestStages={["Orphan's Cradle", "Dream's End"]}
+    worstStages={["Pandaemonium", "Pandaemonium (Omega)"]}
+    assistRole="Lockdown specialist: ground BRV machine gun pins opponents in place for long durations, setting up easy high-damage conversions."
+    recommendedAssists={[
+      { name: "Jecht", reason: "Reliable crutch for confirming slow Laguna HP attacks during assist hitstun." },
+      { name: "Terra", reason: "Graviga vortex keeps targets grouped inside Laguna's missile barrages." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="LONG-RANGE FIREARM ARSENAL & PUMMEL TECH">
+    Laguna dominates the neutral game by commanding distinct firearms (Machine Gun, Shotgun, Homing Bazooka, Sniper Rifle, Satellite Laser). His melee move <strong>Pummel</strong> is as fast as Tidus' <em>Hop Step</em> with even greater reach—keep it equipped at all times to interrupt oncoming rushdown attacks!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Laguna Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li><em>Homing Bazooka</em> provides relentless zoning, tracking, and spatial pressure.</li>
+        <li><em>Ragnarok Blade</em> and <em>Satellite Laser</em> penetrate solid stage geometry and walls.</li>
+        <li><em>Pummel</em> has rapid startup and tremendous range to fend off close-range aggressors.</li>
+        <li>EX Mode dramatically accelerates projectile rate-of-fire, overwhelming enemy dodges.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Laguna Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Paper tiger vulnerability: many standard bullet streams can be air-dashed through.</li>
+        <li>Vertical elevation differences disrupt <em>Shotgun</em> accuracy, making it practical only for wall rush setups.</li>
+        <li>Stages with dense interior walls cause missiles to detonate prematurely and allow foes to close the gap quickly.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Machine Gun"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Mid-Long / Rapid Fire"
+    chase={true}
+    description="Fires a high-velocity stream of bullets while maintaining movement. Easily cancels into jump or dodge."
+  />
+
+  <MoveCard
+    name="Shotgun"
+    type="BRV Ground"
+    cpCost={30}
+    apMaster={220}
+    range="Close-Mid / Spread"
+    wallRush="Forward Wall Rush"
+    blockStagger={true}
+    description="Fires a heavy buckshot blast with high knockback. Best utilized when pinning foes against walls."
+  />
+
+  <MoveCard
+    name="Pummel"
+    type="BRV Ground"
+    cpCost={30}
+    apMaster={250}
+    range="Quick Melee Strike"
+    chase={true}
+    description="Rapid physical strike with surprising forward lunging range. Essential defensive tool to punish dash approaches."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Homing Bazooka"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={260}
+    range="Long / Multi-Target Tracking"
+    wallRush="Direct Wall Rush"
+    description="Launches heat-seeking rockets that track opponents across the stage and detonate in a fiery burst."
+  />
+
+  <MoveCard
+    name="Sniper Rifle"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Long / Piercing"
+    description="Fires high-caliber piercing rounds with near-instant bullet velocity across the arena."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Satellite Laser"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={320}
+    range="Long / Global Target"
+    wallRush="Ground Slam"
+    description="Calls down orbital laser strikes from the Ragnarok starship. Ignores stage walls and tracks target position."
+  />
+
+  <MoveCard
+    name="Split Laser"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={300}
+    range="Mid-Long / Laser Array"
+    wallRush="Direct Wall Rush"
+    description="Emits splitting laser beams that converge on the opponent's coordinates, trapping them in an explosive energy lattice."
+  />
+
+  <MoveCard
+    name="Ragnarok Blade"
+    type="HP Ground"
+    cpCost={45}
+    apMaster={380}
+    range="Mid-Range Wave"
+    wallRush="Forward"
+    description="Unleashes a soaring energy wave that slices through obstacles and inflicts heavy wall rush damage."
+  />
+
+  <AlertCallout type="tip" title="TACTICAL TIP: ZONING DISCIPLINE">
+    Do not rely exclusively on bullet streams against characters equipped with <em>Omni Air Dash</em>. Alternate between <em>Homing Bazooka</em> tracking delay and rapid <em>Pummel</em> checks to bait and punish aggressive aerial dashes!
+  </AlertCallout>
+</BaseLayout>

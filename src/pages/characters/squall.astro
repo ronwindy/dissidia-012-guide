@@ -1,0 +1,131 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Squall Leonhart - Character Guide" currentPath="squall">
+  <CharacterHeader
+    name="Squall Leonhart"
+    title="Gunblade Duelist"
+    game="Final Fantasy VIII"
+    alignment="Cosmos"
+    style="Multi-Hit Burst / Fast Rushdown"
+    exModeName="Equipped with Lion Heart!"
+    exModeEffect="Lion's Pride (greatly extends the reach, hitbox width, and multi-hit critical damage of all gunblade attacks with light auras)."
+    exBurstName="Renzokuken & Lion Heart"
+    exBurstInput="Press R button precisely when each gunblade slash impacts the enemy to trigger explosive cartridge detonations."
+    bestStages={[]}
+    worstStages={[]}
+    assistRole="Provides fast multi-hit assists; Heel Crush can trigger guard stagger to open up defensive opponents."
+    recommendedAssists={[
+      { name: "Terra", reason: "Graviga projectile traps pull opponents into Squall's Beat Fang flurries." },
+      { name: "Jecht", reason: "Jecht assist allows Squall to land Thunder Barret or Blasting Zone during launch trajectories." },
+      { name: "Aerith", reason: "Holy pressure forces opponents to dodge, allowing Squall's Beat Fang to catch their recovery frames." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="RAPID TRIGGER FLURRIES & BEAT FANG PRIORITY">
+    Squall commands some of the fastest startup frames in the entire roster. <strong>Beat Fang</strong> hits with blistering poke speed, while <strong>Thunder Barret</strong> on the ground covers mid-range and links directly into HP attacks. Use <em>Heel Crush</em> to stagger blocking opponents!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Squall Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li><em>Beat Fang</em> is lightning-fast, acting as one of the best melee pokes in the game.</li>
+        <li><em>Heel Crush</em> staggers enemy guards, opening up defensive opponents.</li>
+        <li><em>Thunder Barret</em> covers ground range gaps and links into both BRV and HP moves.</li>
+        <li><em>Rough Divide</em> has stage-wide reach and rapid startup, excellent for punishing boss recoveries.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Squall Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li><em>Aerial Circle</em> and <em>Fated Circle</em> have situational utility and slow recovery.</li>
+        <li>Predictable attack patterns if reliant exclusively on Beat Fang.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Solid Barrel"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Close / Multi-Slash"
+    chase={true}
+    wallRush="Forward"
+    description="Delivers a rapid sequence of gunblade slashes followed by an explosive trigger blast."
+  />
+
+  <MoveCard
+    name="Thunder Barret"
+    type="BRV Ground"
+    cpCost={30}
+    apMaster={240}
+    range="Mid-Range / Electric Burst"
+    branchTo="Rough Divide (HP Link)"
+    description="Fires a burst of electricity from the gunblade tip that stuns the target and branches into Rough Divide."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Beat Fang"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Close / Rapid Poke"
+    chase={true}
+    wallRush="Forward"
+    description="Squall's signature aerial assault. Blindingly fast startup that interrupts almost all incoming melee attacks."
+  />
+
+  <MoveCard
+    name="Heel Crush"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={180}
+    range="Close / Guard Break"
+    blockStagger={true}
+    wallRush="Ground Slam"
+    description="Downward heel drop that shatters enemy guards and drives opponents directly into the floor."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Rough Divide"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={320}
+    range="Full Arena Dash"
+    wallRush="Direct Wall Rush"
+    description="Charges across the arena with blazing speed, delivering an explosive upward gunblade slash."
+  />
+
+  <MoveCard
+    name="Blasting Zone"
+    type="HP Ground"
+    cpCost={45}
+    apMaster={380}
+    range="Long / Skyward Light Blade"
+    wallRush="Forward"
+    description="Extends a colossal pillar of light energy into the stratosphere and brings it crashing down across the battlefield."
+  />
+
+  <MoveCard
+    name="Fated Circle"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={300}
+    range="Mid / 360 Energy Rings"
+    wallRush="Direct Wall Rush"
+    description="Spins while firing gunblade shells to generate expanding concentric energy rings around himself."
+  />
+</BaseLayout>

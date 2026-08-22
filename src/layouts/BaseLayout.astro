@@ -24,13 +24,9 @@ const navGroups = [
     ]
   },
   {
-    title: "Characters (32+)",
+    title: "Characters",
     links: [
-      { label: "Character Roster", href: `${baseUrl}characters/`, id: "roster" },
-      { label: "Lightning (Showcase)", href: `${baseUrl}characters/lightning/`, id: "lightning" },
-      { label: "Feral Chaos (Boss Guide)", href: `${baseUrl}characters/feral-chaos/`, id: "feral-chaos" },
-      { label: "Prishe (Skillchains)", href: `${baseUrl}characters/prishe/`, id: "prishe" },
-      { label: "Kain Highwind", href: `${baseUrl}characters/kain/`, id: "kain" }
+      { label: "Character Roster (32+)", href: `${baseUrl}characters/`, id: "roster" }
     ]
   },
   {
@@ -94,7 +90,8 @@ const navGroups = [
             <div class="nav-group">
               <div class="nav-group-title">{group.title}</div>
               {group.links.map(link => {
-                const isActive = currentPath === link.id || (link.id === 'home' && (currentPath === '' || currentPath === 'home'));
+                const isCharacterRoute = Astro.url.pathname.includes('/characters/') || currentPath === 'roster';
+                const isActive = (link.id === 'roster' && isCharacterRoute) || (link.id === 'home' && (currentPath === '' || currentPath === 'home')) || currentPath === link.id;
                 return (
                   <a href={link.href} class={`nav-link ${isActive ? 'active' : ''}`}>
                     <span>{link.label}</span>

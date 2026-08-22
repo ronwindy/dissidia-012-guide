@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Cloud of Darkness - Character Guide" currentPath="cloud-of-darkness">
+  <CharacterHeader
+    name="Cloud of Darkness"
+    title="Wrath of the Void"
+    game="Final Fantasy III"
+    alignment="Chaos"
+    style="Tentacle Strikes / Particle Beams"
+    exModeName="Form of Darkness!"
+    exModeEffect="Wrath of the Void (tentacles gain automated offensive strikes, and all Particle Beams deal increased hit counts and area damage)."
+    exBurstName="Flood of Darkness"
+    exBurstInput="Alternate pressing L and R buttons rapidly to fill the void gauge and unleash the apocalyptic dark beam."
+    bestStages={[]}
+    worstStages={[]}
+    assistRole="Aerial pressure assist: wide-arcing tentacle strikes lock enemies in mid-air for extended durations, enabling seamless Assist Chase loops."
+    recommendedAssists={[]}
+  />
+
+  <AlertCallout type="strategy" title="PARTICLE BEAM CHARGE MIXUPS & FEINT COUNTERS">
+    Cloud of Darkness features one of the most devastating HP movesets in the game. Her <strong>Feint Particle Beam</strong> triggers 0-frame counter-beams when targeted, while charging standard Particle Beams creates erratic timing traps that catch defensive rolls!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Cloud of Darkness Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Top-tier HP arsenal with varied angles, counter-properties, and wide hitboxes.</li>
+        <li>Excellent mind games by alternating between charged and instant Particle Beams.</li>
+        <li>High combo and assist synergy with tentacle multi-hits.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Cloud of Darkness Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Standard Bravery moves suffer from modest priority and can be guarded if read.</li>
+        <li>Relatively narrow pool of distinct physical BRV moves.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Tentacle of Suffering"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Close-Mid / Tentacle Flurry"
+    chase={true}
+    wallRush="Forward"
+    description="Sweeps surrounding space with dark tentacles, hitting multiple times before launching the target."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Tentacle of Pain"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Close-Mid / Air Sweep"
+    wallRush="Ground Slam"
+    description="Strikes downward with dual tentacles, driving aerial opponents violently into the arena floor."
+  />
+
+  <MoveCard
+    name="Tentacle of Spite"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={220}
+    range="Aerial Arc"
+    wallRush="Ceiling"
+    description="Upward tentacle lash that flings aerial opponents skyward into the stage ceiling."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Feint Particle Beam"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={350}
+    range="Counter Beam"
+    blockStagger={true}
+    description="Adopts an evasive stance; if an opponent attacks, Cloud of Darkness warps and fires an instantaneous punishing particle beam."
+  />
+
+  <MoveCard
+    name="Wrath Particle Beam"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={320}
+    range="Mid-Long / Sweeping Beam"
+    wallRush="Direct Wall Rush"
+    description="Fires a concentrated laser beam that sweeps horizontally across the floor, incinerating anything in its path."
+  />
+
+  <MoveCard
+    name="Anti-Air Particle Beam"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={320}
+    range="Mid-Long / Vertical Beam"
+    wallRush="Ceiling"
+    description="Discharges vertical particle beams into the air, catching opponents descending from above."
+  />
+
+  <MoveCard
+    name="Wide-Angle Particle Beam"
+    type="HP Aerial"
+    cpCost={45}
+    apMaster={400}
+    range="360 Blast"
+    blockStagger={true}
+    description="Concentrates dark energy in her core and unleashes an arena-wide 360-degree particle burst."
+  />
+</BaseLayout>

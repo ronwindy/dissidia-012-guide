@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Kuja - Character Guide" currentPath="kuja">
+  <CharacterHeader
+    name="Kuja"
+    title="Grim Reaper of the Sky"
+    game="Final Fantasy IX"
+    alignment="Chaos"
+    style="Glide Striker / Multi-Ring Orbs"
+    exModeName="Trance Form (Red Fur)!"
+    exModeEffect="Hyper Glide & Auto-Magic (unmatched gliding velocity while passively generating explosive holy orbs that detonate around Kuja as he moves)."
+    exBurstName="Symphony of Death"
+    exBurstInput="Alternate pressing Left and Right rapidly to accelerate the tempo of the dark requiem and summon the final catastrophe."
+    bestStages={[]}
+    worstStages={[]}
+    assistRole="The #1 most popular assist in competitive Dissidia 012: high damage, blazing speed, and allows all characters to optimize combo strings."
+    recommendedAssists={[
+      { name: "Cecil", reason: "Advanced combo setup: send out Ultima, call Cecil to launch the foe out right before the HP hit, and repeat for instant BRV accumulation." },
+      { name: "Zidane", reason: "Twin aerial agility synergy." },
+      { name: "Onion Knight", reason: "High-speed multi-hit confirms." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="AIR GLIDE VELOCITY & ULTIMA PRESSURE">
+    Kuja boasts unmatched aerial glide speed. His combat philosophy is simple: <strong>never fight from below your opponent</strong>—always maintain height superiority! His <em>Ultima</em> spell creates an impenetrable aerial dome that absorbs enemy projectiles and inflicts massive HP damage.
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Kuja Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Blistering aerial movement speed and multi-directional glide control.</li>
+        <li>Physical strikes and ring flurries are extremely difficult to evade.</li>
+        <li><em>Ultima</em> and <em>Flare Star</em> create oppressive aerial zoning and wall rush confirms.</li>
+        <li>The undisputed top-tier Assist partner in the entire competitive metagame.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Kuja Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Ranged projectile pokes are relatively modest and can be brushed off.</li>
+        <li>Disadvantaged when positioned directly below aggressive opponents.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Snatch Blow"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Close / Magic Orb Cascade"
+    chase={true}
+    wallRush="Forward"
+    description="Fires rapid multi-hit magical spheres that drag the target across the floor and initiate Chase."
+  />
+
+  <MoveCard
+    name="Remote Flare"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={200}
+    range="Mid-Long / Flare Orbs"
+    description="Manifests explosive Flare orbs directly around the opponent's coordinates."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Strike Ring"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Close-Mid / Magic Rings"
+    wallRush="Direct Wall Rush"
+    description="Casts orbiting magic rings that encircle Kuja and launch the opponent outward with heavy wall rush."
+  />
+
+  <MoveCard
+    name="Snatch Shot"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={220}
+    range="Mid-Range / Aerial Volley"
+    wallRush="Ceiling"
+    description="Fires an upward stream of magical spheres that launches airborne targets into the stage ceiling."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Ultima"
+    type="HP Aerial"
+    cpCost={45}
+    apMaster={400}
+    range="360 Magic Dome"
+    wallRush="Direct Wall Rush"
+    blockStagger={true}
+    description="Surrounds Kuja in an impenetrable, expanding dome of pure Ultima energy. Absorbs projectiles and incinerates nearby targets."
+  />
+
+  <MoveCard
+    name="Flare Star"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={320}
+    range="Mid-Long / Rising Star"
+    wallRush="Ceiling"
+    description="Ignites a rising stardust core on the ground that erupts into an enormous pillar of flame."
+  />
+
+  <MoveCard
+    name="Seraphic Star"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={350}
+    range="Long / Homing Star Burst"
+    wallRush="Forward"
+    description="Conjures celestial star clusters that pursue the target across the arena and detonate."
+  />
+</BaseLayout>

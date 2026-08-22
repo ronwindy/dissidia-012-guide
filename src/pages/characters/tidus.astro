@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterHeader from '../../components/character/CharacterHeader.astro';
+import MoveCard from '../../components/character/MoveCard.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Tidus - Character Guide" currentPath="tidus">
+  <CharacterHeader
+    name="Tidus"
+    title="Dodge Striker"
+    game="Final Fantasy X"
+    alignment="Cosmos"
+    style="Evasive Attacker / Swift Counter"
+    exModeName="Equipped with Caladbolg!"
+    exModeEffect="Mirror Strike (every successful dodge frames maneuver directly refills EX and Assist Gauges, punishing opponent misses)."
+    exBurstName="Blitz Ace"
+    exBurstInput="Stop the moving cursor directly in the highlighted critical zone of the gauge to score a perfect 9-hit volley."
+    bestStages={[]}
+    worstStages={[]}
+    assistRole="High-speed assist capable of setting up unblockable HP traps; triggers fast Assist Chases."
+    recommendedAssists={[
+      { name: "Jecht", reason: "Father-son synergy: execute almost any Tidus HP attack during Jecht's assist hits without dropping the enemy." },
+      { name: "Yuna", reason: "Forces enemies back into the ground for continuous loop attacks." }
+    ]}
+  />
+
+  <AlertCallout type="strategy" title="BUILT-IN DODGE FRAMES & HOP STEP MASTERY">
+    Tidus' signature mechanic is built-in invincibility frames on his attacks (<strong>Hop Step</strong>, <strong>Dart & Weave</strong>, <strong>Cut & Run</strong>). While executing these moves, Tidus automatically evades incoming attacks and immediately strikes back with direct HP branch links (<em>Quick Hit</em>, <em>Energy Rain</em>)!
+  </AlertCallout>
+
+  <h2>Attributes & Combat Analysis</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+    <div class="glass-card" style="border-left: 3px solid var(--accent-success);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-success);">Tidus Pros</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li><em>Hop Step</em> features near-instantaneous startup—one of the premier counter moves.</li>
+        <li>Built-in dodge frames allow him to bypass enemy HP attacks and retaliate simultaneously.</li>
+        <li>All primary dodge attacks possess direct HP branch links.</li>
+        <li>Exceptional mind games and mixup potential with varying delay timings.</li>
+      </ol>
+    </div>
+
+    <div class="glass-card" style="border-left: 3px solid var(--accent-chaos);">
+      <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--accent-chaos);">Tidus Cons</h3>
+      <ol style="font-size: 0.9rem; color: var(--text-muted); padding-left: 1.2rem;">
+        <li>Limited range without <em>Wither Shot</em> equipped.</li>
+        <li>Hyper-defensive opponents who refuse to attack first can stall Tidus' dodge counters.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Ground Bravery Attacks</h2>
+  <MoveCard
+    name="Hop Step"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={180}
+    range="Close / Evasive Hop"
+    chase={true}
+    branchTo="Quick Hit (HP Link)"
+    description="Hops backward to evade an incoming strike, then instantly leaps forward with a sword slash. Branches into Quick Hit."
+  />
+
+  <MoveCard
+    name="Wither Shot"
+    type="BRV Ground"
+    cpCost={25}
+    apMaster={200}
+    range="Long / Blitzball Shot"
+    wallRush="Forward"
+    description="Kicks a blitzball infused with poisonous energy across the stage. Excellent zoning projectile."
+  />
+
+  <h2>Aerial Bravery Attacks</h2>
+  <MoveCard
+    name="Dart & Weave"
+    type="BRV Aerial"
+    cpCost={25}
+    apMaster={200}
+    range="Close-Mid / Air Dodge"
+    wallRush="Direct Wall Rush"
+    branchTo="Energy Rain (HP Link)"
+    description="Weaves around aerial strikes with invincibility frames and lunges with a blade thrust. Branches into Energy Rain."
+  />
+
+  <MoveCard
+    name="Cut & Run"
+    type="BRV Aerial"
+    cpCost={30}
+    apMaster={220}
+    range="Close / Backflip Slash"
+    wallRush="Ground Slam"
+    description="Performs an evasive mid-air backflip slash that knocks foes straight down into the floor."
+  />
+
+  <h2>HP Attacks</h2>
+  <MoveCard
+    name="Spiral Cut"
+    type="HP Ground"
+    cpCost={40}
+    apMaster={320}
+    range="Close-Mid / Somersault Slash"
+    wallRush="Forward"
+    description="Leaps into a spinning somersault slash with delayed timing that confuses enemy dodge attempts."
+  />
+
+  <MoveCard
+    name="Slice & Dice"
+    type="HP Aerial"
+    cpCost={40}
+    apMaster={350}
+    range="Mid-Range / 6-Hit Flurry"
+    wallRush="Direct Wall Rush"
+    description="Dashes through the opponent 6 times with blinding aerial slashes, finishing with a heavy wall rush."
+  />
+
+  <MoveCard
+    name="Jecht Shot"
+    type="HP Aerial"
+    cpCost={45}
+    apMaster={400}
+    range="Long / Flaming Blitzball"
+    wallRush="Ground Slam"
+    description="Kicks two blitzballs into the air, leaps up, and fires a flaming meteor blitzball directly at the target."
+  />
+</BaseLayout>
