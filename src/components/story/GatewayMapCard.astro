@@ -7,6 +7,12 @@ export interface LegendItem {
   type?: 'enemy' | 'boss' | 'chest' | 'assist' | 'summon' | 'emblem' | 'deploy' | 'goal' | 'potion' | 'other';
 }
 
+export interface WalkthroughImage {
+  src: string;
+  alt?: string;
+  caption?: string;
+}
+
 export interface FloorItem {
   floorNumber: number | string;
   name?: string;
@@ -19,6 +25,7 @@ export interface FloorItem {
   enemies?: string[];
   chests?: string[];
   notes?: string;
+  images?: WalkthroughImage[];
 }
 
 interface Props {
@@ -37,6 +44,7 @@ interface Props {
   chests?: string[];
   strategy?: string;
   notes?: string;
+  images?: WalkthroughImage[];
   floors?: FloorItem[];
 }
 
@@ -56,8 +64,12 @@ const {
   chests,
   strategy,
   notes,
+  images = [],
   floors
 } = Astro.props;
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const resolveImg = (src: string) => src.startsWith('http') ? src : `${baseUrl}${src.startsWith('/') ? src.slice(1) : src}`;
 
 // Helper to determine legend token badge styling
 function getLegendBadgeClass(keyStr: string): string {
@@ -256,9 +268,56 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
             </div>
           )}
 
+          {floor.images && floor.images.length > 0 && (
+            <div style="margin: 0.85rem 0 0.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;">
+              {floor.images.map(img => (
+                <div class="walkthrough-image-box" style="background: rgba(11, 14, 23, 0.8); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                  <div style="position: relative; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center;">
+                    <img 
+                      src={resolveImg(img.src)} 
+                      alt={img.alt || img.caption || title} 
+                      loading="lazy"
+                      style="width: 100%; height: auto; display: block; object-fit: contain; max-height: 220px; transition: transform 0.3s ease;"
+                      class="walkthrough-preview-img"
+                    />
+                  </div>
+                  {img.caption && (
+                    <div style="padding: 0.45rem 0.65rem; background: rgba(0, 0, 0, 0.5); border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.8rem; font-family: var(--font-mono); color: var(--accent-crystal); text-align: center;">
+                      {img.caption}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
           {floor.notes && (
             <div style="font-size: 0.82rem; color: var(--text-dim); border-top: 1px dashed var(--border-card-subtle); padding-top: 0.5rem; margin-top: 0.5rem;">
               <em>{floor.notes}</em>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  )}
+
+  <!-- Single / Gateway Level Images -->
+  {images && images.length > 0 && (
+    <div style="margin: 1rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      {images.map(img => (
+        <div class="walkthrough-image-box" style="background: rgba(11, 14, 23, 0.8); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+          <div style="position: relative; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center;">
+            <img 
+              src={resolveImg(img.src)} 
+              alt={img.alt || img.caption || title} 
+              loading="lazy"
+              style="width: 100%; height: auto; display: block; object-fit: contain; max-height: 280px; transition: transform 0.3s ease;"
+              class="walkthrough-preview-img"
+            />
+          </div>
+          {img.caption && (
+            <div style="padding: 0.5rem 0.75rem; background: rgba(0, 0, 0, 0.5); border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.82rem; font-family: var(--font-mono); color: var(--accent-crystal); text-align: center;">
+              {img.caption}
             </div>
           )}
         </div>

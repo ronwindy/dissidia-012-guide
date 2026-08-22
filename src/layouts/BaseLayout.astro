@@ -169,15 +169,15 @@ const navGroups = [
                 <line x1="3" y1="18" x2="21" y2="18"></line>
               </svg>
             </button>
-            <div class="header-breadcrumbs">
-              <a href={baseUrl}>Home</a>
+            <nav class="header-breadcrumbs" aria-label="Breadcrumbs">
+              <a href={baseUrl} class="breadcrumb-home">Home</a>
               {title !== "Dissidia 012 [duodecim] Guide Portal" && (
                 <>
                   <span class="breadcrumb-sep">/</span>
-                  <span style="color: var(--text-main); font-weight: 500;">{title}</span>
+                  <span class="breadcrumb-current" title={title}>{title}</span>
                 </>
               )}
-            </div>
+            </nav>
           </div>
 
           <div class="header-actions">
@@ -208,8 +208,22 @@ const navGroups = [
           overlay?.classList.toggle("open");
         }
 
+        function closeMenu() {
+          sidebar?.classList.remove("open");
+          overlay?.classList.remove("open");
+        }
+
         toggleBtn?.addEventListener("click", toggleMenu);
-        overlay?.addEventListener("click", toggleMenu);
+        overlay?.addEventListener("click", closeMenu);
+
+        // Close sidebar on link clicks on mobile
+        document.querySelectorAll(".nav-link").forEach(link => {
+          link.addEventListener("click", () => {
+            if (window.innerWidth <= 768) {
+              closeMenu();
+            }
+          });
+        });
 
         // Update global progress badge
         function updateGlobalProgress() {

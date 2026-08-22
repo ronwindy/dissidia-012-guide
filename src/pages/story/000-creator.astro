@@ -4,16 +4,30 @@ import GatewayMapCard from '../../components/story/GatewayMapCard.astro';
 import StoryNav from '../../components/story/StoryNav.astro';
 import AlertCallout from '../../components/common/AlertCallout.astro';
 import DataTable from '../../components/common/DataTable.astro';
-import { story000Foreword, story000DeepDungeons, story000MoogleShops } from '../../data/story/story000Data';
+import { 
+  story000Foreword, 
+  story000WalkthroughSteps, 
+  story000DeepDungeons, 
+  story000MoogleShops 
+} from '../../data/story/story000Data';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const resolveImg = (src: string) => src.startsWith('http') ? src : `${baseUrl}${src.startsWith('/') ? src.slice(1) : src}`;
 
 const story000Nav = [
   { id: "foreword", label: "000 Mechanics", sublabel: "Party & Ruleset Setup" },
-  { id: "chasm-rotting-land", label: "Chasm in Rotting Land", sublabel: "10-Floor Unlocking Dungeon" },
-  { id: "curses-hopes-yore", label: "Curses of Hopes of Yore", sublabel: "Shantotto's 5-Floor Sanctum" },
-  { id: "forsaken-lands", label: "The Forsaken Lands", sublabel: "Gaia 10-Floor Resource Gauntlet" },
-  { id: "dragon-kings-gateway", label: "Dragon King's Gateway", sublabel: "Dragon Caves 10-Floor Trial" },
-  { id: "edge-of-discord", label: "Edge of Discord", sublabel: "Level 130 Feral Chaos Apex" },
-  { id: "moogle-shops-000", label: "Moogle Shops Catalog", sublabel: "Cornelia, Earth, Gulg, Gaia" }
+  { id: "step-intro-cavern", label: "1. Cavern & Rotting Land", sublabel: "10-Floor Unlocking Trial" },
+  { id: "step-shantotto-remake", label: "2. Shantotto's Remaster", sublabel: "5-Floor Magic Sanctum" },
+  { id: "step-cornelia-plain-trek", label: "3. Castle Cornelia & Departure", sublabel: "Field Chest Visual Aid" },
+  { id: "step-volcano-gulg-snows", label: "4. Gulg & Snowfields", sublabel: "Gateways & Moogle Summons" },
+  { id: "step-southern-lufenia-apex", label: "5. Southern Lufenia", sublabel: "Feral Chaos Phase 1" },
+  { id: "step-sandsea-melmond-trek", label: "6. Sandsea & Melmond Trek", sublabel: "World Map Visual Aid" },
+  { id: "step-flying-castle-farming", label: "7. Flying Castle (Lufenian)", sublabel: "5-Floor Equipment Vault" },
+  { id: "step-bahamut-isles-discord", label: "8. Bahamut & Land of Discord", sublabel: "Secret Moogle Gateways" },
+  { id: "step-gabranth-and-onrac", label: "9. Gabranth Remaster & Onrac", sublabel: "5-Floor Judge Magister" },
+  { id: "step-edge-of-discord-apex", label: "10. Edge of Discord", sublabel: "Level 130 Feral Chaos Apex" },
+  { id: "optional-labyrinths", label: "Optional Super-Dungeons", sublabel: "Gaia & Dragon Caves" },
+  { id: "moogle-shops-000", label: "Moogle Shops Catalog", sublabel: "Cornelia, Earth, Gulg, Secret" }
 ];
 ---
 
@@ -25,11 +39,11 @@ const story000Nav = [
     </div>
     <h1 style="margin: 0;">000: CONFESSIONS OF THE CREATOR</h1>
     <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem; line-height: 1.6;">
-      The ultimate post-game campaign across World B. Conquer deep multi-floor super-dungeons, gather Lufenian and Genji armor components, unlock world teleporters, trade with secret regional Moogles, and overcome Level 130 Feral Chaos.
+      The complete chronological post-game walkthrough across World B. Conquer deep multi-floor super-dungeons, gather Lufenian and Genji armor components, consult visual map and chest aids, unlock world teleporters, trade with secret regional Moogles, and defeat Level 130 Feral Chaos.
     </p>
   </div>
 
-  <StoryNav title="Scenario 000 Navigation" items={story000Nav} />
+  <StoryNav title="Scenario 000 Complete Navigation" items={story000Nav} />
 
   <!-- Foreword & Mechanics Section -->
   <section id="foreword" class="glass-card guide-section" style="margin-bottom: 2.5rem;">
@@ -52,18 +66,114 @@ const story000Nav = [
     </AlertCallout>
   </section>
 
-  <!-- Deep End-Game Gateways -->
+  <!-- Complete Chronological Walkthrough Campaign -->
   <div style="margin-bottom: 3.5rem;">
-    <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem; color: var(--text-main);">
-      Major Gateways & Multi-Floor Labyrinths
+    <h2 style="font-size: 1.75rem; margin-bottom: 0.5rem; color: var(--text-main);">
+      Complete Step-by-Step Scenario 000 Walkthrough
     </h2>
+    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem;">
+      Follow this comprehensive walkthrough in sequence to open all world map teleporters, discover all secret chests and visual aid routes, recruit the companion Moogle, and conquer every gateway.
+    </p>
+
+    <div style="display: flex; flex-direction: column; gap: 3rem;">
+      {story000WalkthroughSteps.map((step) => (
+        <section id={step.id} class="walkthrough-step-block guide-section">
+          <!-- Step Header -->
+          <div class="glass-card" style="border-left: 4px solid var(--accent-primary); margin-bottom: 1.25rem; padding: 1.25rem 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <h3 style="margin: 0; font-size: 1.35rem; color: var(--text-main); font-family: var(--font-heading);">
+                {step.title}
+              </h3>
+              {step.location && (
+                <span class="badge-pill badge-crystal">
+                  {step.location}
+                </span>
+              )}
+            </div>
+            <p style="margin: 0.5rem 0 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.65;">
+              {step.description}
+            </p>
+
+            <!-- Optional Dialogue Quote Bubble -->
+            {step.dialogue && (
+              <div style="margin-top: 1rem; padding: 0.85rem 1.15rem; background: rgba(56, 189, 248, 0.06); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: var(--radius-sm); font-style: italic; color: #e0f2fe; line-height: 1.6;">
+                <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--accent-primary); font-weight: bold; text-transform: uppercase; margin-bottom: 0.25rem;">
+                  {step.dialogue.speaker}
+                </div>
+                <div style="white-space: pre-line; font-size: 0.9rem;">
+                  {step.dialogue.text}
+                </div>
+              </div>
+            )}
+
+            <!-- Visual Aid Images inside Step Header (if any) -->
+            {step.images && step.images.length > 0 && (
+              <div style="margin-top: 1.25rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+                {step.images.map(img => (
+                  <div class="walkthrough-visual-box" style="background: rgba(11, 14, 23, 0.9); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: var(--radius-sm); overflow: hidden; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);">
+                    <div style="background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; min-height: 160px;">
+                      <img 
+                        src={resolveImg(img.src)} 
+                        alt={img.alt || img.caption} 
+                        loading="lazy"
+                        style="width: 100%; height: auto; display: block; object-fit: contain; max-height: 280px; transition: transform 0.3s ease;"
+                        class="visual-aid-img"
+                      />
+                    </div>
+                    <div style="padding: 0.55rem 0.85rem; background: rgba(0, 0, 0, 0.6); border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.85rem; font-family: var(--font-mono); color: var(--accent-crystal); text-align: center; font-weight: 600;">
+                      {img.caption}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <!-- Step Gateways -->
+          {step.gateways && step.gateways.length > 0 && (
+            <div style="display: flex; flex-direction: column; gap: 1.5rem; padding-left: 0.5rem;">
+              {step.gateways.map(gw => (
+                <GatewayMapCard
+                  id={gw.id}
+                  title={gw.title}
+                  chapter="Scenario 000 Walkthrough"
+                  location={gw.location}
+                  kpChance={gw.kpChance}
+                  rules={gw.rules}
+                  skills={gw.skills}
+                  bonusLine={gw.bonusLine}
+                  enemies={gw.enemies}
+                  chests={gw.chests}
+                  strategy={gw.strategy}
+                  notes={gw.notes}
+                  images={gw.images}
+                  floors={gw.floors}
+                />
+              ))}
+            </div>
+          )}
+        </section>
+      ))}
+    </div>
+  </div>
+
+  <!-- Deep End-Game Optional Labyrinths (Gaia & Dragon Caves) -->
+  <section id="optional-labyrinths" class="guide-section" style="margin-bottom: 3.5rem;">
+    <div style="margin-bottom: 1.5rem;">
+      <h2 style="font-size: 1.75rem; margin: 0 0 0.5rem; color: var(--text-main);">
+        Optional Super-Labyrinths (Gaia & Dragon Caves)
+      </h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">
+        These massive 10-floor endgame gauntlets provide continuous farming sources for Electrum, Scarletite, Pink Tails, Rosetta Stones, and complete Genji/Lufenian sets.
+      </p>
+    </div>
 
     <div style="display: flex; flex-direction: column; gap: 2rem;">
       {story000DeepDungeons.map(gw => (
         <GatewayMapCard
           id={gw.id}
           title={gw.title}
-          chapter="Scenario 000 • World B Labyrinth"
+          chapter="Scenario 000 • Optional Trial Gauntlet"
           location={gw.location}
           kpChance={gw.kpChance}
           rules={gw.rules}
@@ -75,7 +185,7 @@ const story000Nav = [
         />
       ))}
     </div>
-  </div>
+  </section>
 
   <!-- Moogle Shops Full Catalog -->
   <section id="moogle-shops-000" class="guide-section" style="margin-bottom: 3.5rem;">
@@ -89,7 +199,7 @@ const story000Nav = [
     <div style="display: flex; flex-direction: column; gap: 1.5rem;">
       {story000MoogleShops.map(shop => (
         <div class="glass-card" style="border-left: 4px solid var(--accent-cosmos);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--border-card-subtle); padding-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; border-bottom: 1px solid var(--border-card-subtle); padding-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
             <div>
               <h3 style="margin: 0; font-size: 1.3rem; color: var(--text-main); font-family: var(--font-heading);">
                 {shop.location}
@@ -97,6 +207,11 @@ const story000Nav = [
               <div style="font-size: 0.8rem; color: var(--accent-cosmos); font-family: var(--font-mono);">
                 Merchant: {shop.moogleName}
               </div>
+              {shop.notes && (
+                <div style="font-size: 0.82rem; color: var(--text-dim); margin-top: 0.25rem;">
+                  {shop.notes}
+                </div>
+              )}
             </div>
             <span class="badge-pill badge-cosmos">Moogle Shop</span>
           </div>
@@ -119,3 +234,10 @@ const story000Nav = [
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .visual-aid-img:hover,
+  .walkthrough-preview-img:hover {
+    transform: scale(1.03);
+  }
+</style>
