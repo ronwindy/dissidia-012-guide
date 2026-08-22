@@ -33,8 +33,8 @@ The visual identity captures the high-stakes cosmic clash between the goddess **
 
 ## 3. Typography
 
-- **Heading Font (`--font-heading`):** `'Barlow Condensed', 'Cinzel', system-ui, sans-serif`
-  - High-impact, cinematic, athletic, ideal for move names, damage stats, and character headers.
+- **Heading & Display Font (`--font-heading`, `--font-display`):** `'Rajdhani', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`
+  - Sleek, condensed geometric sans with chamfered/angled mechanical corners. High-impact and high-tech fighting-game HUD aesthetic, ideal for titles, move names, damage stats, and character headers.
 - **Body Font (`--font-body`):** `'Inter', 'Plus Jakarta Sans', system-ui, sans-serif`
   - Clean, neutral, exceptional readability for walkthrough guides, mechanics, and strategies.
 - **Accent & Data Font (`--font-mono`):** `'JetBrains Mono', 'Share Tech Mono', monospace`

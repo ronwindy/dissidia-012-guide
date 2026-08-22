@@ -2,7 +2,7 @@
    Dissidia 012: Duodecim Final Fantasy - Universal Design Tokens & Global CSS
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 :root {
   /* Surfaces */
@@ -37,8 +37,8 @@
   --accent-hp: #f43f5e;
 
   /* Typography - Dissidia 012 Final Fantasy Thematic Font System */
-  --font-display: 'Cinzel Decorative', 'Cinzel', Georgia, 'Times New Roman', serif;
-  --font-heading: 'Cinzel', Georgia, 'Times New Roman', serif;
+  --font-display: 'Rajdhani', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Rajdhani', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-subheading: 'Rajdhani', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', Consolas, Monaco, monospace;
@@ -119,7 +119,7 @@ h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
 }
 
-h1 { font-size: var(--font-size-h1); margin-bottom: 0.75rem; letter-spacing: 0.05em; font-weight: 800; }
+h1 { font-size: var(--font-size-h1); margin-bottom: 0.75rem; letter-spacing: 0.05em; font-weight: 700; }
 h2 { font-size: var(--font-size-h2); margin-top: 2.25rem; margin-bottom: 0.85rem; border-bottom: 1px solid var(--border-card); padding-bottom: 0.4rem; letter-spacing: 0.04em; }
 h3 { font-size: var(--font-size-h3); margin-top: 1.5rem; margin-bottom: 0.5rem; letter-spacing: 0.03em; }
 h4 { font-size: 1.15rem; letter-spacing: 0.03em; }

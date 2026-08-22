@@ -1,130 +1,426 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import QuestCard from '../../components/quests/QuestCard.astro';
+import FriendCardEntry from '../../components/quests/FriendCardEntry.astro';
 import AlertCallout from '../../components/common/AlertCallout.astro';
 import DataTable from '../../components/common/DataTable.astro';
+import { questsData } from '../../data/questsData';
+import { friendCardsData } from '../../data/friendCardsData';
 
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 
-const farmingCards = [
-  { cardName: "Exulus-", targetDrops: "Rosetta Stones, Megalixers, Genji Equipment Set", strat: "Equip Item Drop Rate Up & Battlegen Rate Up in PP Catalog. Fast HP finishes." },
-  { cardName: "Edgar", targetDrops: "Megalixers, Machine Equipment Set pieces", strat: "Punish Edgar's heavy tool startups with rapid rushdown characters like Squall or Tifa." },
-  { cardName: "Ryuuhime", targetDrops: "High-Tier Component Accessories & Megalixers", strat: "Use zoning characters (Terra/Kuja) to safely trigger component accessory drops." },
-  { cardName: "No. 1 Moogle", targetDrops: "Excalibur II (Legendary Greatsword)", strat: "Acquired via in-game Mognet mail exchange; farm drops during ghost battles." }
-];
+const farmingCards = friendCardsData.filter(c => c.category === 'farming');
+const themedCards = friendCardsData.filter(c => c.category === 'themed');
+const competitiveCards = friendCardsData.filter(c => c.category === 'competitive');
+
+const frustraAmareQuests = questsData.filter(q => q.series === 'Final Fantasy Frustra Amare');
+const worldAtWarQuests = questsData.filter(q => q.series === 'World At War');
+const standaloneQuests = questsData.filter(q => !q.series);
 ---
 
-<BaseLayout title="Custom Quests & Friend Cards Directory" currentPath="quests">
+<BaseLayout 
+  title="Custom Quests & Friend Cards Directory" 
+  description="Comprehensive repository of 16 community-created Original Quests and 10 high-efficiency farming Friend Cards curated by Suih and Zahlzeit for Dissidia 012 [duodecim] Final Fantasy."
+  currentPath="quests"
+>
+  <!-- Page Header -->
   <div style="margin-bottom: 2rem;">
-    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-      <span class="badge-pill badge-new">Community Content & Saves</span>
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
+      <span class="badge-pill badge-new">Community Content</span>
+      <span class="badge-pill badge-cosmos">10 Curated Friend Cards</span>
+      <span class="badge-pill badge-crystal">16 Original Quests</span>
     </div>
-    <h1 style="margin: 0;">CUSTOM QUESTS & FRIEND CARDS</h1>
-    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem;">
-      Community-created Original Quests and high-efficiency Friend Cards curated by Suih / Zahlzeit. Includes full save injection instructions for PSP hardware and emulators (PPSSPP).
+    <h1 style="margin: 0; letter-spacing: 0.04em;">CUSTOM QUESTS & FRIEND CARDS</h1>
+    <p style="color: var(--text-muted); font-size: 1.05rem; margin-top: 0.5rem; line-height: 1.6; max-width: 900px;">
+      Master guide to community-created Original Quests and high-efficiency ghost farming Friend Cards curated by <strong>Suih</strong> and <strong>Zahlzeit</strong>. Includes full 4-piece equipment and 10-accessory ghost loadouts, combat exploits, and exact save data installation instructions for PSP hardware and PPSSPP emulators.
     </p>
   </div>
 
-  <AlertCallout type="tip" title="PSP SAVE DATA INSTALLATION GUIDE">
-    <ol style="margin: 0.5rem 0 0 0; padding-left: 1.2rem; line-height: 1.6;">
-      <li>Extract the quest folder (e.g. <code>ULUS10566Quest01</code>).</li>
-      <li>Connect your PSP via USB or open your emulator directory.</li>
-      <li>Copy the folder directly into <code>PSP/SAVEDATA/</code> on your Memory Stick.</li>
-      <li>Launch <em>Dissidia 012 [duodecim]</em> and enter <strong>Communications &rarr; Original Quests</strong> to play!</li>
-    </ol>
-  </AlertCallout>
+  <!-- Installation & Setup Callout -->
+  <div id="installation-guide" style="margin-bottom: 2.5rem;">
+    <div class="glass-card" style="border-left: 4px solid var(--accent-primary);">
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <h3 style="margin: 0; font-size: 1.35rem; color: var(--text-main);">Save Data Installation & Setup Guide</h3>
+      </div>
 
-  <!-- Farming Friend Cards Matrix -->
-  <h2>Top-Tier Farming Friend Cards</h2>
-  <DataTable title="High-Yield Ghost Battle Cards" caption="Fastest route to endgame materials">
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Card Name</th>
-          <th>Target Rare Drops</th>
-          <th>Combat Strategy</th>
-        </tr>
-      </thead>
-      <tbody>
-        {farmingCards.map(fc => (
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-top: 1rem;">
+        <!-- Original Quests Setup -->
+        <div class="glass-stat-card">
+          <div style="font-size: 0.95rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 0.5rem; font-family: var(--font-subheading); text-transform: uppercase;">
+            1. Installing Original Quests
+          </div>
+          <ol style="padding-left: 1.2rem; margin: 0; font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
+            <li>Extract the downloaded quest archive (e.g. <code>.zip</code> or <code>.rar</code> via WinRAR/7-Zip).</li>
+            <li>Copy the entire quest folder (e.g. <code>ULUS10566Quest00</code>) directly into your PSP save directory:
+              <ul style="margin: 0.25rem 0 0.5rem 0; padding-left: 1rem; font-family: var(--font-mono); font-size: 0.8rem; color: #bae6fd;">
+                <li><strong>PSP Hardware:</strong> <code>X:/PSP/SAVEDATA/</code></li>
+                <li><strong>PPSSPP (PC):</strong> <code>Documents/PPSSPP/PSP/SAVEDATA/</code> or <code>memstick/PSP/SAVEDATA/</code></li>
+                <li><strong>PPSSPP (Android):</strong> <code>PSP/SAVEDATA/</code></li>
+              </ul>
+            </li>
+            <li>Launch <em>Dissidia 012</em>, go to <strong>Communications &rarr; Original Quests</strong>, and select the quest slot to play!</li>
+          </ol>
+        </div>
+
+        <!-- Friend Cards Setup -->
+        <div class="glass-stat-card">
+          <div style="font-size: 0.95rem; font-weight: 700; color: var(--accent-cosmos); margin-bottom: 0.5rem; font-family: var(--font-subheading); text-transform: uppercase;">
+            2. Importing Friend Cards
+          </div>
+          <ol style="padding-left: 1.2rem; margin: 0; font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
+            <li>Extract the friend card folder (e.g. <code>ULUS10566...</code>) and place it into <code>PSP/SAVEDATA/</code>.</li>
+            <li>Launch <em>Dissidia 012</em> and enter <strong>Communications Mode &rarr; Communications</strong>.</li>
+            <li>Select <strong>Import a Friend Card</strong> and choose the downloaded ghost cards to load them into your roster.</li>
+            <li>Exit to the <strong>Friend Cards</strong> menu to challenge ghosts in 1v1 battle anytime!</li>
+          </ol>
+        </div>
+      </div>
+
+      <div style="margin-top: 1rem;">
+        <AlertCallout type="warning" title="CRITICAL: PP SHOP GHOST BATTLEGEN UNLOCK REQUIRED">
+          You <strong>cannot battlegen or farm item drops from Friend Card ghosts</strong> until you have purchased the <em>Item Drops from Ghost Battles</em> privilege in the <strong>PP Catalog</strong>! Ensure this feature is unlocked before grinding for Genji, Machine pieces, or Rosetta Stones.
+        </AlertCallout>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Filter & Search Bar -->
+  <div class="glass-card" style="margin-bottom: 2rem; padding: 1.25rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <!-- Interactive Filter Tabs -->
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;" id="filter-tab-bar">
+        <button class="filter-tab-btn active" data-target="all">All Content ({friendCardsData.length + questsData.length})</button>
+        <button class="filter-tab-btn" data-target="farming">Farming Cards ({farmingCards.length})</button>
+        <button class="filter-tab-btn" data-target="themed">Themed Cards ({themedCards.length})</button>
+        <button class="filter-tab-btn" data-target="competitive">Competitive Ghosts ({competitiveCards.length})</button>
+        <button class="filter-tab-btn" data-target="sagas">Multi-Part Sagas ({frustraAmareQuests.length + worldAtWarQuests.length})</button>
+        <button class="filter-tab-btn" data-target="standalone">Standalone Quests ({standaloneQuests.length})</button>
+      </div>
+
+      <!-- Quick Search Input -->
+      <div style="position: relative; min-width: 240px; flex: 1; max-width: 340px;">
+        <input 
+          type="text" 
+          id="customSearchInput" 
+          placeholder="Search cards, quests, drops, characters..." 
+          style="width: 100%; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--border-card); border-radius: var(--radius-sm); padding: 0.5rem 0.75rem 0.5rem 2rem; color: var(--text-main); font-size: 0.88rem; outline: none; transition: border-color var(--transition-fast);"
+        />
+        <svg style="position: absolute; left: 0.6rem; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--text-dim);" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- High-Yield Farming Quick Reference Matrix -->
+  <section class="guide-section" id="farming-matrix" data-section-type="farming">
+    <div class="section-header">
+      <div class="section-title">
+        <h2 style="margin: 0; border: none; padding: 0;">Top-Tier Ghost Farming Matrix</h2>
+        <span class="badge-pill badge-cosmos">Fastest Endgame Drops</span>
+      </div>
+    </div>
+    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">
+      Quick reference for high-efficiency ghost setups engineered with limited movesets for reliable Battlegen farming.
+    </p>
+
+    <DataTable title="Curated Friend Cards - Quick Drop Summary" caption="All 10 Ghost Cards categorized by farming utility and combat focus">
+      <table class="data-table">
+        <thead>
           <tr>
-            <td><strong style="color: var(--accent-primary);">{fc.cardName}</strong></td>
-            <td style="color: #fde68a;">{fc.targetDrops}</td>
-            <td style="color: var(--text-muted); font-size: 0.88rem;">{fc.strat}</td>
+            <th>Card Name</th>
+            <th>Ghost & Rank</th>
+            <th>Type</th>
+            <th>Target Drops / Equipment</th>
+            <th>AI Exploit / Strategy</th>
           </tr>
+        </thead>
+        <tbody>
+          {friendCardsData.map(fc => (
+            <tr class="searchable-item" data-search-text={`${fc.name} ${fc.ghost} ${fc.category} ${fc.targetDrops.join(' ')} ${fc.rank}`}>
+              <td>
+                <a href={`#card-${fc.id}`} style="font-weight: 700; color: var(--accent-primary);">
+                  {fc.name}
+                </a>
+              </td>
+              <td>
+                <strong style="color: #e2e8f0;">{fc.ghost}</strong>
+                <span class="badge-pill" style="margin-left: 0.35rem; font-size: 0.68rem; padding: 0.1rem 0.4rem; background: rgba(255,255,255,0.08);">
+                  Rank {fc.rank}
+                </span>
+              </td>
+              <td>
+                <span class={`badge-pill ${fc.category === 'farming' ? 'badge-cosmos' : fc.category === 'themed' ? 'badge-crystal' : 'badge-new'}`} style="font-size: 0.7rem;">
+                  {fc.category.toUpperCase()}
+                </span>
+              </td>
+              <td style="color: #fef08a; font-size: 0.88rem;">
+                {fc.targetDrops[0]}
+                {fc.targetDrops.length > 1 && <span style="color: var(--text-dim); font-size: 0.78rem;"> (+{fc.targetDrops.length - 1} more)</span>}
+              </td>
+              <td style="color: var(--text-muted); font-size: 0.84rem; line-height: 1.4;">
+                {fc.strategy.length > 95 ? `${fc.strategy.substring(0, 95)}...` : fc.strategy}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </DataTable>
+  </section>
+
+  <!-- Complete Curated Friend Cards Section -->
+  <section class="guide-section" id="all-friend-cards" style="margin-top: 3.5rem;">
+    <div class="section-header">
+      <div class="section-title">
+        <h2 style="margin: 0; border: none; padding: 0;">Curated Friend Cards Directory (10 Builds)</h2>
+        <span class="badge-pill badge-new">Complete Loadouts</span>
+      </div>
+    </div>
+    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+      Full 4-piece equipment and 10-accessory loadouts for all curated ghost battle cards. Challenge these ghosts in Communications Mode to Battlegen components or practice against competitive AI setups.
+    </p>
+
+    <!-- Sub-Section: Farming Cards -->
+    <div class="card-group-section" data-group-type="farming" style="margin-bottom: 2.5rem;">
+      <h3 style="color: var(--accent-cosmos); font-size: 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M11 3 8 9l4 12 4-12-3-6"/><path d="M2 9h20"/></svg>
+        High-Yield Farming Cards (Genji Set & Booster Multipliers)
+      </h3>
+      {farmingCards.map(card => (
+        <div id={`card-${card.id}`} class="searchable-item" data-search-text={`${card.name} ${card.ghost} ${card.category} ${card.equipment.join(' ')} ${card.accessories.join(' ')} ${card.targetDrops.join(' ')}`}>
+          <FriendCardEntry card={card} />
+        </div>
+      ))}
+    </div>
+
+    <!-- Sub-Section: Themed Cards -->
+    <div class="card-group-section" data-group-type="themed" style="margin-bottom: 2.5rem;">
+      <h3 style="color: var(--accent-crystal); font-size: 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        Themed Ghost Cards (Machine Weapons & Tomes)
+      </h3>
+      {themedCards.map(card => (
+        <div id={`card-${card.id}`} class="searchable-item" data-search-text={`${card.name} ${card.ghost} ${card.category} ${card.equipment.join(' ')} ${card.accessories.join(' ')} ${card.targetDrops.join(' ')}`}>
+          <FriendCardEntry card={card} />
+        </div>
+      ))}
+    </div>
+
+    <!-- Sub-Section: Competitive & Other Cards -->
+    <div class="card-group-section" data-group-type="competitive" style="margin-bottom: 2.5rem;">
+      <h3 style="color: var(--accent-primary); font-size: 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
+        Competitive & Endgame Build Ghosts
+      </h3>
+      {competitiveCards.map(card => (
+        <div id={`card-${card.id}`} class="searchable-item" data-search-text={`${card.name} ${card.ghost} ${card.category} ${card.equipment.join(' ')} ${card.accessories.join(' ')} ${card.targetDrops.join(' ')}`}>
+          <FriendCardEntry card={card} />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Complete Curated Original Quests Directory -->
+  <section class="guide-section" id="all-quests" style="margin-top: 4rem;">
+    <div class="section-header">
+      <div class="section-title">
+        <h2 style="margin: 0; border: none; padding: 0;">Curated Original Quests Directory (16 Quests)</h2>
+        <span class="badge-pill badge-cosmos">Full Community Catalog</span>
+      </div>
+    </div>
+    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+      Original quest campaigns featuring custom battle conditions, narrative scripts, multi-stage tournaments, and unique party compositions created by the Dissidia community.
+    </p>
+
+    <!-- Multi-Part Series 1: Final Fantasy Frustra Amare -->
+    <div class="card-group-section" data-group-type="sagas" style="margin-bottom: 3rem;">
+      <div style="background: rgba(56, 189, 248, 0.05); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.35rem;">
+          <h3 style="margin: 0; font-size: 1.35rem; color: var(--accent-primary);">Campaign: Final Fantasy Frustra Amare (8 Parts)</h3>
+          <span class="badge-pill badge-new">Author: Ryken07</span>
+        </div>
+        <p style="margin: 0; font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">
+          A legendary 8-part narrative campaign focusing on the personal struggles and memories of the warriors aboard the theater airship Prima Vista. <em>Note: Some battles are intentionally scripted for dramatic losses to advance the plot!</em>
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem;">
+        {frustraAmareQuests.map(q => (
+          <div class="searchable-item" data-search-text={`${q.title} ${q.characters} ${q.summary} ${q.author} ${q.series}`}>
+            <QuestCard
+              title={q.title}
+              series={q.series}
+              part={q.part}
+              author={q.author}
+              format={q.format}
+              characters={q.characters}
+              summary={q.summary}
+              slot={q.slot}
+              version={q.version}
+              date={q.date}
+              authorNote={q.authorNote}
+              reviewerNote={q.reviewerNote}
+              tags={q.tags}
+            />
+          </div>
         ))}
-      </tbody>
-    </table>
-  </DataTable>
+      </div>
+    </div>
 
-  <!-- Curated Quests -->
-  <h2 style="margin-top: 2.5rem;">Curated Original Quests</h2>
+    <!-- Multi-Part Series 2: World At War -->
+    <div class="card-group-section" data-group-type="sagas" style="margin-bottom: 3rem;">
+      <div style="background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.35rem;">
+          <h3 style="margin: 0; font-size: 1.35rem; color: var(--accent-chaos);">Campaign: World At War (3 Parts)</h3>
+          <span class="badge-pill badge-chaos">Author: Majin K</span>
+        </div>
+        <p style="margin: 0; font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">
+          Two grand warring factions clash across Palamecia and Gestahl before facing the Creator's final judgment tournament. Features branching win/loss ending sequences in Part 3!
+        </p>
+      </div>
 
-  <QuestCard
-    title="Food Rush!"
-    author="Aiphrem"
-    format="Round-Robin"
-    characters="Prishe (Lv50)"
-    summary="Join Prishe as she attends Shantotto's boring lecture, gets suddenly starving, and embarks on an epic quest to reach the store and buy food!"
-    slot={0}
-    version="USA"
-    authorNote="Prishe wants to leave Shantotto's lecture, but is stopped by Shantotto (first boss fight)."
-    reviewerNote="A tricky, creative, and humorous quest."
-  />
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem;">
+        {worldAtWarQuests.map(q => (
+          <div class="searchable-item" data-search-text={`${q.title} ${q.characters} ${q.summary} ${q.author} ${q.series}`}>
+            <QuestCard
+              title={q.title}
+              series={q.series}
+              part={q.part}
+              author={q.author}
+              format={q.format}
+              characters={q.characters}
+              summary={q.summary}
+              slot={q.slot}
+              version={q.version}
+              date={q.date}
+              authorNote={q.authorNote}
+              tags={q.tags}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
 
-  <QuestCard
-    title="Final Fantasy Frustra Amare (Part 1 - Forgotten)"
-    part="Part 1 of 8"
-    author="Ryken07"
-    format="Round-Robin"
-    characters="Squall (100), Firion (49), Zidane (100), Sephiroth (20)"
-    summary="Upon forgetting his past life, a warrior seeks to rebuild his memories."
-    slot={0}
-    version="USA"
-    authorNote="Some fights you are meant to lose for dramatic narrative effect. Focus on the story."
-  />
+    <!-- Standalone Quests -->
+    <div class="card-group-section" data-group-type="standalone" style="margin-bottom: 2.5rem;">
+      <h3 style="color: var(--accent-cosmos); font-size: 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Featured Standalone Original Quests
+      </h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem;">
+        {standaloneQuests.map(q => (
+          <div class="searchable-item" data-search-text={`${q.title} ${q.characters} ${q.summary} ${q.author}`}>
+            <QuestCard
+              title={q.title}
+              author={q.author}
+              format={q.format}
+              characters={q.characters}
+              summary={q.summary}
+              slot={q.slot}
+              version={q.version}
+              date={q.date}
+              authorNote={q.authorNote}
+              reviewerNote={q.reviewerNote}
+              tags={q.tags}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
 
-  <QuestCard
-    title="Final Fantasy Frustra Amare (Part 3 - Performer)"
-    part="Part 3 of 8"
-    author="Ryken07"
-    format="Round-Robin"
-    characters="Zidane (100), Squall (100), Tifa (30)"
-    summary="Using the newly found theater ship Prima Vista, Zidane arranges a theatrical play. Squall reluctantly joins in."
-    slot={2}
-    version="USA"
-    reviewerNote="The character roles and comedic timing in the play were spot on!"
-  />
+  <!-- Client Filter & Search JavaScript -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById('customSearchInput');
+      const filterButtons = document.querySelectorAll('.filter-tab-btn');
+      const searchableItems = document.querySelectorAll('.searchable-item');
+      const cardGroups = document.querySelectorAll('.card-group-section');
 
-  <QuestCard
-    title="A Pet Dragon"
-    author="Remijia"
-    format="Round-Robin"
-    characters="Kain Highwind"
-    summary="Shantotto and Prishe, deeply concerned that Kain lacks a pet dragon unlike Vana'dielian dragoons, decide to help him find one across the realms."
-    slot={0}
-    version="USA"
-    reviewerNote="A perfect quest—no annoying cheap obstacles, wonderful characterization, and a charming storyline."
-  />
+      let currentFilter = 'all';
+      let searchQuery = '';
 
-  <QuestCard
-    title="D: FFIV"
-    author="CharizardFire"
-    format="Round-Robin"
-    characters="Cecil Harvey (Lv100)"
-    summary="Final Fantasy IV's iconic boss progression re-imagined with Dissidia characters and custom battle rules."
-    slot={0}
-    version="USA"
-    authorNote="Pay attention to the custom rules; ignoring them makes this quest significantly harder!"
-  />
+      function applyFilter() {
+        const query = searchQuery.toLowerCase().trim();
 
-  <QuestCard
-    title="Parallel Memories"
-    author="BeRnYGP"
-    format="Round-Robin"
-    characters="Zidane (100), Tifa (100), Golbez (100), Bartz (100), Vaan (100)"
-    summary="Dimensional side-effects are corrupting the warriors, making them immensely strong and possessing them with alternate personalities."
-    slot={20}
-    version="USA"
-  />
+        searchableItems.forEach(item => {
+          const text = (item.getAttribute('data-search-text') || '').toLowerCase();
+          const matchesSearch = query === '' || text.includes(query);
+
+          // Find group parent if any
+          const parentGroup = item.closest('.card-group-section');
+          const groupType = parentGroup ? parentGroup.getAttribute('data-group-type') : null;
+
+          let matchesTab = true;
+          if (currentFilter !== 'all') {
+            if (currentFilter === 'farming' && groupType !== 'farming') matchesTab = false;
+            if (currentFilter === 'themed' && groupType !== 'themed') matchesTab = false;
+            if (currentFilter === 'competitive' && groupType !== 'competitive') matchesTab = false;
+            if (currentFilter === 'sagas' && groupType !== 'sagas') matchesTab = false;
+            if (currentFilter === 'standalone' && groupType !== 'standalone') matchesTab = false;
+          }
+
+          if (matchesSearch && matchesTab) {
+            item.style.display = '';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+
+        // Hide empty groups
+        cardGroups.forEach(group => {
+          const visibleChildren = group.querySelectorAll('.searchable-item:not([style*="display: none"])');
+          if (visibleChildren.length === 0) {
+            group.style.display = 'none';
+          } else {
+            group.style.display = '';
+          }
+        });
+      }
+
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          searchQuery = e.target.value;
+          applyFilter();
+        });
+      }
+
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFilter = btn.getAttribute('data-target') || 'all';
+          applyFilter();
+        });
+      });
+    });
+  </script>
+
+  <style>
+    .filter-tab-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-card);
+      color: var(--text-muted);
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-subheading);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      letter-spacing: 0.03em;
+    }
+
+    .filter-tab-btn:hover {
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--text-main);
+      border-color: var(--accent-primary);
+    }
+
+    .filter-tab-btn.active {
+      background: linear-gradient(90deg, rgba(56, 189, 248, 0.25) 0%, rgba(56, 189, 248, 0.1) 100%);
+      color: #38bdf8;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+    }
+  </style>
 </BaseLayout>

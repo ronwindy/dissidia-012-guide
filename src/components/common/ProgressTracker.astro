@@ -1,31 +1,158 @@
 ---
 interface Props {
   id: string;
-  label: string;
+  label?: string;
   subtext?: string;
 }
 
-const { id, label, subtext } = Astro.props;
+const { id, label = "Mark Complete", subtext } = Astro.props;
 ---
 
-<div class="progress-track-item" data-item-id={id} style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-card); border-radius: var(--radius-sm); margin-bottom: 0.5rem; transition: background var(--transition-fast);">
-  <div style="display: flex; align-items: center; gap: 0.75rem;">
-    <button 
-      type="button" 
-      class="progress-toggle-btn" 
-      data-target-id={id} 
-      aria-label={`Toggle completion for ${label}`}
-      style="min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: 2px solid var(--border-card); border-radius: 6px; cursor: pointer; color: var(--accent-success); font-size: 1.2rem; transition: all var(--transition-fast);"
-    >
-      <span class="check-icon" style="opacity: 0;">✓</span>
-    </button>
-    <div>
-      <div class="progress-label" style="font-weight: 600; color: var(--text-main); font-size: 0.95rem;">{label}</div>
-      {subtext && <div style="font-size: 0.78rem; color: var(--text-dim);">{subtext}</div>}
-    </div>
-  </div>
-  <span class="status-pill" style="font-size: 0.72rem; font-family: var(--font-mono); color: var(--text-dim); text-transform: uppercase;">Incomplete</span>
-</div>
+<button 
+  type="button" 
+  class="progress-tracker-btn" 
+  data-item-id={id} 
+  aria-label={`Toggle completion for ${label}`}
+  title="Click to toggle completion status"
+>
+  <span class="tracker-checkbox">
+    <svg class="tracker-check-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+  </span>
+  <span class="tracker-content">
+    <span class="tracker-label">{label}</span>
+    {subtext && <span class="tracker-subtext">{subtext}</span>}
+  </span>
+  <span class="tracker-status-pill status-incomplete">Incomplete</span>
+</button>
+
+<style>
+  .progress-tracker-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.4rem 0.75rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.015) 100%), rgba(12, 17, 30, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 2px 8px rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-sm);
+    color: var(--text-main);
+    cursor: pointer;
+    user-select: none;
+    transition: all var(--transition-fast);
+    text-align: left;
+    font-family: inherit;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .progress-tracker-btn:hover {
+    border-color: rgba(56, 189, 248, 0.45);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%), rgba(18, 25, 44, 0.8);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 4px 12px rgba(0, 0, 0, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .tracker-checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    background: rgba(0, 0, 0, 0.35);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+  }
+
+  .progress-tracker-btn:hover .tracker-checkbox {
+    border-color: var(--accent-primary);
+  }
+
+  .tracker-check-svg {
+    opacity: 0;
+    transform: scale(0.6);
+    transition: all var(--transition-fast);
+    color: #fff;
+  }
+
+  .tracker-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+  }
+
+  .tracker-label {
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--text-main);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color var(--transition-fast);
+  }
+
+  .tracker-subtext {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+  }
+
+  .tracker-status-pill {
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-left: 0.35rem;
+    transition: all var(--transition-fast);
+  }
+
+  .tracker-status-pill.status-incomplete {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-dim);
+  }
+
+  /* Completed Active State */
+  .progress-tracker-btn.completed {
+    border-color: rgba(16, 185, 129, 0.45);
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(12, 17, 30, 0.75) 100%);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 0 16px rgba(16, 185, 129, 0.15);
+  }
+
+  .progress-tracker-btn.completed .tracker-checkbox {
+    background: var(--accent-success);
+    border-color: var(--accent-success);
+  }
+
+  .progress-tracker-btn.completed .tracker-check-svg {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .progress-tracker-btn.completed .tracker-label {
+    color: #6ee7b7;
+    text-decoration: line-through;
+    opacity: 0.85;
+  }
+
+  .progress-tracker-btn.completed .tracker-status-pill {
+    background: rgba(16, 185, 129, 0.18);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: #34d399;
+  }
+</style>
 
 <script is:inline>
   if (typeof document !== "undefined") {
@@ -49,50 +176,37 @@ const { id, label, subtext } = Astro.props;
       }
     }
 
-    function updateItemUI(container, isDone) {
-      const btn = container.querySelector(".progress-toggle-btn");
-      const icon = container.querySelector(".check-icon");
-      const pill = container.querySelector(".status-pill");
-      const label = container.querySelector(".progress-label");
-
+    function updateItemUI(btn, isDone) {
+      const pill = btn.querySelector(".tracker-status-pill");
       if (isDone) {
-        container.style.borderColor = "rgba(16, 185, 129, 0.4)";
-        container.style.background = "rgba(16, 185, 129, 0.08)";
-        if (btn) btn.style.borderColor = "var(--accent-success)";
-        if (icon) icon.style.opacity = "1";
+        btn.classList.add("completed");
         if (pill) {
-          pill.textContent = "Complete";
-          pill.style.color = "var(--accent-success)";
+          pill.textContent = "Completed ✓";
+          pill.classList.remove("status-incomplete");
         }
-        if (label) label.style.textDecoration = "line-through";
       } else {
-        container.style.borderColor = "var(--border-card)";
-        container.style.background = "rgba(255, 255, 255, 0.03)";
-        if (btn) btn.style.borderColor = "var(--border-card)";
-        if (icon) icon.style.opacity = "0";
+        btn.classList.remove("completed");
         if (pill) {
           pill.textContent = "Incomplete";
-          pill.style.color = "var(--text-dim)";
+          pill.classList.add("status-incomplete");
         }
-        if (label) label.style.textDecoration = "none";
       }
     }
 
     // Initialize all items on page
-    document.querySelectorAll(".progress-track-item").forEach(container => {
-      const id = container.getAttribute("data-item-id");
+    document.querySelectorAll(".progress-tracker-btn").forEach(btn => {
+      const id = btn.getAttribute("data-item-id");
       if (!id) return;
 
       const completed = getCompleted();
-      updateItemUI(container, completed.includes(id));
+      updateItemUI(btn, completed.includes(id));
 
-      const btn = container.querySelector(".progress-toggle-btn");
-      btn?.addEventListener("click", () => {
+      btn.addEventListener("click", () => {
         const current = getCompleted();
         const exists = current.includes(id);
         const next = exists ? current.filter(x => x !== id) : [...current, id];
         setCompleted(next);
-        updateItemUI(container, !exists);
+        updateItemUI(btn, !exists);
       });
     });
   }

@@ -31,7 +31,7 @@ const { id, title, location, chapter, floors, strategy } = Astro.props;
       {location && <div style="font-size: 0.85rem; color: var(--text-dim);">Location: {location}</div>}
     </div>
     <div>
-      <ProgressTracker id={`gateway-${id}`} label={`Clear: ${title}`} />
+      <ProgressTracker id={`gateway-${id}`} label="Cleared" />
     </div>
   </div>
 

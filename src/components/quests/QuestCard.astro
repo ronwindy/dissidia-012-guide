@@ -1,6 +1,7 @@
 ---
 interface Props {
   title: string;
+  series?: string;
   part?: string;
   author: string;
   format: string;
@@ -8,12 +9,15 @@ interface Props {
   summary: string;
   slot?: number | string;
   version?: string;
+  date?: string;
   authorNote?: string;
   reviewerNote?: string;
+  tags?: string[];
 }
 
 const {
   title,
+  series,
   part,
   author,
   format,
@@ -21,37 +25,66 @@ const {
   summary,
   slot,
   version = "USA",
+  date,
   authorNote,
-  reviewerNote
+  reviewerNote,
+  tags = []
 } = Astro.props;
 ---
 
 <div class="glass-card quest-card" style="margin-bottom: 1.5rem; border-left: 3px solid var(--accent-primary);">
   <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;">
     <div>
-      {part && <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--accent-cosmos); text-transform: uppercase;">{part}</div>}
-      <h4 style="margin: 0.1rem 0; font-size: 1.3rem; color: var(--text-main);">{title}</h4>
-      <div style="font-size: 0.85rem; color: var(--text-dim);">Created by: <strong style="color: var(--text-muted);">{author}</strong></div>
+      {part && (
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.2rem;">
+          <span style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--accent-cosmos); text-transform: uppercase; font-weight: 700;">
+            {part}
+          </span>
+          {series && <span style="font-size: 0.75rem; color: var(--text-dim);">&bull; {series}</span>}
+        </div>
+      )}
+      <h4 style="margin: 0.1rem 0; font-size: 1.25rem; color: var(--text-main);">{title}</h4>
+      <div style="font-size: 0.85rem; color: var(--text-dim); display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.2rem;">
+        <span>Created by: <strong style="color: var(--text-muted);">{author}</strong></span>
+        {date && <span>&bull; Updated: <code>{date}</code></span>}
+      </div>
     </div>
-    <div style="display: flex; gap: 0.5rem; font-size: 0.75rem; font-family: var(--font-mono);">
+    <div style="display: flex; gap: 0.4rem; font-size: 0.75rem; font-family: var(--font-mono); flex-wrap: wrap;">
       <span class="badge-pill badge-new">{format}</span>
-      {slot !== undefined && <span class="badge-pill badge-cosmos">Slot: {slot}</span>}
+      {slot !== undefined && <span class="badge-pill badge-cosmos">Slot {slot}</span>}
       <span class="badge-pill badge-crystal">{version}</span>
     </div>
   </div>
 
-  <div style="background: rgba(0, 0, 0, 0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.88rem; margin-bottom: 0.85rem;">
-    <div style="margin-bottom: 0.35rem;"><strong style="color: var(--accent-primary);">Playable Cast:</strong> {characters}</div>
-    <div style="color: var(--text-muted); font-style: italic;">&ldquo;{summary}&rdquo;</div>
+  <div style="background: rgba(0, 0, 0, 0.25); padding: 0.85rem 1rem; border-radius: var(--radius-sm); font-size: 0.88rem; margin-bottom: 0.85rem; border: 1px solid rgba(255, 255, 255, 0.04);">
+    <div style="margin-bottom: 0.4rem;">
+      <strong style="color: var(--accent-primary);">Playable Cast:</strong> 
+      <span style="color: var(--text-main);">{characters}</span>
+    </div>
+    <div style="color: var(--text-muted); font-style: italic; line-height: 1.5;">&ldquo;{summary}&rdquo;</div>
   </div>
 
+  {tags.length > 0 && (
+    <div style="display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.6rem;">
+      {tags.map(tag => (
+        <span style="font-size: 0.7rem; font-family: var(--font-mono); background: rgba(255, 255, 255, 0.05); color: var(--text-muted); padding: 0.15rem 0.45rem; border-radius: var(--radius-sm); border: 1px solid rgba(255, 255, 255, 0.08);">
+          #{tag}
+        </span>
+      ))}
+    </div>
+  )}
+
   {(authorNote || reviewerNote) && (
-    <div style="display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.82rem; border-top: 1px solid var(--border-card-subtle); padding-top: 0.6rem; color: var(--text-muted);">
+    <div style="display: flex; flex-direction: column; gap: 0.45rem; font-size: 0.83rem; border-top: 1px solid var(--border-card-subtle); padding-top: 0.65rem; color: var(--text-muted);">
       {authorNote && (
-        <div><strong>Author Note:</strong> {authorNote}</div>
+        <div style="line-height: 1.5;">
+          <strong style="color: #cbd5e1;">Author Note:</strong> {authorNote}
+        </div>
       )}
       {reviewerNote && (
-        <div><strong style="color: var(--accent-cosmos);">Suih / Zahlzeit Review:</strong> {reviewerNote}</div>
+        <div style="line-height: 1.5;">
+          <strong style="color: var(--accent-cosmos);">Suih / Zahlzeit Review:</strong> {reviewerNote}
+        </div>
       )}
     </div>
   )}
