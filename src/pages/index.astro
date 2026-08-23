@@ -6,6 +6,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
 
 const quickStats = [
   { label: "Playable Fighters", value: "32 + 1", desc: "10 New, 11 Cosmos, 11 Chaos, Aerith Assist" },
+  { label: "Battle Arenas", value: "19+ Stages", desc: "12 Omega hazards, 7 new 012 maps, Battlegen drops" },
   { label: "Campaign Cycles", value: "3 Cycles", desc: "012 Treachery, 013 Light, 000 Confessions" },
   { label: "Archival Reports", value: "20 Reports", desc: "Lore secrets, battle triggers, PP catalog unlocks" },
   { label: "Legendary Sets", value: "7+ High Sets", desc: "Lufenian, Genji, Machine, Honey, Shell & Excalibur II" }
@@ -29,6 +30,15 @@ const portals = [
     href: `${baseUrl}mechanics/`,
     cta: "Master Combat Mechanics",
     icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`
+  },
+  {
+    title: "Arena & Stage Master Guide",
+    badge: "19+ Arenas",
+    badgeClass: "badge-crystal",
+    desc: "Complete 3D geometry breakdown, standard vs. Omega hazards, destructible objects, Stage Battlegen drops, and character synergy ratings for all 19 stages.",
+    href: `${baseUrl}arenas/`,
+    cta: "Explore Battle Arenas",
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`
   },
   {
     title: "012: Treachery of the Gods",
