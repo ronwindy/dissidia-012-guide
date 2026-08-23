@@ -1145,6 +1145,203 @@ table.data-table tr:hover td {
   }
 }
 
+/* ==========================================================================
+   PSP HUD Badges, Controller Inputs & Visual Battle Simulator Tokens
+   ========================================================================== */
+.psp-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.82rem;
+  line-height: 1;
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-xs);
+  vertical-align: middle;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+}
+
+.psp-circle {
+  background: rgba(56, 189, 248, 0.2);
+  border: 1px solid #38bdf8;
+  color: #7dd3fc;
+}
+
+.psp-square {
+  background: rgba(244, 63, 94, 0.2);
+  border: 1px solid #f43f5e;
+  color: #fda4af;
+}
+
+.psp-triangle {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid #10b981;
+  color: #6ee7b7;
+}
+
+.psp-cross {
+  background: rgba(99, 102, 241, 0.2);
+  border: 1px solid #6366f1;
+  color: #a5b4fc;
+}
+
+.psp-shoulder {
+  background: linear-gradient(180deg, #2a344a 0%, #172033 100%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #f8fafc;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 0.12rem 0.5rem;
+  border-radius: var(--radius-sm);
+}
+
+.psp-stick {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #cbd5e1;
+}
+
+/* Battle HUD Simulator Shell */
+.hud-simulator-card {
+  background: linear-gradient(180deg, #090e1c 0%, #060913 100%);
+  border: 2px solid var(--border-panel);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8), 0 8px 30px rgba(0, 0, 0, 0.6);
+  position: relative;
+  overflow: hidden;
+  margin: 1.5rem 0;
+}
+
+.hud-simulator-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--color-brv) 50%, transparent 100%);
+}
+
+.hud-gauge-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.hud-gauge-bar {
+  height: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-xs);
+  position: relative;
+  overflow: hidden;
+}
+
+.hud-gauge-fill-hp {
+  height: 100%;
+  width: 82%;
+  background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
+
+.hud-gauge-fill-brv {
+  height: 100%;
+  width: 65%;
+  background: linear-gradient(90deg, #0284c7 0%, #38bdf8 100%);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+}
+
+.hud-gauge-fill-ex {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #d97706 0%, #fbbf24 100%);
+  box-shadow: 0 0 14px rgba(251, 191, 36, 0.7);
+  animation: exPulse 2s infinite ease-in-out;
+}
+
+@keyframes exPulse {
+  0%, 100% { opacity: 0.85; filter: brightness(1); }
+  50% { opacity: 1; filter: brightness(1.25); }
+}
+
+.assist-meter-box {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.assist-meter-segment {
+  flex: 1;
+  height: 12px;
+  border-radius: 2px;
+  border: 1px solid rgba(16, 185, 129, 0.5);
+  background: linear-gradient(90deg, #059669 0%, #10b981 100%);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+}
+
+.assist-meter-segment.empty {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: none;
+}
+
+/* Character Mini Portrait Avatar */
+.character-avatar-mini {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border-panel);
+  background: var(--surface-panel-alt);
+  object-fit: cover;
+  object-position: top center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.character-avatar-mini:hover {
+  transform: scale(1.1);
+  border-color: var(--color-brv);
+}
+
+/* Visual Combat Flowchart Nodes */
+.combat-flow-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+  position: relative;
+}
+
+.flow-step-card {
+  background: var(--surface-panel-alt);
+  border: 1px solid var(--border-panel-subtle);
+  border-top: 3px solid var(--color-brv);
+  border-radius: var(--radius-sm);
+  padding: 1.15rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.flow-step-number {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(56, 189, 248, 0.2);
+  border: 1px solid var(--color-brv);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
 /* Print Optimization */
 @media print {
   body {

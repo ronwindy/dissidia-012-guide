@@ -1,0 +1,1141 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+import DataTable from '../../components/common/DataTable.astro';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+
+const quickJumpSections = [
+  { id: "battle-hud-simulator", title: "Battle HUD Simulator", icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>` },
+  { id: "brv-hp-system", title: "1. BRV & HP System", icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/></svg>` },
+  { id: "movement-evasion", title: "2. Movement & Evasion", icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>` },
+  { id: "guards-priorities", title: "3. Guards & Collision", icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>` },
+  { id: "assist-system", title: "4. Assist System (012)", icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>` },
+  { id: "ex-mode-revenge", title: "5. EX Mode & Revenge", icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>` },
+  { id: "wall-rush-chase", title: "6. Wall Rush & Chases", icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>` },
+  { id: "damage-cancels", title: "7. Damage & Cancels", icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>` },
+  { id: "summon-tactics", title: "8. Summons & Tactics", icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>` },
+  { id: "build-archetypes", title: "9. Builds & Equipment", icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l4 6-10 12L2 9z"/></svg>` }
+];
+
+const assistSynergyRoster = [
+  {
+    name: "Kuja",
+    image: "dissidia_012_characters/26_Kuja.png",
+    type: "Ground & Aerial Dominance",
+    brvAttack: "Snatch Blow (Multi-hit tracking rise)",
+    hpAttack: "Flare Star (Massive aerial suction sphere)",
+    strengths: "Extreme vertical tracking, instantaneous startup, excellent combo extender and confirmed HP finisher off any Wall Rush.",
+    tier: "S+ Tier",
+    tierClass: "badge-cosmos"
+  },
+  {
+    name: "Jecht",
+    image: "dissidia_012_characters/27_Jecht.png",
+    type: "Melee Lock & Wall Slam",
+    brvAttack: "Jecht Stream (Rapid close-range fists to ground slam)",
+    hpAttack: "Jecht Blade (High-impact cross slash)",
+    strengths: "Long hitstun suspension allowing the player to charge heavy attacks, reposition, or initiate guaranteed link combos.",
+    tier: "S Tier",
+    tierClass: "badge-cosmos"
+  },
+  {
+    name: "Aerith",
+    image: "dissidia_012_characters/32_Aerith.png",
+    type: "Support & Trap Assist",
+    brvAttack: "Seal Evil (Freezes opponent in place for 3 seconds)",
+    hpAttack: "Holy (Homing pillars of divine light)",
+    strengths: "Seal Evil creates the longest raw stun in the game, guaranteeing any slow HP attack or full EX charge setup.",
+    tier: "S Tier",
+    tierClass: "badge-crystal"
+  },
+  {
+    name: "Tidus",
+    image: "dissidia_012_characters/13_Tidus.png",
+    type: "Evasive Ambush",
+    brvAttack: "Cut & Run (Acrobatic backflip strike)",
+    hpAttack: "Energy Rain (Multi-projectile bombardment)",
+    strengths: "Very hard to punish on whiff, fast startup, launches foes directly into the player's attack plane.",
+    tier: "A+ Tier",
+    tierClass: "badge-new"
+  },
+  {
+    name: "Sephiroth",
+    image: "dissidia_012_characters/24_Sephiroth.png",
+    type: "Long-Range Sword Wall",
+    brvAttack: "Oblivion / Sudden Cruelty (Massive horizontal swipe)",
+    hpAttack: "Black Materia (Colossal falling meteor)",
+    strengths: "Giant hitbox catches enemy dodges; Black Materia controls massive aerial space.",
+    tier: "A Tier",
+    tierClass: "badge-new"
+  },
+  {
+    name: "Yuna",
+    image: "dissidia_012_characters/14_Yuna.png",
+    type: "Multi-Zone Suppression",
+    brvAttack: "Valefor Sonic Wings / Ixion Aerospark",
+    hpAttack: "Bahamut Megaflare (Giant directional beam)",
+    strengths: "Persistent multi-hit projectiles create zoning pressure and lock opponents into defensive blocks.",
+    tier: "A Tier",
+    tierClass: "badge-new"
+  }
+];
+
+const priorityMatrix = [
+  {
+    tier: "Weak Physical",
+    icon: "🗡️",
+    examples: "Quick poke strikes, initial startup hits of light combos (e.g., Firion Reel, Zidane pokes)",
+    vsGuard: "Staggers Attacker (Deflection Lag)",
+    vsMagic: "Beaten by Mid & Strong Magic; Nullifies Weak Magic",
+    notes: "High frame startup, easily punished on block."
+  },
+  {
+    tier: "Mid Physical",
+    icon: "⚔️",
+    examples: "Standard heavy sword swings, finisher hits, dashing strikes (e.g., Cloud Climhazzard, Squall Solid Barrel)",
+    vsGuard: "Staggers Attacker (Brief Deflection)",
+    vsMagic: "Clashes with Mid Magic; Pierces Weak Magic",
+    notes: "Core combo fodder across most melee characters."
+  },
+  {
+    tier: "Strong Physical",
+    icon: "💥",
+    examples: "Charged melee strikes, heavy weapon smashes (e.g., Garland High Weapon, Cloud Braver, Sephiroth Godspeed)",
+    vsGuard: "Block Stagger (Breaks defender's guard)",
+    vsMagic: "Pierces Weak & Mid Magic; Clashes with Strong Magic",
+    notes: "Causes guard stagger, leaving the defender open to immediate followup."
+  },
+  {
+    tier: "Unblockable Physical",
+    icon: "☠️",
+    examples: "Certain command grabs, specialized EX Mode attacks, specific HP finishers",
+    vsGuard: "Guard Pierce (Ignores Guard)",
+    vsMagic: "Bypasses all standard guard and clashes based on hitbox",
+    notes: "Must be dodged or countered via Assist Change / EX Revenge."
+  },
+  {
+    tier: "Weak Magic",
+    icon: "✨",
+    examples: "Single energy darts, small fireballs, rapid pellets (e.g., Terra Fire, Kuja Ring Holy startup)",
+    vsGuard: "Reflected back at Attacker",
+    vsMagic: "Nullified by Weak/Mid/Strong Physical & Magic",
+    notes: "Easily reflected by standard Guard (R)."
+  },
+  {
+    tier: "Mid Magic",
+    icon: "🔮",
+    examples: "Medium projectiles, homing orbs (e.g., Ultimecia Knight's Arrows, Shantotto Tier-2 Spells, Lightning Watera)",
+    vsGuard: "Reflected back at Attacker (Slow reflection)",
+    vsMagic: "Pierces Weak Magic; Clashes with Mid Physical/Magic",
+    notes: "Zoning staple; force opponent into aerial dodges."
+  },
+  {
+    tier: "Strong Magic",
+    icon: "☄️",
+    examples: "Heavy vortexes, large energy blasts, charged spells (e.g., Terra Meltdown, Golbez Genesis Rock, Kefka Havoc Wing)",
+    vsGuard: "Block Stagger (Guard Crush)",
+    vsMagic: "Pierces Weak & Mid Magic; Clashes with Strong Magic",
+    notes: "High shield pressure; cannot be reflected by normal guard."
+  },
+  {
+    tier: "Unblockable Magic",
+    icon: "🌌",
+    examples: "Specialized field traps, gravitational vortexes, most HP spells (e.g., Terra Graviga, Kuja Flare Star, Emperor Starfall)",
+    vsGuard: "Guard Pierce (Direct Hit)",
+    vsMagic: "Ignores all blocking states",
+    notes: "Demands precise dodge timing or directional dash evasion."
+  }
+];
+
+const exBurstInputsTable = [
+  {
+    type: "Rapid Button Mash",
+    icon: "⚡",
+    characters: "Cloud, Garland, Kain, Jecht, Prishe",
+    charImages: ["08_Cloud_Strife.png", "05_Kain_Highwind.png", "27_Jecht.png"],
+    mechanic: "Repeatedly tap the displayed button as fast as possible to fill the power gauge before timeout.",
+    badgeInput: "psp-circle",
+    badgeLabel: "⭕ Mash"
+  },
+  {
+    type: "Precision Timing Bar",
+    icon: "🎯",
+    characters: "Squall, Sephiroth, Warrior of Light, Gabranth",
+    charImages: ["10_Squall_Leonhart.png", "24_Sephiroth.png", "01_Warrior_of_Light.webp"],
+    mechanic: "Press R or R+Square exactly as the moving needle crosses the marked sweet-spot zones.",
+    badgeInput: "psp-shoulder",
+    badgeLabel: "[ R ] Timing"
+  },
+  {
+    type: "Directional Command Sequence",
+    icon: "🎮",
+    characters: "Lightning, Tifa, Vaan, Zidane, Bartz",
+    charImages: ["17_Lightning.png", "09_Tifa_Lockhart.png", "16_Vaan.png"],
+    mechanic: "Input the exact on-screen directional sequence (Up, Down, Left, Triangle, Square) with prompt highlights.",
+    badgeInput: "psp-triangle",
+    badgeLabel: "▲ / 🔲 Sequence"
+  },
+  {
+    type: "Slot Reel & Roulette",
+    icon: "🎰",
+    characters: "Tifa, Gilgamesh, Kefka",
+    charImages: ["30_Gilgamesh.png", "23_Kefka_Palazzo.png"],
+    mechanic: "Stop spinning slot reels on matching jackpot icons (HIT, CRIT, Excalibur) for maximum multi-hits.",
+    badgeInput: "psp-square",
+    badgeLabel: "🔲 Stop Reel"
+  }
+];
+
+const summonClassifications = [
+  {
+    category: "BRV Draining & Halving",
+    icon: "🩸",
+    summons: "Odin, Bahamut, Shiva, Leviathan, Ramuh",
+    effect: "Instantly slashes the opponent's current Bravery in half, drains points over time, or redistributes BRV to the caster.",
+    tactic: "Best used against opponents hoarding 4,000+ Bravery to prevent instant lethal HP finishes."
+  },
+  {
+    category: "BRV Locking & Freezing",
+    icon: "❄️",
+    summons: "Carbuncle, Magic Pot, Cactuar, Tonberry",
+    effect: "Locks the opponent's Bravery at its current value, forces it to 1, or mirrors user Bravery directly.",
+    tactic: "Ideal for neutralizing enemy Break Bonuses or preserving your own high Bravery pool."
+  },
+  {
+    category: "BRV Swapping & Cloning",
+    icon: "🔄",
+    summons: "Alexander, Titan, Ifrit, Phoenix, Chocobo",
+    effect: "Swaps Bravery values between combatants, clones stage BRV pools, or boosts user stats by 1.5x - 2.0x.",
+    tactic: "The ultimate comeback tool when broken or low on Bravery near match-point."
+  },
+  {
+    category: "Assist & EX Suppression",
+    icon: "🚫",
+    summons: "Iron Giant, Lich, Atomos, Marilith, Kraken, Tiamat",
+    effect: "Drains the opponent's Assist Gauge to zero, locks their EX Gauge, or empties EX Force from the field.",
+    tactic: "Shuts down top-tier Assist spam (Kuja/Jecht) and blocks EX Revenge comebacks."
+  }
+];
+---
+
+<BaseLayout title="Combat Mechanics Master Guide" currentPath="mechanics">
+  <!-- Hero Section -->
+  <div class="hero-panel" style="border-left: 4px solid var(--color-brv);">
+    <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.85rem; flex-wrap: wrap;">
+      <span class="badge-pill badge-cosmos">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Combat Mechanics Master
+      </span>
+      <span class="badge-pill badge-new">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        System Reference
+      </span>
+      <span class="badge-pill badge-crystal">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="6 2 18 2 22 8 12 22 2 8 6 2"/></svg>
+        PSP Final Fantasy Engine
+      </span>
+    </div>
+
+    <h1 style="margin-bottom: 0.5rem; letter-spacing: 0.04em;">
+      MASTER COMBAT MECHANICS & SYSTEM COMPENDIUM
+    </h1>
+    <p style="font-size: 1.12rem; color: var(--color-brv); font-family: var(--font-subheading); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1.25rem;">
+      Exhaustive Visual Breakdown of Bravery, Assist Dynamics, EX Revenge, Priority Collision Frames, and Damage Calculations
+    </p>
+    <p style="font-size: 0.98rem; color: var(--text-sub); max-width: 980px; line-height: 1.7; margin-bottom: 1.5rem;">
+      <em>Dissidia 012 [duodecim] Final Fantasy</em> is built on an intricate dual-resource combat model combining <strong>Bravery (BRV)</strong> power-stealing, lethal <strong>Hit Point (HP)</strong> conversions, 3D aerial navigation, the revolutionary <strong>Assist System</strong>, and dynamic <strong>EX Mode / EX Revenge</strong> mechanics.
+    </p>
+
+    <!-- Quick Jump Menu with Icons -->
+    <div style="border-top: 1px solid var(--border-panel-subtle); padding-top: 1.25rem; margin-top: 1.25rem;">
+      <div style="font-size: 0.82rem; font-family: var(--font-subheading); font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+        Quick Jump to Combat Modules:
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+        {quickJumpSections.map(s => (
+          <a href={`#${s.id}`} class="badge-pill badge-enemy" style="text-decoration: none; padding: 0.35rem 0.75rem; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; transition: all var(--transition-fast);">
+            <span set:html={s.icon} style="display: flex; align-items: center;" />
+            <span>{s.title}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- VISUAL BATTLE HUD SIMULATOR -->
+  <section id="battle-hud-simulator" class="guide-section">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="badge-pill badge-cosmos">Interactive Architecture</span>
+        <h2 style="margin: 0; border: none; padding: 0;">Interactive Battle HUD Architecture</h2>
+      </div>
+    </div>
+
+    <!-- Battle HUD Visual Card -->
+    <div class="hud-simulator-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border-panel-subtle); padding-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <span class="badge-pill badge-brv" style="font-size: 0.75rem;">STAGE BRV POOL</span>
+          <span style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 800; color: #fbbf24; text-shadow: 0 0 10px rgba(251,191,36,0.5);">
+            💰 2,480
+          </span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; font-family: var(--font-mono); color: var(--text-dim);">
+          <span>ARENA:</span>
+          <span style="color: var(--text-main); font-weight: 700;">Order's Sanctuary</span>
+        </div>
+      </div>
+
+      <!-- Player HUD Pane vs Opponent HUD Pane Grid -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+        <!-- PLAYER 1 HUD (LIGHTNING) -->
+        <div style="background: rgba(14, 20, 36, 0.7); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: var(--radius-sm); padding: 1rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem;">
+            <div style="display: flex; align-items: center; gap: 0.6rem;">
+              <img src={`${baseUrl}dissidia_012_characters/17_Lightning.png`} alt="Lightning" class="character-avatar-mini" />
+              <div>
+                <div style="font-family: var(--font-heading); font-size: 1.15rem; font-weight: 800; color: #fff; line-height: 1;">LIGHTNING</div>
+                <div style="font-size: 0.72rem; font-family: var(--font-mono); color: var(--color-brv);">LV 100 • COSMOS</div>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 0.7rem; color: var(--text-dim); font-family: var(--font-mono);">HP (8,190 / 9,999)</div>
+              <div style="font-family: var(--font-mono); font-weight: 800; color: #34d399; font-size: 1.05rem;">8,190</div>
+            </div>
+          </div>
+
+          <!-- HP Bar -->
+          <div class="hud-gauge-bar" style="margin-bottom: 0.6rem;" title="Player HP Gauge">
+            <div class="hud-gauge-fill-hp" style="width: 82%;"></div>
+          </div>
+
+          <!-- BRV Bank -->
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.25rem;">
+            <span style="font-size: 0.75rem; font-family: var(--font-subheading); font-weight: 700; color: var(--color-brv); letter-spacing: 0.05em;">BRAVERY (BRV)</span>
+            <span style="font-family: var(--font-mono); font-weight: 800; font-size: 1.35rem; color: #38bdf8; text-shadow: 0 0 12px rgba(56,189,248,0.7);">
+              3,450
+            </span>
+          </div>
+          <div class="hud-gauge-bar" style="margin-bottom: 0.85rem;" title="Player BRV Gauge">
+            <div class="hud-gauge-fill-brv" style="width: 55%;"></div>
+          </div>
+
+          <!-- Assist & EX Gauge Status -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.08);">
+            <div>
+              <div style="font-size: 0.7rem; font-family: var(--font-mono); color: var(--color-assist); margin-bottom: 0.25rem; font-weight: 700;">
+                ASSIST GAUGE (2 BARS)
+              </div>
+              <div class="assist-meter-box">
+                <div class="assist-meter-segment" title="Bar 1: Assist BRV / Escape Ready"></div>
+                <div class="assist-meter-segment" title="Bar 2: Assist HP Ready"></div>
+              </div>
+            </div>
+            <div>
+              <div style="font-size: 0.7rem; font-family: var(--font-mono); color: var(--color-ex-gauge); margin-bottom: 0.25rem; font-weight: 700;">
+                EX GAUGE (FULL)
+              </div>
+              <div class="hud-gauge-bar">
+                <div class="hud-gauge-fill-ex" style="width: 100%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- OPPONENT HUD (SEPHIROTH) -->
+        <div style="background: rgba(14, 20, 36, 0.7); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: var(--radius-sm); padding: 1rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem;">
+            <div style="display: flex; align-items: center; gap: 0.6rem;">
+              <img src={`${baseUrl}dissidia_012_characters/24_Sephiroth.png`} alt="Sephiroth" class="character-avatar-mini" style="border-color: var(--color-chaos);" />
+              <div>
+                <div style="font-family: var(--font-heading); font-size: 1.15rem; font-weight: 800; color: #fff; line-height: 1;">SEPHIROTH</div>
+                <div style="font-size: 0.72rem; font-family: var(--font-mono); color: var(--color-chaos);">LV 100 • CHAOS</div>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 0.7rem; color: var(--text-dim); font-family: var(--font-mono);">HP (4,200 / 9,999)</div>
+              <div style="font-family: var(--font-mono); font-weight: 800; color: #f87171; font-size: 1.05rem;">4,200</div>
+            </div>
+          </div>
+
+          <!-- HP Bar -->
+          <div class="hud-gauge-bar" style="margin-bottom: 0.6rem;" title="Opponent HP Gauge">
+            <div class="hud-gauge-fill-hp" style="width: 42%; background: linear-gradient(90deg, #dc2626 0%, #f87171 100%);"></div>
+          </div>
+
+          <!-- BRV Bank -->
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.25rem;">
+            <span style="font-size: 0.75rem; font-family: var(--font-subheading); font-weight: 700; color: var(--color-hp); letter-spacing: 0.05em;">BRAVERY (BRV)</span>
+            <span style="font-family: var(--font-mono); font-weight: 800; font-size: 1.35rem; color: #f43f5e; text-shadow: 0 0 12px rgba(244,63,94,0.7);">
+              1,120
+            </span>
+          </div>
+          <div class="hud-gauge-bar" style="margin-bottom: 0.85rem;" title="Opponent BRV Gauge">
+            <div class="hud-gauge-fill-brv" style="width: 25%; background: linear-gradient(90deg, #be123c 0%, #f43f5e 100%);"></div>
+          </div>
+
+          <!-- Assist & EX Gauge Status -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.08);">
+            <div>
+              <div style="font-size: 0.7rem; font-family: var(--font-mono); color: var(--color-assist); margin-bottom: 0.25rem; font-weight: 700;">
+                ASSIST GAUGE (1 BAR)
+              </div>
+              <div class="assist-meter-box">
+                <div class="assist-meter-segment"></div>
+                <div class="assist-meter-segment empty"></div>
+              </div>
+            </div>
+            <div>
+              <div style="font-size: 0.7rem; font-family: var(--font-mono); color: var(--color-ex-gauge); margin-bottom: 0.25rem; font-weight: 700;">
+                EX GAUGE (40%)
+              </div>
+              <div class="hud-gauge-bar">
+                <div class="hud-gauge-fill-ex" style="width: 40%; animation: none;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 1: THE BRAVERY & HP SYSTEM -->
+  <section id="brv-hp-system" class="guide-section">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="badge-pill badge-cosmos">Core Engine</span>
+        <h2 style="margin: 0; border: none; padding: 0;">1. The Bravery & HP Core Battle System</h2>
+      </div>
+    </div>
+
+    <!-- Visual Damage Flowchart -->
+    <div class="combat-flow-grid">
+      <div class="flow-step-card" style="border-top-color: var(--color-brv);">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div class="flow-step-number">1</div>
+          <span class="psp-badge psp-circle">⭕ BRV Attack</span>
+        </div>
+        <strong style="color: var(--color-brv); font-size: 0.95rem;">Steal Bravery Points</strong>
+        <p style="font-size: 0.84rem; color: var(--text-sub); margin-bottom: 0; line-height: 1.5;">
+          Circle attacks siphon the opponent's Bravery points directly into your personal attack bank.
+        </p>
+      </div>
+
+      <div class="flow-step-card" style="border-top-color: var(--color-chaos);">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div class="flow-step-number" style="border-color: var(--color-chaos); background: rgba(239,68,68,0.2);">2</div>
+          <span class="badge-pill badge-chaos" style="font-size: 0.7rem;">BRV &lt; 0</span>
+        </div>
+        <strong style="color: var(--color-chaos); font-size: 0.95rem;">Inflict BREAK State</strong>
+        <p style="font-size: 0.84rem; color: var(--text-sub); margin-bottom: 0; line-height: 1.5;">
+          Dropping enemy Bravery below zero awards the full Stage Bravery Pool and inflicts 100% critical hit vulnerability.
+        </p>
+      </div>
+
+      <div class="flow-step-card" style="border-top-color: var(--color-hp);">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div class="flow-step-number" style="border-color: var(--color-hp); background: rgba(244,63,94,0.2);">3</div>
+          <span class="psp-badge psp-square">🔲 HP Attack</span>
+        </div>
+        <strong style="color: var(--color-hp); font-size: 0.95rem;">Convert BRV into HP Damage</strong>
+        <p style="font-size: 0.84rem; color: var(--text-sub); margin-bottom: 0; line-height: 1.5;">
+          Square attacks cash out all accumulated Bravery points as direct damage against the enemy HP life bar.
+        </p>
+      </div>
+
+      <div class="flow-step-card" style="border-top-color: var(--color-assist);">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div class="flow-step-number" style="border-color: var(--color-assist); background: rgba(16,185,129,0.2);">4</div>
+          <span class="badge-pill badge-assist" style="font-size: 0.7rem;">Base BRV Regen</span>
+        </div>
+        <strong style="color: var(--color-assist); font-size: 0.95rem;">Bravery Pool Recovery</strong>
+        <p style="font-size: 0.84rem; color: var(--text-sub); margin-bottom: 0; line-height: 1.5;">
+          After an HP hit, your Bravery resets to 0 and gradually regenerates back to your character's Base Bravery.
+        </p>
+      </div>
+    </div>
+
+    <div class="crystal-panel" style="border-left: 4px solid var(--color-brv);">
+      <h3 style="color: var(--color-brv); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        The BREAK Mechanic & Stage Bravery Pool
+      </h3>
+      <p style="font-size: 0.94rem; color: var(--text-sub); line-height: 1.65;">
+        When a fighter's Bravery is reduced below <strong style="color: var(--color-hp);">0</strong>, they enter the <strong style="color: var(--color-hp);">BREAK</strong> state:
+      </p>
+
+      <ul style="color: var(--text-sub); font-size: 0.92rem; padding-left: 1.3rem; line-height: 1.7;">
+        <li><strong>Stage Bravery Payout:</strong> The attacker who caused the Break is immediately awarded the entire accumulated <strong>Stage Bravery Pool</strong> (displayed at the top of the screen).</li>
+        <li><strong>100% Critical Vulnerability:</strong> A broken fighter suffers guaranteed <strong style="color: var(--color-hp);">100% Critical Hits</strong> from all incoming attacks for the duration of the Break.</li>
+        <li><strong>Zero Offensive Threat:</strong> Broken fighters deal zero damage on their own BRV attacks until their Bravery pool recovers.</li>
+        <li><strong>Break Recovery Timer:</strong> The broken character remains broken for approximately <strong>8 to 12 seconds</strong> (affected by character level and recovery accessories) before their Bravery snaps back to their Base Bravery value.</li>
+      </ul>
+
+      <AlertCallout type="tip" title="STAGE DESTRUCTION & POOL ACCUMULATION">
+        Destroying destructible stage elements (pillars in Pandaemonium, crystal rocks in Planet's Core, or machinery in Dream's End) actively adds <strong>+100 to +300 BRV</strong> directly into the Stage Bravery Pool, creating massive payout opportunities on the next Break!
+      </AlertCallout>
+    </div>
+  </section>
+
+  <!-- SECTION 2: MOVEMENT, AGILITY & EVASION -->
+  <section id="movement-evasion" class="guide-section">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="badge-pill badge-cosmos">Mobility</span>
+        <h2 style="margin: 0; border: none; padding: 0;">2. Movement, Agility & 3D Arena Traversal</h2>
+      </div>
+    </div>
+
+    <div class="crystal-panel">
+      <p style="font-size: 0.98rem; color: var(--text-sub); line-height: 1.65;">
+        Mastering 3D arena spatial control is critical for positioning, closing distance on zoning mages, and escaping corner wall-traps.
+      </p>
+
+      <DataTable title="Movement Inputs & Locomotion Mechanics">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 170px;">Action</th>
+              <th style="width: 160px;">Controller Input</th>
+              <th>Mechanical Function & Competitive Application</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🏃</span>
+                  <strong style="color: var(--color-brv);">Free Run</strong>
+                </div>
+              </td>
+              <td><span class="psp-badge psp-stick">Analog Stick</span></td>
+              <td style="font-size: 0.9rem; color: var(--text-sub);">Ground or midair free roaming. Provides full 360-degree control without locking camera facing.</td>
+            </tr>
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                  <span>💨</span>
+                  <strong style="color: var(--color-brv);">Ground / Air Dash</strong>
+                </div>
+              </td>
+              <td>
+                <span class="psp-badge psp-shoulder">[ R ]</span> + <span class="psp-badge psp-cross">✕</span>
+              </td>
+              <td style="font-size: 0.9rem; color: var(--text-sub);">High-velocity homing dash directly toward the locked target. Has initial startup frames vulnerable to projectiles.</td>
+            </tr>
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🧭</span>
+                  <strong style="color: var(--color-brv);">Free Dash</strong>
+                </div>
+              </td>
+              <td>
+                <span class="psp-badge psp-shoulder">[ R ]</span> + <span class="psp-badge psp-triangle">▲</span>
+              </td>
+              <td style="font-size: 0.9rem; color: var(--text-sub);">Dashes in the direction the analog stick is pushed, ignoring enemy lock-on. Essential for disengaging and dodging stage hazards.</td>
+            </tr>
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🛹</span>
+                  <strong style="color: var(--color-brv);">Quickmove / Grind</strong>
+                </div>
+              </td>
+              <td><span class="psp-badge psp-triangle">▲ (near rail/wall)</span></td>
+              <td style="font-size: 0.9rem; color: var(--text-sub);">Locks onto stage geometry, rails, or walls to sprint with enhanced speed. Grants brief projectile deflection frames while grinding.</td>
+            </tr>
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                  <span>⚡</span>
+                  <strong style="color: var(--color-brv);">Ground / Air Dodge</strong>
+                </div>
+              </td>
+              <td>
+                <span class="psp-badge psp-shoulder">[ R ]</span> + <span class="psp-badge psp-cross">✕</span> + <span class="psp-badge psp-stick">Dir</span>
+              </td>
+              <td style="font-size: 0.9rem; color: var(--text-sub);">Provides <strong>14-18 Invulnerability Frames (i-frames)</strong> at startup. Followed by <strong>12-16 Recovery Frames (whiff lag)</strong> where the character cannot block or attack.</td>
+            </tr>
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🧗</span>
+                  <strong style="color: var(--color-brv);">Wall Running & Spring</strong>
+                </div>
+              </td>
+              <td><span class="psp-badge psp-stick">Wall</span> + <span class="psp-badge psp-cross">✕</span></td>
+              <td style="font-size: 0.9rem; color: var(--text-sub);">Runs vertically up vertical geometry and springs off to gain instant height advantage and reset aerial jump limits.</td>
+            </tr>
+          </tbody>
+        </table>
+      </DataTable>
+
+      <AlertCallout type="warning" title="DODGE RECOVERY PUNISHMENT">
+        Spamming dodges predictably is the #1 way new players get punished. Opponents can delay their attack or call an Assist with tracking (e.g. Kuja or Laguna) to catch your landing recovery frames during your dodge lag window.
+      </AlertCallout>
+    </div>
+  </section>
+
+  <!-- SECTION 3: GUARDS, BLOCKS & COLLISION PRIORITIES -->
+  <section id="guards-priorities" class="guide-section">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="badge-pill badge-cosmos">Defense</span>
+        <h2 style="margin: 0; border: none; padding: 0;">3. Guards, Blocks, Stagger & Collision Priorities</h2>
+      </div>
+    </div>
+
+    <div class="crystal-panel">
+      <p style="font-size: 0.98rem; color: var(--text-sub); line-height: 1.65;">
+        Every attack in Dissidia 012 possesses an inherent <strong>Priority Rating</strong>. When an attack collides with a defensive Guard or an opposing hitbox, the higher priority move wins cleanly, while equal priorities clash.
+      </p>
+
+      <DataTable title="Complete Attack Priority & Guard Collision Matrix">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 160px;">Priority Tier</th>
+              <th>Attack Examples</th>
+              <th style="width: 170px;">Result vs Guard ([ R ])</th>
+              <th style="width: 180px;">Collision Outcome</th>
+              <th>Tactical Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {priorityMatrix.map(p => (
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.4rem;">
+                    <span>{p.icon}</span>
+                    <strong style="color: var(--color-brv);">{p.tier}</strong>
+                  </div>
+                </td>
+                <td style="font-size: 0.88rem; color: var(--text-sub);">{p.examples}</td>
+                <td><span class="badge-pill badge-hp" style="font-size: 0.75rem;">{p.vsGuard}</span></td>
+                <td style="font-size: 0.85rem; color: var(--text-sub);">{p.vsMagic}</td>
+                <td style="font-size: 0.82rem; color: var(--text-dim);">{p.notes}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </DataTable>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+        <div class="stat-panel" style="border-left: 3px solid var(--color-assist);">
+          <h4 style="margin: 0 0 0.35rem 0; color: var(--color-assist); display: flex; align-items: center; gap: 0.4rem;">
+            <span>🛡️</span> Just Guard / Perfect Block
+          </h4>
+          <p style="font-size: 0.88rem; color: var(--text-sub); margin-bottom: 0;">
+            Pressing <span class="psp-badge psp-shoulder">[ R ]</span> within <strong>1-3 frames</strong> of attack connection executes a Just Guard: nullifies all block pushback and reduces recovery to 0 frames, allowing immediate maximum-punish counter-attacks.
+          </p>
+        </div>
+
+        <div class="stat-panel" style="border-left: 3px solid var(--color-chaos);">
+          <h4 style="margin: 0 0 0.35rem 0; color: var(--color-chaos); display: flex; align-items: center; gap: 0.4rem;">
+            <span>💥</span> Block Stagger (Guard Break)
+          </h4>
+          <p style="font-size: 0.88rem; color: var(--text-sub); margin-bottom: 0;">
+            When a standard guard attempts to block a <strong>Strong Physical / Strong Magic</strong> attack, the defender's shield shatters with a metallic crash, leaving them paralyzed in a prolonged stumble state where all followup hits are guaranteed.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: THE ASSIST SYSTEM -->
+  <section id="assist-system" class="guide-section">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="badge-pill badge-cosmos">012 Innovation</span>
+        <h2 style="margin: 0; border: none; padding: 0;">4. The Assist System & Gauge Management</h2>
+      </div>
+    </div>
+
+    <div class="crystal-panel" style="border-left: 4px solid var(--color-assist);">
+      <p style="font-size: 1rem; color: var(--text-sub); line-height: 1.7;">
+        The landmark innovation introduced in <em>Dissidia 012 [duodecim]</em> is the <strong>Assist System</strong>. Players select a dedicated secondary fighter who can be summoned dynamically during neutral play, mid-combo, or as a defensive combo breaker.
+      </p>
+
+      <h3 style="color: var(--color-assist); margin-top: 1.25rem; display: flex; align-items: center; gap: 0.4rem;">
+        <span>🔋</span> Assist Gauge Mechanics
+      </h3>
+      <p style="font-size: 0.92rem; color: var(--text-sub); line-height: 1.65;">
+        The Assist Gauge consists of <strong>2 full bars</strong> (located directly under the player's HP bar). The gauge charges through:
+      </p>
+      <ul style="color: var(--text-sub); font-size: 0.9rem; padding-left: 1.3rem; line-height: 1.65;">
+        <li><strong>Landing Bravery Attacks:</strong> Each connected BRV strike generates a portion of Assist gauge.</li>
+        <li><strong>Suffering Damage:</strong> Receiving hits fills the Assist meter rapidly as a comeback mechanism.</li>
+        <li><strong>Assist Charge Abilities & Accessories:</strong> Specific gear (e.g. <em>Together as One</em>, <em>Initial Assist</em>) pre-charges or accelerates meter generation.</li>
+      </ul>
+
+      <DataTable title="Assist Actions & Resource Costs">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 160px;">Assist Action</th>
+              <th style="width: 120px;">Gauge Cost</th>
+              <th style="width: 150px;">Controller Input</th>
+              <th>Tactical Function & Execution Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🗡️</span>
+                  <strong style="color: var(--color-assist);">Assist BRV Attack</strong>
+                </div>
+              </td>
+              <td><span class="badge-pill badge-assist">1 Bar</span></td>
+              <td>
+                <span class="psp-badge psp-shoulder">[ L ]</span> + <span class="psp-badge psp-circle">⭕</span>
+              </td>
+              <td style="font-size: 0.9rem; color: var(--text-sub);">Summons partner to perform a fast BRV string. Used for combo extensions, catching dodges, and launching targets into untechable stagger.</td>
+            </tr>
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🔲</span>
+                  <strong style="color: var(--color-assist);">Assist HP Attack</strong>
+                </div>
+              </td>
+              <td><span class="badge-pill badge-chaos">2 Bars</span></td>
+              <td>
+                <span class="psp-badge psp-shoulder">[ L ]</span> + <span class="psp-badge psp-square">🔲</span>
+              </td>
+              <td style="font-size: 0.9rem; color: var(--text-sub);">Summons partner to deliver a devastating HP strike. Guaranteed to connect after Wall Rushes or during Assist Chase launches.</td>
+            </tr>
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🛡️</span>
+                  <strong style="color: var(--color-assist);">Assist Change (BRV Escape)</strong>
+                </div>
+              </td>
+              <td><span class="badge-pill badge-assist">1 Bar</span></td>
+              <td>
+                <span class="psp-badge psp-shoulder">[ L ]</span> + <span class="psp-badge psp-shoulder">[ R ]</span>
+              </td>
+              <td style="font-size: 0.9rem; color: var(--text-sub);">Defensive burst: When taking BRV damage, your partner swaps into your position to absorb the hit, allowing you to instantly break free.</td>
+            </tr>
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                  <span>❤️</span>
+                  <strong style="color: var(--color-assist);">Assist Change (HP Escape)</strong>
+                </div>
+              </td>
+              <td><span class="badge-pill badge-chaos">2 Bars</span></td>
+              <td>
+                <span class="psp-badge psp-shoulder">[ L ]</span> + <span class="psp-badge psp-shoulder">[ R ]</span>
+              </td>
+              <td style="font-size: 0.9rem; color: var(--text-sub);">Saves your life: Swaps your partner in to take lethal HP damage in your place, instantly resetting neutral.</td>
+            </tr>
+          </tbody>
+        </table>
+      </DataTable>
+
+      <h3 style="color: var(--color-assist); margin-top: 1.75rem; display: flex; align-items: center; gap: 0.4rem;">
+        <span>🔒</span> Assist Lock & Assist Break Counter-Play
+      </h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin: 1rem 0;">
+        <div class="stat-panel" style="border-left: 3px solid var(--color-chaos);">
+          <h4 style="margin: 0 0 0.35rem 0; color: var(--color-chaos); display: flex; align-items: center; gap: 0.4rem;">
+            <span>🚫</span> Assist Lock (Lockout Penalty)
+          </h4>
+          <p style="font-size: 0.88rem; color: var(--text-sub); margin-bottom: 0;">
+            If an Assist character is struck by an attack before they can complete their animation and leave the arena, the calling player suffers <strong>Assist Lock</strong>: their Assist gauge is frozen and unusable for <strong>15 seconds</strong>.
+          </p>
+        </div>
+
+        <div class="stat-panel" style="border-left: 3px solid var(--color-hp);">
+          <h4 style="margin: 0 0 0.35rem 0; color: var(--color-hp); display: flex; align-items: center; gap: 0.4rem;">
+            <span>💥</span> Assist Break (Instant Bonus)
+          </h4>
+          <p style="font-size: 0.88rem; color: var(--text-sub); margin-bottom: 0;">
+            If you deplete the remaining durability of an active enemy Assist character, you trigger an <strong>Assist Break</strong>! The opponent's Assist gauge is completely drained to 0, and you immediately receive the full <strong>Stage Bravery Pool</strong> as if you inflicted a normal character Break.
+          </p>
+        </div>
+      </div>
+
+      <h3 style="color: var(--color-assist); margin-top: 2rem; display: flex; align-items: center; gap: 0.4rem;">
+        <span>⭐</span> Top Competitive Assist Partners & Synergy Tier List
+      </h3>
+      <DataTable title="Competitive Assist Character Matrix">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 170px;">Partner</th>
+              <th style="width: 160px;">Archetype</th>
+              <th>Signature Move & Combo Utility</th>
+              <th style="width: 140px;">Competitive Tier</th>
+            </tr>
+          </thead>
+          <tbody>
+            {assistSynergyRoster.map(a => (
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.65rem;">
+                    <img src={`${baseUrl}${a.image}`} alt={a.name} class="character-avatar-mini" />
+                    <strong style="color: var(--text-main);">{a.name}</strong>
+                  </div>
+                </td>
+                <td style="font-size: 0.85rem; color: var(--color-brv);">{a.type}</td>
+                <td style="font-size: 0.88rem; color: var(--text-sub);">
+                  <div><strong>BRV:</strong> {a.brvAttack}</div>
+                  <div><strong>HP:</strong> {a.hpAttack}</div>
+                  <div style="font-size: 0.82rem; color: var(--text-dim); margin-top: 0.2rem;">{a.strengths}</div>
+                </td>
+                <td><span class={`badge-pill ${a.tierClass}`} style="font-size: 0.75rem;">{a.tier}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </DataTable>
+    </div>
+  </section>
+
+  <!-- SECTION 5: EX SYSTEM, EX MODE, EX BURST & EX REVENGE -->
+  <section id="ex-mode-revenge" class="guide-section">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="badge-pill badge-cosmos">Super System</span>
+        <h2 style="margin: 0; border: none; padding: 0;">5. EX Mode, EX Burst & EX Revenge</h2>
+      </div>
+    </div>
+
+    <div class="crystal-panel" style="border-left: 4px solid var(--color-ex-gauge);">
+      <p style="font-size: 1rem; color: var(--text-sub); line-height: 1.7;">
+        The EX Gauge represents your character's ultimate potential. As attacks connect, yellow glowing <strong>EX Force</strong> orbs scatter across the arena, while large <strong>EX Cores</strong> spawn at periodic intervals.
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin: 1.5rem 0;">
+        <!-- EX MODE -->
+        <div class="stat-panel" style="border-left: 3px solid var(--color-ex-gauge);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.4rem;">
+              <span style="font-size: 1.2rem;">🌟</span>
+              <span style="font-family: var(--font-heading); font-size: 1.2rem; font-weight: 800; color: var(--color-ex-gauge);">EX MODE</span>
+            </div>
+            <span class="badge-pill badge-ex">
+              <span class="psp-badge psp-shoulder" style="font-size: 0.7rem;">[ R ]</span> + <span class="psp-badge psp-square" style="font-size: 0.7rem;">🔲</span> (Full)
+            </span>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-sub); line-height: 1.6;">
+            Transforms your fighter into their ultimate form (e.g. Trance Zidane, Omnislash Cloud, One-Winged Angel Sephiroth).
+          </p>
+          <ul style="font-size: 0.85rem; color: var(--text-sub); padding-left: 1.2rem; margin: 0.4rem 0 0 0; line-height: 1.55;">
+            <li><strong>Regen:</strong> Constantly restores HP over time (0.5% - 1.5% HP per second).</li>
+            <li><strong>Critical Boost:</strong> Critical hit rate drastically increased on all attacks.</li>
+            <li><strong>Unique Passives:</strong> Unlocks character-specific perks (e.g. Cloud's <em>Crush</em> guard-pierce, Terra's <em>Dualcast</em>, Bartz's <em>Goblin Punch</em> mastery).</li>
+            <li><strong>EX Burst Access:</strong> Landing any HP attack during EX Mode presents a prompt to trigger an unblockable cinematic super!</li>
+          </ul>
+        </div>
+
+        <!-- EX REVENGE -->
+        <div class="stat-panel" style="border-left: 3px solid var(--color-lufenia);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.4rem;">
+              <span style="font-size: 1.2rem;">⏳</span>
+              <span style="font-family: var(--font-heading); font-size: 1.2rem; font-weight: 800; color: var(--color-lufenia);">EX REVENGE</span>
+            </div>
+            <span class="badge-pill badge-crystal">
+              <span class="psp-badge psp-shoulder" style="font-size: 0.7rem;">[ R ]</span> + <span class="psp-badge psp-square" style="font-size: 0.7rem;">🔲</span> (Hit)
+            </span>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-sub); line-height: 1.6;">
+            The ultimate defensive turnaround introduced in 012. Activated with a full EX Gauge while taking damage to shatter the enemy's combo!
+          </p>
+          <ul style="font-size: 0.85rem; color: var(--text-sub); padding-left: 1.2rem; margin: 0.4rem 0 0 0; line-height: 1.55;">
+            <li><strong>Time Dilation:</strong> Slows the opponent down to near-total paralysis while you move at normal speed.</li>
+            <li><strong>Guaranteed Stagger:</strong> All your BRV attacks during Revenge ignore priority and guarantee unblockable wall rushes.</li>
+            <li><strong>Meter Depletion:</strong> Drains your entire EX Gauge to 0 upon completion.</li>
+            <li><strong>Finish on HP:</strong> Landing an HP attack during Revenge concludes the time freeze and deals massive HP damage.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 style="color: var(--color-ex-gauge); margin-top: 1.75rem; display: flex; align-items: center; gap: 0.4rem;">
+        <span>🎮</span> EX Burst Minigame Archetypes
+      </h3>
+      <p style="font-size: 0.92rem; color: var(--text-sub); line-height: 1.65;">
+        When an EX Burst is triggered, an on-screen minigame determines the final damage multiplier:
+      </p>
+
+      <DataTable title="EX Burst Command Input Formats">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 180px;">Input Mechanism</th>
+              <th style="width: 240px;">Character Roster Examples</th>
+              <th>Minigame Execution & Success Tip</th>
+            </tr>
+          </thead>
+          <tbody>
+            {exBurstInputsTable.map(e => (
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.4rem;">
+                    <span>{e.icon}</span>
+                    <strong style="color: var(--color-ex-gauge);">{e.type}</strong>
+                  </div>
+                  <div style="margin-top: 0.35rem;">
+                    <span class={`psp-badge ${e.badgeInput}`}>{e.badgeLabel}</span>
+                  </div>
+                </td>
+                <td style="font-size: 0.88rem; color: var(--text-sub);">
+                  <div style="display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.35rem;">
+                    {e.charImages.map(img => (
+                      <img src={`${baseUrl}dissidia_012_characters/${img}`} alt="Character" style="width: 32px; height: 32px; border-radius: 4px; border: 1px solid var(--border-panel); object-fit: cover;" />
+                    ))}
+                  </div>
+                  <div>{e.characters}</div>
+                </td>
+                <td style="font-size: 0.88rem; color: var(--text-sub);">
+                  <div>{e.mechanic}</div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </DataTable>
+    </div>
+  </section>
+
+  <!-- SECTION 6: WALL RUSH & CHASE MECHANICS -->
+  <section id="wall-rush-chase" class="guide-section">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="badge-pill badge-cosmos">Stage Physics</span>
+        <h2 style="margin: 0; border: none; padding: 0;">6. Wall Rush, Chases & Aerial Dynamics</h2>
+      </div>
+    </div>
+
+    <div class="crystal-panel">
+      <p style="font-size: 0.98rem; color: var(--text-sub); line-height: 1.65;">
+        Stage geography is not merely cosmetic; positioning your opponent into physical collisions multiplies damage output and guarantees lethal combo strings.
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin: 1.5rem 0;">
+        <div class="stat-panel" style="border-left: 3px solid var(--color-brv);">
+          <h4 style="margin: 0 0 0.4rem 0; color: var(--color-brv); display: flex; align-items: center; gap: 0.4rem;">
+            <span>🧱</span> Wall Rush Damage Formula
+          </h4>
+          <p style="font-size: 0.88rem; color: var(--text-sub); line-height: 1.6;">
+            When an attack with Wall Rush properties slams an opponent into a wall, ceiling, or floor, they take bonus collision damage equal to:
+          </p>
+          <div style="background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 4px; font-family: var(--font-mono); font-size: 0.85rem; color: #7dd3fc; margin: 0.5rem 0;">
+            Wall Rush BRV = Target BRV × 0.125 to 0.25 (Modified by Sniper Eye / Muscle Belt)
+          </div>
+          <p style="font-size: 0.84rem; color: var(--text-dim); margin-bottom: 0;">
+            Equipping accessories like <em>Sniper Eye</em> or <em>Muscle Belt</em> increases Wall Rush damage by up to +50%!
+          </p>
+        </div>
+
+        <div class="stat-panel" style="border-left: 3px solid var(--color-cosmos);">
+          <h4 style="margin: 0 0 0.4rem 0; color: var(--color-cosmos); display: flex; align-items: center; gap: 0.4rem;">
+            <span>🎯</span> The Chase Sequence (RPS Dynamic)
+          </h4>
+          <p style="font-size: 0.88rem; color: var(--text-sub); line-height: 1.6;">
+            Certain knockback attacks display a <span class="psp-badge psp-square">🔲 Square</span> prompt to initiate a high-speed Chase:
+          </p>
+          <ul style="font-size: 0.84rem; color: var(--text-sub); padding-left: 1.2rem; margin: 0.3rem 0 0 0; line-height: 1.5;">
+            <li><strong>Attacker Options:</strong> BRV Attack (<span class="psp-badge psp-circle" style="font-size:0.7rem;">⭕</span>), HP Attack (<span class="psp-badge psp-square" style="font-size:0.7rem;">🔲</span>), or Feint / Cancel (<span class="psp-badge psp-cross" style="font-size:0.7rem;">✕</span>).</li>
+            <li><strong>Defender Options:</strong> Dodge (<span class="psp-badge psp-cross" style="font-size:0.7rem;">✕</span>) to evade, Guard (<span class="psp-badge psp-shoulder" style="font-size:0.7rem;">[ R ]</span>) to deflect BRV attacks, or predict HP strike.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7: DAMAGE FORMULAS & FRAME CANCELING -->
+  <section id="damage-cancels" class="guide-section">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="badge-pill badge-cosmos">Calculations</span>
+        <h2 style="margin: 0; border: none; padding: 0;">7. Damage Calculations, Multipliers & Frame Canceling</h2>
+      </div>
+    </div>
+
+    <div class="crystal-panel">
+      <h3 style="color: var(--color-brv); margin-top: 0; display: flex; align-items: center; gap: 0.4rem;">
+        <span>📐</span> Mathematical Damage Formula
+      </h3>
+      <p style="font-size: 0.94rem; color: var(--text-sub); line-height: 1.65;">
+        Every point of Bravery dealt in battle is calculated according to the master damage equation:
+      </p>
+
+      <div style="background: var(--surface-panel-alt); border: 1px solid var(--border-panel); padding: 1.25rem; border-radius: var(--radius-sm); margin: 1.25rem 0; font-family: var(--font-mono); font-size: 0.92rem; color: #bae6fd; overflow-x: auto;">
+        BRV Damage = ⌊ (Attacker ATK - Defender DEF + 100) × (Move Power / 100) × ∏(Booster Multipliers) × Crit Multiplier ⌋
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
+        <div class="stat-panel">
+          <div style="display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.2rem;">
+            <span>⚡</span>
+            <div style="font-size: 0.85rem; color: var(--color-brv); font-weight: 700; text-transform: uppercase;">Critical Hit Multipliers</div>
+          </div>
+          <div style="font-size: 1.2rem; font-family: var(--font-heading); font-weight: 700; color: #fff;">1.5× to 2.0× Base Damage</div>
+          <div style="font-size: 0.8rem; color: var(--text-dim); margin-top: 0.2rem;">Triggered on Backstabs, Counter-Attacks, or automatically when the target is Broken.</div>
+        </div>
+
+        <div class="stat-panel">
+          <div style="display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.2rem;">
+            <span>✖️</span>
+            <div style="font-size: 0.85rem; color: var(--color-cosmos); font-weight: 700; text-transform: uppercase;">Booster Stacking Formula</div>
+          </div>
+          <div style="font-size: 1.2rem; font-family: var(--font-heading); font-weight: 700; color: #fff;">Multiplicative (∏)</div>
+          <div style="font-size: 0.8rem; color: var(--text-dim); margin-top: 0.2rem;">Boosters multiply together (e.g., 1.5 × 1.5 × 1.4 = 3.15× total modifier).</div>
+        </div>
+
+        <div class="stat-panel">
+          <div style="display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.2rem;">
+            <span>🛡️</span>
+            <div style="font-size: 0.85rem; color: var(--color-hp); font-weight: 700; text-transform: uppercase;">Damage Floor & Cap</div>
+          </div>
+          <div style="font-size: 1.2rem; font-family: var(--font-heading); font-weight: 700; color: #fff;">1 Min / 9,999 Max</div>
+          <div style="font-size: 0.8rem; color: var(--text-dim); margin-top: 0.2rem;">A single hit cannot deal less than 1 or exceed 9,999 without special artifact uncap gear.</div>
+        </div>
+      </div>
+
+      <h3 style="color: var(--color-brv); margin-top: 2rem; display: flex; align-items: center; gap: 0.4rem;">
+        <span>⏩</span> Advanced Frame Canceling Techniques
+      </h3>
+      <ul style="color: var(--text-sub); font-size: 0.92rem; padding-left: 1.3rem; line-height: 1.7;">
+        <li><strong>Dodge Canceling (DC):</strong> Inputting a dodge immediately upon the final hit connecting cancels the ending lag frames of a move (essential on Squall's <em>Solid Barrel</em>, Cloud's <em>Slashing Blow</em>, and Lightning's <em>Rush Assault</em>).</li>
+        <li><strong>Jump Canceling (JC):</strong> Tapping jump during the recovery of grounded launcher attacks transitions the fighter directly into aerial combo strings without delay.</li>
+        <li><strong>Paradigm Shift / Weapon Switch Canceling:</strong> Lightning's <span class="psp-badge psp-shoulder">[ L ]</span> + <span class="psp-badge psp-shoulder">[ R ]</span> Optima Shift and Vaan's weapon switch cancel active attack recovery animations into immediate defensive guards or followup strikes.</li>
+        <li><strong>Branching Attacks / Link Abilities:</strong> Upgrading core BRV moves with AP unlocks direct branching into HP finishers (e.g. Cloud's <em>Slashing Blow &rarr; Omnislash v5</em>, Squall's <em>Heel Drop &rarr; Revolver Drive</em>, Bartz's <em>Slide Shock &rarr; HP Blast</em>).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECTION 8: SUMMONS & COUNTER-PLAY -->
+  <section id="summon-tactics" class="guide-section">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="badge-pill badge-cosmos">Summon Stones</span>
+        <h2 style="margin: 0; border: none; padding: 0;">8. Summon System & Strategic Counter-Play</h2>
+      </div>
+    </div>
+
+    <div class="crystal-panel">
+      <p style="font-size: 0.98rem; color: var(--text-sub); line-height: 1.65;">
+        Summon Stones are equippable battle augments that execute game-altering effects. Summons are divided into <strong>Auto Summons</strong> (trigger automatically when specific battle conditions are met) and <strong>Manual Summons</strong> (activated on demand with <span class="psp-badge psp-shoulder">[ R ]</span> + <span class="psp-badge psp-square">🔲</span> + <span class="psp-badge psp-triangle">▲</span>).
+      </p>
+
+      <DataTable title="Summon Classifications & Matchup Roles">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 180px;">Category</th>
+              <th style="width: 190px;">Notable Summons</th>
+              <th>Mechanical Effect</th>
+              <th>Competitive Counter-Play Application</th>
+            </tr>
+          </thead>
+          <tbody>
+            {summonClassifications.map(s => (
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.4rem;">
+                    <span>{s.icon}</span>
+                    <strong style="color: var(--color-lufenia);">{s.category}</strong>
+                  </div>
+                </td>
+                <td style="font-size: 0.88rem; color: var(--text-sub);">{s.summons}</td>
+                <td style="font-size: 0.88rem; color: var(--text-sub);">{s.effect}</td>
+                <td style="font-size: 0.85rem; color: var(--text-dim);">{s.tactic}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </DataTable>
+    </div>
+  </section>
+
+  <!-- SECTION 9: EQUIPMENT SYNERGY & BUILDS -->
+  <section id="build-archetypes" class="guide-section">
+    <div class="section-header">
+      <div class="section-title">
+        <span class="badge-pill badge-cosmos">Metagame</span>
+        <h2 style="margin: 0; border: none; padding: 0;">9. Equipment Synergy & Competitive Build Archetypes</h2>
+      </div>
+    </div>
+
+    <div class="crystal-panel">
+      <p style="font-size: 0.98rem; color: var(--text-sub); line-height: 1.65;">
+        Endgame and competitive Dissidia 012 builds maximize performance through <strong>Booster Accessory Stacking</strong>. Equipping 1-2 core accessories alongside 6-7 high-multiplier condition boosters can elevate damage output by <strong>500% to 1500%</strong>.
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-top: 1.5rem;">
+        <!-- BUILD 1: INITIAL ASSIST (IA) META -->
+        <div class="stat-panel" style="border-left: 3px solid var(--color-assist);">
+          <div style="display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.35rem;">
+            <span>⚡</span>
+            <div style="font-size: 1.15rem; font-family: var(--font-heading); font-weight: 800; color: var(--color-assist);">
+              1. Initial Assist (IA) Meta
+            </div>
+          </div>
+          <div style="font-size: 0.78rem; font-family: var(--font-mono); color: var(--text-dim); margin-bottom: 0.6rem;">
+            Core: Together as One, Side by Side, Assist Boosters
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-sub); line-height: 1.55; margin-bottom: 0.5rem;">
+            Starts the battle with 1-2 full Assist bars. Allows immediate first-contact Assist calls (Kuja/Jecht) to confirm instant round-opening HP conversions and lock down aggressive rushdown fighters.
+          </p>
+        </div>
+
+        <!-- BUILD 2: EX REVENGE / DURATION META -->
+        <div class="stat-panel" style="border-left: 3px solid var(--color-ex-gauge);">
+          <div style="display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.35rem;">
+            <span>🌟</span>
+            <div style="font-size: 1.15rem; font-family: var(--font-heading); font-weight: 800; color: var(--color-ex-gauge);">
+              2. Pure EX / Revenge Dominance
+            </div>
+          </div>
+          <div style="font-size: 0.78rem; font-family: var(--font-mono); color: var(--text-dim); margin-bottom: 0.6rem;">
+            Core: Center of the World, Pearl Necklace, Dragonfly Saint
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-sub); line-height: 1.55; margin-bottom: 0.5rem;">
+            Maximizes EX Force suction radius and EX Core absorption. Guarantees permanent EX Revenge availability as an impenetrable safety net while maintaining high HP Regen in EX Mode.
+          </p>
+        </div>
+
+        <!-- BUILD 3: WALL RUSH SPIKE BUILD -->
+        <div class="stat-panel" style="border-left: 3px solid var(--color-brv);">
+          <div style="display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.35rem;">
+            <span>💥</span>
+            <div style="font-size: 1.15rem; font-family: var(--font-heading); font-weight: 800; color: var(--color-brv);">
+              3. Wall Rush Heavy Artillery
+            </div>
+          </div>
+          <div style="font-size: 0.78rem; font-family: var(--font-mono); color: var(--text-dim); margin-bottom: 0.6rem;">
+            Core: Sniper Eye, Muscle Belt, Airborne / Ground Boosters
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-sub); line-height: 1.55; margin-bottom: 0.5rem;">
+            Stacks Wall Rush bonus damage multipliers to strip 50%+ of the opponent's Bravery on every single wall collision. Devastating on enclosed stages like Planet's Core and Pandaemonium.
+          </p>
+        </div>
+
+        <!-- BUILD 4: ANTI-BOSS 000 SURVIVAL -->
+        <div class="stat-panel" style="border-left: 3px solid var(--color-chaos);">
+          <div style="display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.35rem;">
+            <span>🛡️</span>
+            <div style="font-size: 1.15rem; font-family: var(--font-heading); font-weight: 800; color: var(--color-chaos);">
+              4. Level 130 Boss Survival Setup
+            </div>
+          </div>
+          <div style="font-size: 0.78rem; font-family: var(--font-mono); color: var(--text-dim); margin-bottom: 0.6rem;">
+            Core: Safety Bit, First Aid, EXP to HP, Auto-Phoenix
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-sub); line-height: 1.55; margin-bottom: 0.5rem;">
+            Specifically tuned to withstand Level 130 Feral Chaos and Gateway 000 super-bosses. Prevents one-shot Break kills and converts battle EXP directly into survival HP recovery.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

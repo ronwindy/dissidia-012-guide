@@ -22,6 +22,15 @@ const portals = [
     icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/><line x1="19" y1="21" x2="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" y1="14" x2="9" y2="18"/><line x1="7" y1="17" x2="3" y2="21"/><line x1="3" y1="19" x2="5" y2="21"/></svg>`
   },
   {
+    title: "Combat Mechanics Master Guide",
+    badge: "System Deep-Dive",
+    badgeClass: "badge-cosmos",
+    desc: "Complete breakdown of Bravery & HP formulas, 012 Assist dynamics, EX Revenge time-dilation, collision priorities, frame cancels, and booster builds.",
+    href: `${baseUrl}mechanics/`,
+    cta: "Master Combat Mechanics",
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`
+  },
+  {
     title: "012: Treachery of the Gods",
     badge: "Main Story",
     badgeClass: "badge-cosmos",
@@ -200,5 +209,11 @@ const portals = [
         Gather EX Cores and Force to max out the EX Gauge. Activate <strong>EX Mode</strong> (R+Square) for empowered abilities and fatal EX Bursts, or activate <strong>EX Revenge</strong> while taking damage to freeze time and retaliate with an unblockable combo flurry.
       </p>
     </div>
+  </div>
+
+  <div style="margin-top: 1.5rem; text-align: center;">
+    <a href={`${baseUrl}mechanics/`} class="btn-action" style="padding: 0.75rem 2rem; font-size: 1.1rem; display: inline-flex;">
+      Explore Full 9-System Combat Mechanics Guide &rarr;
+    </a>
   </div>
 </BaseLayout>
