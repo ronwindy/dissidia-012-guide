@@ -37,11 +37,11 @@ const {
 } = Astro.props;
 ---
 
-<div class="glass-card report-card guide-section" id={id} style="margin-bottom: 2.5rem; border-top: 3px solid var(--accent-crystal);">
+<div class="crystal-panel report-card guide-section" id={id} style="margin-bottom: 2.5rem; border-top: 3px solid var(--color-lufenia);">
   <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem;">
     <div>
       <span class="badge-pill badge-crystal">Report #{number}</span>
-      <h3 style="margin: 0.2rem 0; font-size: 1.55rem; color: var(--text-main);">{title}</h3>
+      <h3 style="margin: 0.2rem 0; font-size: 1.55rem; color: var(--text-main); font-family: var(--font-heading);">{title}</h3>
       {(world || place) && (
         <div style="font-size: 0.82rem; font-family: var(--font-mono); color: var(--text-dim);">
           {world && <span>World: {world} </span>}
@@ -55,31 +55,31 @@ const {
   </div>
 
   {unlockCondition && (
-    <div style="background: rgba(168, 85, 247, 0.08); border-left: 3px solid var(--accent-crystal); padding: 0.6rem 1rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: 0.85rem; color: #e9d5ff; margin-bottom: 1.25rem;">
+    <div style="background: var(--surface-panel-alt); border-left: 3px solid var(--color-lufenia); padding: 0.65rem 1rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: 0.88rem; color: #e9d5ff; margin-bottom: 1.25rem;">
       <strong>Unlock Requirement:</strong> {unlockCondition}
     </div>
   )}
 
-  <div class="report-content" style="background: rgba(0, 0, 0, 0.35); padding: 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--border-card); font-size: 0.92rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.25rem;">
+  <div class="report-content" style="background: var(--surface-panel-alt); padding: 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--border-panel-subtle); font-size: 0.94rem; color: var(--text-sub); line-height: 1.75; margin-bottom: 1.25rem;">
     <slot />
   </div>
 
   {secretBattles.length > 0 && (
     <div class="secret-battles-container" style="display: flex; flex-direction: column; gap: 0.85rem;">
-      <div style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--accent-cosmos); text-transform: uppercase; font-weight: bold;">
+      <div style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--color-cosmos); text-transform: uppercase; font-weight: bold; letter-spacing: 0.05em;">
         ⚔️ Secret Battle Infiltration Triggers
       </div>
       {secretBattles.map(battle => (
-        <div style="background: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: var(--radius-sm); padding: 1rem;">
+        <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: var(--radius-sm); padding: 1rem;">
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
-            <h4 style="margin: 0; font-size: 1.05rem; color: var(--text-main);">{battle.title}</h4>
-            <div style="font-size: 0.78rem; font-family: var(--font-mono);">
-              <span style="color: var(--accent-warning);">Trigger: <strong style="color: #fff;">"{battle.triggerPhrase}"</strong></span> &bull; 
+            <h4 style="margin: 0; font-size: 1.08rem; color: var(--text-main); font-family: var(--font-heading);">{battle.title}</h4>
+            <div style="font-size: 0.8rem; font-family: var(--font-mono);">
+              <span style="color: var(--color-cosmos);">Trigger: <strong style="color: #fff; background: rgba(0,0,0,0.4); padding: 0.1rem 0.4rem; border-radius: 3px;">"{battle.triggerPhrase}"</strong></span> &bull; 
               <span style="color: var(--text-muted);"> Rec. Lv: <strong>{battle.recommendedLevel}</strong></span>
             </div>
           </div>
 
-          <div style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+          <div style="font-size: 0.88rem; color: var(--text-sub); margin-bottom: 0.5rem;">
             <ul style="margin: 0; padding-left: 1.2rem;">
               {battle.battles.map(b => (
                 <li><strong>{b.name}:</strong> {b.matchup}</li>
@@ -88,13 +88,13 @@ const {
           </div>
 
           {battle.unlockReward && (
-            <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--accent-success); border-radius: 4px; padding: 0.4rem 0.75rem; font-size: 0.82rem; color: #6ee7b7; margin-top: 0.5rem;">
+            <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid var(--color-assist); border-radius: var(--radius-xs); padding: 0.45rem 0.75rem; font-size: 0.85rem; color: #6ee7b7; margin-top: 0.5rem;">
               🎁 <strong>Unlock Reward:</strong> {battle.unlockReward}
             </div>
           )}
 
           {battle.notes && (
-            <div style="font-size: 0.8rem; color: var(--text-dim); margin-top: 0.4rem;">
+            <div style="font-size: 0.82rem; color: var(--text-dim); margin-top: 0.4rem;">
               <em>{battle.notes}</em>
             </div>
           )}

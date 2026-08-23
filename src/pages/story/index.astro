@@ -9,8 +9,9 @@ const scenarios = [
     code: "012",
     title: "012: Treachery of the Gods",
     subtitle: "The 12th Cycle of Conflict",
-    badge: "New Prequel Story",
+    badge: "Prequel Campaign",
     badgeClass: "badge-cosmos",
+    borderColor: "var(--color-cosmos)",
     href: `${baseUrl}story/012-treachery/`,
     desc: "Follow Lightning, Vaan, Laguna, Yuna, Kain, and Tifa as they fight to close the Dimensional Rift before the 12th cycle concludes. Features 8 complete chapters, gateway maps, enemy parties, and hidden chest locations.",
     features: ["Prologue to Chapter 7 + Epilogue", "Party mechanics & KP Chances", "Key items and Moogle shops"]
@@ -21,6 +22,7 @@ const scenarios = [
     subtitle: "The 13th Cycle of Conflict",
     badge: "Remastered Classic",
     badgeClass: "badge-crystal",
+    borderColor: "var(--color-lufenia)",
     href: `${baseUrl}story/013-light/`,
     desc: "The complete remastered storyline from the original Dissidia. Follow the original 10 Cosmos warriors through their individual Destiny Odysseys and the ultimate clash with Chaos.",
     features: ["Chapters 1 through 10 + Epilogue", "All 10 original Destiny Odysseys", "Remastered mechanics with Assist support"]
@@ -31,6 +33,7 @@ const scenarios = [
     subtitle: "Open-World Post-Game Gauntlet",
     badge: "Ultimate Challenge",
     badgeClass: "badge-chaos",
+    borderColor: "var(--color-chaos)",
     href: `${baseUrl}story/000-creator/`,
     desc: "Roam the expansive World Map of World B. Challenge multi-floor super-dungeons (Dragon King's Gateway, The Forsaken Lands), unlock locked teleport zones, buy high-end items from secret Moogles, and confront Level 130 Feral Chaos.",
     features: ["10-floor endgame dungeons", "Secret Moogle shops & dusty elixirs", "Feral Chaos final boss gauntlet"]
@@ -40,11 +43,12 @@ const scenarios = [
 
 <BaseLayout title="Story Scenarios Overview" currentPath="story-hub">
   <div style="margin-bottom: 2rem;">
-    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+    <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
       <span class="badge-pill badge-cosmos">Main Campaigns</span>
+      <span class="badge-pill badge-new">3 Complete Cycles</span>
     </div>
-    <h1 style="margin: 0;">STORY SCENARIOS & CYCLES</h1>
-    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem;">
+    <h1 style="margin: 0; letter-spacing: 0.04em;">STORY SCENARIOS & CYCLES</h1>
+    <p style="color: var(--text-muted); font-size: 1.05rem; margin-top: 0.5rem; line-height: 1.6;">
       Dissidia 012 contains three full campaigns spanning the 12th cycle prequel, the remastered 13th cycle, and the expansive post-game 000 open world.
     </p>
   </div>
@@ -55,19 +59,19 @@ const scenarios = [
 
   <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem;">
     {scenarios.map(s => (
-      <div class="glass-card" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1.5rem; border-left: 4px solid var(--accent-primary);">
+      <div class="crystal-panel" style={`display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1.5rem; border-left: 4px solid ${s.borderColor};`}>
         <div style="flex: 1; min-width: 300px;">
           <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.35rem;">
-            <span style="font-size: 1.8rem; font-family: var(--font-heading); font-weight: 800; color: var(--accent-primary);">{s.code}</span>
+            <span style="font-size: 2rem; font-family: var(--font-heading); font-weight: 800; color: var(--color-brv);">{s.code}</span>
             <span class={`badge-pill ${s.badgeClass}`}>{s.badge}</span>
           </div>
-          <h2 style="margin: 0.2rem 0; font-size: 1.6rem; border: none; padding: 0;">{s.title}</h2>
-          <div style="font-size: 0.9rem; color: var(--accent-cosmos); font-weight: 500; margin-bottom: 0.75rem;">{s.subtitle}</div>
-          <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1rem;">
+          <h2 style="margin: 0.2rem 0; font-size: 1.65rem; border: none; padding: 0; font-family: var(--font-heading);">{s.title}</h2>
+          <div style="font-size: 0.95rem; color: var(--color-cosmos); font-weight: 600; margin-bottom: 0.75rem; font-family: var(--font-subheading);">{s.subtitle}</div>
+          <p style="font-size: 0.95rem; color: var(--text-sub); line-height: 1.65; margin-bottom: 1.15rem;">
             {s.desc}
           </p>
 
-          <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.85rem; color: var(--text-dim);">
+          <ul style="margin: 0; padding-left: 1.3rem; font-size: 0.88rem; color: var(--text-dim); line-height: 1.6;">
             {s.features.map(f => (
               <li>{f}</li>
             ))}
@@ -75,7 +79,7 @@ const scenarios = [
         </div>
 
         <div style="display: flex; align-items: center; justify-content: flex-end; align-self: center;">
-          <a href={s.href} class="btn-action" style="padding: 0.65rem 1.5rem; font-size: 1rem;">
+          <a href={s.href} class="btn-action" style="padding: 0.65rem 1.65rem; font-size: 1.05rem;">
             Enter Scenario &rarr;
           </a>
         </div>

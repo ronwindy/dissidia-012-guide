@@ -60,7 +60,7 @@ const factionLabel =
   alignment === 'New' ? '012 New' : alignment;
 ---
 
-<div class="glass-card character-header-box">
+<div class="crystal-panel character-header-box">
   <div class="header-hero-layout">
     <div class="hero-text-content">
       <div class="hero-tag-row">
@@ -93,19 +93,19 @@ const factionLabel =
 
   <div class="header-details-grid">
     <!-- EX Mode & Burst -->
-    <div class="detail-box">
-      <div class="detail-box-tag ex-tag">EX Mode & Burst</div>
+    <div class="detail-box ex-detail-box">
+      <div class="detail-box-tag ex-tag">EX Mode & Burst System</div>
       <div class="ex-mode-title">{exModeName}</div>
       <p class="ex-mode-effect">{exModeEffect}</p>
       
       <div class="ex-burst-row">
         <div class="ex-burst-title">{exBurstName}</div>
-        <div class="ex-burst-input"><strong>Input:</strong> <code>{exBurstInput}</code></div>
+        <div class="ex-burst-input"><strong>Input Command:</strong> <code>{exBurstInput}</code></div>
       </div>
     </div>
 
     <!-- Assist & Stage Synergy -->
-    <div class="detail-box">
+    <div class="detail-box assist-detail-box">
       {assistRole && (
         <div class="assist-role-section">
           <div class="detail-box-tag assist-tag">Role as Assist</div>
@@ -115,7 +115,7 @@ const factionLabel =
 
       {recommendedAssists.length > 0 && (
         <div class="assist-list-section">
-          <div class="detail-box-tag partner-tag">Recommended Assists</div>
+          <div class="detail-box-tag partner-tag">Recommended Assist Partners</div>
           <ul class="partner-list">
             {recommendedAssists.map(a => (
               <li><strong>{a.name}</strong> {a.reason ? `— ${a.reason}` : ''}</li>
@@ -127,10 +127,10 @@ const factionLabel =
       {(bestStages.length > 0 || worstStages.length > 0) && (
         <div class="stage-synergy-row">
           {bestStages.length > 0 && (
-            <div><span class="stage-best">Best:</span> {bestStages.join(', ')}</div>
+            <div><span class="stage-best">Best Stages:</span> {bestStages.join(', ')}</div>
           )}
           {worstStages.length > 0 && (
-            <div><span class="stage-worst">Worst:</span> {worstStages.join(', ')}</div>
+            <div><span class="stage-worst">Worst Stages:</span> {worstStages.join(', ')}</div>
           )}
         </div>
       )}
@@ -141,9 +141,11 @@ const factionLabel =
 <style>
   .character-header-box {
     margin-bottom: 2.25rem;
-    border-left: 4px solid var(--accent-primary);
+    border-left: 4px solid var(--color-brv);
     position: relative;
     overflow: hidden;
+    background: var(--surface-panel);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
   }
 
   .header-hero-layout {
@@ -170,11 +172,11 @@ const factionLabel =
   .hero-game-badge {
     font-size: 0.8rem;
     font-family: var(--font-mono);
-    color: var(--text-dim);
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--border-card-subtle);
+    color: var(--text-sub);
+    background: var(--surface-panel-alt);
+    border: 1px solid var(--border-panel-subtle);
     padding: 0.2rem 0.6rem;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-xs);
     text-transform: uppercase;
     letter-spacing: 0.08em;
   }
@@ -189,7 +191,7 @@ const factionLabel =
 
   .hero-character-title {
     font-size: 1.1rem;
-    color: var(--accent-primary);
+    color: var(--color-brv);
     font-weight: 600;
     font-family: var(--font-heading);
     margin-top: 0.35rem;
@@ -229,7 +231,7 @@ const factionLabel =
     width: auto;
     max-width: 100%;
     object-fit: contain;
-    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.75));
+    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.85));
     z-index: 1;
     transition: transform var(--transition-normal);
   }
@@ -244,15 +246,15 @@ const factionLabel =
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.25rem;
     margin-top: 1.25rem;
-    border-top: 1px solid var(--border-card-subtle);
+    border-top: 1px solid var(--border-panel-subtle);
     padding-top: 1.25rem;
   }
 
   .detail-box {
-    background: rgba(0, 0, 0, 0.25);
+    background: var(--surface-panel-alt);
     padding: 1.15rem;
     border-radius: var(--radius-sm);
-    border: 1px solid var(--border-card);
+    border: 1px solid var(--border-panel-subtle);
   }
 
   .detail-box-tag {
@@ -264,9 +266,9 @@ const factionLabel =
     letter-spacing: 0.06em;
   }
 
-  .ex-tag { color: var(--accent-cosmos); }
-  .assist-tag { color: var(--accent-primary); }
-  .partner-tag { color: var(--accent-success); }
+  .ex-tag { color: var(--color-ex-gauge); }
+  .assist-tag { color: var(--color-brv); }
+  .partner-tag { color: var(--color-assist); }
 
   .ex-mode-title {
     font-weight: 700;
@@ -278,24 +280,24 @@ const factionLabel =
     font-size: 0.88rem;
     color: var(--text-muted);
     margin: 0.35rem 0 0.75rem 0;
-    line-height: 1.48;
+    line-height: 1.5;
   }
 
   .ex-burst-row {
-    border-top: 1px dashed var(--border-card-subtle);
+    border-top: 1px dashed var(--border-panel-subtle);
     padding-top: 0.55rem;
   }
 
   .ex-burst-title {
-    font-size: 0.92rem;
-    font-weight: 600;
-    color: #f43f5e;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-hp);
   }
 
   .ex-burst-input {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    margin-top: 0.15rem;
+    font-size: 0.84rem;
+    color: var(--text-sub);
+    margin-top: 0.2rem;
   }
 
   .assist-role-section, .assist-list-section {
@@ -303,30 +305,30 @@ const factionLabel =
   }
 
   .assist-role-desc {
-    font-size: 0.86rem;
-    color: var(--text-muted);
-    line-height: 1.45;
+    font-size: 0.88rem;
+    color: var(--text-sub);
+    line-height: 1.48;
   }
 
   .partner-list {
     margin: 0;
     padding-left: 1.2rem;
-    font-size: 0.86rem;
-    color: var(--text-muted);
+    font-size: 0.88rem;
+    color: var(--text-sub);
   }
 
   .stage-synergy-row {
     display: flex;
     gap: 1rem;
-    font-size: 0.82rem;
+    font-size: 0.84rem;
     margin-top: 0.5rem;
     flex-wrap: wrap;
-    border-top: 1px dashed var(--border-card-subtle);
+    border-top: 1px dashed var(--border-panel-subtle);
     padding-top: 0.45rem;
   }
 
-  .stage-best { color: var(--accent-success); font-weight: bold; }
-  .stage-worst { color: var(--accent-danger); font-weight: bold; }
+  .stage-best { color: var(--color-assist); font-weight: bold; }
+  .stage-worst { color: var(--color-hp); font-weight: bold; }
 
   @media (max-width: 640px) {
     .header-hero-layout {

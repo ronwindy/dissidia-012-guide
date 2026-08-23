@@ -111,28 +111,28 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
 }
 ---
 
-<div class="glass-card gateway-map-card guide-section" id={id} style="margin-bottom: 2.25rem; border-top: 3px solid var(--accent-crystal);">
+<div class="crystal-panel gateway-map-card guide-section" id={id} style="margin-bottom: 2.5rem; border-top: 3px solid var(--color-lufenia);">
   <!-- Header Bar -->
   <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem;">
     <div>
       <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.25rem;">
         {chapter && (
-          <span style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--accent-cosmos); text-transform: uppercase; font-weight: bold;">
+          <span style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-cosmos); text-transform: uppercase; font-weight: bold; letter-spacing: 0.05em;">
             {chapter}
           </span>
         )}
         {character && (
-          <span class="badge-pill" style="background: rgba(56, 189, 248, 0.15); color: var(--accent-primary); border: 1px solid rgba(56, 189, 248, 0.3);">
+          <span class="badge-pill badge-new">
             {character}
           </span>
         )}
         {isOptional && (
-          <span class="badge-pill" style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3);">
+          <span class="badge-pill badge-crystal">
             Optional (Blue)
           </span>
         )}
       </div>
-      <h3 style="margin: 0.15rem 0 0.4rem; font-size: 1.45rem; color: var(--text-main); font-family: var(--font-heading); letter-spacing: 0.02em;">
+      <h3 style="margin: 0.15rem 0 0.4rem; font-size: 1.5rem; color: var(--text-main); font-family: var(--font-heading); letter-spacing: 0.03em;">
         {title}
       </h3>
     </div>
@@ -142,25 +142,25 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
   </div>
 
   <!-- Gateway Conditions & Rules Bar -->
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.6rem; background: rgba(0, 0, 0, 0.35); border: 1px solid var(--border-card-subtle); border-radius: var(--radius-sm); padding: 0.75rem 1rem; margin-bottom: 1.25rem; font-size: 0.85rem; font-family: var(--font-mono);">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.6rem; background: var(--surface-panel-alt); border: 1px solid var(--border-panel-subtle); border-radius: var(--radius-sm); padding: 0.75rem 1rem; margin-bottom: 1.25rem; font-size: 0.85rem; font-family: var(--font-mono);">
     {kpChance && (
       <div>
         <span style="color: var(--text-dim);">KP Chance:</span>{' '}
-        <strong style="color: var(--accent-warning);">{kpChance}</strong>
+        <strong style="color: var(--color-cosmos);">{kpChance}</strong>
       </div>
     )}
     <div>
       <span style="color: var(--text-dim);">Rules:</span>{' '}
-      <strong style={rules.toLowerCase() === 'enabled' ? 'color: var(--accent-success);' : 'color: var(--text-muted);'}>{rules}</strong>
+      <strong style={rules.toLowerCase() === 'enabled' ? 'color: var(--color-assist);' : 'color: var(--text-muted);'}>{rules}</strong>
     </div>
     <div>
       <span style="color: var(--text-dim);">Skills:</span>{' '}
-      <strong style={skills.toLowerCase() === 'enabled' ? 'color: var(--accent-success);' : 'color: var(--text-muted);'}>{skills}</strong>
+      <strong style={skills.toLowerCase() === 'enabled' ? 'color: var(--color-assist);' : 'color: var(--text-muted);'}>{skills}</strong>
     </div>
     {bonusLine !== undefined && bonusLine !== null && (
       <div>
         <span style="color: var(--text-dim);">Bonus Line:</span>{' '}
-        <strong style="color: var(--accent-primary);">{bonusLine}</strong>
+        <strong style="color: var(--color-brv);">{bonusLine}</strong>
       </div>
     )}
   </div>
@@ -169,9 +169,9 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
   {asciiMap && (
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-bottom: 1.25rem; align-items: start;">
       <!-- ASCII Map Grid Container -->
-      <div style="background: rgba(11, 14, 23, 0.85); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: var(--radius-sm); padding: 1.15rem; box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6); overflow-x: auto; -webkit-overflow-scrolling: touch;">
+      <div style="background: #040711; border: 1px solid rgba(56, 189, 248, 0.3); border-radius: var(--radius-sm); padding: 1.15rem; box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.8); overflow-x: auto; -webkit-overflow-scrolling: touch;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.35rem;">
-          <span style="font-size: 0.72rem; font-family: var(--font-mono); color: var(--accent-primary); text-transform: uppercase; font-weight: bold; letter-spacing: 0.05em;">
+          <span style="font-size: 0.72rem; font-family: var(--font-mono); color: var(--color-brv); text-transform: uppercase; font-weight: bold; letter-spacing: 0.06em;">
             &lang; Board Layout Map &rang;
           </span>
           <span style="font-size: 0.7rem; color: var(--text-dim); font-family: var(--font-mono);">
@@ -183,8 +183,8 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
 
       <!-- Legend Breakdown Column -->
       {legend && legend.length > 0 && (
-        <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-card-subtle); border-radius: var(--radius-sm); padding: 1rem;">
-          <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--accent-cosmos); text-transform: uppercase; font-weight: bold; margin-bottom: 0.65rem; letter-spacing: 0.05em;">
+        <div style="background: var(--surface-panel-alt); border: 1px solid var(--border-panel-subtle); border-radius: var(--radius-sm); padding: 1rem;">
+          <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-cosmos); text-transform: uppercase; font-weight: bold; margin-bottom: 0.65rem; letter-spacing: 0.06em;">
             Encounter & Loot Legend
           </div>
           <div style="display: flex; flex-direction: column; gap: 0.4rem;">
@@ -192,10 +192,10 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
               const parsed = parseLegendItem(item);
               return (
                 <div style="display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.85rem; line-height: 1.4;">
-                  <span class={`map-token-pill ${parsed.badgeClass}`} style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; padding: 0.1rem 0.45rem; border-radius: 4px; flex-shrink: 0; min-width: 24px; text-align: center;">
+                  <span class={`map-token-pill ${parsed.badgeClass}`} style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; padding: 0.1rem 0.45rem; border-radius: var(--radius-xs); flex-shrink: 0; min-width: 24px; text-align: center;">
                     {parsed.key}
                   </span>
-                  <span style="color: var(--text-muted);">{parsed.text}</span>
+                  <span style="color: var(--text-sub);">{parsed.text}</span>
                 </div>
               );
             })}
@@ -209,23 +209,23 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
   {floors && floors.length > 0 && (
     <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.25rem;">
       {floors.map(floor => (
-        <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-card-subtle); border-radius: var(--radius-sm); padding: 1rem;">
-          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-card-subtle); padding-bottom: 0.4rem; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
-            <h4 style="margin: 0; font-size: 1.05rem; color: var(--text-main); font-family: var(--font-heading);">
+        <div style="background: var(--surface-panel-alt); border: 1px solid var(--border-panel-subtle); border-radius: var(--radius-sm); padding: 1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-panel-subtle); padding-bottom: 0.45rem; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+            <h4 style="margin: 0; font-size: 1.08rem; color: var(--text-main); font-family: var(--font-heading);">
               Floor {floor.floorNumber} {floor.name ? `— ${floor.name}` : ''}
             </h4>
-            <div style="display: flex; gap: 0.65rem; font-size: 0.78rem; font-family: var(--font-mono);">
+            <div style="display: flex; gap: 0.65rem; font-size: 0.8rem; font-family: var(--font-mono);">
               {floor.kpChance && (
-                <span style="color: var(--accent-warning);">KP: <strong>{floor.kpChance}</strong></span>
+                <span style="color: var(--color-cosmos);">KP Chance: <strong style="color: #fbbf24;">{floor.kpChance}</strong></span>
               )}
               {floor.bonusLine && (
-                <span style="color: var(--text-dim);">Bonus: {floor.bonusLine}</span>
+                <span style="color: var(--text-dim);">Bonus Line: <strong style="color: var(--color-brv);">{floor.bonusLine}</strong></span>
               )}
             </div>
           </div>
 
           {floor.asciiMap && (
-            <div style="background: rgba(11, 14, 23, 0.85); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: var(--radius-sm); padding: 0.9rem; margin-bottom: 0.85rem; overflow-x: auto;">
+            <div style="background: #040711; border: 1px solid rgba(56, 189, 248, 0.25); border-radius: var(--radius-sm); padding: 0.9rem; margin-bottom: 0.85rem; overflow-x: auto;">
               <pre class="ascii-grid" style="font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; line-height: 1.45; color: #e0f2fe; margin: 0; white-space: pre;">{floor.asciiMap}</pre>
             </div>
           )}
@@ -236,10 +236,10 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
                 const parsed = parseLegendItem(item);
                 return (
                   <div style="display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.84rem;">
-                    <span class={`map-token-pill ${parsed.badgeClass}`} style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; padding: 0.1rem 0.4rem; border-radius: 4px; flex-shrink: 0; min-width: 22px; text-align: center;">
+                    <span class={`map-token-pill ${parsed.badgeClass}`} style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; padding: 0.1rem 0.4rem; border-radius: var(--radius-xs); flex-shrink: 0; min-width: 22px; text-align: center;">
                       {parsed.key}
                     </span>
-                    <span style="color: var(--text-muted);">{parsed.text}</span>
+                    <span style="color: var(--text-sub);">{parsed.text}</span>
                   </div>
                 );
               })}
@@ -248,8 +248,8 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
 
           {floor.enemies && floor.enemies.length > 0 && (
             <div style="margin-bottom: 0.5rem;">
-              <div style="font-size: 0.72rem; font-family: var(--font-mono); color: var(--accent-chaos); text-transform: uppercase; font-weight: bold; margin-bottom: 0.25rem;">Enemies</div>
-              <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.85rem; color: var(--text-muted);">
+              <div style="font-size: 0.72rem; font-family: var(--font-mono); color: var(--color-chaos); text-transform: uppercase; font-weight: bold; margin-bottom: 0.25rem;">Enemies</div>
+              <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.85rem; color: var(--text-sub);">
                 {floor.enemies.map(enemy => (
                   <li>{enemy}</li>
                 ))}
@@ -259,7 +259,7 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
 
           {floor.chests && floor.chests.length > 0 && (
             <div style="margin-bottom: 0.5rem;">
-              <div style="font-size: 0.72rem; font-family: var(--font-mono); color: var(--accent-cosmos); text-transform: uppercase; font-weight: bold; margin-bottom: 0.25rem;">Chests</div>
+              <div style="font-size: 0.72rem; font-family: var(--font-mono); color: var(--color-cosmos); text-transform: uppercase; font-weight: bold; margin-bottom: 0.25rem;">Chests</div>
               <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.85rem; color: #fde68a;">
                 {floor.chests.map(chest => (
                   <li>{chest}</li>
@@ -271,7 +271,7 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
           {floor.images && floor.images.length > 0 && (
             <div style="margin: 0.85rem 0 0.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;">
               {floor.images.map(img => (
-                <div class="walkthrough-image-box" style="background: rgba(11, 14, 23, 0.8); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                <div class="walkthrough-image-box" style="background: var(--surface-panel); border: 1px solid var(--border-panel); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
                   <div style="position: relative; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center;">
                     <img 
                       src={resolveImg(img.src)} 
@@ -282,7 +282,7 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
                     />
                   </div>
                   {img.caption && (
-                    <div style="padding: 0.45rem 0.65rem; background: rgba(0, 0, 0, 0.5); border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.8rem; font-family: var(--font-mono); color: var(--accent-crystal); text-align: center;">
+                    <div style="padding: 0.45rem 0.65rem; background: var(--surface-panel-alt); border-top: 1px solid var(--border-panel-subtle); font-size: 0.8rem; font-family: var(--font-mono); color: var(--color-lufenia); text-align: center;">
                       {img.caption}
                     </div>
                   )}
@@ -292,7 +292,7 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
           )}
 
           {floor.notes && (
-            <div style="font-size: 0.82rem; color: var(--text-dim); border-top: 1px dashed var(--border-card-subtle); padding-top: 0.5rem; margin-top: 0.5rem;">
+            <div style="font-size: 0.82rem; color: var(--text-dim); border-top: 1px dashed var(--border-panel-subtle); padding-top: 0.5rem; margin-top: 0.5rem;">
               <em>{floor.notes}</em>
             </div>
           )}
@@ -305,7 +305,7 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
   {images && images.length > 0 && (
     <div style="margin: 1rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
       {images.map(img => (
-        <div class="walkthrough-image-box" style="background: rgba(11, 14, 23, 0.8); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+        <div class="walkthrough-image-box" style="background: var(--surface-panel); border: 1px solid var(--border-panel); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
           <div style="position: relative; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center;">
             <img 
               src={resolveImg(img.src)} 
@@ -316,7 +316,7 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
             />
           </div>
           {img.caption && (
-            <div style="padding: 0.5rem 0.75rem; background: rgba(0, 0, 0, 0.5); border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.82rem; font-family: var(--font-mono); color: var(--accent-crystal); text-align: center;">
+            <div style="padding: 0.5rem 0.75rem; background: var(--surface-panel-alt); border-top: 1px solid var(--border-panel-subtle); font-size: 0.82rem; font-family: var(--font-mono); color: var(--color-lufenia); text-align: center;">
               {img.caption}
             </div>
           )}
@@ -327,26 +327,14 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
 
   <!-- Strategy or Extra Notes -->
   {strategy && (
-    <div style="background: rgba(56, 189, 248, 0.05); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: var(--radius-sm); padding: 0.75rem 1rem; font-size: 0.88rem; color: var(--text-muted); margin-top: 0.75rem;">
-      <strong style="color: var(--accent-primary);">Strategy Tip:</strong> {strategy}
+    <div style="background: var(--surface-panel-alt); border-left: 3px solid var(--color-brv); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 0.75rem 1rem; font-size: 0.9rem; color: var(--text-sub); margin-top: 0.75rem;">
+      <strong style="color: var(--color-brv);">Strategy Tip:</strong> {strategy}
     </div>
   )}
 
   {notes && (
-    <div style="background: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: var(--radius-sm); padding: 0.75rem 1rem; font-size: 0.88rem; color: var(--text-muted); margin-top: 0.75rem;">
-      <strong style="color: var(--accent-warning);">Note:</strong> {notes}
+    <div style="background: var(--surface-panel-alt); border-left: 3px solid var(--color-cosmos); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 0.75rem 1rem; font-size: 0.9rem; color: var(--text-sub); margin-top: 0.75rem;">
+      <strong style="color: var(--color-cosmos);">Note:</strong> {notes}
     </div>
   )}
 </div>
-
-<style>
-  .badge-deploy { background: rgba(56, 189, 248, 0.25); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.5); }
-  .badge-goal { background: rgba(245, 158, 11, 0.25); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.5); }
-  .badge-boss { background: rgba(239, 68, 68, 0.25); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.5); }
-  .badge-assist { background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.5); }
-  .badge-chest { background: rgba(251, 191, 36, 0.2); color: #fde68a; border: 1px solid rgba(251, 191, 36, 0.4); }
-  .badge-summon { background: rgba(168, 85, 247, 0.25); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.5); }
-  .badge-emblem { background: rgba(14, 165, 233, 0.25); color: #7dd3fc; border: 1px solid rgba(14, 165, 233, 0.5); }
-  .badge-potion { background: rgba(52, 211, 153, 0.2); color: #6ee7b7; border: 1px solid rgba(52, 211, 153, 0.4); }
-  .badge-enemy { background: rgba(255, 255, 255, 0.08); color: var(--text-main); border: 1px solid rgba(255, 255, 255, 0.15); }
-</style>

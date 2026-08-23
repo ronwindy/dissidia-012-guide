@@ -9,11 +9,12 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
 
 <BaseLayout title="Crafting, Equipment Sets & Farming Guide" currentPath="crafting">
   <div style="margin-bottom: 2rem;">
-    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+    <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
       <span class="badge-pill badge-cosmos">Endgame Equipment & Economy</span>
+      <span class="badge-pill badge-new">Interactive Material Matcher</span>
     </div>
-    <h1 style="margin: 0;">CRAFTING, HIGH-TIER SETS & FARMING</h1>
-    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem;">
+    <h1 style="margin: 0; letter-spacing: 0.04em;">CRAFTING, HIGH-TIER SETS & FARMING</h1>
+    <p style="color: var(--text-muted); font-size: 1.05rem; margin-top: 0.5rem; line-height: 1.6;">
       Full recipes, shop locations, and optimal farming exploits for the strongest armor sets, weapons, KP, AP, Rosetta Stones, and Megalixers.
     </p>
   </div>
@@ -21,9 +22,9 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
   <!-- Economy & Farming Exploits -->
   <h2>Fast Currency & Material Farming Exploits</h2>
 
-  <div class="glass-card" style="border-left: 3px solid var(--accent-success); margin-bottom: 1.5rem;">
-    <h3 style="margin-top: 0; color: var(--accent-success); font-size: 1.25rem;">1. Unlimited AP Farming Loop</h3>
-    <ol style="color: var(--text-muted); font-size: 0.92rem; padding-left: 1.2rem; line-height: 1.6;">
+  <div class="crystal-panel" style="border-left: 4px solid var(--color-assist); margin-bottom: 1.5rem;">
+    <h3 style="margin-top: 0; color: var(--color-assist); font-size: 1.3rem;">1. Unlimited AP Farming Loop</h3>
+    <ol style="color: var(--text-sub); font-size: 0.94rem; padding-left: 1.3rem; line-height: 1.65;">
       <li>Travel to the <strong>Gateway of Melting Snows</strong> in the World Map.</li>
       <li>Enter and navigate immediately to the <strong>Accessory Protection Emblem</strong> on the grid (prevents breakable accessories from breaking during battles).</li>
       <li>Equip <em>Diamond Ring</em> (AP x3), <em>Beckoning Cat</em> (AP x2), and all breakable AP booster accessories you possess—they will never break inside this zone!</li>
@@ -31,9 +32,9 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
     </ol>
   </div>
 
-  <div class="glass-card" style="border-left: 3px solid var(--accent-cosmos); margin-bottom: 1.5rem;">
-    <h3 style="margin-top: 0; color: var(--accent-cosmos); font-size: 1.25rem;">2. Rapid KP (Kupoints) Maximization</h3>
-    <ol style="color: var(--text-muted); font-size: 0.92rem; padding-left: 1.2rem; line-height: 1.6;">
+  <div class="crystal-panel" style="border-left: 4px solid var(--color-cosmos); margin-bottom: 1.5rem;">
+    <h3 style="margin-top: 0; color: var(--color-cosmos); font-size: 1.3rem;">2. Rapid KP (Kupoints) Maximization</h3>
+    <ol style="color: var(--text-sub); font-size: 0.94rem; padding-left: 1.3rem; line-height: 1.65;">
       <li>Select deep multi-floor gateways with high Bonus Lines (e.g. <em>The Forsaken Lands</em> or <em>Dragon King's Gateway</em>).</li>
       <li>Equip <strong>KP Bonus Tokens</strong> (bought from Moglin for 10 KP) before entering.</li>
       <li>Always fulfill the listed <em>KP Chance</em> (e.g. Break within 60s, Win without taking damage).</li>
@@ -41,85 +42,114 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
     </ol>
   </div>
 
-  <div class="glass-card" style="border-left: 3px solid var(--accent-crystal); margin-bottom: 1.5rem;">
-    <h3 style="margin-top: 0; color: var(--accent-crystal); font-size: 1.25rem;">3. Ghost Battle Item Duplication Exploit</h3>
-    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
+  <div class="crystal-panel" style="border-left: 4px solid var(--color-lufenia); margin-bottom: 1.5rem;">
+    <h3 style="margin-top: 0; color: var(--color-lufenia); font-size: 1.3rem;">3. Ghost Battle Item Duplication Exploit</h3>
+    <p style="color: var(--text-sub); font-size: 0.94rem; line-height: 1.65; margin: 0;">
       Create an export of your own Friend Card equipped with rare accessories (e.g. <em>Megalixers</em>, <em>Lufenian Gear</em>, <em>Rosetta Stones</em>). Import the card onto your PSP (or secondary slot), equip <em>Battlegen Rate Up</em> and <em>Item Drop Rate Up</em> from the PP Catalog, and fight ghost battles against your own card repeatedly to clone all rare gear!
     </p>
+  </div>
+
+  <!-- Interactive Material Quick Filter & Calculator -->
+  <div class="crystal-panel" style="margin: 2.5rem 0 1.5rem 0; border-top: 3px solid var(--color-brv);">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.75rem;">
+      <h3 style="margin: 0; font-size: 1.25rem; color: var(--color-brv); font-family: var(--font-heading);">Interactive Material & Recipe Search</h3>
+      <span class="badge-pill badge-new">Live Filter</span>
+    </div>
+    <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.85rem;">
+      Type any material, set name, or farming source to filter the recipes and acquisition tables below in real-time.
+    </p>
+    <div style="position: relative;">
+      <input 
+        type="text" 
+        id="materialSearchInput" 
+        placeholder="Filter by material (e.g. Electrum, Rosetta, Genji, Megalixer, Pink Tail, Laguna)..." 
+        style="width: 100%; min-height: 44px; padding: 0.6rem 1rem; background: var(--surface-panel-alt); border: 1px solid var(--border-panel); border-radius: var(--radius-sm); color: var(--text-main); font-size: 0.95rem; outline: none; transition: border-color var(--transition-fast);"
+      />
+    </div>
   </div>
 
   <!-- High-Tier Equipment Sets -->
   <h2 style="margin-top: 2.5rem;">Legendary Equipment Sets</h2>
 
-  <CraftingCard
-    id="lufenian-set"
-    name="Lufenian Equipment Set"
-    type="Set"
-    effect="EX Intake Range +3m, EX Force Absorption +20%, Wall Rush Defense Boost +30%"
-    pieces={["Lufenian Helm", "Lufenian Armor", "Lufenian Shield", "Lufenian Boots"]}
-    farmingMethod={[
-      "In Scenario 000, teleport to Mirage Tower.",
-      "Head to 'Dreams of a Flying Castle' in the middle of the desert with False Stalwarts.",
-      "Descend to Floor 4 and defeat all Mirror Pieces.",
-      "Step directly onto the tile where the left mirror piece stood—this triggers a secret event spawning Red Chests across the entire floor!",
-      "Defeat every Red Chest piece; every chest is guaranteed to contain a piece of random Lufenian Armor."
-    ]}
-  />
+  <div id="crafting-cards-container">
+    <div class="crafting-item" data-search="lufenian equipment set ex force wall rush mirage tower desert dreams of a flying castle">
+      <CraftingCard
+        id="lufenian-set"
+        name="Lufenian Equipment Set"
+        type="Set"
+        effect="EX Intake Range +3m, EX Force Absorption +20%, Wall Rush Defense Boost +30%"
+        pieces={["Lufenian Helm", "Lufenian Armor", "Lufenian Shield", "Lufenian Boots"]}
+        farmingMethod={[
+          "In Scenario 000, teleport to Mirage Tower.",
+          "Head to 'Dreams of a Flying Castle' in the middle of the desert with False Stalwarts.",
+          "Descend to Floor 4 and defeat all Mirror Pieces.",
+          "Step directly onto the tile where the left mirror piece stood—this triggers a secret event spawning Red Chests across the entire floor!",
+          "Defeat every Red Chest piece; every chest is guaranteed to contain a piece of random Lufenian Armor."
+        ]}
+      />
+    </div>
 
-  <CraftingCard
-    id="genji-set"
-    name="Genji Armor Set"
-    type="Set"
-    effect="Defense +15, Bravery Boost on EX Mode +50%, Physical Damage +20%"
-    pieces={["Genji Helm", "Genji Armor", "Genji Shield", "Genji Glove"]}
-    materials={[
-      { name: "Heike Armor Set", qty: 1, source: "Moogle Shop east of Elven Castle (Frozen Continent)" },
-      { name: "Samurai Spirit", qty: 4, source: "Moogle Shop in Onrac Western Desert" },
-      { name: "Giant's Hopes / Dream / Desire", qty: "5 each", source: "Battlegen drops from Gilgamesh in Report 19" }
-    ]}
-    farmingMethod={[
-      "Purchase Heike armor from the Frozen Continent Moogle.",
-      "Teleport to Onrac and purchase 4 Samurai Spirits from the desert Moogle.",
-      "Purchase Battlegen Rate Up in the PP Catalog, fight Gilgamesh in Report 19, and farm his Giant material drops.",
-      "Alternative Method: Import the 'Exulus-' Friend Card and farm drops directly."
-    ]}
-  />
+    <div class="crafting-item" data-search="genji armor set defense bravery ex mode physical damage heike samurai spirit giant hopes dream desire gilgamesh onrac frozen continent">
+      <CraftingCard
+        id="genji-set"
+        name="Genji Armor Set"
+        type="Set"
+        effect="Defense +15, Bravery Boost on EX Mode +50%, Physical Damage +20%"
+        pieces={["Genji Helm", "Genji Armor", "Genji Shield", "Genji Glove"]}
+        materials={[
+          { name: "Heike Armor Set", qty: 1, source: "Moogle Shop east of Elven Castle (Frozen Continent)" },
+          { name: "Samurai Spirit", qty: 4, source: "Moogle Shop in Onrac Western Desert" },
+          { name: "Giant's Hopes / Dream / Desire", qty: "5 each", source: "Battlegen drops from Gilgamesh in Report 19" }
+        ]}
+        farmingMethod={[
+          "Purchase Heike armor from the Frozen Continent Moogle.",
+          "Teleport to Onrac and purchase 4 Samurai Spirits from the desert Moogle.",
+          "Purchase Battlegen Rate Up in the PP Catalog, fight Gilgamesh in Report 19, and farm his Giant material drops.",
+          "Alternative Method: Import the 'Exulus-' Friend Card and farm drops directly."
+        ]}
+      />
+    </div>
 
-  <CraftingCard
-    id="machine-set"
-    name="Machine Equipment Set"
-    type="Set"
-    prerequisites="Must purchase 'Chemist Lore' in the normal shop, unlock the skill in the 'etc' tab, and equip it."
-    effect="Consumable Potion/Ether effects tripled; massive Defense scaling."
-    pieces={["Machine Cap", "Machine Vest", "Machine Guard", "Machine Treads"]}
-    materials={[
-      { name: "Gear Collection", qty: 6, source: "Moogle Shop near Ancient Volcano Ring - Gulg (Pravoka)" },
-      { name: "Gunner's Hopes (x10) / Dream (x5) / Desire (x5)", qty: "20 total", source: "Battlegen drops from Laguna in M.S. Prima" },
-      { name: "Mallet", qty: 16, source: "Shop crafting component" }
-    ]}
-    farmingMethod={[
-      "Teleport to Pravoka and travel south to Gulg Moogle to buy 6 Gear Collections.",
-      "Equip Battlegen Boosts and fight Laguna in M.S. Prima for Gunner materials.",
-      "Alternative: Farm pieces directly from the 'Edgar' Friend Card."
-    ]}
-  />
+    <div class="crafting-item" data-search="machine equipment set chemist lore potion ether defense scaling gear collection gulg pravoka gunner hopes dream desire laguna ms prima mallet edgar">
+      <CraftingCard
+        id="machine-set"
+        name="Machine Equipment Set"
+        type="Set"
+        prerequisites="Must purchase 'Chemist Lore' in the normal shop, unlock the skill in the 'etc' tab, and equip it."
+        effect="Consumable Potion/Ether effects tripled; massive Defense scaling."
+        pieces={["Machine Cap", "Machine Vest", "Machine Guard", "Machine Treads"]}
+        materials={[
+          { name: "Gear Collection", qty: 6, source: "Moogle Shop near Ancient Volcano Ring - Gulg (Pravoka)" },
+          { name: "Gunner's Hopes (x10) / Dream (x5) / Desire (x5)", qty: "20 total", source: "Battlegen drops from Laguna in M.S. Prima" },
+          { name: "Mallet", qty: 16, source: "Shop crafting component" }
+        ]}
+        farmingMethod={[
+          "Teleport to Pravoka and travel south to Gulg Moogle to buy 6 Gear Collections.",
+          "Equip Battlegen Boosts and fight Laguna in M.S. Prima for Gunner materials.",
+          "Alternative: Farm pieces directly from the 'Edgar' Friend Card."
+        ]}
+      />
+    </div>
 
-  <CraftingCard
-    id="smiting-soul"
-    name="Smiting Soul (Ultimate Accessory)"
-    type="Accessory"
-    effect="Initial Bravery +100%, Bravery Recovery +50% after HP attacks."
-    materials={[
-      { name: "Discord's Dream", qty: 3, source: "Battlegen from Chaos in Scenario 013 Finale" },
-      { name: "Discord's Hopes", qty: 2, source: "Battlegen from Chaos in Scenario 013 Finale" },
-      { name: "Tome of the Orator", qty: 1, source: "Chest on Floor 5 of 'Dreams of a Flying Castle' (Mirage Tower 000)" }
-    ]}
-  />
+    <div class="crafting-item" data-search="smiting soul ultimate accessory bravery recovery discord dream hopes chaos scenario 013 tome of the orator mirage tower">
+      <CraftingCard
+        id="smiting-soul"
+        name="Smiting Soul (Ultimate Accessory)"
+        type="Accessory"
+        effect="Initial Bravery +100%, Bravery Recovery +50% after HP attacks."
+        materials={[
+          { name: "Discord's Dream", qty: 3, source: "Battlegen from Chaos in Scenario 013 Finale" },
+          { name: "Discord's Hopes", qty: 2, source: "Battlegen from Chaos in Scenario 013 Finale" },
+          { name: "Tome of the Orator", qty: 1, source: "Chest on Floor 5 of 'Dreams of a Flying Castle' (Mirage Tower 000)" }
+        ]}
+      />
+    </div>
+  </div>
 
   <!-- Rare Materials Quick Reference -->
-  <h2 style="margin-top: 2.5rem;">Rare Materials Quick Acquisition Table</h2>
+  <h2 style="margin-top: 3rem;">Rare Materials Quick Acquisition Table</h2>
   <DataTable title="Key Materials & Locations" caption="Verified by Suih / Zahlzeit">
-    <table class="data-table">
+    <table class="data-table" id="rareMaterialsTable">
       <thead>
         <tr>
           <th>Material</th>
@@ -128,47 +158,71 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td><strong style="color: var(--accent-primary);">Rosetta Stones</strong></td>
+        <tr class="material-row" data-search="rosetta stones chests 012 story moogle shops exulus friend card item drop rate up">
+          <td><strong style="color: var(--color-brv);">Rosetta Stones</strong></td>
           <td>Chests in 012 Story & Moogle Shops in 012/013/000</td>
           <td>Farm repeatedly from <code>Exulus-</code> Friend Card with Item Drop Rate Up</td>
         </tr>
-        <tr>
-          <td><strong style="color: var(--accent-primary);">Megalixers</strong></td>
+        <tr class="material-row" data-search="megalixers feral chaos 130 000 time attack cornelia moglin edgar friend card">
+          <td><strong style="color: var(--color-brv);">Megalixers</strong></td>
           <td>Defeat final boss Feral Chaos (Lv130) in 000</td>
           <td>Finish Time Attack under 15 min, buy from Cornelia Moglin, or farm <code>Edgar</code> Friend Card</td>
         </tr>
-        <tr>
-          <td><strong style="color: var(--accent-primary);">Dragon's Tear</strong></td>
+        <tr class="material-row" data-search="dragons tear dragon king gateway floor 10 dragon cave 000 respawn chest">
+          <td><strong style="color: var(--color-brv);">Dragon's Tear</strong></td>
           <td>Floor 10 of <em>The Dragon King's Gateway</em> (Dragon Cave 000)</td>
           <td>Chest respawns on every fresh dungeon descent</td>
         </tr>
-        <tr>
-          <td><strong style="color: var(--accent-primary);">Electrum</strong></td>
+        <tr class="material-row" data-search="electrum the forsaken lands gaia 000 floor 2 5 9 10 guaranteed chest loot">
+          <td><strong style="color: var(--color-brv);">Electrum</strong></td>
           <td>Floor 2, 5, 9, 10 chests in <em>The Forsaken Lands</em> (Gaia 000)</td>
           <td>Guaranteed chest loot on Floor 10</td>
         </tr>
-        <tr>
-          <td><strong style="color: var(--accent-primary);">Scarletites & Pink Tails</strong></td>
+        <tr class="material-row" data-search="scarletites pink tails gulg moogle shop encounters and treason pravoka kp purchase">
+          <td><strong style="color: var(--color-brv);">Scarletites & Pink Tails</strong></td>
           <td>Gulg Moogle Shop next to <em>Encounters and Treason</em> (Pravoka)</td>
           <td>Unlimited quantity purchase with KP</td>
         </tr>
-        <tr>
-          <td><strong style="color: var(--accent-primary);">Shell Armor</strong></td>
+        <tr class="material-row" data-search="shell armor exclusive chest scenario 013 chapter 10 tidus floor 1">
+          <td><strong style="color: var(--color-brv);">Shell Armor</strong></td>
           <td>Exclusive chest in Scenario 013 Chapter 10 (Tidus)</td>
           <td>Floor 1 near the end of the chapter</td>
         </tr>
-        <tr>
-          <td><strong style="color: var(--accent-primary);">Allure of Honey Set</strong></td>
+        <tr class="material-row" data-search="allure of honey set shantotto gateway scenario 000 random chest drop">
+          <td><strong style="color: var(--color-brv);">Allure of Honey Set</strong></td>
           <td>Shantotto Gateway in Scenario 000</td>
           <td>Random chest drop inside the dungeon</td>
         </tr>
-        <tr>
-          <td><strong style="color: var(--accent-primary);">Excalibur II</strong></td>
+        <tr class="material-row" data-search="excalibur ii special friend card drop no 1 moogle letters exchange">
+          <td><strong style="color: var(--color-brv);">Excalibur II</strong></td>
           <td>Special Friend Card drop from <code>No. 1 Moogle</code></td>
           <td>Acquired by exchanging letters regularly with Moogles</td>
         </tr>
       </tbody>
     </table>
   </DataTable>
+
+  <script is:inline>
+    if (typeof document !== "undefined") {
+      const searchInput = document.getElementById("materialSearchInput");
+      const craftItems = document.querySelectorAll(".crafting-item");
+      const tableRows = document.querySelectorAll(".material-row");
+
+      function filterMaterials() {
+        const query = (searchInput?.value || "").toLowerCase().trim();
+
+        craftItems.forEach(item => {
+          const text = (item.getAttribute("data-search") || "").toLowerCase();
+          item.style.display = (!query || text.includes(query)) ? "" : "none";
+        });
+
+        tableRows.forEach(row => {
+          const text = (row.getAttribute("data-search") || "").toLowerCase();
+          row.style.display = (!query || text.includes(query)) ? "" : "none";
+        });
+      }
+
+      searchInput?.addEventListener("input", filterMaterials);
+    }
+  </script>
 </BaseLayout>

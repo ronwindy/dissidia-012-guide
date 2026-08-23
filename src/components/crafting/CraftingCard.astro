@@ -32,12 +32,12 @@ const {
 } = Astro.props;
 ---
 
-<div class="glass-card crafting-card guide-section" id={id} style="margin-bottom: 2rem; border-top: 3px solid var(--accent-cosmos);">
+<div class="crystal-panel crafting-card guide-section" id={id} style="margin-bottom: 2rem; border-top: 3px solid var(--color-cosmos);">
   <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem;">
     <div>
       <span class="badge-pill badge-cosmos" style="margin-bottom: 0.25rem;">{type}</span>
-      <h3 style="margin: 0.2rem 0; font-size: 1.5rem; color: var(--text-main);">{name}</h3>
-      {effect && <div style="font-size: 0.9rem; color: var(--accent-primary); font-weight: 500;">Set Bonus / Effect: {effect}</div>}
+      <h3 style="margin: 0.2rem 0; font-size: 1.55rem; color: var(--text-main); font-family: var(--font-heading);">{name}</h3>
+      {effect && <div style="font-size: 0.92rem; color: var(--color-brv); font-weight: 600; font-family: var(--font-mono);">Set Bonus / Effect: {effect}</div>}
     </div>
     <div>
       <ProgressTracker id={`craft-${id}`} label="Crafted" />
@@ -45,16 +45,16 @@ const {
   </div>
 
   {prerequisites && (
-    <div style="background: rgba(245, 158, 11, 0.08); border-left: 3px solid var(--accent-warning); padding: 0.65rem 1rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: 0.85rem; color: #fde68a; margin-bottom: 1rem;">
+    <div style="background: var(--surface-panel-alt); border-left: 3px solid var(--color-cosmos); padding: 0.65rem 1rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: 0.88rem; color: #fde68a; margin-bottom: 1rem;">
       <strong>Prerequisite:</strong> {prerequisites}
     </div>
   )}
 
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-top: 1rem;">
     {pieces.length > 0 && (
-      <div>
-        <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--text-dim); text-transform: uppercase; margin-bottom: 0.35rem; font-weight: bold;">Equipment Pieces</div>
-        <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.9rem; color: var(--text-main);">
+      <div style="background: var(--surface-panel-alt); border: 1px solid var(--border-panel-subtle); border-radius: var(--radius-sm); padding: 1rem;">
+        <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-brv); text-transform: uppercase; margin-bottom: 0.5rem; font-weight: bold; letter-spacing: 0.05em;">Equipment Pieces (4 Slots)</div>
+        <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.9rem; color: var(--text-main);">
           {pieces.map(p => (
             <li>{p}</li>
           ))}
@@ -63,9 +63,9 @@ const {
     )}
 
     {materials.length > 0 && (
-      <div>
-        <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--text-dim); text-transform: uppercase; margin-bottom: 0.35rem; font-weight: bold;">Required Materials & Sources</div>
-        <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.88rem; color: var(--text-muted);">
+      <div style="background: var(--surface-panel-alt); border: 1px solid var(--border-panel-subtle); border-radius: var(--radius-sm); padding: 1rem;">
+        <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-cosmos); text-transform: uppercase; margin-bottom: 0.5rem; font-weight: bold; letter-spacing: 0.05em;">Required Materials & Sources</div>
+        <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.88rem; color: var(--text-sub);">
           {materials.map(m => (
             <li>
               <strong>{m.name}</strong> (x{m.qty}) &mdash; <span style="color: var(--text-dim);">{m.source}</span>
@@ -77,15 +77,15 @@ const {
   </div>
 
   {location && (
-    <div style="margin-top: 1rem; font-size: 0.88rem; color: var(--text-muted);">
+    <div style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-sub);">
       <strong style="color: var(--text-main);">Moogle Shop Location:</strong> {location}
     </div>
   )}
 
   {farmingMethod.length > 0 && (
-    <div style="margin-top: 1rem; border-top: 1px solid var(--border-card-subtle); padding-top: 0.75rem;">
-      <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--accent-success); text-transform: uppercase; margin-bottom: 0.35rem; font-weight: bold;">Step-by-Step Acquisition / Farming</div>
-      <ol style="margin: 0; padding-left: 1.2rem; font-size: 0.88rem; color: var(--text-muted);">
+    <div style="margin-top: 1rem; border-top: 1px solid var(--border-panel-subtle); padding-top: 0.85rem;">
+      <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-assist); text-transform: uppercase; margin-bottom: 0.45rem; font-weight: bold; letter-spacing: 0.05em;">Step-by-Step Acquisition / Farming</div>
+      <ol style="margin: 0; padding-left: 1.3rem; font-size: 0.9rem; color: var(--text-sub); line-height: 1.6;">
         {farmingMethod.map(step => (
           <li>{step}</li>
         ))}

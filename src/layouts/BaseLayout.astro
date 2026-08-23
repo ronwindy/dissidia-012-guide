@@ -17,7 +17,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
 
 const navGroups = [
   {
-    title: "Guide Overview",
+    title: "Command Central",
     links: [
       { 
         label: "Portal Hub", 
@@ -26,7 +26,7 @@ const navGroups = [
         icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`
       },
       { 
-        label: "FAQ & Mechanics", 
+        label: "System Mechanics & FAQ", 
         href: `${baseUrl}faq/`, 
         id: "faq",
         icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`
@@ -34,10 +34,10 @@ const navGroups = [
     ]
   },
   {
-    title: "Characters",
+    title: "Combat Roster",
     links: [
       { 
-        label: "Character Roster (32+)", 
+        label: "Character Database (32+)", 
         href: `${baseUrl}characters/`, 
         id: "roster",
         icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/><line x1="19" y1="21" x2="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" y1="14" x2="9" y2="18"/><line x1="7" y1="17" x2="3" y2="21"/><line x1="3" y1="19" x2="5" y2="21"/></svg>`
@@ -45,7 +45,7 @@ const navGroups = [
     ]
   },
   {
-    title: "Story Walkthroughs",
+    title: "Campaign Cycles",
     links: [
       { 
         label: "Scenario Overview", 
@@ -74,7 +74,7 @@ const navGroups = [
     ]
   },
   {
-    title: "Lore & Secrets",
+    title: "Archival Lore & Unlocks",
     links: [
       { 
         label: "20 Reports & Unlocks", 
@@ -85,7 +85,7 @@ const navGroups = [
     ]
   },
   {
-    title: "Equipment & Farming",
+    title: "Equipment & Economy",
     links: [
       { 
         label: "Sets, KP & AP Grinding", 
@@ -96,7 +96,7 @@ const navGroups = [
     ]
   },
   {
-    title: "Community & Cards",
+    title: "Communications Mode",
     links: [
       { 
         label: "Quests & Friend Cards", 
@@ -117,13 +117,13 @@ const navGroups = [
     <title>{title} | Dissidia 012 [duodecim] Guide</title>
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href={`${baseUrl}favicon.svg`} />
-    <meta name="theme-color" content="#0b0e17" />
+    <meta name="theme-color" content="#070a13" />
   </head>
   <body style={`--site-bg: url('${baseUrl}background.jpg');`}>
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <div class="app-container">
-      <!-- Left Persistent Sidebar / Mobile Drawer -->
+      <!-- Left Persistent PSP Command Terminal Sidebar -->
       <aside class="app-sidebar" id="appSidebar">
         <div class="sidebar-header">
           <a href={baseUrl} class="brand-link" title="Dissidia 012 [duodecim] Strategy Guide">
@@ -135,7 +135,7 @@ const navGroups = [
           </a>
         </div>
 
-        <nav class="sidebar-nav">
+        <nav class="sidebar-nav" aria-label="Main Navigation">
           {navGroups.map(group => (
             <div class="nav-group">
               <div class="nav-group-title">{group.title}</div>
@@ -153,8 +153,11 @@ const navGroups = [
           ))}
         </nav>
 
-        <div style="padding: 1rem 1.25rem; border-top: 1px solid var(--border-card); font-size: 0.78rem; color: var(--text-dim);">
-          <div>Saved Progress: <span id="globalProgressCount" style="color: var(--accent-primary); font-weight: bold;">0</span> items</div>
+        <div style="padding: 1rem 1.25rem; border-top: 1px solid var(--border-panel); font-size: 0.78rem; color: var(--text-dim); background: var(--surface-panel);">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Saved Checkpoints:</span>
+            <span id="globalProgressCount" style="color: var(--color-brv); font-weight: 700; font-family: var(--font-mono); font-size: 0.9rem;">0</span>
+          </div>
         </div>
       </aside>
 
@@ -162,7 +165,7 @@ const navGroups = [
       <div class="app-main">
         <header class="app-header">
           <div class="header-left">
-            <button class="mobile-toggle-btn" id="sidebarToggle" aria-label="Toggle Navigation Menu">
+            <button class="mobile-toggle-btn" id="sidebarToggle" aria-label="Toggle Command Menu">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="3" y1="12" x2="21" y2="12"></line>
                 <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -181,11 +184,14 @@ const navGroups = [
           </div>
 
           <div class="header-actions">
-            <a href={`${baseUrl}characters/`} class="badge-pill badge-new" style="text-decoration: none;">
-              32 Characters
+            <a href={`${baseUrl}story/012-treachery/`} class="badge-pill badge-cosmos" style="text-decoration: none;">
+              Cycle 012
             </a>
-            <a href={`${baseUrl}crafting/`} class="badge-pill badge-cosmos" style="text-decoration: none;">
-              Farming & Sets
+            <a href={`${baseUrl}characters/`} class="badge-pill badge-new" style="text-decoration: none;">
+              32 Roster
+            </a>
+            <a href={`${baseUrl}crafting/`} class="badge-pill badge-crystal" style="text-decoration: none;">
+              Gear & KP
             </a>
           </div>
         </header>
@@ -197,7 +203,7 @@ const navGroups = [
     </div>
 
     <script is:inline>
-      // Pure client-side drawer & progress script with defensive SSR guards
+      // Defensive client-side drawer & progress counter with SSR guards
       if (typeof document !== "undefined") {
         const toggleBtn = document.getElementById("sidebarToggle");
         const sidebar = document.getElementById("appSidebar");
@@ -216,7 +222,7 @@ const navGroups = [
         toggleBtn?.addEventListener("click", toggleMenu);
         overlay?.addEventListener("click", closeMenu);
 
-        // Close sidebar on link clicks on mobile
+        // Close sidebar on navigation clicks on mobile viewports
         document.querySelectorAll(".nav-link").forEach(link => {
           link.addEventListener("click", () => {
             if (window.innerWidth <= 768) {
@@ -225,7 +231,7 @@ const navGroups = [
           });
         });
 
-        // Update global progress badge
+        // Safe global progress badge synchronization
         function updateGlobalProgress() {
           try {
             const raw = localStorage.getItem("dissidia-012-guide-progress");
@@ -237,7 +243,7 @@ const navGroups = [
               }
             }
           } catch (e) {
-            console.warn("Could not load progress", e);
+            console.warn("Storage sync notice:", e);
           }
         }
         updateGlobalProgress();

@@ -27,42 +27,43 @@ const {
 
 const isHP = type.includes('HP');
 const badgeTypeClass = isHP ? 'badge-hp' : 'badge-brv';
+const borderAccentColor = isHP ? 'var(--color-hp)' : 'var(--color-brv)';
 ---
 
-<div class="glass-card move-card" style="margin-bottom: 1rem; border-left: 3px solid var(--border-card);">
+<div class="crystal-panel move-card" style={`margin-bottom: 1.15rem; border-left: 4px solid ${borderAccentColor};`}>
   <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.65rem;">
     <div>
-      <h4 style="margin: 0; font-size: 1.2rem; color: var(--text-main); display: inline-flex; align-items: center; gap: 0.5rem;">
+      <h4 style="margin: 0; font-size: 1.22rem; color: var(--text-main); display: inline-flex; align-items: center; gap: 0.6rem; letter-spacing: 0.03em;">
         {name}
-        <span class={`badge-pill ${badgeTypeClass}`} style="font-size: 0.7rem; padding: 0.15rem 0.5rem;">{type}</span>
+        <span class={`badge-pill ${badgeTypeClass}`} style="font-size: 0.72rem; padding: 0.15rem 0.55rem;">{type}</span>
       </h4>
     </div>
 
-    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; font-size: 0.78rem; font-family: var(--font-mono);">
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; font-size: 0.8rem; font-family: var(--font-mono);">
       {cpCost !== undefined && (
-        <span style="background: rgba(255,255,255,0.06); padding: 0.15rem 0.45rem; border-radius: 4px; color: var(--text-muted);">
+        <span style="background: var(--surface-panel-alt); border: 1px solid var(--border-panel-subtle); padding: 0.2rem 0.55rem; border-radius: var(--radius-xs); color: var(--text-muted);">
           CP: <strong style="color: var(--text-main);">{cpCost}</strong>
         </span>
       )}
       {apMaster !== undefined && (
-        <span style="background: rgba(255,255,255,0.06); padding: 0.15rem 0.45rem; border-radius: 4px; color: var(--text-muted);">
-          AP: <strong style="color: var(--accent-cosmos);">{apMaster}</strong>
+        <span style="background: var(--surface-panel-alt); border: 1px solid var(--border-panel-subtle); padding: 0.2rem 0.55rem; border-radius: var(--radius-xs); color: var(--text-muted);">
+          AP: <strong style="color: var(--color-cosmos);">{apMaster}</strong>
         </span>
       )}
     </div>
   </div>
 
-  <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">
+  <p style="font-size: 0.94rem; color: var(--text-sub); line-height: 1.55; margin-bottom: 0.85rem;">
     {description}
   </p>
 
   <!-- Move Properties Bar -->
-  <div style="display: flex; gap: 0.85rem; flex-wrap: wrap; font-size: 0.8rem; border-top: 1px solid var(--border-card-subtle); padding-top: 0.5rem; color: var(--text-dim);">
-    {range && <div><strong style="color: var(--text-muted);">Range:</strong> {range}</div>}
-    {wallRush && <div><strong style="color: var(--accent-chaos);">Wall Rush:</strong> {wallRush}</div>}
-    {chase && <div><strong style="color: var(--accent-primary);">Chase:</strong> Yes</div>}
-    {blockStagger && <div><strong style="color: var(--accent-warning);">Stagger on Block:</strong> Yes</div>}
-    {branchTo && <div><strong style="color: var(--accent-crystal);">Link Ability:</strong> <code>{branchTo}</code></div>}
+  <div style="display: flex; gap: 0.85rem; flex-wrap: wrap; font-size: 0.82rem; border-top: 1px solid var(--border-panel-subtle); padding-top: 0.55rem; color: var(--text-dim); font-family: var(--font-mono);">
+    {range && <div><strong style="color: var(--text-muted);">Range:</strong> <span style="color: var(--text-sub);">{range}</span></div>}
+    {wallRush && <div><strong style="color: var(--color-chaos);">Wall Rush:</strong> <span style="color: var(--text-sub);">{wallRush}</span></div>}
+    {chase && <div><strong style="color: var(--color-brv);">Chase:</strong> <span style="color: var(--text-sub);">Yes</span></div>}
+    {blockStagger && <div><strong style="color: var(--color-cosmos);">Stagger on Block:</strong> <span style="color: var(--text-sub);">Yes</span></div>}
+    {branchTo && <div><strong style="color: var(--color-lufenia);">Link Ability:</strong> <code>{branchTo}</code></div>}
   </div>
 
   <slot />

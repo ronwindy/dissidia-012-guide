@@ -23,12 +23,12 @@ interface Props {
 const { id, title, location, chapter, floors, strategy } = Astro.props;
 ---
 
-<div class="glass-card gateway-card guide-section" id={id} style="margin-bottom: 2.5rem; border-top: 3px solid var(--accent-crystal);">
+<div class="crystal-panel gateway-card guide-section" id={id} style="margin-bottom: 2.5rem; border-top: 3px solid var(--color-lufenia);">
   <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem;">
     <div>
-      {chapter && <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--accent-cosmos); text-transform: uppercase;">{chapter}</div>}
-      <h3 style="margin: 0.2rem 0; font-size: 1.6rem; color: var(--text-main);">{title}</h3>
-      {location && <div style="font-size: 0.85rem; color: var(--text-dim);">Location: {location}</div>}
+      {chapter && <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-cosmos); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">{chapter}</div>}
+      <h3 style="margin: 0.2rem 0; font-size: 1.6rem; color: var(--text-main); font-family: var(--font-heading);">{title}</h3>
+      {location && <div style="font-size: 0.85rem; color: var(--text-muted); font-family: var(--font-mono);">Location: {location}</div>}
     </div>
     <div>
       <ProgressTracker id={`gateway-${id}`} label="Cleared" />
@@ -36,32 +36,32 @@ const { id, title, location, chapter, floors, strategy } = Astro.props;
   </div>
 
   {strategy && (
-    <div style="background: rgba(56, 189, 248, 0.05); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: var(--radius-sm); padding: 0.85rem 1.15rem; margin-bottom: 1.25rem; font-size: 0.9rem; color: var(--text-muted);">
-      <strong style="color: var(--accent-primary);">Gateway Strategy:</strong> {strategy}
+    <div style="background: var(--surface-panel-alt); border-left: 3px solid var(--color-brv); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 0.85rem 1.15rem; margin-bottom: 1.25rem; font-size: 0.92rem; color: var(--text-sub);">
+      <strong style="color: var(--color-brv);">Gateway Strategy:</strong> {strategy}
     </div>
   )}
 
   <div class="floors-container" style="display: flex; flex-direction: column; gap: 1rem;">
     {floors.map(floor => (
-      <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-card); border-radius: var(--radius-sm); padding: 1rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-card-subtle); padding-bottom: 0.4rem; margin-bottom: 0.65rem; flex-wrap: wrap; gap: 0.5rem;">
-          <h4 style="margin: 0; font-size: 1.05rem; color: var(--text-main);">
+      <div style="background: var(--surface-panel-alt); border: 1px solid var(--border-panel-subtle); border-radius: var(--radius-sm); padding: 1rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-panel-subtle); padding-bottom: 0.45rem; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+          <h4 style="margin: 0; font-size: 1.08rem; color: var(--text-main); font-family: var(--font-heading);">
             Floor {floor.floorNumber} {floor.name ? `— ${floor.name}` : ''}
           </h4>
-          <div style="display: flex; gap: 0.65rem; font-size: 0.78rem; font-family: var(--font-mono);">
+          <div style="display: flex; gap: 0.75rem; font-size: 0.8rem; font-family: var(--font-mono);">
             {floor.kpChance && (
-              <span style="color: var(--accent-warning);">KP: <strong>{floor.kpChance}</strong></span>
+              <span style="color: var(--color-cosmos);">KP Chance: <strong style="color: #fbbf24;">{floor.kpChance}</strong></span>
             )}
             {floor.bonusLine && (
-              <span style="color: var(--text-dim);">Bonus: {floor.bonusLine}</span>
+              <span style="color: var(--text-dim);">Bonus Line: <strong style="color: var(--color-brv);">{floor.bonusLine}</strong></span>
             )}
           </div>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; font-size: 0.88rem;">
           <div>
-            <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--accent-chaos); text-transform: uppercase; margin-bottom: 0.25rem; font-weight: bold;">Enemies / Manikins</div>
-            <ul style="margin: 0; padding-left: 1.1rem; color: var(--text-muted);">
+            <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-chaos); text-transform: uppercase; margin-bottom: 0.35rem; font-weight: bold; letter-spacing: 0.05em;">Enemies / Manikins</div>
+            <ul style="margin: 0; padding-left: 1.2rem; color: var(--text-sub);">
               {floor.enemies.map(enemy => (
                 <li>{enemy}</li>
               ))}
@@ -70,8 +70,8 @@ const { id, title, location, chapter, floors, strategy } = Astro.props;
 
           {floor.chests && floor.chests.length > 0 && (
             <div>
-              <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--accent-cosmos); text-transform: uppercase; margin-bottom: 0.25rem; font-weight: bold;">Treasure Chests</div>
-              <ul style="margin: 0; padding-left: 1.1rem; color: #fde68a;">
+              <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-cosmos); text-transform: uppercase; margin-bottom: 0.35rem; font-weight: bold; letter-spacing: 0.05em;">Treasure Chests</div>
+              <ul style="margin: 0; padding-left: 1.2rem; color: #fde68a;">
                 {floor.chests.map(chest => (
                   <li>{chest}</li>
                 ))}
@@ -81,7 +81,7 @@ const { id, title, location, chapter, floors, strategy } = Astro.props;
         </div>
 
         {floor.notes && (
-          <div style="margin-top: 0.65rem; padding-top: 0.5rem; border-top: 1px dashed var(--border-card-subtle); font-size: 0.82rem; color: var(--text-muted);">
+          <div style="margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px dashed var(--border-panel-subtle); font-size: 0.84rem; color: var(--text-muted);">
             <em>Note: {floor.notes}</em>
           </div>
         )}

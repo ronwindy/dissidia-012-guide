@@ -32,20 +32,20 @@ const {
 } = Astro.props;
 ---
 
-<div class="glass-card quest-card" style="margin-bottom: 1.5rem; border-left: 3px solid var(--accent-primary);">
+<div class="crystal-panel quest-card" style="margin-bottom: 1.5rem; border-left: 4px solid var(--color-brv);">
   <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;">
     <div>
       {part && (
         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.2rem;">
-          <span style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--accent-cosmos); text-transform: uppercase; font-weight: 700;">
+          <span style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-cosmos); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">
             {part}
           </span>
-          {series && <span style="font-size: 0.75rem; color: var(--text-dim);">&bull; {series}</span>}
+          {series && <span style="font-size: 0.75rem; color: var(--text-dim); font-family: var(--font-mono);">&bull; {series}</span>}
         </div>
       )}
-      <h4 style="margin: 0.1rem 0; font-size: 1.25rem; color: var(--text-main);">{title}</h4>
-      <div style="font-size: 0.85rem; color: var(--text-dim); display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.2rem;">
-        <span>Created by: <strong style="color: var(--text-muted);">{author}</strong></span>
+      <h4 style="margin: 0.1rem 0; font-size: 1.28rem; color: var(--text-main); font-family: var(--font-heading); letter-spacing: 0.02em;">{title}</h4>
+      <div style="font-size: 0.85rem; color: var(--text-dim); display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.2rem; font-family: var(--font-mono);">
+        <span>Created by: <strong style="color: var(--text-sub);">{author}</strong></span>
         {date && <span>&bull; Updated: <code>{date}</code></span>}
       </div>
     </div>
@@ -56,18 +56,18 @@ const {
     </div>
   </div>
 
-  <div style="background: rgba(0, 0, 0, 0.25); padding: 0.85rem 1rem; border-radius: var(--radius-sm); font-size: 0.88rem; margin-bottom: 0.85rem; border: 1px solid rgba(255, 255, 255, 0.04);">
+  <div style="background: var(--surface-panel-alt); padding: 0.85rem 1rem; border-radius: var(--radius-sm); font-size: 0.9rem; margin-bottom: 0.85rem; border: 1px solid var(--border-panel-subtle);">
     <div style="margin-bottom: 0.4rem;">
-      <strong style="color: var(--accent-primary);">Playable Cast:</strong> 
+      <strong style="color: var(--color-brv);">Playable Cast:</strong> 
       <span style="color: var(--text-main);">{characters}</span>
     </div>
-    <div style="color: var(--text-muted); font-style: italic; line-height: 1.5;">&ldquo;{summary}&rdquo;</div>
+    <div style="color: var(--text-muted); font-style: italic; line-height: 1.55;">&ldquo;{summary}&rdquo;</div>
   </div>
 
   {tags.length > 0 && (
     <div style="display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.6rem;">
       {tags.map(tag => (
-        <span style="font-size: 0.7rem; font-family: var(--font-mono); background: rgba(255, 255, 255, 0.05); color: var(--text-muted); padding: 0.15rem 0.45rem; border-radius: var(--radius-sm); border: 1px solid rgba(255, 255, 255, 0.08);">
+        <span style="font-size: 0.72rem; font-family: var(--font-mono); background: var(--surface-panel-alt); color: var(--text-sub); padding: 0.15rem 0.5rem; border-radius: var(--radius-xs); border: 1px solid var(--border-panel-subtle);">
           #{tag}
         </span>
       ))}
@@ -75,7 +75,7 @@ const {
   )}
 
   {(authorNote || reviewerNote) && (
-    <div style="display: flex; flex-direction: column; gap: 0.45rem; font-size: 0.83rem; border-top: 1px solid var(--border-card-subtle); padding-top: 0.65rem; color: var(--text-muted);">
+    <div style="display: flex; flex-direction: column; gap: 0.45rem; font-size: 0.85rem; border-top: 1px solid var(--border-panel-subtle); padding-top: 0.65rem; color: var(--text-sub);">
       {authorNote && (
         <div style="line-height: 1.5;">
           <strong style="color: #cbd5e1;">Author Note:</strong> {authorNote}
@@ -83,7 +83,7 @@ const {
       )}
       {reviewerNote && (
         <div style="line-height: 1.5;">
-          <strong style="color: var(--accent-cosmos);">Suih / Zahlzeit Review:</strong> {reviewerNote}
+          <strong style="color: var(--color-cosmos);">Suih / Zahlzeit Review:</strong> {reviewerNote}
         </div>
       )}
     </div>

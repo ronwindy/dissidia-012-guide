@@ -25,32 +25,32 @@ const standaloneQuests = questsData.filter(q => !q.series);
 >
   <!-- Page Header -->
   <div style="margin-bottom: 2rem;">
-    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
-      <span class="badge-pill badge-new">Community Content</span>
+    <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
+      <span class="badge-pill badge-new">Communications Mode</span>
       <span class="badge-pill badge-cosmos">10 Curated Friend Cards</span>
       <span class="badge-pill badge-crystal">16 Original Quests</span>
     </div>
     <h1 style="margin: 0; letter-spacing: 0.04em;">CUSTOM QUESTS & FRIEND CARDS</h1>
-    <p style="color: var(--text-muted); font-size: 1.05rem; margin-top: 0.5rem; line-height: 1.6; max-width: 900px;">
+    <p style="color: var(--text-muted); font-size: 1.05rem; margin-top: 0.5rem; line-height: 1.6; max-width: 920px;">
       Master guide to community-created Original Quests and high-efficiency ghost farming Friend Cards curated by <strong>Suih</strong> and <strong>Zahlzeit</strong>. Includes full 4-piece equipment and 10-accessory ghost loadouts, combat exploits, and exact save data installation instructions for PSP hardware and PPSSPP emulators.
     </p>
   </div>
 
   <!-- Installation & Setup Callout -->
   <div id="installation-guide" style="margin-bottom: 2.5rem;">
-    <div class="glass-card" style="border-left: 4px solid var(--accent-primary);">
+    <div class="crystal-panel" style="border-left: 4px solid var(--color-brv);">
       <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        <h3 style="margin: 0; font-size: 1.35rem; color: var(--text-main);">Save Data Installation & Setup Guide</h3>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-brv)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <h3 style="margin: 0; font-size: 1.35rem; color: var(--text-main); font-family: var(--font-heading);">Save Data Installation & Setup Guide</h3>
       </div>
 
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-top: 1rem;">
         <!-- Original Quests Setup -->
-        <div class="glass-stat-card">
-          <div style="font-size: 0.95rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 0.5rem; font-family: var(--font-subheading); text-transform: uppercase;">
+        <div class="stat-panel">
+          <div style="font-size: 0.95rem; font-weight: 700; color: var(--color-brv); margin-bottom: 0.5rem; font-family: var(--font-subheading); text-transform: uppercase; letter-spacing: 0.05em;">
             1. Installing Original Quests
           </div>
-          <ol style="padding-left: 1.2rem; margin: 0; font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
+          <ol style="padding-left: 1.2rem; margin: 0; font-size: 0.88rem; color: var(--text-sub); line-height: 1.6;">
             <li>Extract the downloaded quest archive (e.g. <code>.zip</code> or <code>.rar</code> via WinRAR/7-Zip).</li>
             <li>Copy the entire quest folder (e.g. <code>ULUS10566Quest00</code>) directly into your PSP save directory:
               <ul style="margin: 0.25rem 0 0.5rem 0; padding-left: 1rem; font-family: var(--font-mono); font-size: 0.8rem; color: #bae6fd;">
@@ -64,11 +64,11 @@ const standaloneQuests = questsData.filter(q => !q.series);
         </div>
 
         <!-- Friend Cards Setup -->
-        <div class="glass-stat-card">
-          <div style="font-size: 0.95rem; font-weight: 700; color: var(--accent-cosmos); margin-bottom: 0.5rem; font-family: var(--font-subheading); text-transform: uppercase;">
+        <div class="stat-panel">
+          <div style="font-size: 0.95rem; font-weight: 700; color: var(--color-cosmos); margin-bottom: 0.5rem; font-family: var(--font-subheading); text-transform: uppercase; letter-spacing: 0.05em;">
             2. Importing Friend Cards
           </div>
-          <ol style="padding-left: 1.2rem; margin: 0; font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
+          <ol style="padding-left: 1.2rem; margin: 0; font-size: 0.88rem; color: var(--text-sub); line-height: 1.6;">
             <li>Extract the friend card folder (e.g. <code>ULUS10566...</code>) and place it into <code>PSP/SAVEDATA/</code>.</li>
             <li>Launch <em>Dissidia 012</em> and enter <strong>Communications Mode &rarr; Communications</strong>.</li>
             <li>Select <strong>Import a Friend Card</strong> and choose the downloaded ghost cards to load them into your roster.</li>
@@ -86,7 +86,7 @@ const standaloneQuests = questsData.filter(q => !q.series);
   </div>
 
   <!-- Quick Filter & Search Bar -->
-  <div class="glass-card" style="margin-bottom: 2rem; padding: 1.25rem;">
+  <div class="crystal-panel" style="margin-bottom: 2rem; padding: 1.25rem; border-top: 3px solid var(--color-brv);">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
       <!-- Interactive Filter Tabs -->
       <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;" id="filter-tab-bar">
@@ -104,9 +104,9 @@ const standaloneQuests = questsData.filter(q => !q.series);
           type="text" 
           id="customSearchInput" 
           placeholder="Search cards, quests, drops, characters..." 
-          style="width: 100%; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--border-card); border-radius: var(--radius-sm); padding: 0.5rem 0.75rem 0.5rem 2rem; color: var(--text-main); font-size: 0.88rem; outline: none; transition: border-color var(--transition-fast);"
+          style="width: 100%; min-height: 44px; background: var(--surface-panel-alt); border: 1px solid var(--border-panel); border-radius: var(--radius-sm); padding: 0.5rem 0.75rem 0.5rem 2.2rem; color: var(--text-main); font-size: 0.9rem; outline: none; transition: border-color var(--transition-fast);"
         />
-        <svg style="position: absolute; left: 0.6rem; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--text-dim);" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <svg style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--text-dim);" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </div>
     </div>
   </div>
@@ -138,13 +138,13 @@ const standaloneQuests = questsData.filter(q => !q.series);
           {friendCardsData.map(fc => (
             <tr class="searchable-item" data-search-text={`${fc.name} ${fc.ghost} ${fc.category} ${fc.targetDrops.join(' ')} ${fc.rank}`}>
               <td>
-                <a href={`#card-${fc.id}`} style="font-weight: 700; color: var(--accent-primary);">
+                <a href={`#card-${fc.id}`} style="font-weight: 700; color: var(--color-brv);">
                   {fc.name}
                 </a>
               </td>
               <td>
-                <strong style="color: #e2e8f0;">{fc.ghost}</strong>
-                <span class="badge-pill" style="margin-left: 0.35rem; font-size: 0.68rem; padding: 0.1rem 0.4rem; background: rgba(255,255,255,0.08);">
+                <strong style="color: var(--text-main);">{fc.ghost}</strong>
+                <span class="badge-pill" style="margin-left: 0.35rem; font-size: 0.68rem; padding: 0.1rem 0.4rem; background: var(--surface-panel-alt);">
                   Rank {fc.rank}
                 </span>
               </td>
@@ -157,7 +157,7 @@ const standaloneQuests = questsData.filter(q => !q.series);
                 {fc.targetDrops[0]}
                 {fc.targetDrops.length > 1 && <span style="color: var(--text-dim); font-size: 0.78rem;"> (+{fc.targetDrops.length - 1} more)</span>}
               </td>
-              <td style="color: var(--text-muted); font-size: 0.84rem; line-height: 1.4;">
+              <td style="color: var(--text-sub); font-size: 0.84rem; line-height: 1.45;">
                 {fc.strategy.length > 95 ? `${fc.strategy.substring(0, 95)}...` : fc.strategy}
               </td>
             </tr>
@@ -181,7 +181,7 @@ const standaloneQuests = questsData.filter(q => !q.series);
 
     <!-- Sub-Section: Farming Cards -->
     <div class="card-group-section" data-group-type="farming" style="margin-bottom: 2.5rem;">
-      <h3 style="color: var(--accent-cosmos); font-size: 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+      <h3 style="color: var(--color-cosmos); font-size: 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-heading);">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M11 3 8 9l4 12 4-12-3-6"/><path d="M2 9h20"/></svg>
         High-Yield Farming Cards (Genji Set & Booster Multipliers)
       </h3>
@@ -194,7 +194,7 @@ const standaloneQuests = questsData.filter(q => !q.series);
 
     <!-- Sub-Section: Themed Cards -->
     <div class="card-group-section" data-group-type="themed" style="margin-bottom: 2.5rem;">
-      <h3 style="color: var(--accent-crystal); font-size: 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+      <h3 style="color: var(--color-lufenia); font-size: 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-heading);">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
         Themed Ghost Cards (Machine Weapons & Tomes)
       </h3>
@@ -207,7 +207,7 @@ const standaloneQuests = questsData.filter(q => !q.series);
 
     <!-- Sub-Section: Competitive & Other Cards -->
     <div class="card-group-section" data-group-type="competitive" style="margin-bottom: 2.5rem;">
-      <h3 style="color: var(--accent-primary); font-size: 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+      <h3 style="color: var(--color-brv); font-size: 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-heading);">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
         Competitive & Endgame Build Ghosts
       </h3>
@@ -233,12 +233,12 @@ const standaloneQuests = questsData.filter(q => !q.series);
 
     <!-- Multi-Part Series 1: Final Fantasy Frustra Amare -->
     <div class="card-group-section" data-group-type="sagas" style="margin-bottom: 3rem;">
-      <div style="background: rgba(56, 189, 248, 0.05); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;">
+      <div style="background: var(--surface-panel-alt); border: 1px solid var(--border-panel); border-left: 4px solid var(--color-brv); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.35rem;">
-          <h3 style="margin: 0; font-size: 1.35rem; color: var(--accent-primary);">Campaign: Final Fantasy Frustra Amare (8 Parts)</h3>
+          <h3 style="margin: 0; font-size: 1.35rem; color: var(--color-brv); font-family: var(--font-heading);">Campaign: Final Fantasy Frustra Amare (8 Parts)</h3>
           <span class="badge-pill badge-new">Author: Ryken07</span>
         </div>
-        <p style="margin: 0; font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">
+        <p style="margin: 0; font-size: 0.9rem; color: var(--text-sub); line-height: 1.55;">
           A legendary 8-part narrative campaign focusing on the personal struggles and memories of the warriors aboard the theater airship Prima Vista. <em>Note: Some battles are intentionally scripted for dramatic losses to advance the plot!</em>
         </p>
       </div>
@@ -268,12 +268,12 @@ const standaloneQuests = questsData.filter(q => !q.series);
 
     <!-- Multi-Part Series 2: World At War -->
     <div class="card-group-section" data-group-type="sagas" style="margin-bottom: 3rem;">
-      <div style="background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;">
+      <div style="background: var(--surface-panel-alt); border: 1px solid var(--border-panel); border-left: 4px solid var(--color-chaos); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.35rem;">
-          <h3 style="margin: 0; font-size: 1.35rem; color: var(--accent-chaos);">Campaign: World At War (3 Parts)</h3>
+          <h3 style="margin: 0; font-size: 1.35rem; color: var(--color-chaos); font-family: var(--font-heading);">Campaign: World At War (3 Parts)</h3>
           <span class="badge-pill badge-chaos">Author: Majin K</span>
         </div>
-        <p style="margin: 0; font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">
+        <p style="margin: 0; font-size: 0.9rem; color: var(--text-sub); line-height: 1.55;">
           Two grand warring factions clash across Palamecia and Gestahl before facing the Creator's final judgment tournament. Features branching win/loss ending sequences in Part 3!
         </p>
       </div>
@@ -302,7 +302,7 @@ const standaloneQuests = questsData.filter(q => !q.series);
 
     <!-- Standalone Quests -->
     <div class="card-group-section" data-group-type="standalone" style="margin-bottom: 2.5rem;">
-      <h3 style="color: var(--accent-cosmos); font-size: 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+      <h3 style="color: var(--color-cosmos); font-size: 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-heading);">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         Featured Standalone Original Quests
       </h3>
@@ -397,30 +397,34 @@ const standaloneQuests = questsData.filter(q => !q.series);
 
   <style>
     .filter-tab-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-card);
+      background: var(--surface-panel-alt);
+      border: 1px solid var(--border-panel-subtle);
       color: var(--text-muted);
-      padding: 0.35rem 0.85rem;
+      padding: 0.4rem 0.9rem;
+      min-height: 44px;
       border-radius: var(--radius-sm);
       font-family: var(--font-subheading);
-      font-size: 0.85rem;
-      font-weight: 600;
+      font-size: 0.88rem;
+      font-weight: 700;
       cursor: pointer;
       transition: all var(--transition-fast);
-      letter-spacing: 0.03em;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
     }
 
     .filter-tab-btn:hover {
-      background: rgba(56, 189, 248, 0.12);
+      background: var(--surface-panel-hover);
       color: var(--text-main);
-      border-color: var(--accent-primary);
+      border-color: var(--color-brv);
     }
 
     .filter-tab-btn.active {
-      background: linear-gradient(90deg, rgba(56, 189, 248, 0.25) 0%, rgba(56, 189, 248, 0.1) 100%);
-      color: #38bdf8;
-      border-color: var(--accent-primary);
-      box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+      background: var(--color-brv);
+      color: var(--text-inverse);
+      border-color: var(--color-brv);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
     }
   </style>
 </BaseLayout>

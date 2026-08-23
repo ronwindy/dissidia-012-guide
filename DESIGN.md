@@ -1,77 +1,79 @@
 # Visual Design Guide: Dissidia 012 [duodecim] Final Fantasy Guide
 
-## 1. Aesthetic Direction & Tone
-The visual identity captures the high-stakes cosmic clash between the goddess **Cosmos** (Order, Crystals, Luminous Harmony) and the god **Chaos** (Discord, Abyss, Volcanic Ruin). The theme combines a modern, deep crystalline dark-mode surface with glassmorphic cards, luminous neon crystal accents, and crisp fighting-game typography.
+## 1. Aesthetic Direction & Inspiration
+
+The visual identity authentically captures the high-stakes cosmic clash between the goddess **Cosmos** (Order, Crystalline Radiance, Astral Gold) and the god **Chaos** (Discord, Volcanic Void, Crimson Ruin). Rather than generic dark glassmorphism, the design mirrors the **PSP Final Fantasy battle HUD & command menu architecture**:
+
+- **Crystalline & Metallic Surfaces:** Solid dark obsidian panels with subtle metallic bevels, crisp crystal borders, and chamfered corner accents.
+- **Combat HUD Accents:** Cyan-lit **Bravery (BRV)** energy meters, crimson **HP damage** indicators, glowing **EX Burst** gold gauges, and arcane **Lufenian violet** artifact trims.
+- **Cosmic Duality:** Dynamic factional cues for Cosmos (Radiant Gold & Crystal Blue), Chaos (Discord Crimson & Dark Obsidian), 012 Prequel (Luminous Cyan & Steel), and Lufenia / Post-Game 000 (Arcane Violet).
 
 ---
 
-## 2. Color Palette & Design Tokens
+## 2. Dynamic Token Architecture & CSS Variables
 
-### Core Surfaces
-- **Background Surface:** `--bg-color: #0b0e17;` (Deep cosmic navy/void)
-- **Sidebar Surface:** `--bg-sidebar: #0f1320;` (Dark crystalline slate)
-- **Card Surface:** `--bg-card: rgba(18, 24, 40, 0.72);` (Translucent glassmorphism with `backdrop-filter: blur(12px)`)
-- **Card Border:** `--border-card: rgba(255, 255, 255, 0.08);`
-- **Header Surface:** `--bg-header: rgba(11, 14, 23, 0.85);`
+### Core Surfaces & Panels
+- **Background Void:** `--bg-color: #070a13;` (Deep cosmic obsidian)
+- **HUD Panel Surface:** `--surface-panel: #0e1424;` (Crisp dark crystalline slate)
+- **HUD Secondary Surface:** `--surface-panel-alt: #131b30;` (Layered command panel)
+- **Bevel & Border Accent:** `--surface-bevel: #1a2540;` (Metallic edge bevel)
+- **Sidebar & Header:** `--surface-hud: #0a0e1a;` (High-contrast command bar)
 
-### Text & Contrast (7:1+ Compliance)
-- **Primary Text:** `--text-main: #f1f5f9;` (High-contrast pure crystal white/silver)
-- **Muted Text:** `--text-muted: #94a3b8;` (Legible secondary silver-gray)
-- **Subtle / Meta Text:** `--text-dim: #64748b;`
+### Domain-Specific Game Tokens
+- **Bravery Attack (BRV):** `--color-brv: #38bdf8;` (Luminous cyan energy)
+- **HP Attack & Damage:** `--color-hp: #f43f5e;` (High-impact crimson rose)
+- **EX Gauge & Burst:** `--color-ex-gauge: #fbbf24;` (Astral gold radiance)
+- **Cosmos / Order Faction:** `--color-cosmos: #f59e0b;` (Sun gold)
+- **Chaos / Discord Faction:** `--color-chaos: #ef4444;` (Abyssal flame)
+- **Lufenia / Dimensional Rift:** `--color-lufenia: #a855f7;` (Arcane purple)
+- **Assist & Support Synergy:** `--color-assist: #10b981;` (Support emerald)
 
-### Factional & Game Accents
-- **Primary Accent (Crystal Blue):** `--accent-primary: #38bdf8;`
-- **Cosmos Accent (Radiant Gold):** `--accent-cosmos: #f59e0b;`
-- **Chaos Accent (Discord Crimson):** `--accent-chaos: #ef4444;`
-- **Lufenian Ancient Accent (Arcane Violet):** `--accent-crystal: #a855f7;`
-- **Success / Check / Complete:** `--accent-success: #10b981;`
-- **Warning / KP Chance:** `--accent-warning: #f59e0b;`
-- **HP Attack Accent:** `--accent-hp: #f43f5e;`
-- **Bravery Attack Accent:** `--accent-brv: #0ea5e9;`
+### High-Contrast Text Hierarchy (>= 7:1 Contrast Ratio)
+- **Primary Text:** `--text-main: #f8fafc;` (Pure crystal silver / white)
+- **Secondary Text:** `--text-sub: #cbd5e1;` (Polished silver plate)
+- **Muted Text:** `--text-muted: #94a3b8;` (Legible secondary steel-gray)
+- **Dim / Coordinate Text:** `--text-dim: #64748b;` (Tactical coordinates & timestamps)
+- **Inverse Text:** `--text-inverse: #070a13;`
 
 ---
 
-## 3. Typography
+## 3. Typography Selection
 
-- **Heading & Display Font (`--font-heading`, `--font-display`):** `'Rajdhani', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`
-  - Sleek, condensed geometric sans with chamfered/angled mechanical corners. High-impact and high-tech fighting-game HUD aesthetic, ideal for titles, move names, damage stats, and character headers.
-- **Body Font (`--font-body`):** `'Inter', 'Plus Jakarta Sans', system-ui, sans-serif`
-  - Clean, neutral, exceptional readability for walkthrough guides, mechanics, and strategies.
-- **Accent & Data Font (`--font-mono`):** `'JetBrains Mono', 'Share Tech Mono', monospace`
-  - Strict alignment for frame data, CP/AP numbers, KP Chance timers, and battle logs.
+- **Display & Title Font (`--font-display`):** `'Cinzel', 'Cinzel Decorative', serif`
+  - Regal Roman serif aesthetic matching classic *Final Fantasy* title logos, chapter headings, and scenario banners.
+- **Combat HUD & Headings (`--font-heading`, `--font-subheading`):** `'Rajdhani', -apple-system, BlinkMacSystemFont, sans-serif`
+  - Condensed geometric sans with angled, mechanical corners. Fast, high-impact fighting-game HUD font ideal for move names, damage multipliers, and character cards.
+- **Body & Walkthrough Font (`--font-body`):** `'Plus Jakarta Sans', system-ui, sans-serif`
+  - Exceptional legibility and neutral clarity for dense walkthroughs, mechanics breakdowns, and combat guides.
+- **Monospace, Frame Data & Board Maps (`--font-mono`):** `'JetBrains Mono', Consolas, monospace`
+  - Strict columnar alignment for ASCII gateway maps, CP/AP costs, KP chance timers, and frame data.
 
 ### Fluid Typography Scales
 ```css
+--font-size-xs: clamp(0.75rem, 0.1vw + 0.72rem, 0.82rem);
 --font-size-sm: clamp(0.85rem, 0.2vw + 0.8rem, 0.95rem);
---font-size-base: clamp(1rem, 0.3vw + 0.9rem, 1.125rem);
---font-size-h3: clamp(1.25rem, 1.5vw + 0.8rem, 1.5rem);
---font-size-h2: clamp(1.5rem, 2.5vw + 0.8rem, 2rem);
---font-size-h1: clamp(2rem, 4vw + 0.8rem, 3rem);
+--font-size-base: clamp(1rem, 0.3vw + 0.92rem, 1.125rem);
+--font-size-lg: clamp(1.15rem, 0.5vw + 1rem, 1.25rem);
+--font-size-h3: clamp(1.3rem, 1.2vw + 0.95rem, 1.65rem);
+--font-size-h2: clamp(1.6rem, 2vw + 1rem, 2.25rem);
+--font-size-h1: clamp(2.1rem, 3.8vw + 1rem, 3.25rem);
 ```
 
 ---
 
 ## 4. Mobile-First & Responsive Layout Rules
 
-- **Mobile Viewport Priority:** Base layouts designed for 360px–430px mobile screens, expanding seamlessly to 768px tablets and 1200px+ desktop layouts.
-- **Touch Targets:** All interactive buttons, checklist toggles, TOC jumps, and mobile drawers adhere strictly to $\ge 44 \times 44\text{px}$ touch targets.
+- **Touch Targets:** All buttons, navigation links, filters, and progress checkboxes strictly adhere to $\ge 44 \times 44\text{px}$ touch targets.
 - **Navigation Architecture:**
-  - Desktop: Persistent left-hand sidebar with category accordion, search filter, and dynamic completion counter.
-  - Mobile: Fixed top header with animated hamburger slide-out drawer and backdrop overlay (`.sidebar-overlay`).
-- **Data & Matrix Tables:** Wrapped in responsive overflow containers (`overflow-x: auto; -webkit-overflow-scrolling: touch;`) with sticky headers.
+  - **Desktop:** Persistent left PSP Command Terminal sidebar with categorized sections, live local progress count, and quick scenario jumps.
+  - **Mobile:** Fixed top HUD bar with $\ge 44\text{px}$ hamburger toggle and animated slide-out command drawer with backdrop overlay.
+- **Responsive Tables & Maps:** Wrapped in `.table-responsive` containers with `-webkit-overflow-scrolling: touch;` and sticky headers.
 
 ---
 
-## 5. Callouts & Semantic Indicators
+## 5. Domain-Specific Component Styles
 
-- **Tip / Mechanics Insight:** Emerald crystal border with subtle glowing background (`rgba(16, 185, 129, 0.08)`).
-- **Warning / Missable / Trap:** Amber-gold glowing indicator (`rgba(245, 158, 11, 0.08)`).
-- **Boss / Critical Strategy:** Crimson discord styling (`rgba(239, 68, 68, 0.1)`).
-- **Lore / Monologue / Report:** Arcane violet border with italicized quotes.
-
----
-
-## 6. Faction Variants
-- `.theme-cosmos` -> Emphasizes `--accent-primary: #f59e0b;` (Sun gold) & glowing crystal blue borders.
-- `.theme-chaos` -> Emphasizes `--accent-primary: #ef4444;` (Chaos flame) & dark crimson card tints.
-- `.theme-000` -> Emphasizes `--accent-primary: #a855f7;` (Lufenian / Dimensional rift).
+- **Move Cards:** High-contrast BRV Cyan / HP Crimson left-border indicators with CP/AP cost badges, range, wall rush, and link ability tags.
+- **Character Headers:** Dual-pane combat HUD showing EX Mode effects, EX Burst inputs, Assist roles, and stage synergy.
+- **Gateway Maps:** Terminal-style ASCII chessboard visualizer with color-coded token badges (`[D]` Deploy, `[G]` Goal, `[B]` Boss, `[C]` Chest, `[S]` Summon).
+- **Progress Trackers:** Persistent client-side checkboxes with defensive `localStorage` synchronization.

@@ -17,6 +17,7 @@ const totalCount = charactersData.length;
     <div class="roster-badge-row">
       <span class="badge-pill badge-new">31 Playable Fighters + 1 Assist</span>
       <span class="badge-pill badge-cosmos">Full Frame Data & Strategy</span>
+      <span class="badge-pill badge-crystal">100% Fidelity</span>
     </div>
     <h1 class="roster-title">CHARACTER ROSTER DATABASE</h1>
     <p class="roster-subtitle">
@@ -25,7 +26,7 @@ const totalCount = charactersData.length;
   </div>
 
   <!-- Interactive Search & Filter Controls -->
-  <div class="glass-card controls-card">
+  <div class="crystal-panel controls-card">
     <!-- Live Search Input -->
     <div class="search-box-wrapper">
       <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -36,7 +37,7 @@ const totalCount = charactersData.length;
         type="text" 
         id="characterSearchInput" 
         class="search-input" 
-        placeholder="Search character by name, game (e.g. FF VII, FF XIII), or playstyle..." 
+        placeholder="Search character by name, origin game (e.g. FF VII, FF XIII), or playstyle..." 
         autocomplete="off"
         aria-label="Search characters"
       />
@@ -47,7 +48,7 @@ const totalCount = charactersData.length;
 
     <!-- Faction Filter Bar -->
     <div class="filter-btn-group">
-      <span class="filter-label">Filter:</span>
+      <span class="filter-label">Faction:</span>
       <button class="filter-btn active" data-filter="all">All ({totalCount})</button>
       <button class="filter-btn" data-filter="New">012 New ({charactersData.filter(c => c.alignment === 'New').length})</button>
       <button class="filter-btn" data-filter="Cosmos">Cosmos ({cosmosCount})</button>
@@ -58,14 +59,14 @@ const totalCount = charactersData.length;
 
   <!-- Search Results Counter & Status -->
   <div id="resultsCountBar" class="results-count-bar">
-    Showing <strong id="visibleCount">{totalCount}</strong> of {totalCount} characters
+    Showing <strong id="visibleCount">{totalCount}</strong> of {totalCount} fighters
   </div>
 
   <!-- Empty Search Results State -->
-  <div id="emptyResultsState" class="glass-card empty-state" style="display: none;">
+  <div id="emptyResultsState" class="crystal-panel empty-state" style="display: none;">
     <div class="empty-icon">🔍</div>
-    <h3>No Characters Found</h3>
-    <p>No roster fighters matched your search criteria. Try adjusting your keywords or clearing the filter.</p>
+    <h3>No Fighters Found</h3>
+    <p>No roster characters matched your search query. Try adjusting your search keywords or resetting the faction filter.</p>
     <button type="button" id="resetFiltersBtn" class="btn-action" style="margin-top: 1rem;">
       Reset Filters
     </button>
@@ -122,7 +123,7 @@ const totalCount = charactersData.length;
 
     /* Controls Card */
     .controls-card {
-      padding: 1.15rem 1.35rem;
+      padding: 1.25rem 1.35rem;
       margin-bottom: 1.5rem;
       display: flex;
       flex-direction: column;
@@ -148,9 +149,9 @@ const totalCount = charactersData.length;
       width: 100%;
       min-height: 48px;
       padding: 0.65rem 2.85rem 0.65rem 2.85rem;
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-md);
+      background: var(--surface-panel-alt);
+      border: 1px solid var(--border-panel);
+      border-radius: var(--radius-sm);
       color: var(--text-main);
       font-family: var(--font-body);
       font-size: 0.98rem;
@@ -159,9 +160,9 @@ const totalCount = charactersData.length;
 
     .search-input:focus {
       outline: none;
-      border-color: var(--accent-primary);
+      border-color: var(--color-brv);
       box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
-      background: rgba(0, 0, 0, 0.5);
+      background: var(--surface-panel-hover);
     }
 
     .search-input::placeholder {
@@ -179,7 +180,12 @@ const totalCount = charactersData.length;
       cursor: pointer;
       padding: 0.25rem 0.5rem;
       line-height: 1;
-      border-radius: var(--radius-sm);
+      border-radius: var(--radius-xs);
+      min-width: 36px;
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .clear-search-btn:hover {
@@ -204,8 +210,8 @@ const totalCount = charactersData.length;
     }
 
     .filter-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-card);
+      background: var(--surface-panel-alt);
+      border: 1px solid var(--border-panel-subtle);
       border-radius: var(--radius-sm);
       color: var(--text-muted);
       font-family: var(--font-subheading);
@@ -215,7 +221,7 @@ const totalCount = charactersData.length;
       text-transform: uppercase;
       padding: 0.4rem 0.95rem;
       cursor: pointer;
-      min-height: 40px;
+      min-height: 44px;
       transition: all var(--transition-fast);
       display: inline-flex;
       align-items: center;
@@ -224,15 +230,15 @@ const totalCount = charactersData.length;
 
     .filter-btn:hover {
       color: var(--text-main);
-      border-color: var(--accent-primary);
-      background: rgba(56, 189, 248, 0.1);
+      border-color: var(--color-brv);
+      background: var(--surface-panel-hover);
     }
 
     .filter-btn.active {
-      background: var(--accent-primary);
+      background: var(--color-brv);
       color: var(--text-inverse);
-      border-color: var(--accent-primary);
-      box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
+      border-color: var(--color-brv);
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.4);
     }
 
     /* Results Count Bar */
@@ -245,7 +251,7 @@ const totalCount = charactersData.length;
     }
 
     .results-count-bar strong {
-      color: var(--accent-primary);
+      color: var(--color-brv);
     }
 
     /* Grid */
@@ -360,7 +366,7 @@ const totalCount = charactersData.length;
         searchInput.addEventListener("input", (e) => {
           currentQuery = e.target.value;
           if (clearSearchBtn) {
-            clearSearchBtn.style.display = currentQuery ? "block" : "none";
+            clearSearchBtn.style.display = currentQuery ? "flex" : "none";
           }
           filterCards();
         });
