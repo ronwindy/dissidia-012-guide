@@ -124,7 +124,7 @@ const navGroups = [
 
     <div class="app-container">
       <!-- Left Persistent PSP Command Terminal Sidebar -->
-      <aside class="app-sidebar" id="appSidebar">
+      <aside class="app-sidebar" id="appSidebar" aria-label="Command Terminal Navigation">
         <div class="sidebar-header">
           <a href={baseUrl} class="brand-link" title="Dissidia 012 [duodecim] Strategy Guide">
             <img src={`${baseUrl}logo.png`} alt="Dissidia 012 Logo" class="sidebar-brand-img" />
@@ -133,6 +133,12 @@ const navGroups = [
               <span><span class="brand-num">012</span> DUODECIM GUIDE</span>
             </div>
           </a>
+          <button class="sidebar-close-btn" id="sidebarClose" aria-label="Close Command Menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
         </div>
 
         <nav class="sidebar-nav" aria-label="Main Navigation">
@@ -165,8 +171,8 @@ const navGroups = [
       <div class="app-main">
         <header class="app-header">
           <div class="header-left">
-            <button class="mobile-toggle-btn" id="sidebarToggle" aria-label="Toggle Command Menu">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <button class="mobile-toggle-btn" id="sidebarToggle" aria-label="Toggle Command Menu" aria-expanded="false" aria-controls="appSidebar">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="3" y1="12" x2="21" y2="12"></line>
                 <line x1="3" y1="6" x2="21" y2="6"></line>
                 <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -214,28 +220,47 @@ const navGroups = [
       // Defensive client-side drawer & progress counter with SSR guards
       if (typeof document !== "undefined") {
         const toggleBtn = document.getElementById("sidebarToggle");
+        const closeBtn = document.getElementById("sidebarClose");
         const sidebar = document.getElementById("appSidebar");
         const overlay = document.getElementById("sidebarOverlay");
 
-        function toggleMenu() {
-          sidebar?.classList.toggle("open");
-          overlay?.classList.toggle("open");
+        function openMenu() {
+          sidebar?.classList.add("open");
+          overlay?.classList.add("open");
+          toggleBtn?.setAttribute("aria-expanded", "true");
+          document.body.classList.add("drawer-open");
         }
 
         function closeMenu() {
           sidebar?.classList.remove("open");
           overlay?.classList.remove("open");
+          toggleBtn?.setAttribute("aria-expanded", "false");
+          document.body.classList.remove("drawer-open");
+        }
+
+        function toggleMenu() {
+          if (sidebar?.classList.contains("open")) {
+            closeMenu();
+          } else {
+            openMenu();
+          }
         }
 
         toggleBtn?.addEventListener("click", toggleMenu);
+        closeBtn?.addEventListener("click", closeMenu);
         overlay?.addEventListener("click", closeMenu);
 
-        // Close sidebar on navigation clicks on mobile viewports
+        // Escape key to close drawer
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && sidebar?.classList.contains("open")) {
+            closeMenu();
+          }
+        });
+
+        // Close sidebar on navigation clicks
         document.querySelectorAll(".nav-link").forEach(link => {
           link.addEventListener("click", () => {
-            if (window.innerWidth <= 768) {
-              closeMenu();
-            }
+            closeMenu();
           });
         });
 
