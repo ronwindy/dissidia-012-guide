@@ -4,12 +4,16 @@ import GatewayMapCard from '../../components/story/GatewayMapCard.astro';
 import StoryNav from '../../components/story/StoryNav.astro';
 import AlertCallout from '../../components/common/AlertCallout.astro';
 import { story012Chapters, story012Key } from '../../data/story/story012Data';
+import { getDrakePieceIcon } from '../../data/story/drakeAssets';
 
 const storyNavItems = story012Chapters.map(ch => ({
   id: ch.id,
   label: `${ch.chapterNumber}: ${ch.title}`,
   sublabel: `Playable: ${ch.characters}`
 }));
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const resolveImg = (src: string) => src.startsWith('http') ? src : `${baseUrl}${src.startsWith('/') ? src.slice(1) : src}`;
 ---
 
 <BaseLayout title="012: Treachery of the Gods Walkthrough" currentPath="story-012">
@@ -28,18 +32,26 @@ const storyNavItems = story012Chapters.map(ch => ({
 
   <!-- 012 Map Key & Mechanics Box -->
   <div class="glass-card" style="margin-bottom: 2rem; border-left: 4px solid var(--accent-cosmos);">
-    <h3 style="margin: 0 0 0.5rem; font-size: 1.15rem; color: var(--accent-cosmos);">
+    <h3 style="margin: 0 0 0.75rem; font-size: 1.15rem; color: var(--accent-cosmos); display: flex; align-items: center; gap: 0.5rem;">
+      <img src={resolveImg('/images/story/drake/pieces/start.png')} alt="Start" style="width: 20px; height: 20px; object-fit: contain;" />
       012 Map Legend & Gateway Mechanics
     </h3>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; font-family: var(--font-mono); font-size: 0.85rem; margin-bottom: 1rem;">
-      {story012Key.map(k => (
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
-          <span style="font-weight: bold; color: var(--accent-primary); background: rgba(56, 189, 248, 0.1); padding: 0.1rem 0.4rem; border-radius: 3px; min-width: 28px; text-align: center;">
-            {k.key}
-          </span>
-          <span style="color: var(--text-muted);">{k.desc}</span>
-        </div>
-      ))}
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.6rem; font-family: var(--font-mono); font-size: 0.85rem; margin-bottom: 1rem;">
+      {story012Key.map(k => {
+        const icon = getDrakePieceIcon(k.key);
+        return (
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            {icon ? (
+              <img src={resolveImg(icon)} alt={k.key} style="width: 20px; height: 20px; object-fit: contain; flex-shrink: 0;" />
+            ) : (
+              <span style="font-weight: bold; color: var(--accent-primary); background: rgba(56, 189, 248, 0.1); padding: 0.1rem 0.4rem; border-radius: 3px; min-width: 28px; text-align: center;">
+                {k.key}
+              </span>
+            )}
+            <span style="color: var(--text-muted);"><strong style="color: var(--text-main);">[{k.key}]</strong> {k.desc}</span>
+          </div>
+        );
+      })}
     </div>
     <p style="font-size: 0.88rem; color: var(--text-dim); margin: 0; line-height: 1.5;">
       <strong>Bonus Line:</strong> Entering a gateway at a character level lower than the Bonus Line awards bonus KP equal to <code style="color: var(--accent-warning);">(Bonus Line - Current Level)</code>. Bonus Lines become visible and active across all story modes after completing Scenario 012.
@@ -74,6 +86,143 @@ const storyNavItems = story012Chapters.map(ch => ({
         </p>
       )}
 
+      <!-- Hero Character Playstyle & Tactical Spotlight -->
+      {chapter.characterGuide && (
+        <div class="crystal-panel character-tactics-spotlight" style="margin-bottom: 2rem; border-left: 4px solid var(--color-cosmos);">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.85rem;">
+              {chapter.characterGuide.portrait && (
+                <img 
+                  src={resolveImg(chapter.characterGuide.portrait)} 
+                  alt={chapter.characterGuide.name} 
+                  style="width: 54px; height: 54px; object-fit: contain; background: rgba(0,0,0,0.4); border-radius: var(--radius-xs); border: 1px solid var(--border-panel-subtle); padding: 2px;" 
+                />
+              )}
+              <div>
+                <span class="badge-pill badge-cosmos" style="font-size: 0.72rem;">Hero Spotlight</span>
+                <h3 style="margin: 0.15rem 0 0; font-size: 1.35rem; color: var(--text-main); font-family: var(--font-heading);">
+                  {chapter.characterGuide.name} <span style="font-size: 0.85rem; color: var(--color-cosmos); font-family: var(--font-subheading); font-weight: normal;">— {chapter.characterGuide.title}</span>
+                </h3>
+              </div>
+            </div>
+          </div>
+
+          <p style="font-size: 0.92rem; color: var(--text-sub); line-height: 1.6; margin-bottom: 1.15rem;">
+            {chapter.characterGuide.playstyle}
+          </p>
+
+          {chapter.characterGuide.paradigmOrMechanic && (
+            <div style="background: var(--surface-panel-alt); border-radius: var(--radius-xs); border: 1px solid var(--border-panel-subtle); padding: 0.85rem 1rem; margin-bottom: 1rem;">
+              <div style="font-size: 0.78rem; font-family: var(--font-mono); color: var(--color-brv); text-transform: uppercase; font-weight: bold; margin-bottom: 0.35rem;">
+                Core Mechanic: {chapter.characterGuide.paradigmOrMechanic.name}
+              </div>
+              <p style="margin: 0; font-size: 0.88rem; color: var(--text-sub); line-height: 1.5;">
+                {chapter.characterGuide.paradigmOrMechanic.description}
+              </p>
+            </div>
+          )}
+
+          {chapter.characterGuide.recommendedAbilities && chapter.characterGuide.recommendedAbilities.length > 0 && (
+            <div style="margin-bottom: 1rem;">
+              <div style="font-size: 0.78rem; font-family: var(--font-mono); color: var(--color-lufenia); text-transform: uppercase; font-weight: bold; margin-bottom: 0.5rem; letter-spacing: 0.05em;">
+                Recommended Abilities & Loadout Priority
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.6rem;">
+                {chapter.characterGuide.recommendedAbilities.map(ab => (
+                  <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-xs); padding: 0.6rem 0.85rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+                      <strong style="color: var(--text-main); font-size: 0.88rem;">{ab.name}</strong>
+                      <span class={`badge-pill ${ab.type === 'HP' ? 'badge-hp' : ab.type === 'BRV' ? 'badge-brv' : 'badge-crystal'}`} style="font-size: 0.68rem;">
+                        {ab.type} • {ab.locationOrLevel}
+                      </span>
+                    </div>
+                    <div style="font-size: 0.82rem; color: var(--text-dim); line-height: 1.4;">
+                      {ab.notes}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {chapter.characterGuide.assistEvaluation && (
+            <div style="background: rgba(14, 165, 233, 0.05); border: 1px solid rgba(14, 165, 233, 0.2); border-radius: var(--radius-xs); padding: 0.85rem 1rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem; flex-wrap: wrap; gap: 0.5rem;">
+                <span style="font-size: 0.78rem; font-family: var(--font-mono); color: var(--color-cosmos); text-transform: uppercase; font-weight: bold;">
+                  Assist Synergy: {chapter.characterGuide.assistEvaluation.partner}
+                </span>
+                <span style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--text-dim);">
+                  Ground: <code style="color: #38bdf8;">{chapter.characterGuide.assistEvaluation.groundAssist}</code> | Air: <code style="color: #38bdf8;">{chapter.characterGuide.assistEvaluation.airAssist}</code>
+                </span>
+              </div>
+              <p style="margin: 0; font-size: 0.86rem; color: var(--text-sub); line-height: 1.5;">
+                {chapter.characterGuide.assistEvaluation.tactics}
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
+      <!-- Overworld Step-by-Step Exploration Guide -->
+      {chapter.overworldSteps && chapter.overworldSteps.length > 0 && (
+        <div class="glass-card" style="margin-bottom: 2rem; border-left: 4px solid var(--color-lufenia);">
+          <div style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--color-lufenia); text-transform: uppercase; font-weight: bold; margin-bottom: 0.75rem; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.5rem;">
+            <span>🗺️</span> Overworld Route & Collectibles
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            {chapter.overworldSteps.map((step, idx) => (
+              <div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.05); border-radius: var(--radius-xs); padding: 0.85rem 1.15rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem; flex-wrap: wrap; gap: 0.5rem;">
+                  <strong style="color: var(--text-main); font-size: 0.95rem; font-family: var(--font-heading);">
+                    Step {idx + 1}: {step.title}
+                  </strong>
+                  {step.orbs && (
+                    <span style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-brv);">
+                      ✨ {step.orbs}
+                    </span>
+                  )}
+                </div>
+                <p style="font-size: 0.88rem; color: var(--text-sub); line-height: 1.55; margin: 0 0 0.65rem;">
+                  {step.description}
+                </p>
+
+                {step.chests && step.chests.length > 0 && (
+                  <div style="background: rgba(251, 191, 36, 0.06); border: 1px solid rgba(251, 191, 36, 0.2); border-radius: var(--radius-xs); padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; font-size: 0.82rem; font-family: var(--font-mono);">
+                    <span style="color: #fbbf24; font-weight: bold; text-transform: uppercase; font-size: 0.72rem; display: block; margin-bottom: 0.25rem;">
+                      Overworld Chest Rewards
+                    </span>
+                    <ul style="margin: 0; padding-left: 1.2rem; color: var(--text-main);">
+                      {step.chests.map(c => (
+                        <li><strong>{c.location}:</strong> <span style="color: #fde68a;">{c.reward}</span></li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {step.moogleShop && (
+                  <div style="background: rgba(168, 85, 247, 0.06); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: var(--radius-xs); padding: 0.6rem 0.85rem; font-size: 0.82rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                      <span style="color: #c084fc; font-family: var(--font-mono); font-weight: bold; text-transform: uppercase; font-size: 0.72rem;">
+                        Moogle Merchant {step.moogleShop.location ? `• ${step.moogleShop.location}` : ''}
+                      </span>
+                      {step.moogleShop.notes && <span style="color: var(--text-dim); font-size: 0.75rem;">{step.moogleShop.notes}</span>}
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.4rem; font-family: var(--font-mono);">
+                      {step.moogleShop.inventory.map(item => (
+                        <div style="display: flex; justify-content: space-between; background: rgba(0,0,0,0.3); padding: 0.25rem 0.5rem; border-radius: 3px;">
+                          <span style="color: var(--text-main);">{item.item}</span>
+                          <strong style="color: #fbbf24;">{item.cost}</strong>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {chapter.fieldEncounters && chapter.fieldEncounters.length > 0 && (
         <div style="background: rgba(239, 68, 68, 0.06); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: var(--radius-sm); padding: 0.75rem 1rem; margin-bottom: 1.5rem; font-size: 0.88rem; font-family: var(--font-mono);">
           <div style="color: var(--accent-chaos); font-weight: bold; margin-bottom: 0.35rem; text-transform: uppercase; font-size: 0.75rem;">
@@ -102,6 +251,8 @@ const storyNavItems = story012Chapters.map(ch => ({
             bonusLine={gw.bonusLine}
             asciiMap={gw.asciiMap}
             legend={gw.legend}
+            enemyTactics={gw.enemyTactics}
+            bossTactic={gw.bossTactic}
             notes={gw.notes}
             strategy={gw.strategy}
             floors={gw.floors}

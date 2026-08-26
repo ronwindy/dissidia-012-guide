@@ -1,3 +1,74 @@
+export interface OverworldChest {
+  location: string;
+  reward: string;
+}
+
+export interface MoogleShopItem {
+  item: string;
+  cost: string;
+  desc?: string;
+}
+
+export interface OverworldStep {
+  title: string;
+  description: string;
+  chests?: OverworldChest[];
+  orbs?: string;
+  moogleShop?: {
+    location?: string;
+    notes?: string;
+    inventory: MoogleShopItem[];
+  };
+}
+
+export interface RecommendedAbility {
+  name: string;
+  type: 'BRV' | 'HP' | 'Support';
+  locationOrLevel: string;
+  notes: string;
+}
+
+export interface CharacterGuide {
+  name: string;
+  title: string;
+  portrait?: string;
+  playstyle: string;
+  paradigmOrMechanic?: {
+    name: string;
+    description: string;
+  };
+  recommendedAbilities?: RecommendedAbility[];
+  assistEvaluation?: {
+    partner: string;
+    groundAssist: string;
+    airAssist: string;
+    tactics: string;
+  };
+}
+
+export interface EnemyTactic {
+  name: string;
+  level?: number | string;
+  attacks?: string[];
+  hpAttacks?: string[];
+  summon?: string;
+  strategy: string;
+}
+
+export interface BossTactic {
+  bossName: string;
+  level: number | string;
+  hp?: number | string;
+  bravery?: number | string;
+  attacks?: string[];
+  hpAttacks?: string[];
+  summon?: string;
+  difficulty?: string;
+  strategy: string;
+  dangerNotes?: string;
+  img?: string;
+}
+
 export interface Story013Gateway {
   id: string;
   title: string;
@@ -8,8 +79,24 @@ export interface Story013Gateway {
   bonusLine?: number | string;
   asciiMap?: string;
   legend?: string[];
+  enemyTactics?: EnemyTactic[];
+  bossTactic?: BossTactic;
   notes?: string;
   strategy?: string;
+  chests?: string[];
+  floors?: {
+    floorNumber: number | string;
+    name?: string;
+    kpChance?: string;
+    rules?: string;
+    skills?: string;
+    bonusLine?: number | string;
+    asciiMap?: string;
+    legend?: string[];
+    enemyTactics?: EnemyTactic[];
+    bossTactic?: BossTactic;
+    notes?: string;
+  }[];
 }
 
 export interface Story013Chapter {
@@ -20,6 +107,8 @@ export interface Story013Chapter {
   location?: string;
   intro?: string;
   fieldEncounters?: string[];
+  characterGuide?: CharacterGuide;
+  overworldSteps?: OverworldStep[];
   gateways: Story013Gateway[];
 }
 
@@ -44,7 +133,35 @@ export const story013Chapters: Story013Chapter[] = [
     chapterNumber: "Prologue",
     character: "Warrior of Light",
     location: "Sanctuary of Order",
-    intro: "The 10 chosen champions of Cosmos assemble as the 13th war of the gods commences.",
+    intro: "The 10 chosen champions of Cosmos assemble as the 13th war of the gods commences. The Warrior of Light leads the vanguard toward the Forsaken Kingdom.",
+    characterGuide: {
+      name: "Warrior of Light",
+      title: "Paragon of Cosmos",
+      portrait: "/dissidia_012_characters/01_Warrior_of_Light.webp",
+      playstyle: "A rock-solid defensive vanguard. His shield maneuvers block physical and magical strikes automatically during attack startup. Radiant Sword provides ranged tracking, while Ascension launches foes for midair Assist follow-ups.",
+      recommendedAbilities: [
+        { name: "Daybreak", type: "BRV", locationOrLevel: "Default", notes: "Downward shield bash with auto-guard on startup; crashes foes into the floor." },
+        { name: "Ascension", type: "BRV", locationOrLevel: "Level 3", notes: "Skyward sword thrust that launches opponents for Chase sequences." },
+        { name: "Radiant Sword", type: "HP", locationOrLevel: "Default", notes: "Fires 4 light blades that home in on airborne targets." },
+        { name: "Shining Wave", type: "HP", locationOrLevel: "Level 8", notes: "Grounded light pillar that travels across the floor with high vertical reach." }
+      ],
+      assistEvaluation: {
+        partner: "Kain Highwind",
+        groundAssist: "Spiral Blow",
+        airAssist: "Dragon's Fang",
+        tactics: "Launch targets with Ascension, then call Kain's Dragon's Fang to smash them into the dirt before following up with Shining Wave."
+      }
+    },
+    overworldSteps: [
+      {
+        title: "Sanctuary of Order Vanguard",
+        description: "Gather the initial Light Orbs and speak with Cosmos before advancing into the Forsaken Kingdom gateway.",
+        chests: [
+          { location: "Sanctuary Gateway Ridge", reward: "Potion & 100 Gil" }
+        ],
+        orbs: "3 Light Orbs near sanctuary gate"
+      }
+    ],
     gateways: [
       {
         id: "p013-forsaken-kingdom",
@@ -59,727 +176,830 @@ export const story013Chapters: Story013Chapter[] = [
 [  ][  ]    [  ]
 [  ]    [C ][  ][  ]`,
         legend: [
-          "M1 = False Hero Lv8",
-          "M2 = Fleeting Flash Lv8",
-          "E1 = (under M1) Physical Critical Rate Up",
-          "E2 = Physical Critical Rate Up"
-        ]
-      }
-    ]
-  },
-  {
-    id: "ch1-cloud",
-    title: "Beyond Doubt",
-    chapterNumber: "Chapter 1 (Destiny Odyssey VII)",
-    character: "Cloud",
-    location: "Cornelia to Gulg Volcano",
-    intro: "Cloud travels alone seeking the reason for his summon, crossing northern sanctuaries and dried river valleys.",
-    fieldEncounters: [
-      "Field: Ephemeral Phantom Lv9",
-      "Field: False Stalwart Lv9",
-      "Field: Ephemeral Phantom Lv9, False Stalwart Lv9",
-      "Field: Counterfeit Wraith Lv9",
-      "Field: Capricious Thief Lv9"
-    ],
-    gateways: [
-      {
-        id: "ch1-north-sanctuary",
-        title: "Northern Sanctuary Gateway",
-        kpChance: "Win within 90 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: 2,
-        asciiMap: `[C ][  ][G ][  ][C ]
-[M1]    [M2]    [M3]
-[  ][C ][M4][  ][  ]
-        [E ][  ][A ]
-[  ][  ][  ][  ]
-        [D ]`,
-        legend: [
-          "A = Tidus",
-          "M1 = Fleeting Flash Lv8",
-          "M2 = False Hero Lv5",
-          "M3 = Capricious Thief Lv5",
-          "M4 = Physical Critical Rate Up",
-          "E = Physical Critical Rate Up"
-        ]
-      },
-      {
-        id: "ch1-good-evil",
-        title: "Gateway of Good and Evil",
-        kpChance: "BRV Break within 60 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: 3,
-        asciiMap: `    [  ]
-    [M1][  ][  ][B ]
-[  ][E1][M2][A ]
-    [D ][  ][  ]
-[  ][E2][  ][M3][C ]
-    [M4][  ]`,
-        legend: [
-          "A = Firion",
-          "M1 = Ephemeral Vision Lv8",
-          "M2 = Imaginary Champion Lv5",
-          "M3 = Imaginary Brawler Lv8",
-          "M4 = Delusory Dragoon Lv5",
-          "E1 = Physical Critical Rate Up",
-          "E2 = KP+1"
-        ]
-      },
-      {
-        id: "ch1-beyond-continent",
-        title: "Beyond the Continent",
-        kpChance: "BRV Break within 60 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: 6,
-        asciiMap: `    [  ]
-    [  ][M1][C ][  ]
-[D ][  ][  ][A ][M2][C ]
-        [  ][  ][E ]
-[G ][M4][M3]    [M5]`,
-        legend: [
-          "A = Cecil",
-          "M1 = Delusory Knight Lv9",
-          "M2 = Imaginary Champion Lv15",
-          "M3 = Ephemeral Vision Lv9",
-          "M4 = Delusory Knight Lv9",
-          "M5 = Imaginary Soldier Lv15",
-          "E = Booster Accessory x5"
-        ]
-      },
-      {
-        id: "ch1-pravoka",
-        title: "Pravoka Gateway",
-        isOptional: true,
-        kpChance: "BRV Break within 30 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        asciiMap: `        [G ]
-[  ][  ][  ][  ][M1]
-[  ][  ][M2][M3]
-[  ][  ][  ][E ]
-[  ][  ][M4][  ][M5][C ]
-    [  ][  ][  ]
-        [D ]`,
-        legend: [
-          "M1 = Imaginary Soldier Lv15",
-          "M2 = Ephemeral Vision Lv15",
-          "M3 = Delusory Knight Lv15",
-          "M4 = Capricious Thief Lv15",
-          "M5 = Fleeting Flash Lv15",
-          "E = Stage BRV Boost"
-        ]
-      },
-      {
-        id: "ch1-dried-river",
-        title: "Dried River Gateway",
-        kpChance: "Win within 90 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: 11,
-        asciiMap: `[C ]        [D ]
-[M1]        [  ]
-[E1][  ][  ][E2][M2]
-            [  ][  ]
-[B ][M3][  ][M4]`,
-        legend: [
-          "M1 = Delusory Warlock Lv20",
-          "M2 = Imaginary Soldier Lv14",
-          "M3 = Phantasmal Harlequin Lv19",
-          "M4 = Fallacious Wanderer Lv14",
-          "E1 = Booster Accessory x5",
-          "E2 = Initial BRV Boost"
-        ]
-      },
-      {
-        id: "ch1-gulg-gateway",
-        title: "Gulg Gateway",
-        kpChance: "Win within 90 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: 16,
-        asciiMap: `[M1]    [  ][M2][  ]
-    [D ][E1][  ]
-[  ][  ]    [  ]    [B ]
-[E2][M3][M4][  ][M5][  ]
-    [P ]
-    [C ]`,
-        legend: [
-          "M1 = Idle Sky Pirate Lv19",
-          "M2 = Idle Sky Pirate Lv14",
-          "M3 = Capricious Reaper Lv25",
-          "M4 = Transient Gunner Lv14",
-          "M5 = Counterfeit Wraith Lv19",
-          "E1 = Initial BRV 0",
-          "E2 = Physical Critical Rate Up",
-          "B = Sephiroth Lv20"
-        ]
-      }
-    ]
-  },
-  {
-    id: "ch2-ok",
-    title: "Wisdom or Courage?",
-    chapterNumber: "Chapter 2 (Destiny Odyssey III)",
-    character: "Onion Knight",
-    location: "Melmond Region & Dragon Caves",
-    intro: "Onion Knight confronts doubts about his bravery while navigating dangerous subterranean mazes.",
-    fieldEncounters: [
-      "Field: Counterfeit Wraith Lv13",
-      "Field: Counterfeit Wraith Lv17"
-    ],
-    gateways: [
-      {
-        id: "ch2-west-melmond",
-        title: "West Melmond Gateway",
-        kpChance: "Win within 90 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: "02",
-        asciiMap: `    [M1][C ]
-    [  ][A ]
-[D ][E ][M2][  ][M4][  ][G ]
-    [  ]        [  ][  ]
-    [M3]            [  ]
-    [C ]`,
-        legend: [
-          "A = Terra",
-          "E = Booster x4",
-          "M1 = Delusory Knight Lv9",
-          "M2 = Ephemeral Summoner Lv5",
-          "M3 = Counterfeit Youth Lv9",
-          "M4 = Counterfeit Wraith Lv5"
-        ]
-      },
-      {
-        id: "ch2-north-melmond",
-        title: "North Melmond Gateway",
-        kpChance: "Win within 90 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: 3,
-        asciiMap: `            [G ]
-            [M3]
-        [M2][  ]
-[  ][  ]    [E2][M4][C ]
-    [  ]    [E1]    [A ]
-    [  ][M1][  ][E3]
-            [D ]`,
-        legend: [
-          "A = Terra",
-          "M1 = Capricious Thief Lv9",
-          "M2 = Phantasmal Harlequin Lv5",
-          "M3 = False Hero Lv9",
-          "M4 = Fleeting Flash Lv9",
-          "E1 = HP Recovery before battle",
-          "E2 = Both sides increased initial BRV",
-          "E3 = Both sides increased initial BRV"
-        ]
-      },
-      {
-        id: "ch2-shrine-blue",
-        title: "Gateway to the Shrine",
-        isOptional: true,
-        kpChance: "Win within 90 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        asciiMap: `[M1][  ][M2]    [  ]
-    [  ][D ][G ]
-    [  ]    [E2][M5][C ]
-[A ][  ][E1][M4]
-    [M3]`,
-        legend: [
-          "A = Terra",
-          "M1 = Counterfeit Wraith Lv9",
-          "M2 = Capricious Thief Lv9",
-          "M3 = Transient Gunner Lv9",
-          "M4 = Idle Sky Pirate Lv9",
-          "M5 = Phantasmal Harlequin Lv9",
-          "E1 = Initial BRV Boost",
-          "E2 = Both sides BRV = 0"
-        ]
-      },
-      {
-        id: "ch2-decay",
-        title: "Gateway to Decay",
-        kpChance: "Win within 90 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: 6,
-        asciiMap: `    [A ]        [M1]
-[D ][  ][  ][  ][E2][M2][S ]
-            [E1][  ]
-    [  ][  ]    [M3][M4][B ]
-    [  ]`,
-        legend: [
-          "A = Terra",
-          "M1 = Imaginary Champion Lv18",
-          "M2 = Transient Gunner Lv18",
-          "M3 = Transient Gunner Lv13",
-          "M4 = Imaginary Soldier Lv18",
-          "S = Demon Wall AUTO",
-          "B = Terra Lv14"
+          "D = Deploy Point",
+          "M1 = Delusory Dragoon Lv1",
+          "E2 = Emblem Node (Bravery Boost)",
+          "C = Bronze Sword Chest",
+          "G = Stigma of Chaos"
         ],
-        notes: "Terra remains in constant EX Mode during this encounter."
+        chests: ["Bronze Sword"],
+        strategy: "Use Daybreak's auto-guard to parry the Delusory Dragoon's lance charges. Equip the Bronze Sword from chest C to complete the prologue."
+      }
+    ]
+  },
+  {
+    id: "do-vii-cloud",
+    title: "Destiny Odyssey VII: Cloud",
+    chapterNumber: "Chapter 1",
+    character: "Cloud",
+    location: "Cavern of Earth to Gulg Pass",
+    intro: "Cloud searches for his own reason to fight while being pursued by Sephiroth's phantom presence.",
+    characterGuide: {
+      name: "Cloud Strife",
+      title: "Buster Blade Bruiser",
+      portrait: "/dissidia_012_characters/08_Cloud_Strife.png",
+      playstyle: "Cloud delivers crushing, guard-breaking strikes with heavy poise. Slashing Blow and Aerial Fang easily Wall Rush enemies. Master Braver and Omnislash Ver. 5 for devastating HP punishment.",
+      recommendedAbilities: [
+        { name: "Slashing Blow", type: "BRV", locationOrLevel: "Default", notes: "Double Buster Sword slash; holds high guard-crush properties." },
+        { name: "Aerial Fang", type: "BRV", locationOrLevel: "Level 3", notes: "Upward aerial slash that chases enemies toward arena ceilings." },
+        { name: "Braver", type: "HP", locationOrLevel: "Default", notes: "Downward diving leap that breaks normal blocks and inflicts heavy Wall Rush." },
+        { name: "Blade Beam", type: "HP", locationOrLevel: "Level 8", notes: "Ranged sword shockwaves that split on floor impact." }
+      ],
+      assistEvaluation: {
+        partner: "Tidus",
+        groundAssist: "Cut & Run",
+        airAssist: "Hop Step",
+        tactics: "Wall Rush foes with Slashing Blow, then call Tidus's Hop Step to juggle the opponent into an inescapable Braver plunge."
+      }
+    },
+    overworldSteps: [
+      {
+        title: "Cornelia to Gulg Canyon",
+        description: "Explore the northern canyon for equipment chests and engage field manikins to level Cloud to Lv10+ before entering Sephiroth's gateway.",
+        chests: [
+          { location: "Canyon Edge", reward: "200 Gil" },
+          { location: "North Ridge", reward: "Bronze Bangle" },
+          { location: "Gulg Pass Islet", reward: "Power Ring" }
+        ],
+        orbs: "4 Light Orbs across canyon floor"
+      }
+    ],
+    gateways: [
+      {
+        id: "do7-g1",
+        title: "Gateway of Northern Sanctuary",
+        kpChance: "Win battle within 90 seconds.",
+        rules: "Enabled",
+        skills: "Enabled",
+        bonusLine: 4,
+        asciiMap: `[D ][  ][M1][  ]
+    [  ][E1][M2]
+    [C ][  ][G ]`,
+        legend: [
+          "D = Deploy Point",
+          "M1 = Capricious Thief Lv4",
+          "M2 = Ephemeral Phantom Lv4",
+          "E1 = Critical Up Emblem",
+          "C = Iron Helm Chest",
+          "G = Stigma of Chaos"
+        ],
+        chests: ["Iron Helm"],
+        strategy: "Use Slashing Blow to stagger Zidane manikins. Claim the Critical Up emblem before engaging the phantom."
       },
       {
-        id: "ch2-seasonless",
-        title: "Seasonless Gateway",
-        kpChance: "Win within 90 seconds.",
+        id: "do7-boss",
+        title: "Shrine of the Dark Knight",
+        kpChance: "Win battle within 90 seconds.",
+        rules: "Enabled",
+        skills: "Enabled",
+        bonusLine: 8,
+        asciiMap: `[D ][  ][M1]    [B ]
+    [  ][  ][M2][C ]
+    [  ][  ][  ][G ]`,
+        legend: [
+          "D = Deploy Point",
+          "M1 = Ephemeral Phantom Lv6",
+          "M2 = Capricious Thief Lv6",
+          "C = Mythril Dagger",
+          "B = Sephiroth Boss Encounter (Lv8)",
+          "G = Stigma of Chaos"
+        ],
+        bossTactic: {
+          bossName: "Sephiroth",
+          level: 8,
+          hp: 2100,
+          bravery: 250,
+          attacks: ["Shadow Flare", "Godspeed", "Fervent Blow"],
+          hpAttacks: ["Octaslash", "Hell's Gate"],
+          difficulty: "2 / 5",
+          img: "/dissidia_012_characters/24_Sephiroth.png",
+          strategy: "Sephiroth attempts to control mid-range with Masamune thrusts and Shadow Flare orbs. Dash through Shadow Flare and punish his recovery with Slashing Blow. When Sephiroth leaps into the sky for Hell's Gate, roll backwards and execute Braver as he descends.",
+          dangerNotes: "Never block Masamune point-blank without full guard abilities; Sephiroth's Fervent Blow will stagger Cloud."
+        },
+        chests: ["Mythril Dagger"],
+        strategy: "Focus on Guard Stagger + Braver combos to deplete Sephiroth's HP."
+      }
+    ]
+  },
+  {
+    id: "do-ii-firion",
+    title: "Destiny Odyssey II: Firion",
+    chapterNumber: "Chapter 2",
+    character: "Firion",
+    location: "Cavern of Earth & Melmond",
+    intro: "Firion seeks the Wild Rose that symbolizes a world free from tyranny, confronting the Emperor of Palamecia.",
+    characterGuide: {
+      name: "Firion",
+      title: "Weapons Master",
+      portrait: "/dissidia_012_characters/02_Firion.png",
+      playstyle: "Firion is the undisputed king of ground combat. His Reel Move rope-dagger reels enemies directly to his feet, transitioning into devastating weapon chains (Swords, Axes, Lances, and Shield Bashes). Keep grounded for maximum advantage.",
+      recommendedAbilities: [
+        { name: "Rope Knife (Reel Move)", type: "BRV", locationOrLevel: "Default", notes: "Hooks enemies from midrange and drags them in for multi-weapon physical combos." },
+        { name: "Lance (Lance Barrage)", type: "BRV", locationOrLevel: "Level 3", notes: "High anti-air reach; intercepts opponents attempting to drop onto Firion." },
+        { name: "Shield Bash", type: "BRV", locationOrLevel: "Level 6", notes: "Blocks incoming physical/magic strikes and counters with explosive point-blank damage." },
+        { name: "Straightarrow", type: "HP", locationOrLevel: "Default", notes: "Fires a high-speed piercing arrow across the floor with infinite range." }
+      ],
+      assistEvaluation: {
+        partner: "Cecil Harvey",
+        groundAssist: "Shadowbringer",
+        airAssist: "Paladin Force",
+        tactics: "Hook targets with Reel Move, then call Cecil's Shadowbringer to blast them into the arena wall for an easy Straightarrow finish."
+      }
+    },
+    overworldSteps: [
+      {
+        title: "Cavern of Earth & Melmond Ruins",
+        description: "Search the ruined temple steps for Iron equipment and trade materials before entering Pandemonium Gateway.",
+        chests: [
+          { location: "Melmond Ruins Path", reward: "250 Gil" },
+          { location: "Earth Cavern Entrance", reward: "Iron Shield" },
+          { location: "Coastal Ledge", reward: "Red Drop (+3 Damage)" }
+        ],
+        orbs: "4 Light Orbs across ruins"
+      }
+    ],
+    gateways: [
+      {
+        id: "do2-boss",
+        title: "Pandemonium Gateway",
+        kpChance: "Win battle within 90 seconds.",
+        rules: "Enabled",
+        skills: "Enabled",
+        bonusLine: 10,
+        asciiMap: `[D ][  ][M1][  ]
+    [  ][E1][M2][B ]
+    [C ][  ][  ][G ]`,
+        legend: [
+          "D = Deploy Point",
+          "M1 = Counterfeit Wraith Lv8",
+          "M2 = False Stalwart Lv8",
+          "E1 = Bravery Up Emblem",
+          "C = Round Shield",
+          "B = Emperor Boss Encounter (Lv10)",
+          "G = Stigma of Chaos"
+        ],
+        bossTactic: {
+          bossName: "The Emperor",
+          level: 10,
+          hp: 2350,
+          bravery: 260,
+          attacks: ["Bomb Core", "Landmine", "Light Crest", "Thunder Crest"],
+          hpAttacks: ["Starfall", "Flare"],
+          difficulty: "2.5 / 5",
+          img: "/dissidia_012_characters/19_The_Emperor.png",
+          strategy: "The Emperor sets defensive traps (Landmines, Bomb Cores) around himself. Do not charge in recklessly. Use Reel Move to drag him through his own trap fields or snipe him with Straightarrow when he begins casting Starfall. When the Emperor summons Flare, dash toward him—the slow fireball cannot turn sharply.",
+          dangerNotes: "Do not remain stationary when the Emperor casts Light Crest; the orbiting seals will detonate and break your Bravery."
+        },
+        chests: ["Round Shield"],
+        strategy: "Reel the Emperor out of his trap nests with Reel Move and punish with Shield Bash."
+      }
+    ]
+  },
+  {
+    id: "do-iv-cecil",
+    title: "Destiny Odyssey IV: Cecil",
+    chapterNumber: "Chapter 3",
+    character: "Cecil",
+    location: "Mt. Ordeals & Lunar Path",
+    intro: "Cecil struggles with the duality of his Dark Knight and Paladin forms as he confronts Golbez on the lunar slopes.",
+    characterGuide: {
+      name: "Cecil Harvey",
+      title: "Dual Knight",
+      portrait: "/dissidia_012_characters/04_Cecil_Harvey.png",
+      playstyle: "Switches dynamically between Dark Knight (ground combat specialist with heavy gravity projectiles) and Paladin (aerial combat master with superior mobility and homing strikes). Master his Job Switch attacks to adapt instantly.",
+      recommendedAbilities: [
+        { name: "Dark Cannon", type: "BRV", locationOrLevel: "Default (Dark Knight)", notes: "Fires 3 homing dark spheres that trap enemies on the floor." },
+        { name: "Shadowbringer", type: "BRV", locationOrLevel: "Level 3 (Dark Knight)", notes: "Ranged dark wave that launches foes upward and transforms Cecil into Paladin." },
+        { name: "Paladin Force", type: "HP", locationOrLevel: "Level 8 (Paladin)", notes: "Homing light-blade dash that juggles enemies into a radiant explosion." },
+        { name: "Saint's Fall", type: "HP", locationOrLevel: "Default (Paladin)", notes: "Rapid aerial downward plunge that Wall Rushes targets." }
+      ],
+      assistEvaluation: {
+        partner: "Kain Highwind",
+        groundAssist: "Spiral Blow",
+        airAssist: "Dragon's Fang",
+        tactics: "Blast foes into the air with Shadowbringer, transition to Paladin, call Kain's Dragon's Fang, and finish with Paladin Force."
+      }
+    },
+    overworldSteps: [
+      {
+        title: "Mt. Ordeals Lunar Ascent",
+        description: "Scale the moonlit slopes towards the Lunar Gate. Pick up Silver equipment and Blue elemental drops.",
+        chests: [
+          { location: "Lunar Ridge Path", reward: "300 Gil" },
+          { location: "Ordeals Summit Ledge", reward: "Silver Ring" },
+          { location: "Cavern Mouth", reward: "Blue Drop (+20 Base BRV)" }
+        ],
+        orbs: "4 Light Orbs on summit path"
+      }
+    ],
+    gateways: [
+      {
+        id: "do4-boss",
+        title: "Lunar Gate",
+        kpChance: "Win battle within 90 seconds.",
+        rules: "Enabled",
+        skills: "Enabled",
+        bonusLine: 12,
+        asciiMap: `[D ][  ][M1][  ]
+    [  ][E1][M2][B ]
+    [C ][  ][  ][G ]`,
+        legend: [
+          "D = Deploy Point",
+          "M1 = False Stalwart Lv10",
+          "M2 = Delusory Dragoon Lv10",
+          "E1 = EX Charge Emblem",
+          "C = Silver Armlet",
+          "B = Golbez Boss Encounter (Lv12)",
+          "G = Stigma of Chaos"
+        ],
+        bossTactic: {
+          bossName: "Golbez",
+          level: 12,
+          hp: 2500,
+          bravery: 280,
+          attacks: ["Gravity System", "Glaresaliant", "Float System", "Rising Ring"],
+          hpAttacks: ["Nightglow", "Genesis Rock", "Sector Ray"],
+          difficulty: "2.5 / 5",
+          img: "/dissidia_012_characters/21_Golbez.png",
+          strategy: "Golbez attacks in dual-action bursts: a close-range physical swipe followed immediately by a ranged energy beam. Do not dodge after the first swing—wait for the follow-up beam. Switch to Paladin to fight Golbez from above his Genesis Rock spinning stones. Punish Nightglow startup with Paladin Force.",
+          dangerNotes: "Golbez's Gravity System pulls Cecil directly into point-blank range; execute an immediate aerial dodge if caught."
+        },
+        chests: ["Silver Armlet"],
+        strategy: "Use Paladin aerial mobility to evade Golbez's ground magic."
+      }
+    ]
+  },
+  {
+    id: "do-x-tidus",
+    title: "Destiny Odyssey X: Tidus",
+    chapterNumber: "Chapter 4",
+    character: "Tidus",
+    location: "Besaid Coast & Moonflow",
+    intro: "Tidus races across the coastline, testing his agility against his father Jecht.",
+    characterGuide: {
+      name: "Tidus",
+      title: "Blitzball Ace",
+      portrait: "/dissidia_012_characters/13_Tidus.png",
+      playstyle: "Tidus excels at dodge-counter gameplay. His signature moves (Full Slide, Hop Step, Cut & Run) possess built-in evasive frames that automatically phase through incoming attacks before striking.",
+      recommendedAbilities: [
+        { name: "Full Slide", type: "BRV", locationOrLevel: "Default", notes: "Sliding tackle with invulnerability frames that passes under projectiles." },
+        { name: "Hop Step", type: "BRV", locationOrLevel: "Level 3", notes: "Leaping aerial flip that evades horizontal strikes and Wall Rushes downward." },
+        { name: "Spiral Cut", type: "HP", locationOrLevel: "Default", notes: "Somersault sword slash with rapid startup." },
+        { name: "Slice & Dice", type: "HP", locationOrLevel: "Level 8", notes: "Multi-hit aerial blitz combo that tracks opponents across the arena." }
+      ],
+      assistEvaluation: {
+        partner: "Yuna",
+        groundAssist: "Megaflare",
+        airAssist: "Sonic Wings",
+        tactics: "Wall Rush opponents with Hop Step, then call Yuna's Sonic Wings to freeze them in hitstun for an inescapable Slice & Dice."
+      }
+    },
+    overworldSteps: [
+      {
+        title: "Besaid Coastline Route",
+        description: "Explore the tidal shoals for Ice Brand and Yellow Drops before entering Dream's End.",
+        chests: [
+          { location: "Besaid Beach Ledge", reward: "350 Gil" },
+          { location: "Moonflow Shallows", reward: "Ice Brand" },
+          { location: "Tide Pool Isle", reward: "Yellow Drop (+3 Damage)" }
+        ],
+        orbs: "4 Light Orbs on coastline"
+      }
+    ],
+    gateways: [
+      {
+        id: "do10-boss",
+        title: "Dream's End Gateway",
+        kpChance: "Win battle within 90 seconds.",
         rules: "Enabled",
         skills: "Enabled",
         bonusLine: 14,
-        asciiMap: `[M1]
-[  ]        [M4][  ][  ]
-[E1][D ][E2][M3][  ][  ]
-[  ]        [M5][  ]
-[M2]        [  ][  ][B ]
-[C ]`,
+        asciiMap: `[D ][  ][M1][  ]
+    [  ][E1][M2][B ]
+    [C ][  ][  ][G ]`,
         legend: [
-          "M1 = Counterfeit Wraith Lv18",
-          "M2 = Phantasmal Girl Lv18",
-          "M3 = Counterfeit Youth Lv13",
-          "M4 = False Stalwart Lv18",
-          "M5 = Counterfeit Youth Lv13",
-          "E1 = Magic Critical Rate Up",
-          "E2 = Booster Accessory x5",
-          "B = Cloud of Darkness Lv20"
-        ]
+          "D = Deploy Point",
+          "M1 = Capricious Thief Lv12",
+          "M2 = Counterfeit Wraith Lv12",
+          "E1 = Assist Boost Emblem",
+          "C = Ice Shield",
+          "B = Jecht Boss Encounter (Lv14)",
+          "G = Stigma of Chaos"
+        ],
+        bossTactic: {
+          bossName: "Jecht",
+          level: 14,
+          hp: 2750,
+          bravery: 300,
+          attacks: ["Jecht Rush", "Jecht Stream", "Jecht Block"],
+          hpAttacks: ["Jecht Blade", "Jecht Finger"],
+          difficulty: "3 / 5",
+          img: "/dissidia_012_characters/27_Jecht.png",
+          strategy: "Jecht relies heavily on Jecht Block to stun melee attackers. Bait his block by approaching and jumping over him, then execute Full Slide under his recovery. When Jecht launches Jecht Finger, dodge sideways and execute Slice & Dice from behind.",
+          dangerNotes: "Never trade hits with Jecht in neutral; his physical attacks have superior stagger priority."
+        },
+        chests: ["Ice Shield"],
+        strategy: "Use Full Slide and Hop Step's evasion frames to bypass Jecht's combos."
       }
     ]
   },
   {
-    id: "ch3-terra",
-    title: "The Chosen Path",
-    chapterNumber: "Chapter 3 (Destiny Odyssey VI)",
-    character: "Terra",
-    location: "Snowfields & Mountain Passes",
-    intro: "Terra grapples with the destructive power within her while Kefka schemes to manipulate her magical heritage.",
-    gateways: [
-      {
-        id: "ch3-snow-sorrow",
-        title: "Snow of Sorrow",
-        kpChance: "Win within 90 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: 2,
-        asciiMap: `[C ][  ][  ][C ]
-    [M1]
-[  ][  ][D ][E ][  ]
-    [M2]    [M3]
-    [G ][M4][M5]
-            [  ]`,
-        legend: [
-          "M1 = Fleeting Flash Lv10",
-          "M2 = Counterfeit Wraith Lv6",
-          "M3 = Delusory Dragoon Lv6",
-          "M4 = Imaginary Brawler Lv10",
-          "M5 = Transient Gunner Lv6",
-          "E = Stage BRV Boost"
-        ]
-      },
-      {
-        id: "ch3-frozen-continent",
-        title: "Frozen Continent",
-        kpChance: "Win within 90 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: 6,
-        asciiMap: `[C ]        [  ][M1][  ][  ][G ]
-[M2]            [  ]
-[  ][  ][D ][E ][M3]
-[M4]            [  ]
-[C ]        [  ][M5][  ][  ][A ]`,
-        legend: [
-          "A = Squall",
-          "M1 = Ephemeral Summoner Lv14",
-          "M2 = Imaginary Brawler Lv10",
-          "M3 = Delusory Dragoon Lv10",
-          "M4 = Delusory Knight Lv14",
-          "M5 = Fallacious Tree Lv14",
-          "E = Physical Critical Rate Up"
-        ]
-      },
-      {
-        id: "ch3-fools-hope",
-        title: "Gateway of Fools and Hope",
-        kpChance: "Win within 90 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: 16,
-        asciiMap: `    [M1][  ]
-    [  ]    [M2]
-[D ][E1]    [  ][  ][B ]
-    [  ]    [E2]
-    [M3][  ][M4]
-            [C ]`,
-        legend: [
-          "M1 = Capricious Thief Lv23",
-          "M2 = Capricious Thief Lv28",
-          "M3 = Imaginary Champion Lv23",
-          "M4 = False Hero Lv28",
-          "E1 = Magic Critical Rate Up",
-          "E2 = Booster x5",
-          "B = Kefka Lv24"
-        ]
-      }
-    ]
-  },
-  {
-    id: "ch4-cecil",
-    title: "Guidance of the Moon",
-    chapterNumber: "Chapter 4 (Destiny Odyssey IV)",
-    character: "Cecil",
-    location: "Lunar Subterrane & Castle Ruins",
-    intro: "Cecil struggles with the duality of Dark Knight and Paladin as Golbez challenges his convictions.",
-    gateways: [
-      {
-        id: "ch4-omen-destruction",
-        title: "Omen of Destruction",
-        kpChance: "Win within 90 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: 2,
-        asciiMap: `[D ][  ][  ][E ][M1][  ][G ]
-        [M2]        [M3]
-        [C ]        [C ]`,
-        legend: [
-          "M1 = Delusory Dragoon Lv7",
-          "M2 = False Stalwart Lv7",
-          "M3 = Capricious Reaper Lv11",
-          "E = Initial BRV Boost"
-        ]
-      },
-      {
-        id: "ch4-southern-shrine",
-        title: "Southern Shrine Gateway",
-        kpChance: "Win within 90 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: 16,
-        asciiMap: `        [C ]
-        [M1]
-[D ][  ][E1][M2][  ][B ]
-        [M3]
-        [E2]
-        [M4]`,
-        legend: [
-          "M1 = Counterfeit Wraith Lv26",
-          "M2 = Transient Witch Lv21",
-          "M3 = Fallacious Tree Lv21",
-          "M4 = Delusory Dragoon Lv26",
-          "E1 = Physical Critical Rate Up",
-          "E2 = Magic Critical Rate Up",
-          "B = Golbez Lv28"
-        ]
-      }
-    ]
-  },
-  {
-    id: "ch5-tidus",
-    title: "Entrusted Power",
-    chapterNumber: "Chapter 5 (Destiny Odyssey X)",
-    character: "Tidus",
-    location: "Giza Dunes & Sunken Caves",
-    intro: "Tidus encounters Jecht, confronting his complex feelings toward his father in battle.",
-    gateways: [
-      {
-        id: "ch5-encounters-treason",
-        title: "Encounters and Treason",
-        kpChance: "Win within 90 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: 3,
-        asciiMap: `[D ][  ][E ][M1][  ][G ]
-        [M2]    [M3]
-        [C ]    [C ]`,
-        legend: [
-          "M1 = Ephemeral Phantom Lv8",
-          "M2 = Idle Sky Pirate Lv8",
-          "M3 = Imaginary Brawler Lv12",
-          "E = Physical Critical Rate Up"
-        ]
-      },
-      {
-        id: "ch5-ryukahn",
-        title: "Ryukahn Gateway",
-        kpChance: "Win within 90 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: 16,
-        asciiMap: `[D ][  ][E1][M1][  ][B ]
-    [M2]        [M3]
-    [C ]        [E2]`,
-        legend: [
-          "M1 = Ephemeral Summoner Lv25",
-          "M2 = False Stalwart Lv25",
-          "M3 = Imaginary Champion Lv30",
-          "E1 = Initial BRV Boost",
-          "E2 = Booster x5",
-          "B = Jecht Lv32"
-        ]
-      }
-    ]
-  },
-  {
-    id: "ch6-firion",
-    title: "Seeds of Hope",
-    chapterNumber: "Chapter 6 (Destiny Odyssey II)",
-    character: "Firion",
-    location: "Pandaemonium Approach",
-    intro: "Firion protects his dream of a peaceful world where wild roses bloom against the Emperor's tyranny.",
-    gateways: [
-      {
-        id: "ch6-great-forest",
-        title: "Great Forest Gateway",
-        kpChance: "Win within 90 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: 4,
-        asciiMap: `[D ][  ][E ][M1][  ][G ]
-    [M2]    [M3]
-    [C ]    [P ]`,
-        legend: [
-          "M1 = False Hero Lv9",
-          "M2 = Transient Gunner Lv9",
-          "M3 = Phantasmal Harlequin Lv13",
-          "E = Physical Critical Rate Up"
-        ]
-      },
-      {
-        id: "ch6-sages-path",
-        title: "Sage's Path Gateway",
-        kpChance: "Win within 90 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: 18,
-        asciiMap: `[D ][  ][E1][M1][  ][B ]
-    [M2]        [M3]
-    [E2]        [C ]`,
-        legend: [
-          "M1 = Capricious Reaper Lv31",
-          "M2 = Ephemeral Vision Lv26",
-          "M3 = Delusory Warlock Lv31",
-          "E1 = Magic Critical Rate Up",
-          "E2 = Stage BRV Boost",
-          "B = The Emperor Lv34"
-        ]
-      }
-    ]
-  },
-  {
-    id: "ch7-squall",
-    title: "Resolve for Seclusion",
-    chapterNumber: "Chapter 7 (Destiny Odyssey VIII)",
+    id: "do-viii-squall",
+    title: "Destiny Odyssey VIII: Squall",
+    chapterNumber: "Chapter 5",
     character: "Squall",
-    location: "Northern Mountains & Castles",
-    intro: "Squall maintains distance from others, ultimately confronting Ultimecia's temporal sorcery.",
+    location: "Balamb Ridge & Galbadia",
+    intro: "Squall journeys across the snowy ridges of Galbadia, confronting the Sorceress Ultimecia.",
+    characterGuide: {
+      name: "Squall Leonhart",
+      title: "Gunblade Specialist",
+      portrait: "/dissidia_012_characters/10_Squall_Leonhart.png",
+      playstyle: "Squall is a high-speed melee assassin. Timing R1 trigger pulls during Gunblade strikes triggers critical explosive detonations. Solid Barrel and Beat Fang inflict massive hitstun.",
+      recommendedAbilities: [
+        { name: "Solid Barrel", type: "BRV", locationOrLevel: "Default", notes: "Multi-hit ground sword combo with explosive trigger explosions." },
+        { name: "Upper Blues", type: "BRV", locationOrLevel: "Level 3", notes: "Aerial launcher that sends opponents skyward into Chase." },
+        { name: "Fated Circle", type: "HP", locationOrLevel: "Default", notes: "Spins gunblade in a wide 360-degree explosive barrier." },
+        { name: "Rough Divide", type: "HP", locationOrLevel: "Level 8", notes: "Charging ground-to-air energy dash that catches dodging opponents." }
+      ],
+      assistEvaluation: {
+        partner: "Laguna Loire",
+        groundAssist: "Machine Gun",
+        airAssist: "Shotgun",
+        tactics: "Wall Rush with Upper Blues, then summon Laguna's Machine Gun to lock the enemy for Squall's Fated Circle or Blasting Zone."
+      }
+    },
+    overworldSteps: [
+      {
+        title: "Balamb Ridge Exploration",
+        description: "Collect Gold equipment and Green drops before challenging Ultimecia in the Castle of Time.",
+        chests: [
+          { location: "Balamb Snow Valley", reward: "400 Gil" },
+          { location: "Galbadia Highway", reward: "Gold Ring" },
+          { location: "Castle Gate Ridge", reward: "Green Drop (+3 Damage)" }
+        ],
+        orbs: "4 Light Orbs across ridge"
+      }
+    ],
     gateways: [
       {
-        id: "ch7-melting-snows",
-        title: "Gateway of Melting Snows",
-        kpChance: "Win within 90 seconds.",
+        id: "do8-boss",
+        title: "Castle of Time",
+        kpChance: "Win battle within 90 seconds.",
         rules: "Enabled",
         skills: "Enabled",
-        bonusLine: 4,
-        asciiMap: `[D ][  ][E ][M1][  ][G ]
-    [M2]    [M3]
-    [C ]    [C ]`,
+        bonusLine: 16,
+        asciiMap: `[D ][  ][M1][  ]
+    [  ][E1][M2][B ]
+    [C ][  ][  ][G ]`,
         legend: [
-          "M1 = Delusory Dragoon Lv10",
-          "M2 = Imaginary Soldier Lv10",
-          "M3 = Transient Witch Lv14",
-          "E = Physical Critical Rate Up"
-        ]
-      },
-      {
-        id: "ch7-crescent-lake",
-        title: "Crescent Lake Gateway",
-        kpChance: "Win within 90 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: 18,
-        asciiMap: `[D ][  ][E1][M1][  ][B ]
-    [M2]        [M3]
-    [C ]        [E2]`,
-        legend: [
-          "M1 = Transient Witch Lv33",
-          "M2 = Ephemeral Phantom Lv28",
-          "M3 = False Hero Lv33",
-          "E1 = Initial BRV Boost",
-          "E2 = Booster x5",
-          "B = Ultimecia Lv36"
-        ]
+          "D = Deploy Point",
+          "M1 = Ephemeral Phantom Lv14",
+          "M2 = Capricious Thief Lv14",
+          "E1 = EX Intake Emblem",
+          "C = Gold Armlet",
+          "B = Ultimecia Boss Encounter (Lv16)",
+          "G = Stigma of Chaos"
+        ],
+        bossTactic: {
+          bossName: "Ultimecia",
+          level: 16,
+          hp: 3000,
+          bravery: 330,
+          attacks: ["Knight's Blade", "Knight's Arrow", "Knight's Axe", "Time Crush"],
+          hpAttacks: ["Great Attractor", "Hell's Judgment", "Apocalypse"],
+          difficulty: "3 / 5",
+          img: "/dissidia_012_characters/25_Ultimecia.png",
+          strategy: "Ultimecia bombards the arena with continuous streams of magical blades and axes. Dash aggressively through Knight's Arrow to close the distance. Time Crush will freeze Squall in place—if you see the purple chronosphere forming, dash away immediately. Punish her long Great Attractor charging window with Rough Divide or Fated Circle.",
+          dangerNotes: "Never stay grounded at long range; Ultimecia's Knight's Axe has heavy tracking and guard-break properties."
+        },
+        chests: ["Gold Armlet"],
+        strategy: "Use Solid Barrel trigger timing to burst through Ultimecia's magic barriers."
       }
     ]
   },
   {
-    id: "ch8-zidane",
-    title: "Trust",
-    chapterNumber: "Chapter 8 (Destiny Odyssey IX)",
+    id: "do-ix-zidane",
+    title: "Destiny Odyssey IX: Zidane",
+    chapterNumber: "Chapter 6",
     character: "Zidane",
-    location: "Floating Ruins & Mist Highlands",
-    intro: "Zidane reaches out to his friends, defying Kuja's narcissistic view of despair.",
+    location: "Alexandria Glade to Iifa",
+    intro: "Zidane navigates the mist-covered valleys of Alexandria, confronting Kuja in the Crystal World.",
+    characterGuide: {
+      name: "Zidane Tribal",
+      title: "Tantalus Thief",
+      portrait: "/dissidia_012_characters/12_Zidane_Tribal.png",
+      playstyle: "The most agile aerial combatant in the game. Zidane possesses exceptional air mobility, multiple midair jumps, and swift dual-dagger flurries (Tempest, Vortex, Swift Attack) that easily out-maneuver opponents.",
+      recommendedAbilities: [
+        { name: "Tempest", type: "BRV", locationOrLevel: "Default", notes: "Aerial dual-dagger flurry that pulls opponents into multi-hit slashes." },
+        { name: "Vortex", type: "BRV", locationOrLevel: "Level 3", notes: "Spinning aerial dagger dive that Wall Rushes targets into the floor." },
+        { name: "Free Energy", type: "HP", locationOrLevel: "Default", notes: "Rapid point-blank energy burst with virtually instant startup." },
+        { name: "Grand Lethal", type: "HP", locationOrLevel: "Level 8", notes: "Multi-hit aerial divebomb that covers immense vertical space." }
+      ],
+      assistEvaluation: {
+        partner: "Kuja",
+        groundAssist: "Snatch Shot",
+        airAssist: "Strike Energy",
+        tactics: "Slam foes with Vortex, then summon Kuja's Strike Energy to suspend them in hitstun for an instant Free Energy blast."
+      }
+    },
+    overworldSteps: [
+      {
+        title: "Alexandria to Iifa Route",
+        description: "Search the glades for Diamond equipment and White Drops before challenging Kuja.",
+        chests: [
+          { location: "Alexandria Meadow", reward: "450 Gil" },
+          { location: "Iifa Trunk Path", reward: "Diamond Ring" },
+          { location: "Crystal Gate Ledge", reward: "White Drop (+20 Base BRV)" }
+        ],
+        orbs: "4 Light Orbs in glade"
+      }
+    ],
     gateways: [
       {
-        id: "ch8-solitude",
-        title: "Solitude and Treachery",
-        kpChance: "Win within 90 seconds.",
+        id: "do9-boss",
+        title: "Crystal World Gateway",
+        kpChance: "Win battle within 90 seconds.",
         rules: "Enabled",
         skills: "Enabled",
-        bonusLine: 5,
-        asciiMap: `[D ][  ][E ][M1][  ][G ]
-    [M2]    [M3]
-    [C ]    [P ]`,
+        bonusLine: 18,
+        asciiMap: `[D ][  ][M1][  ]
+    [  ][E1][M2][B ]
+    [C ][  ][  ][G ]`,
         legend: [
-          "M1 = Capricious Thief Lv11",
-          "M2 = Imaginary Brawler Lv11",
-          "M3 = Ephemeral Vision Lv15",
-          "E = Stage BRV Boost"
-        ]
-      },
+          "D = Deploy Point",
+          "M1 = Fleeting Flash Lv16",
+          "M2 = Delusory Dragoon Lv16",
+          "E1 = Speed Up Emblem",
+          "C = Diamond Bangle",
+          "B = Kuja Boss Encounter (Lv18)",
+          "G = Stigma of Chaos"
+        ],
+        bossTactic: {
+          bossName: "Kuja",
+          level: 18,
+          hp: 3200,
+          bravery: 350,
+          attacks: ["Strike Energy", "Snatch Blow", "Ring Holy", "Burst Energy"],
+          hpAttacks: ["Flare Star", "Seraphic Star", "Force Symphony"],
+          difficulty: "3 / 5",
+          img: "/dissidia_012_characters/26_Kuja.png",
+          strategy: "Kuja glides gracefully while casting Ring Holy and Flare Star. Use Zidane's superior air speed and double jumps to stay above Kuja at all times. Drop onto him with Vortex to break his cast animations, then combo directly into Free Energy.",
+          dangerNotes: "Do not chase Kuja into tight corners; his Burst Energy radial explosion will catch Zidane during forward dashes."
+        },
+        chests: ["Diamond Bangle"],
+        strategy: "Exploit Zidane's air mobility to stay above Kuja and punish with Free Energy."
+      }
+    ]
+  },
+  {
+    id: "do-v-bartz",
+    title: "Destiny Odyssey V: Bartz",
+    chapterNumber: "Chapter 7",
+    character: "Bartz",
+    location: "Castle Tycoon & Void Path",
+    intro: "Bartz travels through the rift-torn halls of Castle Tycoon, confronting the void lord Exdeath.",
+    characterGuide: {
+      name: "Bartz Klauser",
+      title: "Mime of the Void",
+      portrait: "/dissidia_012_characters/06_Bartz_Klauser.png",
+      playstyle: "Bartz mimics the signature weapons and techniques of all other heroes (Firion's lance, Cloud's Buster Sword, Squall's gunblade, Zidane's daggers, Tidus's slide). High versatility and unpredictable attack angles make him formidable in any match.",
+      recommendedAbilities: [
+        { name: "Spellblade (Sword Dance)", type: "BRV", locationOrLevel: "Default", notes: "Multi-element blade flurry that breaks enemy blocks." },
+        { name: "Dragoon Lance (Gungnir)", type: "BRV", locationOrLevel: "Level 3", notes: "Midair piercing lance dive with immense vertical tracking." },
+        { name: "Paladin Force", type: "HP", locationOrLevel: "Level 8", notes: "Homing light-blade dash copied from Cecil." },
+        { name: "Hazard Drive", type: "HP", locationOrLevel: "Default", notes: "Aerial blade dive with massive blast radius on impact." }
+      ],
+      assistEvaluation: {
+        partner: "Gilgamesh",
+        groundAssist: "Excalipoor / Excalibur",
+        airAssist: "Dance of Swords",
+        tactics: "Stagger foes with Spellblade, call Gilgamesh's Dance of Swords to lock them down, and execute Hazard Drive."
+      }
+    },
+    overworldSteps: [
       {
-        id: "ch8-true-intent",
-        title: "Gateway of True Intent",
-        kpChance: "Win within 90 seconds.",
+        title: "Castle Tycoon Rift Route",
+        description: "Pick up Flame Sword and Black Drops before entering the Void Abyss.",
+        chests: [
+          { location: "Tycoon Courtyard", reward: "500 Gil" },
+          { location: "Rift Chasm Bridge", reward: "Flame Sword" },
+          { location: "Void Boundary", reward: "Black Drop (+20 Base BRV)" }
+        ],
+        orbs: "4 Light Orbs in courtyard"
+      }
+    ],
+    gateways: [
+      {
+        id: "do5-boss",
+        title: "Void Abyss Gateway",
+        kpChance: "Win battle within 90 seconds.",
         rules: "Enabled",
         skills: "Enabled",
         bonusLine: 20,
-        asciiMap: `[D ][  ][E1][M1][  ][B ]
-    [M2]        [M3]
-    [E2]        [C ]`,
+        asciiMap: `[D ][  ][M1][  ]
+    [  ][E1][M2][B ]
+    [C ][  ][  ][G ]`,
         legend: [
-          "M1 = Ephemeral Phantom Lv35",
-          "M2 = Counterfeit Youth Lv30",
-          "M3 = Phantasmal Girl Lv35",
-          "E1 = Magic Critical Rate Up",
-          "E2 = Physical Critical Rate Up",
-          "B = Kuja Lv38"
-        ]
+          "D = Deploy Point",
+          "M1 = False Stalwart Lv18",
+          "M2 = Counterfeit Wraith Lv18",
+          "E1 = Bravery Boost Emblem",
+          "C = Flame Shield",
+          "B = Exdeath Boss Encounter (Lv20)",
+          "G = Stigma of Chaos"
+        ],
+        bossTactic: {
+          bossName: "Exdeath",
+          level: 20,
+          hp: 3500,
+          bravery: 380,
+          attacks: ["Omniblock", "High Block", "Sword Dance", "Delta Attack"],
+          hpAttacks: ["Grand Cross", "Almagest", "Black Hole"],
+          difficulty: "3.5 / 5",
+          img: "/dissidia_012_characters/22_Exdeath.png",
+          strategy: "Exdeath will attempt to Omniblock Bartz's physical strikes. Use long-range Dragoon Lance or spellblade projectiles to bypass his counter stance. When Exdeath begins casting Grand Cross or Almagest, jump high into the air and punish with Hazard Drive.",
+          dangerNotes: "Never use close-range multi-hit attacks while Exdeath is idle; his counter reflects 100% of damage back to Bartz."
+        },
+        chests: ["Flame Shield"],
+        strategy: "Bait Exdeath's block and punish with Hazard Drive from above."
       }
     ]
   },
   {
-    id: "ch9-bartz",
-    title: "A Treasure Hunt",
-    chapterNumber: "Chapter 9 (Destiny Odyssey V)",
-    character: "Bartz",
-    location: "Dimensional Void & Ancient Ruins",
-    intro: "Bartz's lighthearted curiosity guides him through Exdeath's void-infused gateways.",
+    id: "do-vi-terra",
+    title: "Destiny Odyssey VI: Terra",
+    chapterNumber: "Chapter 8",
+    character: "Terra",
+    location: "Narshe Snowfield to Fanatics Tower",
+    intro: "Terra embraces her magical heritage, confronting Kefka once more at the summit of the Tower of Fanatics.",
+    characterGuide: {
+      name: "Terra Branford",
+      title: "Magitek Sorceress",
+      portrait: "/dissidia_012_characters/07_Terra_Branford.png",
+      playstyle: "Terra is a powerhouse ranged caster. Charging her spells (Fire, Blizzara, Thundaga, Holy) alters their trajectory, blast radius, and hit properties. In Trance EX Mode, all spells double in projectile count.",
+      recommendedAbilities: [
+        { name: "Blizzara", type: "BRV", locationOrLevel: "Default", notes: "Multi-shard ice projectile with immense tracking when charged." },
+        { name: "Holy", type: "BRV", locationOrLevel: "Level 3", notes: "Summons orbiting light orbs that converge on the target and initiate Chase." },
+        { name: "Meltdown", type: "HP", locationOrLevel: "Default", notes: "Bouncing fireball that travels along surfaces and tracks dodging foes." },
+        { name: "Flood", type: "HP", locationOrLevel: "Level 8", notes: "Spouts water pillars beneath the enemy's feet with infinite vertical reach." }
+      ],
+      assistEvaluation: {
+        partner: "Vaan",
+        groundAssist: "Torrent",
+        airAssist: "Inferno",
+        tactics: "Trap foes with charged Holy orbs, then call Vaan's Inferno to Wall Rush them into Terra's Meltdown or Ultima."
+      }
+    },
+    overworldSteps: [
+      {
+        title: "Narshe to Fanatics Tower Route",
+        description: "Navigate the snowy slopes for Diamond equipment and Orange Drops.",
+        chests: [
+          { location: "Narshe Snow Ridge", reward: "550 Gil" },
+          { location: "Magitek Facility Gate", reward: "Diamond Shield" },
+          { location: "Tower Steps Ledge", reward: "Orange Drop (+3 Damage)" }
+        ],
+        orbs: "4 Light Orbs on snowfield"
+      }
+    ],
     gateways: [
       {
-        id: "ch9-departure",
-        title: "Gateway to Departure",
-        kpChance: "Win within 90 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: 5,
-        asciiMap: `[D ][  ][E ][M1][  ][G ]
-    [M2]    [M3]
-    [C ]    [C ]`,
-        legend: [
-          "M1 = Fallacious Wanderer Lv12",
-          "M2 = Delusory Knight Lv12",
-          "M3 = Fallacious Tree Lv16",
-          "E = Initial BRV Boost"
-        ]
-      },
-      {
-        id: "ch9-sunken-lake",
-        title: "Sunken Lake Gateway",
-        kpChance: "Win within 90 seconds.",
+        id: "do6-boss",
+        title: "Tower of Fanatics",
+        kpChance: "Win battle within 90 seconds.",
         rules: "Enabled",
         skills: "Enabled",
         bonusLine: 22,
-        asciiMap: `[D ][  ][E1][M1][  ][B ]
-    [M2]        [M3]
-    [C ]        [E2]`,
+        asciiMap: `[D ][  ][M1][  ]
+    [  ][E1][M2][B ]
+    [C ][  ][  ][G ]`,
         legend: [
-          "M1 = Fallacious Tree Lv38",
-          "M2 = Transient Gunner Lv33",
-          "M3 = Capricious Reaper Lv38",
-          "E1 = Booster x5",
-          "E2 = Physical Critical Rate Up",
-          "B = Exdeath Lv42"
-        ]
+          "D = Deploy Point",
+          "M1 = Phantasmal Harlequin Lv20",
+          "M2 = Capricious Reaper Lv20",
+          "E1 = Magic Boost Emblem",
+          "C = Diamond Circlet",
+          "B = Kefka Palazzo Boss Encounter (Lv22)",
+          "G = Stigma of Chaos"
+        ],
+        bossTactic: {
+          bossName: "Kefka Palazzo",
+          level: 22,
+          hp: 3700,
+          bravery: 400,
+          attacks: ["Scatter Spray Blizzaga", "Waggle-Wobbly Firaga", "Extra-Crispy Firaga", "Meteor", "Ultima"],
+          hpAttacks: ["Hyperdrive", "Havoc Wing", "Trine"],
+          summon: "Brynhildr",
+          difficulty: "3.5 / 5",
+          img: "/dissidia_012_characters/23_Kefka_Palazzo.png",
+          strategy: "Kefka fires erratic spells from all angles. Counter his projectiles with charged Blizzara (which plows through his weaker fireballs). When Kefka channels Trine or Hyperdrive, cast Flood beneath him—the geyser will interrupt his casting animation instantly.",
+          dangerNotes: "Watch for Kefka's Meteor bouncing orbs; if caught, they will drain Bravery and knock you into Banish Traps."
+        },
+        chests: ["Diamond Circlet"],
+        strategy: "Use charged Holy and Flood to interrupt Kefka's spellcasting."
       }
     ]
   },
   {
-    id: "ch10-wol",
-    title: "Champions of Her Will",
-    chapterNumber: "Chapter 10 (Destiny Odyssey I)",
+    id: "do-iii-onion",
+    title: "Destiny Odyssey III: Onion Knight",
+    chapterNumber: "Chapter 9",
+    character: "Onion Knight",
+    location: "Floating Continent & Ancient Ruins",
+    intro: "The Onion Knight explores the ancient floating continent, overcoming his doubts to confront the Cloud of Darkness.",
+    characterGuide: {
+      name: "Onion Knight",
+      title: "Little Champion",
+      portrait: "/dissidia_012_characters/03_Onion_Knight.png",
+      playstyle: "Onion Knight transitions between rapid physical multi-hits (Ninja) and high-tier magical artillery (Sage). Turbo Hit and Guiding Strike deliver blazing-fast physical combos, while Flare and Holy provide long-range pressure.",
+      recommendedAbilities: [
+        { name: "Turbo Hit", type: "BRV", locationOrLevel: "Default", notes: "Rapid physical sword flurry that transitions into Ninja class." },
+        { name: "Guiding Strike", type: "BRV", locationOrLevel: "Level 3", notes: "Aerial homing strike that chases opponents with immense speed." },
+        { name: "Wind Shear", type: "HP", locationOrLevel: "Default", notes: "Spinning physical cyclone copied from Ninja." },
+        { name: "Flare", type: "HP", locationOrLevel: "Level 8", notes: "Massive explosive magical burst copied from Sage." }
+      ],
+      assistEvaluation: {
+        partner: "Bartz Klauser",
+        groundAssist: "Solid Breaker",
+        airAssist: "Luminous Shard",
+        tactics: "Juggle foes with Guiding Strike, call Bartz's Luminous Shard to wall-rush them, and cast Flare."
+      }
+    },
+    overworldSteps: [
+      {
+        title: "Floating Continent Ascent",
+        description: "Pick up Pearl Ring and Rosetta Stone before challenging the Cloud of Darkness.",
+        chests: [
+          { location: "Floating Island Ridge", reward: "600 Gil" },
+          { location: "Ancient Ruins Gate", reward: "Pearl Ring" },
+          { location: "Dark Boundary", reward: "Rosetta Stone" }
+        ],
+        orbs: "4 Light Orbs on floating continent"
+      }
+    ],
+    gateways: [
+      {
+        id: "do3-boss",
+        title: "World of Darkness",
+        kpChance: "Win battle within 90 seconds.",
+        rules: "Enabled",
+        skills: "Enabled",
+        bonusLine: 24,
+        asciiMap: `[D ][  ][M1][  ]
+    [  ][E1][M2][B ]
+    [C ][  ][  ][G ]`,
+        legend: [
+          "D = Deploy Point",
+          "M1 = False Hero Lv22",
+          "M2 = Delusory Dragoon Lv22",
+          "E1 = Critical Up Emblem",
+          "C = Diamond Armor",
+          "B = Cloud of Darkness Boss Encounter (Lv24)",
+          "G = Stigma of Chaos"
+        ],
+        bossTactic: {
+          bossName: "Cloud of Darkness",
+          level: 24,
+          hp: 4000,
+          bravery: 420,
+          attacks: ["Tentacle Smash", "Tentacle Flurry", "Wrath Particle Beam", "Subside Particle Beam"],
+          hpAttacks: ["0-Form Particle Beam", "Active Particle Beam", "Feint Particle Beam"],
+          difficulty: "3.5 / 5",
+          img: "/dissidia_012_characters/20_Cloud_of_Darkness.png",
+          strategy: "Cloud of Darkness controls massive space with her tentacles and particle beams. 0-Form Particle Beam fires a massive forward beam with high startup; dodge behind her and punish with Turbo Hit. Feint Particle Beam delays its firing to catch early dodgers—wait for the flash before rolling.",
+          dangerNotes: "Do not jump directly into her tentacle flurries; the tentacles block oncoming projectiles."
+        },
+        chests: ["Diamond Armor"],
+        strategy: "Use Onion Knight's high speed to get behind her particle beams and unleash Turbo Hit."
+      }
+    ]
+  },
+  {
+    id: "do-i-wol",
+    title: "Destiny Odyssey I: Warrior of Light",
+    chapterNumber: "Chapter 10",
     character: "Warrior of Light",
-    location: "Old Chaos Shrine & Edge of Discord",
-    intro: "The Warrior of Light leads the final push to Garland and the threshold of the god of discord.",
+    location: "Castle Cornelia to Chaos Shrine",
+    intro: "The Warrior of Light returns to where it all began, confronting Garland in the past Chaos Shrine to secure the crystal.",
+    characterGuide: {
+      name: "Warrior of Light",
+      title: "True Champion of the Light",
+      portrait: "/dissidia_012_characters/01_Warrior_of_Light.webp",
+      playstyle: "With mastered support abilities and advanced gear, the Warrior of Light is nearly impervious to frontal assaults. Combine Shield of Light, Shining Wave, and Radiant Sword to dominate close and long ranges.",
+      recommendedAbilities: [
+        { name: "Shield of Light", type: "BRV", locationOrLevel: "Mastered", notes: "Creates an impenetrable radiant shield that reflects enemy magic and counters." },
+        { name: "Ascension", type: "BRV", locationOrLevel: "Mastered", notes: "Skyward launcher that guarantees high Wall Rush." },
+        { name: "Radiant Sword", type: "HP", locationOrLevel: "Mastered", notes: "Multi-blade light homing barrage." },
+        { name: "Ultimate Shield", type: "HP", locationOrLevel: "Level 10", notes: "Giant circular shield bash with immense forward range." }
+      ],
+      assistEvaluation: {
+        partner: "Kain Highwind",
+        groundAssist: "Spiral Blow",
+        airAssist: "Dragon's Fang",
+        tactics: "Parry Garland with Shield of Light, call Kain's Dragon's Fang, and finish with Ultimate Shield."
+      }
+    },
+    overworldSteps: [
+      {
+        title: "Cornelia to Chaos Shrine Route",
+        description: "Gather final high-tier materials and Elixirs before challenging Garland in the Past Chaos Shrine.",
+        chests: [
+          { location: "Cornelia Throne Room", reward: "650 Gil" },
+          { location: "Chaos Shrine Outer Ring", reward: "Elixir" },
+          { location: "Past Shrine Steps", reward: "Lufenian Armor Shard" }
+        ],
+        orbs: "4 Light Orbs in shrine"
+      }
+    ],
     gateways: [
       {
-        id: "ch10-legendary-lake",
-        title: "Legendary Lake Gateway",
-        kpChance: "Win within 90 seconds.",
+        id: "do1-boss",
+        title: "Past Chaos Shrine",
+        kpChance: "Win battle within 90 seconds.",
         rules: "Enabled",
         skills: "Enabled",
-        bonusLine: 6,
-        asciiMap: `[D ][  ][E ][M1][  ][G ]
-    [M2]    [M3]
-    [C ]    [P ]`,
+        bonusLine: 26,
+        asciiMap: `[D ][  ][M1][  ]
+    [  ][E1][M2][B ]
+    [C ][  ][  ][G ]`,
         legend: [
-          "M1 = False Stalwart Lv14",
-          "M2 = Fleeting Flash Lv14",
-          "M3 = False Hero Lv18",
-          "E = Physical Critical Rate Up"
-        ]
-      },
-      {
-        id: "ch10-shrine-chaos",
-        title: "Gateway to the Chaos Shrine",
-        kpChance: "Win within 90 seconds.",
-        rules: "Enabled",
-        skills: "Enabled",
-        bonusLine: 25,
-        asciiMap: `[D ][  ][E1][M1][  ][B ]
-    [M2]        [M3]
-    [E2]        [C ]`,
-        legend: [
-          "M1 = False Stalwart Lv45",
-          "M2 = Delusory Dragoon Lv40",
-          "M3 = Imitation Despot Lv45",
-          "E1 = Initial BRV Boost",
-          "E2 = Booster x5",
-          "B = Garland Lv48"
+          "D = Deploy Point",
+          "M1 = False Stalwart Lv24",
+          "M2 = Counterfeit Wraith Lv24",
+          "E1 = EX Charge Emblem",
+          "C = Lufenian Helm",
+          "B = Garland Boss Encounter (Lv26)",
+          "G = Stigma of Chaos"
         ],
-        notes: "Contains a treasure chest with Shell Armor near the exit."
+        bossTactic: {
+          bossName: "Garland",
+          level: 26,
+          hp: 4300,
+          bravery: 450,
+          attacks: ["Round Edge", "Bardiche", "High Strike", "Twin Sword"],
+          hpAttacks: ["Cyclone", "Earthquake", "Tsunami", "Flare"],
+          difficulty: "4 / 5",
+          img: "/dissidia_012_characters/18_Garland.png",
+          strategy: "Garland hits with catastrophic force. Auto-guard through his Bardiche with Shield of Light, then launch him with Ascension. When Garland executes Earthquake or Tsunami, leap above the wave and strike with Radiant Sword.",
+          dangerNotes: "Never attempt to block Garland's Cyclone with basic guard; the spinning vortex will shatter shields."
+        },
+        chests: ["Lufenian Helm"],
+        strategy: "Use Shield of Light to counter Garland's sword swings and counter with Radiant Sword."
       }
     ]
   },
   {
-    id: "epilogue-013",
-    title: "Conclusion of the Cycle",
-    chapterNumber: "Epilogue",
-    character: "Cosmos Champions (Party Selection)",
-    location: "Edge of Discord • Throne of Chaos",
-    intro: "With all 10 crystals gathered, the warriors initiate the final battle against the god of discord, Chaos.",
+    id: "epilogue-013-part1",
+    title: "Shade Impulse: Part 1 & 2",
+    chapterNumber: "Epilogue Part 1",
+    character: "Cosmos Champions (Party)",
+    location: "Void Boundary & Moat of Hatred",
+    intro: "With the 10 crystals gathered, the heroes step into the void to challenge Chaos's inner sanctum.",
     gateways: [
       {
-        id: "ep013-throne-chaos",
-        title: "Throne of the Discord God (3-Stage Final Boss)",
-        kpChance: "Defeat Chaos and end the cycle.",
+        id: "shade-impulse-1",
+        title: "Gateway of Good and Evil (3 Floors)",
+        kpChance: "Win within 90 seconds.",
         rules: "Enabled",
         skills: "Enabled",
-        bonusLine: 50,
-        asciiMap: `            [B3]
-            [  ]
-            [B2]
-            [  ]
-[D ][  ][  ][B1]`,
-        legend: [
-          "B1 = Chaos Stage 1 (Base Form Lv50)",
-          "B2 = Chaos Stage 2 (Demonic Surge Lv50)",
-          "B3 = Chaos Final Stage (Apocalyptic God Form Lv50)"
+        bonusLine: 35,
+        floors: [
+          { floorNumber: 1, enemies: ["False Hero Lv30", "Counterfeit Wraith Lv30"], chests: ["1000 Gil"], notes: "Warm up with your lead hero." },
+          { floorNumber: 2, enemies: ["Ephemeral Phantom Lv32", "Capricious Thief Lv32"], chests: ["Elixir"], notes: "Use Assist combos." },
+          { floorNumber: 3, enemies: ["Manikin Boss Prime Lv35"], chests: ["Lufenian Sword"], notes: "Climax of Part 1." }
         ],
-        strategy: "Chaos has three successive forms. Equip high EX absorption accessories and assist characters like Kuja or Aerith to interrupt his global arena-sweeping HP moves."
+        strategy: "Rotate your party members across floors to conserve HP."
+      }
+    ]
+  },
+  {
+    id: "epilogue-013-part2",
+    title: "Shade Impulse: Part 3 & 4 (Final Battle)",
+    chapterNumber: "Epilogue Part 2",
+    character: "Cosmos Champions (Party)",
+    location: "Edge of Discord • Throne of Chaos",
+    intro: "The final confrontation against Chaos, the God of Discord, spanning a 3-phase epic battle for the fate of the universe.",
+    gateways: [
+      {
+        id: "shade-impulse-final",
+        title: "Edge of Discord (Chaos Final Boss - 3 Phases)",
+        kpChance: "Defeat Chaos.",
+        rules: "Enabled",
+        skills: "Enabled",
+        bonusLine: 45,
+        bossTactic: {
+          bossName: "Chaos (God of Discord - 3 Phases)",
+          level: 45,
+          hp: 8500,
+          bravery: 650,
+          attacks: ["Demon Fire", "Scarlet Rain", "Soul of Chaos", "Condemnation", "Utter Chaos"],
+          hpAttacks: ["Brink of Delusion", "Demon Dance", "God in Fire (Phase 3)"],
+          difficulty: "5 / 5",
+          img: "/dissidia_012_characters/31_Feral_Chaos.png",
+          strategy: "Phase 1: Chaos uses Demon Fire and Scarlet Rain. Stay in the air and dodge Scarlet Rain fire pillars as they appear under your feet. Phase 2: Chaos gains Soul of Chaos (summoning flaming clones) and Condemnation. Dash sideways when the arena darkens. Phase 3: Chaos ignites in a colossal fiery form. When Chaos casts Brink of Delusion or God in Fire, execute EX Revenge to cancel his cinematic attack and counter with your strongest HP combo.",
+          dangerNotes: "In Phase 3, Chaos's Demon Dance covers the entire floor; you MUST fight from the air to survive."
+        },
+        strategy: "Equip your highest-level characters with Phoenix summons, EX Intake boosters, and mastered HP abilities. Dodge Scarlet Rain vertically and punish Chaos during his long recovery frames."
       }
     ]
   }

@@ -1,16 +1,42 @@
 ---
 import ProgressTracker from '../common/ProgressTracker.astro';
+import GatewayChessBoard from './GatewayChessBoard.astro';
+import { getDrakePieceIcon, getDrakeBossRender, getDrakeCharacterIcon } from '../../data/story/drakeAssets';
 
 export interface LegendItem {
   key: string;
   name: string;
   type?: 'enemy' | 'boss' | 'chest' | 'assist' | 'summon' | 'emblem' | 'deploy' | 'goal' | 'potion' | 'other';
+  icon?: string;
 }
 
 export interface WalkthroughImage {
   src: string;
   alt?: string;
   caption?: string;
+}
+
+export interface EnemyTactic {
+  name: string;
+  level?: number | string;
+  attacks?: string[];
+  hpAttacks?: string[];
+  summon?: string;
+  strategy: string;
+}
+
+export interface BossTactic {
+  bossName: string;
+  level: number | string;
+  hp?: number | string;
+  bravery?: number | string;
+  attacks?: string[];
+  hpAttacks?: string[];
+  summon?: string;
+  difficulty?: string;
+  strategy: string;
+  dangerNotes?: string;
+  img?: string;
 }
 
 export interface FloorItem {
@@ -24,6 +50,8 @@ export interface FloorItem {
   legend?: (string | LegendItem)[];
   enemies?: string[];
   chests?: string[];
+  enemyTactics?: EnemyTactic[];
+  bossTactic?: BossTactic;
   notes?: string;
   images?: WalkthroughImage[];
 }
@@ -42,6 +70,8 @@ interface Props {
   legend?: (string | LegendItem)[];
   enemies?: string[];
   chests?: string[];
+  enemyTactics?: EnemyTactic[];
+  bossTactic?: BossTactic;
   strategy?: string;
   notes?: string;
   images?: WalkthroughImage[];
@@ -62,6 +92,8 @@ const {
   legend = [],
   enemies,
   chests,
+  enemyTactics = [],
+  bossTactic,
   strategy,
   notes,
   images = [],
@@ -85,28 +117,33 @@ function getLegendBadgeClass(keyStr: string): string {
   return 'badge-enemy';
 }
 
-function parseLegendItem(item: string | LegendItem): { key: string; text: string; badgeClass: string } {
+function parseLegendItem(item: string | LegendItem): { key: string; text: string; badgeClass: string; icon: string | null } {
   if (typeof item === 'object') {
+    const icon = item.icon || getDrakePieceIcon(item.key);
     return {
       key: item.key,
       text: item.name,
-      badgeClass: item.type ? `badge-${item.type}` : getLegendBadgeClass(item.key)
+      badgeClass: item.type ? `badge-${item.type}` : getLegendBadgeClass(item.key),
+      icon
     };
   }
   const parts = item.split('=');
   if (parts.length >= 2) {
     const key = parts[0].trim();
     const text = parts.slice(1).join('=').trim();
+    const icon = getDrakePieceIcon(key);
     return {
       key,
       text,
-      badgeClass: getLegendBadgeClass(key)
+      badgeClass: getLegendBadgeClass(key),
+      icon
     };
   }
   return {
     key: '•',
     text: item,
-    badgeClass: 'badge-enemy'
+    badgeClass: 'badge-enemy',
+    icon: getDrakePieceIcon(item)
   };
 }
 ---
@@ -165,21 +202,10 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
     )}
   </div>
 
-  <!-- Single Floor ASCII Map & Legend -->
+  <!-- Single Floor Chessboard Map & Legend -->
   {asciiMap && (
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-bottom: 1.25rem; align-items: start;">
-      <!-- ASCII Map Grid Container -->
-      <div style="background: #040711; border: 1px solid rgba(56, 189, 248, 0.3); border-radius: var(--radius-sm); padding: 1.15rem; box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.8); overflow-x: auto; -webkit-overflow-scrolling: touch;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.35rem;">
-          <span style="font-size: 0.72rem; font-family: var(--font-mono); color: var(--color-brv); text-transform: uppercase; font-weight: bold; letter-spacing: 0.06em;">
-            &lang; Board Layout Map &rang;
-          </span>
-          <span style="font-size: 0.7rem; color: var(--text-dim); font-family: var(--font-mono);">
-            [D]=Deploy [G]=Goal [B]=Boss
-          </span>
-        </div>
-        <pre class="ascii-grid" style="font-family: 'JetBrains Mono', 'Share Tech Mono', monospace; font-size: 0.92rem; line-height: 1.45; color: #e0f2fe; margin: 0; white-space: pre;">{asciiMap}</pre>
-      </div>
+      <GatewayChessBoard asciiMap={asciiMap} legend={legend} id={id} title={title} />
 
       <!-- Legend Breakdown Column -->
       {legend && legend.length > 0 && (
@@ -187,15 +213,27 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
           <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-cosmos); text-transform: uppercase; font-weight: bold; margin-bottom: 0.65rem; letter-spacing: 0.06em;">
             Encounter & Loot Legend
           </div>
-          <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+          <div style="display: flex; flex-direction: column; gap: 0.45rem;">
             {legend.map(item => {
               const parsed = parseLegendItem(item);
               return (
-                <div style="display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.85rem; line-height: 1.4;">
-                  <span class={`map-token-pill ${parsed.badgeClass}`} style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; padding: 0.1rem 0.45rem; border-radius: var(--radius-xs); flex-shrink: 0; min-width: 24px; text-align: center;">
-                    {parsed.key}
+                <div style="display: flex; align-items: center; gap: 0.55rem; font-size: 0.85rem; line-height: 1.4;">
+                  {parsed.icon ? (
+                    <img 
+                      src={resolveImg(parsed.icon)} 
+                      alt={parsed.key} 
+                      title={parsed.key}
+                      style="width: 22px; height: 22px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));" 
+                    />
+                  ) : (
+                    <span class={`map-token-pill ${parsed.badgeClass}`} style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; padding: 0.1rem 0.45rem; border-radius: var(--radius-xs); flex-shrink: 0; min-width: 24px; text-align: center;">
+                      {parsed.key}
+                    </span>
+                  )}
+                  <span style="color: var(--text-sub);">
+                    <strong style="color: var(--text-main); font-family: var(--font-mono); font-size: 0.8rem; margin-right: 0.25rem;">[{parsed.key}]</strong>
+                    {parsed.text}
                   </span>
-                  <span style="color: var(--text-sub);">{parsed.text}</span>
                 </div>
               );
             })}
@@ -204,6 +242,105 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
       )}
     </div>
   )}
+
+  <!-- Enemy Tactics Breakdown (Single-Floor / Gateway level) -->
+  {enemyTactics && enemyTactics.length > 0 && (
+    <div style="background: var(--surface-panel-alt); border: 1px solid var(--border-panel-subtle); border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 1.25rem;">
+      <div style="font-size: 0.78rem; font-family: var(--font-mono); color: var(--color-chaos); text-transform: uppercase; font-weight: bold; margin-bottom: 0.75rem; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.5rem;">
+        <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--color-chaos);"></span>
+        Enemy Tactics & Moveset Counters
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem;">
+        {enemyTactics.map(t => (
+          <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-xs); padding: 0.75rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <span style="font-weight: 700; color: var(--color-cosmos); font-size: 0.92rem;">{t.name}</span>
+              {t.level && <span class="badge-pill badge-chaos" style="font-size: 0.7rem;">Lv. {t.level}</span>}
+            </div>
+            {t.attacks && t.attacks.length > 0 && (
+              <div style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--text-dim); margin-bottom: 0.35rem;">
+                <strong style="color: var(--color-brv);">BRV:</strong> {t.attacks.join(', ')}
+              </div>
+            )}
+            {t.hpAttacks && t.hpAttacks.length > 0 && (
+              <div style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--color-hp); margin-bottom: 0.35rem;">
+                <strong>HP:</strong> {t.hpAttacks.join(', ')}
+              </div>
+            )}
+            {t.summon && (
+              <div style="font-size: 0.8rem; font-family: var(--font-mono); color: #fbbf24; margin-bottom: 0.35rem;">
+                <strong>Summon:</strong> {t.summon}
+              </div>
+            )}
+            <p style="font-size: 0.85rem; color: var(--text-sub); margin: 0; line-height: 1.45;">
+              {t.strategy}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <!-- Boss Tactic Spotlight Card -->
+  {bossTactic && (() => {
+    const bossImg = bossTactic.img || getDrakeBossRender(bossTactic.bossName);
+    return (
+      <div class="boss-encounter-panel" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(15, 23, 42, 0.6) 100%); border: 1px solid rgba(239, 68, 68, 0.3); border-left: 4px solid var(--color-chaos); border-radius: var(--radius-sm); padding: 1.25rem; margin-bottom: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.75rem;">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            {bossImg && (
+              <img src={resolveImg(bossImg)} alt={bossTactic.bossName} style="width: 52px; height: 52px; object-fit: contain; border-radius: var(--radius-xs); border: 1px solid var(--color-chaos); background: rgba(0,0,0,0.5); padding: 2px;" />
+            )}
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span class="badge-pill badge-chaos">Boss Encounter</span>
+                {bossTactic.difficulty && <span class="badge-pill badge-crystal">Difficulty: {bossTactic.difficulty}</span>}
+              </div>
+              <h4 style="margin: 0.2rem 0 0; font-size: 1.35rem; color: var(--text-main); font-family: var(--font-heading);">
+                {bossTactic.bossName} <span style="font-size: 0.9rem; color: var(--color-chaos); font-family: var(--font-mono); font-weight: normal;">(Lv. {bossTactic.level})</span>
+              </h4>
+            </div>
+          </div>
+          <div style="display: flex; gap: 0.75rem; font-family: var(--font-mono); font-size: 0.82rem; flex-wrap: wrap;">
+            {bossTactic.hp && (
+              <div style="background: rgba(0,0,0,0.4); padding: 0.25rem 0.6rem; border-radius: var(--radius-xs); border: 1px solid rgba(255,255,255,0.06);">
+                <span style="color: var(--text-dim);">HP:</span> <strong style="color: var(--color-hp);">{bossTactic.hp}</strong>
+              </div>
+            )}
+            {bossTactic.bravery && (
+              <div style="background: rgba(0,0,0,0.4); padding: 0.25rem 0.6rem; border-radius: var(--radius-xs); border: 1px solid rgba(255,255,255,0.06);">
+                <span style="color: var(--text-dim);">BRV:</span> <strong style="color: var(--color-brv);">{bossTactic.bravery}</strong>
+              </div>
+            )}
+            {bossTactic.summon && (
+              <div style="background: rgba(0,0,0,0.4); padding: 0.25rem 0.6rem; border-radius: var(--radius-xs); border: 1px solid rgba(255,255,255,0.06);">
+                <span style="color: var(--text-dim);">Summon:</span> <strong style="color: #fbbf24;">{bossTactic.summon}</strong>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.5rem; margin-bottom: 0.85rem; font-size: 0.82rem; font-family: var(--font-mono); background: rgba(0,0,0,0.25); padding: 0.6rem 0.85rem; border-radius: var(--radius-xs);">
+          {bossTactic.attacks && bossTactic.attacks.length > 0 && (
+            <div><strong style="color: var(--color-brv);">BRV Attacks:</strong> {bossTactic.attacks.join(', ')}</div>
+          )}
+          {bossTactic.hpAttacks && bossTactic.hpAttacks.length > 0 && (
+            <div><strong style="color: var(--color-hp);">HP Attacks:</strong> {bossTactic.hpAttacks.join(', ')}</div>
+          )}
+        </div>
+
+        <div style="font-size: 0.9rem; color: var(--text-main); line-height: 1.6;">
+          <strong style="color: var(--color-chaos); font-family: var(--font-heading);">Tactical Breakdown:</strong> {bossTactic.strategy}
+        </div>
+
+        {bossTactic.dangerNotes && (
+          <div style="margin-top: 0.65rem; font-size: 0.82rem; color: #fca5a5; background: rgba(239, 68, 68, 0.12); padding: 0.4rem 0.75rem; border-radius: var(--radius-xs); border-left: 2px solid #ef4444;">
+            <strong>Warning:</strong> {bossTactic.dangerNotes}
+          </div>
+        )}
+      </div>
+    );
+  })()}
 
   <!-- Fallback / Multi-Floor List View -->
   {floors && floors.length > 0 && (
@@ -225,21 +362,36 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
           </div>
 
           {floor.asciiMap && (
-            <div style="background: #040711; border: 1px solid rgba(56, 189, 248, 0.25); border-radius: var(--radius-sm); padding: 0.9rem; margin-bottom: 0.85rem; overflow-x: auto;">
-              <pre class="ascii-grid" style="font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; line-height: 1.45; color: #e0f2fe; margin: 0; white-space: pre;">{floor.asciiMap}</pre>
-            </div>
+            <GatewayChessBoard 
+              asciiMap={floor.asciiMap} 
+              legend={floor.legend || legend} 
+              id={`${id}-f${floor.floorNumber}`} 
+              title={`${title} - Floor ${floor.floorNumber}`} 
+            />
           )}
 
           {floor.legend && floor.legend.length > 0 && (
-            <div style="display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 0.75rem;">
+            <div style="display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0.75rem;">
               {floor.legend.map(item => {
                 const parsed = parseLegendItem(item);
                 return (
-                  <div style="display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.84rem;">
-                    <span class={`map-token-pill ${parsed.badgeClass}`} style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; padding: 0.1rem 0.4rem; border-radius: var(--radius-xs); flex-shrink: 0; min-width: 22px; text-align: center;">
-                      {parsed.key}
+                  <div style="display: flex; align-items: center; gap: 0.55rem; font-size: 0.84rem;">
+                    {parsed.icon ? (
+                      <img 
+                        src={resolveImg(parsed.icon)} 
+                        alt={parsed.key} 
+                        title={parsed.key}
+                        style="width: 20px; height: 20px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));" 
+                      />
+                    ) : (
+                      <span class={`map-token-pill ${parsed.badgeClass}`} style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; padding: 0.1rem 0.4rem; border-radius: var(--radius-xs); flex-shrink: 0; min-width: 22px; text-align: center;">
+                        {parsed.key}
+                      </span>
+                    )}
+                    <span style="color: var(--text-sub);">
+                      <strong style="color: var(--text-main); font-family: var(--font-mono); font-size: 0.78rem; margin-right: 0.25rem;">[{parsed.key}]</strong>
+                      {parsed.text}
                     </span>
-                    <span style="color: var(--text-sub);">{parsed.text}</span>
                   </div>
                 );
               })}

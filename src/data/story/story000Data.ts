@@ -4,6 +4,29 @@ export interface WalkthroughImage {
   caption: string;
 }
 
+export interface EnemyTactic {
+  name: string;
+  level?: number | string;
+  attacks?: string[];
+  hpAttacks?: string[];
+  summon?: string;
+  strategy: string;
+}
+
+export interface BossTactic {
+  bossName: string;
+  level: number | string;
+  hp?: number | string;
+  bravery?: number | string;
+  attacks?: string[];
+  hpAttacks?: string[];
+  summon?: string;
+  difficulty?: string;
+  strategy: string;
+  dangerNotes?: string;
+  img?: string;
+}
+
 export interface Story000Floor {
   floorNumber: number | string;
   name?: string;
@@ -13,6 +36,8 @@ export interface Story000Floor {
   bonusLine?: number | string;
   enemies?: string[];
   chests?: string[];
+  enemyTactics?: EnemyTactic[];
+  bossTactic?: BossTactic;
   notes?: string;
   images?: WalkthroughImage[];
 }
@@ -29,6 +54,8 @@ export interface Story000Gateway {
   bonusLine?: number | string;
   enemies?: string[];
   chests?: string[];
+  enemyTactics?: EnemyTactic[];
+  bossTactic?: BossTactic;
   floors?: Story000Floor[];
   strategy?: string;
   notes?: string;
@@ -75,6 +102,13 @@ export const story000WalkthroughSteps: WalkthroughStep[] = [
     title: "1. Awakening & Journey to Cavern of the Earth",
     location: "Sanctuary of Order & Cavern of the Earth",
     description: "After the opening cutscene, you will appear in front of a Moogle. Speak with him for dialogue and browse his shop if you wish. When ready, access the yellow teleport stone to travel to the Cavern of the Earth. Follow the path to grab the Treasure Chest at the end. Backtrack a short distance and interact with the red gateway to begin your first major trial.",
+    images: [
+      {
+        src: "/images/story/drake/maps/world-b-cornelian-plains.png",
+        alt: "World B - Cornelian Plains & Cavern of Earth Area Map",
+        caption: "World B: Cornelian Plains & Cavern of Earth Area Map"
+      }
+    ],
     gateways: [
       {
         id: "chasm-rotting-land",
@@ -118,19 +152,9 @@ export const story000WalkthroughSteps: WalkthroughStep[] = [
             notes: "In here you'll get the Moogle summon upon engaging the Moogle piece. There are three possible scenes upon talking to the Moogle — a Cosmos version, a Chaos version, and a Terra version.",
             images: [
               {
-                src: "/images/walkthrough/moogle-cosmos.png",
-                alt: "Moogle summon encounter cutscene - Cosmos version",
-                caption: "Cosmos version."
-              },
-              {
-                src: "/images/walkthrough/moogle-chaos.png",
-                alt: "Moogle summon encounter cutscene - Chaos version",
-                caption: "Chaos version."
-              },
-              {
-                src: "/images/walkthrough/moogle-terra.png",
-                alt: "Moogle summon encounter cutscene - Terra version",
-                caption: "Terra version."
+                src: "/images/story/drake/pieces/moogle-icon.png",
+                alt: "Moogle Piece Token",
+                caption: "Engage Moogle piece on board to obtain Summonstone."
               }
             ]
           },
@@ -248,9 +272,9 @@ export const story000WalkthroughSteps: WalkthroughStep[] = [
     description: "Go through the now opened gate and to your right is a chest. Backtrack all the way to the teleporter and return to Castle Cornelia. Once you've arrived, head for the red gateway which is a short distance away from you.",
     images: [
       {
-        src: "/images/walkthrough/departure-grass-chest.png",
-        alt: "Follow the red arrow through the grassy route to claim the hidden chest",
-        caption: "Follow the arrow."
+        src: "/images/story/drake/maps/world-b-cornelian-plains.png",
+        alt: "World B - Cornelia Plain & Coastal Gateways",
+        caption: "World B: Cornelian Plains Area Map"
       }
     ],
     gateways: [
@@ -288,7 +312,7 @@ export const story000WalkthroughSteps: WalkthroughStep[] = [
           "Imitation Despot Lv50",
           "Ephemeral Phantom Lv52"
         ],
-        notes: "After completing Gateway to Departure: Go forward and head to your left through the grass for a chest (Follow the arrow). After accessing the chest go to the path's right and enter this gateway."
+        notes: "After completing Gateway to Departure: Go forward and head to your left through the grass for a chest. After accessing the chest go to the path's right and enter this gateway."
       }
     ]
   },
@@ -297,6 +321,18 @@ export const story000WalkthroughSteps: WalkthroughStep[] = [
     title: "4. Ancient Volcano Ring Gulg & Elven Snowfields",
     location: "Ancient Volcano Ring - Gulg & Elven Snowfields",
     description: "Head for the red gateway in the distance. Smash the magma rock first to access a Moogle that sells all the Summons. Buy a few and then enter Beyond the Continent. Next, at the intersection, destroy the front rock for a chest, then head right to Ancient Volcano Ring - Gulg to smash another magma rock for a chest. Head to the snowy mountain area for a chest and a battle with Delusory Warlock Lv88 w/ Assist. Backtrack to Encounters and Treason.",
+    images: [
+      {
+        src: "/images/story/drake/maps/world-b-volcano-ring-gulg.png",
+        alt: "World B - Volcano Ring Gulg Area Map",
+        caption: "World B: Volcano Ring Gulg Area Map"
+      },
+      {
+        src: "/images/story/drake/maps/world-b-elven-snowfields.png",
+        alt: "World B - Elven Snowfields Area Map",
+        caption: "World B: Elven Snowfields Area Map"
+      }
+    ],
     gateways: [
       {
         id: "gw-beyond-continent",
@@ -409,9 +445,14 @@ export const story000WalkthroughSteps: WalkthroughStep[] = [
     description: "Backtrack to speak with Prishe. Next, head to Mirage Sandsea on the other side of the opened gateway. Destroy the magma rock for treasure and use the Teleport Stone to travel to Elvaan Castle. Talk to Terra in the distance. Walk to Melmond Fens (chest to left). Head right for a battle with Transient Witch Lv89 w/ Assist and break the rock leading to a chest. Follow the last path for another rock chest, slide back, and continue past the Teleport Stone until you reach Cornelia Plain.",
     images: [
       {
-        src: "/images/walkthrough/melmond-cursor-map.png",
-        alt: "World map cursor location indicating Melmond Fens and Cornelia Plain route",
-        caption: "Where the cursor is."
+        src: "/images/story/drake/maps/world-b-melmond-fens.png",
+        alt: "World B - Melmond Fens Area Map",
+        caption: "World B: Melmond Fens Area Map"
+      },
+      {
+        src: "/images/story/drake/maps/world-b-mirage-sandsea.png",
+        alt: "World B - Mirage Sandsea Area Map",
+        caption: "World B: Mirage Sandsea Area Map"
       }
     ],
     dialogue: {
@@ -546,6 +587,13 @@ export const story000WalkthroughSteps: WalkthroughStep[] = [
     title: "8. Bahamut Isles & Land of Discord Approaches",
     location: "Bahamut Isles & Land of Discord",
     description: "Head south: defeat False Stalwart Lv123 w/ Assist on your right and the group of 3 False Stalwarts on your left to open chests. Head north to Bahamut Isles. Defeat Imitation Despot Lv123 w/ Assist for a chest, slide via magma rock to an island with two chests, and break the left rock for a long slide to another chest. Approach Lightning for dialogue, pass the teleport stone, and enter Conquered Trials Gateway.",
+    images: [
+      {
+        src: "/images/story/drake/maps/world-b-bahamut-isles.png",
+        alt: "World B - Bahamut Isles Floating Archipelago",
+        caption: "World B: Bahamut Isles Floating Archipelago Map"
+      }
+    ],
     dialogue: {
       speaker: "Lightning",
       text: "'The mured moogle... That's quite the impressive title but faking your name isn't gonna change your reality. There's little time left... So stop running and face the truth.'"
@@ -747,6 +795,13 @@ export const story000WalkthroughSteps: WalkthroughStep[] = [
     title: "10. Edge of Discord (Level 130 Feral Chaos Apex)",
     location: "Core of Discord",
     description: "The climactic gauntlet of Scenario 000. Re-equip your best Lufenian/Genji gear and prepare your top party members before stepping onto the board.",
+    images: [
+      {
+        src: "/images/story/drake/maps/world-b-land-of-discord.png",
+        alt: "World B - Land of Discord & Final Crater Map",
+        caption: "World B: Land of Discord Crater Map"
+      }
+    ],
     gateways: [
       {
         id: "edge-of-discord",
@@ -803,7 +858,20 @@ export const story000WalkthroughSteps: WalkthroughStep[] = [
           {
             floorNumber: 5,
             name: "Cataclysmic Apex (Feral Chaos Lv130)",
-            enemies: ["Boss -> Feral Chaos Lv130 w/ Garland Assist (100,000+ HP)"],
+            enemies: ["Boss -> Feral Chaos Lv130 w/ Garland Assist (127,998 HP)"],
+            bossTactic: {
+              bossName: "Feral Chaos (God of Despair)",
+              level: 130,
+              hp: "127,998",
+              bravery: 9999,
+              attacks: ["Quo Vadis", "Regnum", "Via Dolorosa", "Ventus", "Ignis", "Lux"],
+              hpAttacks: ["Deus Iratus", "Vicious", "Flagellum Dei"],
+              summon: "None (Chaos Burst Aura)",
+              difficulty: "5 / 5 (Ultimate Super-Boss)",
+              img: "/dissidia_012_characters/31_Feral_Chaos.png",
+              strategy: "Feral Chaos possesses 127,998 HP and relentless super-armor on all attacks. Primary strategies: 1) Iai Strike Build: Stack 1.5x/2.0x Boosters (Level Gap >= 90, HP=100%, Pre-Air Dash) with Iai Strike for a 1-hit Bravery Break, followed by an immediate HP finisher. 2) EX Revenge Burst: Fill your EX Gauge rapidly; when Feral Chaos hits you, trigger EX Revenge to freeze time and land free Wall Rush combos. 3) Aerial Camping (Paladin Cecil / Yuna): Stay near the arena ceiling and spam Paladin Force or Megaflare from above his sweeping ground claws. 4) Firion Shield Bash: Shield Bash deflects his physical swipes, throwing him into the arena boundary.",
+              dangerNotes: "Deus Iratus pulls the entire arena inward and deals unblockable multi-hit HP damage. Always stay airborne and avoid touching the ground."
+            },
             chests: ["Feral Chaos Armor Set Piece", "Report 20 Unlock Key", "PP Catalog Feral Chaos Token"],
             notes: "Cid's node on the board fully heals and revives your party members before initiating the fight. Defeating Feral Chaos unlocks him in the PP Catalog, gives Report 20, and expands Moglin's shop inventory in Cornelia!"
           }
