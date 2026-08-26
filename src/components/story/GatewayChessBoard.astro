@@ -159,36 +159,19 @@ const grid = parseAsciiToGrid(asciiMap);
 
 {grid ? (
   <div class="gateway-chessboard-wrapper" id={id} style="margin-bottom: 1rem;">
-    <!-- View Switcher Controls -->
+    <!-- Grid Coordinate Header Badge -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
       <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-cosmos); text-transform: uppercase; font-weight: bold; display: flex; align-items: center; gap: 0.4rem;">
         <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #0284c7;"></span>
-        Chessboard Coordinate Grid ({grid.cols[0]}1 - {grid.cols[grid.cols.length - 1]}{grid.rows.length})
+        Gateway Board Grid ({grid.cols[0]}1 - {grid.cols[grid.cols.length - 1]}{grid.rows.length})
       </div>
-      <div class="board-view-toggle" style="display: flex; gap: 0.25rem; background: rgba(0,0,0,0.5); padding: 2px; border-radius: var(--radius-xs); border: 1px solid rgba(255,255,255,0.1);">
-        <button 
-          type="button"
-          class="board-toggle-btn active-view" 
-          data-target={`grid-${id}`}
-          data-ascii={`ascii-${id}`}
-          style="background: #0284c7; color: #fff; border: none; padding: 0.2rem 0.55rem; font-size: 0.72rem; font-family: var(--font-mono); border-radius: 3px; cursor: pointer; transition: all 0.2s ease;"
-        >
-          ♟ Chessboard
-        </button>
-        <button 
-          type="button"
-          class="board-toggle-btn" 
-          data-target={`ascii-${id}`}
-          data-grid={`grid-${id}`}
-          style="background: transparent; color: var(--text-dim); border: none; padding: 0.2rem 0.55rem; font-size: 0.72rem; font-family: var(--font-mono); border-radius: 3px; cursor: pointer; transition: all 0.2s ease;"
-        >
-          📄 ASCII Map
-        </button>
+      <div style="font-size: 0.72rem; font-family: var(--font-mono); color: var(--text-dim);">
+        Coordinates: <strong style="color: #38bdf8;">[A-H][1-{grid.rows.length}]</strong>
       </div>
     </div>
 
     <!-- Chessboard Graphical Table -->
-    <div id={`grid-${id}`} class="chessboard-table-container" style="background: #070b14; border: 1px solid rgba(56, 189, 248, 0.3); border-radius: var(--radius-sm); padding: 0.75rem; overflow-x: auto; box-shadow: inset 0 2px 8px rgba(0,0,0,0.6);">
+    <div class="chessboard-table-container" style="background: #070b14; border: 1px solid rgba(56, 189, 248, 0.3); border-radius: var(--radius-sm); padding: 0.75rem; overflow-x: auto; box-shadow: inset 0 2px 8px rgba(0,0,0,0.6);">
       <table class="drake-chessboard" style="border-collapse: separate; border-spacing: 2px; margin: 0 auto; user-select: none;">
         <thead>
           <tr>
@@ -258,56 +241,8 @@ const grid = parseAsciiToGrid(asciiMap);
         </tbody>
       </table>
     </div>
-
-    <!-- ASCII Map Fallback (Hidden by default, toggleable) -->
-    <div id={`ascii-${id}`} class="ascii-container-panel" style="display: none; background: #040711; border: 1px solid rgba(56, 189, 248, 0.25); border-radius: var(--radius-sm); padding: 0.9rem; overflow-x: auto;">
-      <pre class="ascii-grid" style="font-family: 'JetBrains Mono', 'Share Tech Mono', monospace; font-size: 0.92rem; line-height: 1.45; color: #e0f2fe; margin: 0; white-space: pre;">{asciiMap}</pre>
-    </div>
   </div>
-) : (
-  <div style="background: #040711; border: 1px solid rgba(56, 189, 248, 0.25); border-radius: var(--radius-sm); padding: 0.9rem; margin-bottom: 0.85rem; overflow-x: auto;">
-    <pre class="ascii-grid" style="font-family: 'JetBrains Mono', 'Share Tech Mono', monospace; font-size: 0.92rem; line-height: 1.45; color: #e0f2fe; margin: 0; white-space: pre;">{asciiMap}</pre>
-  </div>
-)}
-
-<script>
-  // Simple client-side view toggler for chessboard vs ascii
-  function setupChessBoardToggles() {
-    const wrappers = document.querySelectorAll('.gateway-chessboard-wrapper');
-    wrappers.forEach(wrapper => {
-      const toggleBtns = wrapper.querySelectorAll<HTMLButtonElement>('.board-toggle-btn');
-      const gridBox = wrapper.querySelector<HTMLElement>('.chessboard-table-container');
-      const asciiBox = wrapper.querySelector<HTMLElement>('.ascii-container-panel');
-
-      if (!gridBox || !asciiBox) return;
-
-      toggleBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          toggleBtns.forEach(b => {
-            b.style.background = 'transparent';
-            b.style.color = 'var(--text-dim)';
-            b.classList.remove('active-view');
-          });
-          btn.style.background = '#0284c7';
-          btn.style.color = '#ffffff';
-          btn.classList.add('active-view');
-
-          if (btn.innerText.includes('ASCII')) {
-            gridBox.style.display = 'none';
-            asciiBox.style.display = 'block';
-          } else {
-            gridBox.style.display = 'block';
-            asciiBox.style.display = 'none';
-          }
-        });
-      });
-    });
-  }
-
-  // Run on initial load and view transitions
-  setupChessBoardToggles();
-  document.addEventListener('astro:page-load', setupChessBoardToggles);
-</script>
+) : null}
 
 <style>
   .chess-cell.active-tile:hover {
