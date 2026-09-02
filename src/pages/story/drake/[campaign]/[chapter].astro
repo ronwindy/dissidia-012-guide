@@ -3,6 +3,7 @@ import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import ProgressTracker from '../../../../components/common/ProgressTracker.astro';
 import StoryNav from '../../../../components/story/StoryNav.astro';
 import { getAllDrakeChapters, type DrakeChapterDetail } from '../../../../data/story/drakeChaptersData';
+import { processDrakeContentHtml } from '../../../../utils/drakeContentProcessor';
 
 export function getStaticPaths() {
   const chapters = getAllDrakeChapters().filter(c => c.campaign !== 'reports');
@@ -25,6 +26,8 @@ const { chapter } = Astro.props;
 
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 const resolveImg = (src: string) => src.startsWith('http') ? src : `${baseUrl}${src.startsWith('/') ? src.slice(1) : src}`;
+
+const processedContentHtml = processDrakeContentHtml(chapter.contentHtml, baseUrl);
 
 const navItems = chapter.sections.map((s, idx) => ({
   id: s.anchor || `section-${idx}`,
@@ -81,7 +84,7 @@ const navItems = chapter.sections.map((s, idx) => ({
 
   <!-- Main Verbatim Walkthrough Body -->
   <article class="crystal-panel drake-article-body" style="padding: 2rem; margin-bottom: 2.5rem; border-top: 3px solid var(--color-cosmos); background: var(--surface-panel);">
-    <div class="drake-wiki-html-content" set:html={chapter.contentHtml} />
+    <div class="drake-wiki-html-content" set:html={processedContentHtml} />
   </article>
 
   <!-- Bottom Previous / Next Chapter Pagination -->

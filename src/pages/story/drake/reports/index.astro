@@ -3,6 +3,7 @@ import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import ProgressTracker from '../../../../components/common/ProgressTracker.astro';
 import StoryNav from '../../../../components/story/StoryNav.astro';
 import { getDrakeChapter } from '../../../../data/story/drakeChaptersData';
+import { processDrakeContentHtml } from '../../../../utils/drakeContentProcessor';
 
 const reportChapter = getDrakeChapter('reports', 'the-reports');
 if (!reportChapter) {
@@ -10,6 +11,8 @@ if (!reportChapter) {
 }
 
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+
+const processedContentHtml = processDrakeContentHtml(reportChapter.contentHtml, baseUrl);
 
 const navItems = reportChapter.sections.map((s, idx) => ({
   id: s.anchor || `report-sec-${idx}`,
@@ -55,7 +58,7 @@ const navItems = reportChapter.sections.map((s, idx) => ({
 
   <!-- Main Verbatim Walkthrough Body -->
   <article class="crystal-panel drake-article-body" style="padding: 2rem; margin-bottom: 2.5rem; border-top: 3px solid var(--color-brv); background: var(--surface-panel);">
-    <div class="drake-wiki-html-content" set:html={reportChapter.contentHtml} />
+    <div class="drake-wiki-html-content" set:html={processedContentHtml} />
   </article>
 
   <!-- Bottom Navigation Actions -->
