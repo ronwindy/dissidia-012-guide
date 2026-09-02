@@ -1002,6 +1002,7 @@ table.data-table tr:hover td {
   cursor: pointer;
   text-decoration: none;
   transition: all var(--transition-fast);
+  white-space: nowrap;
 }
 
 .btn-action:hover {
