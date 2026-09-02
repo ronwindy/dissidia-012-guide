@@ -124,6 +124,16 @@ const navItems = chapter.sections.map((s, idx) => ({
     line-height: 1.75;
   }
 
+  .drake-wiki-html-content #toc,
+  .drake-wiki-html-content .toc,
+  .drake-wiki-html-content .toctitle,
+  .drake-wiki-html-content #mw-toc-heading,
+  .drake-wiki-html-content [data-action="edit-section"],
+  .drake-wiki-html-content .mw-editsection,
+  .drake-wiki-html-content .mw-editsection-bracket {
+    display: none !important;
+  }
+
   .drake-wiki-html-content h2 {
     font-family: var(--font-heading);
     font-size: 1.55rem;

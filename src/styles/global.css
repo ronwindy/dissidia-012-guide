@@ -1343,6 +1343,18 @@ table.data-table tr:hover td {
   font-size: 0.85rem;
 }
 
+/* Wiki Content Overrides - Hide redundant raw wiki TOC and edit buttons */
+.drake-wiki-html-content #toc,
+.drake-wiki-html-content .toc,
+.drake-wiki-html-content .toctitle,
+.drake-wiki-html-content #mw-toc-heading,
+.drake-wiki-html-content [data-action="edit-section"],
+.drake-wiki-html-content .mw-editsection,
+.drake-wiki-html-content .mw-editsection-bracket,
+#toc.toc {
+  display: none !important;
+}
+
 /* Print Optimization */
 @media print {
   body {
