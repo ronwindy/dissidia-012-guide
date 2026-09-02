@@ -84,31 +84,119 @@ export function resolveLocalAsset(rawNameOrSrc: string, altText: string = '', ba
 }
 
 /**
- * Transforms MediaWiki Boss tables into the exact Boss Spotlight Card from GatewayMapCard.astro
+ * 1. Remove all redundant MediaWiki bottom navigation tables (Image 1)
+ */
+export function removeRedundantNavigation(html: string): string {
+  if (!html) return '';
+  let output = html;
+  
+  // Remove any legacy toccolours navigation tables (including nested tables inside)
+  output = output.replace(/<table(?:\s+[^>]*)?class=["'][^"']*toccolours[^"']*["'][\s\S]*?<\/table>\s*(?:<\/table>)?/gi, '');
+
+  // Remove standalone tables containing Drake Clawfang's Dissidia 012 Walkthrough navigation links (without matching earlier tables)
+  output = output.replace(/<table(?:\s+[^>]*)?>((?:(?!<table)[\s\S])*?Drake Clawfang(?:'s)?\s+Dissidia\s+012\s+Walkthrough[\s\S]*?)<\/table>/gi, '');
+
+  // Clean empty paragraphs or trailing breaks left behind
+  output = output.replace(/<p>\s*(?:<br\s*\/?>)?\s*<\/p>/gi, '');
+  
+  return output;
+}
+
+/**
+ * Helper to replace text only in text nodes (outside HTML tags)
+ */
+function replaceInTextNodes(html: string, replacerFn: (text: string) => string): string {
+  const parts = html.split(/(<[^>]+>)/g);
+  for (let i = 0; i < parts.length; i += 2) {
+    if (parts[i]) {
+      parts[i] = replacerFn(parts[i]);
+    }
+  }
+  return parts.join('');
+}
+
+/**
+ * Transforms MediaWiki Boss tables into the Boss Spotlight Card including Fighting Tips & Combat Strategy inside
  */
 function transformBossTables(html: string, baseUrl: string): string {
-  return html.replace(/<table(?:\s+[^>]*)?>((?:(?!<table)[\s\S])*?<b>Boss<\/b>[\s\S]*?)<\/table>/gi, (match, innerHtml) => {
-    // Confirm it is a boss table by checking for HP or Brave Attacks
-    if (!innerHtml.includes('HP') && !innerHtml.includes('Bravery')) {
-      return match;
+  const bossRegex = /<table(?:\s+[^>]*)?>((?:(?!<table)[\s\S])*?<b>Boss<\/b>[\s\S]*?)<\/table>/gi;
+  
+  let match: RegExpExecArray | null;
+  const matches: { index: number; length: number; tableHtml: string; innerHtml: string }[] = [];
+  
+  while ((match = bossRegex.exec(html)) !== null) {
+    if (match[1].includes('HP') || match[1].includes('Bravery')) {
+      matches.push({
+        index: match.index,
+        length: match[0].length,
+        tableHtml: match[0],
+        innerHtml: match[1]
+      });
+    }
+  }
+
+  if (matches.length === 0) return html;
+
+  let result = '';
+  let lastIndex = 0;
+
+  for (let i = 0; i < matches.length; i++) {
+    const m = matches[i];
+    
+    // Append content before this boss table
+    result += html.slice(lastIndex, m.index);
+    
+    // Find the boundary for paragraphs following this boss table
+    const afterStart = m.index + m.length;
+    let afterEnd = html.length;
+    if (i + 1 < matches.length) {
+      afterEnd = matches[i + 1].index;
+    }
+    
+    const segment = html.slice(afterStart, afterEnd);
+    
+    // Boss tips end before next <h2>, <table>, or <hr />
+    const boundaryMatch = segment.match(/(?:<h2|<table|<hr\s*\/?>)/i);
+    const tipSegmentEnd = boundaryMatch ? boundaryMatch.index : segment.length;
+    const rawTipSegment = segment.slice(0, tipSegmentEnd);
+    
+    // Extract paragraphs inside tipSegment
+    const pMatches = rawTipSegment.match(/<p>[\s\S]*?<\/p>/gi) || [];
+    
+    // Filter paragraphs for boss fighting tips vs world map transition
+    const bossTipsParagraphs: string[] = [];
+    const outsideParagraphs: string[] = [];
+    
+    for (let pIdx = 0; pIdx < pMatches.length; pIdx++) {
+      const p = pMatches[pIdx];
+      const text = p.replace(/<[^>]+>/g, '').trim();
+      
+      // If the last paragraph starts with world navigation instructions, leave it outside the boss card
+      if (pIdx === pMatches.length - 1 && (text.startsWith('On the world map') || text.startsWith('With that done') || text.startsWith('You\'ll receive notification') || text.startsWith('Head to the PP Catalog'))) {
+        outsideParagraphs.push(p);
+      } else {
+        bossTipsParagraphs.push(p);
+      }
     }
 
     // Extract Boss Name
     let bossName = '';
-    const nameMatch = innerHtml.match(/<tr[^>]*bgcolor=["']#1E90FF["'][^>]*>[\s\S]*?<td[^>]*colspan=["']6["'][^>]*>[\s\S]*?<b>([\s\S]*?)<\/b>/i);
-    if (nameMatch) {
-      bossName = nameMatch[1].replace(/<[^>]+>/g, '').trim();
-    }
-
-    // Fallback name search
-    if (!bossName) {
-      const linkMatch = innerHtml.match(/<a[^>]+title=["']([^"']+)["'][^>]*>/i);
-      if (linkMatch) {
-        bossName = linkMatch[1].replace(/\(.*\)/, '').trim();
+    const trs = m.innerHtml.match(/<tr[^>]*>[\s\S]*?<\/tr>/gi) || [];
+    for (let tIdx = 0; tIdx < trs.length; tIdx++) {
+      const tr = trs[tIdx];
+      if (tr.includes('Boss</b>') || tr.includes('Boss</font>')) {
+        if (tIdx + 1 < trs.length) {
+          const nextTr = trs[tIdx + 1];
+          const nameM = nextTr.match(/<b>([\s\S]*?)<\/b>/i);
+          if (nameM) bossName = nameM[1].replace(/<[^>]+>/g, '').trim();
+        }
       }
     }
-
-    if (!bossName) return match;
+    if (!bossName) {
+      const linkMatch = m.innerHtml.match(/<a[^>]+title=["']([^"']+)["'][^>]*>/i);
+      if (linkMatch) bossName = linkMatch[1].replace(/\(.*\)/, '').trim();
+    }
+    if (!bossName) bossName = 'Boss Encounter';
 
     // Extract stats (HP, Level, Bravery)
     let hp = '';
@@ -119,14 +207,12 @@ function transformBossTables(html: string, baseUrl: string): string {
     let summon = 'None';
     let difficulty = '';
 
-    // Search table rows
-    const trs = innerHtml.match(/<tr[^>]*>[\s\S]*?<\/tr>/gi) || [];
-    for (let i = 0; i < trs.length; i++) {
-      const tr = trs[i];
+    for (let tIdx = 0; tIdx < trs.length; tIdx++) {
+      const tr = trs[tIdx];
       const text = tr.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 
-      if (text.includes('HP') && text.includes('Level') && i + 1 < trs.length) {
-        const nextTr = trs[i + 1];
+      if (text.includes('HP') && text.includes('Level') && tIdx + 1 < trs.length) {
+        const nextTr = trs[tIdx + 1];
         const tds = nextTr.match(/<td[^>]*>([\s\S]*?)<\/td>/gi) || [];
         if (tds.length >= 3) {
           hp = tds[0].replace(/<[^>]+>/g, '').trim();
@@ -135,16 +221,16 @@ function transformBossTables(html: string, baseUrl: string): string {
         }
       }
 
-      if (text.includes('Brave Attacks') && i + 1 < trs.length) {
-        braveAttacks = trs[i + 1].replace(/<[^>]+>/g, '').trim();
+      if (text.includes('Brave Attacks') && tIdx + 1 < trs.length) {
+        braveAttacks = trs[tIdx + 1].replace(/<[^>]+>/g, '').trim();
       }
 
-      if (text.includes('HP Attacks') && i + 1 < trs.length) {
-        hpAttacks = trs[i + 1].replace(/<[^>]+>/g, '').trim();
+      if (text.includes('HP Attacks') && tIdx + 1 < trs.length) {
+        hpAttacks = trs[tIdx + 1].replace(/<[^>]+>/g, '').trim();
       }
 
-      if (text.includes('Difficulty') && i + 1 < trs.length) {
-        const nextTr = trs[i + 1];
+      if (text.includes('Difficulty') && tIdx + 1 < trs.length) {
+        const nextTr = trs[tIdx + 1];
         const tds = nextTr.match(/<td[^>]*>([\s\S]*?)<\/td>/gi) || [];
         if (tds.length >= 2) {
           summon = tds[0].replace(/<[^>]+>/g, '').trim();
@@ -153,38 +239,37 @@ function transformBossTables(html: string, baseUrl: string): string {
       }
     }
 
-    // Boss Portrait
     const bossImg = resolveLocalAsset(bossName, `${bossName} render`, baseUrl) || resolveImg('/images/story/drake/renders/chaos-render.png', baseUrl);
 
-    // Build exact Boss Encounter Spotlight Card from GatewayMapCard.astro
-    return `
-<div class="boss-encounter-panel drake-boss-card" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(15, 23, 42, 0.6) 100%); border: 1px solid rgba(239, 68, 68, 0.3); border-left: 4px solid var(--color-chaos); border-radius: var(--radius-sm); padding: 1.25rem; margin: 1.75rem 0;">
-  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.75rem;">
-    <div style="display: flex; align-items: center; gap: 0.75rem;">
-      <img src="${bossImg}" alt="${bossName}" style="width: 54px; height: 54px; object-fit: contain; border-radius: var(--radius-xs); border: 1px solid var(--color-chaos); background: rgba(0,0,0,0.5); padding: 2px;" />
+    // Build the Boss Spotlight Card containing fighting tips & combat strategy inside
+    const bossCardHtml = `
+<div class="boss-encounter-panel drake-boss-card" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(15, 23, 42, 0.7) 100%); border: 1px solid rgba(239, 68, 68, 0.35); border-left: 4px solid var(--color-chaos); border-radius: var(--radius-sm); padding: 1.5rem; margin: 2rem 0; box-shadow: 0 6px 20px rgba(0,0,0,0.4);">
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.85rem;">
+    <div style="display: flex; align-items: center; gap: 0.85rem;">
+      <img src="${bossImg}" alt="${bossName}" style="width: 58px; height: 58px; object-fit: contain; border-radius: var(--radius-xs); border: 1px solid var(--color-chaos); background: rgba(0,0,0,0.5); padding: 2px;" />
       <div>
-        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.2rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
           <span class="badge-pill badge-chaos">Boss Encounter</span>
           ${difficulty ? `<span class="badge-pill badge-crystal">Difficulty: ${difficulty}</span>` : ''}
         </div>
-        <h4 style="margin: 0.1rem 0 0; font-size: 1.35rem; color: var(--text-main); font-family: var(--font-heading);">
-          ${bossName} ${level ? `<span style="font-size: 0.9rem; color: var(--color-chaos); font-family: var(--font-mono); font-weight: normal;">(Lv. ${level})</span>` : ''}
+        <h4 style="margin: 0.1rem 0 0; font-size: 1.4rem; color: #ffffff; font-family: var(--font-heading); letter-spacing: 0.02em;">
+          ${bossName} ${level ? `<span style="font-size: 0.95rem; color: var(--color-chaos); font-family: var(--font-mono); font-weight: 600;">(Lv. ${level})</span>` : ''}
         </h4>
       </div>
     </div>
-    <div style="display: flex; gap: 0.65rem; font-family: var(--font-mono); font-size: 0.82rem; flex-wrap: wrap;">
+    <div style="display: flex; gap: 0.65rem; font-family: var(--font-mono); font-size: 0.85rem; flex-wrap: wrap;">
       ${hp ? `
-        <div style="background: rgba(0,0,0,0.4); padding: 0.25rem 0.6rem; border-radius: var(--radius-xs); border: 1px solid rgba(255,255,255,0.06);">
+        <div style="background: rgba(0,0,0,0.45); padding: 0.3rem 0.7rem; border-radius: var(--radius-xs); border: 1px solid rgba(239, 68, 68, 0.25);">
           <span style="color: var(--text-dim);">HP:</span> <strong style="color: var(--color-hp);">${hp}</strong>
         </div>
       ` : ''}
       ${bravery ? `
-        <div style="background: rgba(0,0,0,0.4); padding: 0.25rem 0.6rem; border-radius: var(--radius-xs); border: 1px solid rgba(255,255,255,0.06);">
+        <div style="background: rgba(0,0,0,0.45); padding: 0.3rem 0.7rem; border-radius: var(--radius-xs); border: 1px solid rgba(56, 189, 248, 0.25);">
           <span style="color: var(--text-dim);">BRV:</span> <strong style="color: var(--color-brv);">${bravery}</strong>
         </div>
       ` : ''}
-      ${summon && summon !== 'None' ? `
-        <div style="background: rgba(0,0,0,0.4); padding: 0.25rem 0.6rem; border-radius: var(--radius-xs); border: 1px solid rgba(255,255,255,0.06);">
+      ${summon && summon !== 'None' && summon !== 'Non' ? `
+        <div style="background: rgba(0,0,0,0.45); padding: 0.3rem 0.7rem; border-radius: var(--radius-xs); border: 1px solid rgba(251, 191, 36, 0.25);">
           <span style="color: var(--text-dim);">Summon:</span> <strong style="color: #fbbf24;">${summon}</strong>
         </div>
       ` : ''}
@@ -192,13 +277,34 @@ function transformBossTables(html: string, baseUrl: string): string {
   </div>
 
   ${(braveAttacks || hpAttacks) ? `
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.5rem; margin-top: 0.75rem; font-size: 0.82rem; font-family: var(--font-mono); background: rgba(0,0,0,0.25); padding: 0.6rem 0.85rem; border-radius: var(--radius-xs);">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.65rem; margin-bottom: 1.25rem; font-size: 0.85rem; font-family: var(--font-mono); background: rgba(0,0,0,0.3); padding: 0.75rem 1rem; border-radius: var(--radius-xs); border: 1px solid rgba(255,255,255,0.05);">
       ${braveAttacks ? `<div><strong style="color: var(--color-brv);">BRV Attacks:</strong> <span style="color: var(--text-sub);">${braveAttacks}</span></div>` : ''}
       ${hpAttacks ? `<div><strong style="color: var(--color-hp);">HP Attacks:</strong> <span style="color: var(--text-sub);">${hpAttacks}</span></div>` : ''}
     </div>
   ` : ''}
+
+  ${bossTipsParagraphs.length > 0 ? `
+    <div class="boss-fighting-tips-panel">
+      <div style="display: flex; align-items: center; gap: 0.45rem; margin-bottom: 0.75rem; color: #fca5a5; font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;">
+        <span style="font-size: 1.05rem;">⚔️</span> Combat Strategy & Fighting Tips
+      </div>
+      <div class="boss-tips-content" style="font-size: 0.93rem; line-height: 1.75; color: var(--text-main);">
+        ${bossTipsParagraphs.join('\n')}
+      </div>
+    </div>
+  ` : ''}
 </div>`;
-  });
+
+    result += bossCardHtml;
+    if (outsideParagraphs.length > 0) {
+      result += '\n' + outsideParagraphs.join('\n');
+    }
+
+    lastIndex = afterStart + tipSegmentEnd;
+  }
+
+  result += html.slice(lastIndex);
+  return result;
 }
 
 /**
@@ -390,48 +496,50 @@ function fixGeneralImages(html: string, baseUrl: string): string {
 }
 
 /**
- * Applies styled badges and inline icons for loot, chests, gil, KP, and key combat mechanics
+ * 7. Applies styled badges and inline icons for loot, chests, gil, KP, enemies, items, chains, and key combat mechanics
  */
 function applyLootAndEntityHighlights(html: string, baseUrl: string): string {
   const chestIcon = resolveImg('/images/story/drake/pieces/chest.png', baseUrl);
   const moogleIcon = resolveImg('/images/story/drake/pieces/moogle-icon.png', baseUrl);
 
-  let output = html;
+  return replaceInTextNodes(html, (text) => {
+    let t = text;
 
-  // Highlight Gil amounts: e.g. "50 gil", "200 gil", "120 gil", "1000 gil" (only outside tags)
-  output = output.replace(/\b(\d+[\d,]*\s*gil)\b(?![^<]*>)/gi, (m) => {
-    return `<span class="gil-highlight"><span class="gil-coin-icon">🪙</span><strong>${m}</strong></span>`;
+    // Highlight Gil amounts: e.g. "50 gil", "200 gil", "120 gil", "1000 gil"
+    t = t.replace(/\b(\d+[\d,]*\s*gil)\b/gi, '<span class="gil-highlight"><span class="gil-coin-icon">🪙</span><strong>$1</strong></span>');
+
+    // Highlight KP amounts: e.g. "9 KP", "10 KP"
+    t = t.replace(/\b(\d+\s*KP)\b/gi, '<span class="kp-highlight"><span class="kp-crystal-icon">✦</span><strong>$1</strong></span>');
+
+    // Highlight Moogle mentions
+    t = t.replace(/\b(Moogles?)\b/g, `<span class="moogle-highlight"><img src="${moogleIcon}" class="inline-loot-icon" alt="Moogle" />$1</span>`);
+
+    // Highlight Chains & Chain Skills
+    t = t.replace(/\b(Straight Chains?|Jump Chains?|Cross Chains?|Round Chains?|Multichains?|Multi-chains?|Multi Chains?|Chain Skills?|Chain Skill)\b/gi, '<span class="chain-highlight"><span class="chain-icon">⛓️</span><strong>$1</strong></span>');
+
+    // Highlight Overworld interactive objects / items
+    t = t.replace(/\b(Orbs? of the Dead|glowing orbs? of light|Orbs? of light|Stigma of Chaos)\b/gi, '<span class="chain-highlight"><span class="chain-icon">✦</span><strong>$1</strong></span>');
+
+    // Highlight Enemy & Manikin names
+    t = t.replace(/\b(Fleeting Flash(?:es)?|Delusory Dragoon(?:s)?|Capricious Reaper(?:s)?|Idle Sky Pirate(?:s)?|Imitation Gunner(?:s)?|Phantasmal Girl(?:s)?|Transient Lion(?:s)?|Imaginary Champion(?:s)?|Fallacious Tree(?:s)?|Mirage Magus(?:es)?|Mirage Magi|Phase Clown(?:s)?|Shadowy Sorceress(?:es)?|Conceptual Fool(?:s)?|Fictitious Warrior(?:s)?|Counterfeit Wraith(?:s)?|Imitation Liegeman|Imitation Liegemen|False Hero(?:es)?|False Stalwart(?:s)?|False Champion(?:s)?|Feral Chaos|Desperado Chaos)\b/g, '<span class="enemy-highlight"><span class="enemy-icon">⚔️</span><strong>$1</strong></span>');
+
+    // Highlight Specific Items, Accessories, & Equipment
+    t = t.replace(/\b(Cursed Rings?|Cracked Shields?|Rosetta Stones?|Power Rings?|Pearl Rings?|Hyper Rings?|Muscle Belts?|Earrings?|Hero's Seal|Mog's Amulet|Growth Eggs?|Super Ribbons?|Ribbons?|Chocobo Colognes?|Midgar Flowers?|Soul of Destruction|Level 1-9(?:\s*Booster)?|Red Drops?|Pink Tails?|Flash's Desires?|Attractorbs?|Pearl Necklaces?|Dragonfly Orbs?|Guardian Bangles?|Blue Gems?|Puppeteer's Wheel|Bonecrushers?|Safety Bits?|Sniper Eyes?|Door to Despair|Together as One|True Past|Encounter and Survival|Broadswords?|Bucklers?|Axis Blade|Kunai|Leather Hat|Leather Clothing|Bronze Helms?|Bronze Armor|Flamberge|Shielded Armor|Ultima Weapon)\b/g, '<span class="item-highlight"><span class="item-icon">🛡️</span><strong>$1</strong></span>');
+
+    // Highlight chest discoveries
+    t = t.replace(/(grab the chest for|open the chest for|open the two chests for|find a chest with|chest with an?|chest has an?|chest for)\s+([A-Z][a-zA-Z0-9\s-]{2,25}?)(?=[.,\n<])/g, (m, prefix, item) => {
+      const cleanItem = item.trim();
+      return `${prefix} <span class="chest-loot-highlight"><img src="${chestIcon}" class="inline-loot-icon" alt="Chest" /><strong>${cleanItem}</strong></span>`;
+    });
+
+    // Highlight combat terms: EX Burst, EX Mode, EX Gauge, EX Revenge, Wall Rush, Chase, Bonus Line, KP Chance
+    t = t.replace(/\b(EX Burst|EX Mode|EX Gauge|EX Revenge|EX Charge|Wall Rush|Chase|Bonus Line|KP Chance)\b/g, '<span class="mechanic-highlight">$1</span>');
+
+    // Highlight Paradigm roles: Commando, Ravager, Medic
+    t = t.replace(/\b(Commando|Ravager|Medic)\s+(role|mode)?\b/g, '<span class="paradigm-highlight">$1</span> $2');
+
+    return t;
   });
-
-  // Highlight KP amounts: e.g. "9 KP", "10 KP" (only outside tags)
-  output = output.replace(/\b(\d+\s*KP)\b(?![^<]*>)/gi, (m) => {
-    return `<span class="kp-highlight"><span class="kp-crystal-icon">✦</span><strong>${m}</strong></span>`;
-  });
-
-  // Highlight Moogle mentions when referring to Moogles / Moogle shops (only outside tags)
-  output = output.replace(/\b(Moogles?)\b(?![^<]*>)/g, (m) => {
-    return `<span class="moogle-highlight"><img src="${moogleIcon}" class="inline-loot-icon" alt="Moogle" />${m}</span>`;
-  });
-
-  // Highlight specific chest discoveries with chest icon: e.g. "chest for [X]", "chest with [X]", "chest has [X]"
-  output = output.replace(/(grab the chest for|open the chest for|open the two chests for|find a chest with|chest with an?|chest has an?|chest for)\s+([A-Z][a-zA-Z0-9\s-]{2,25}?)(?=[.,\n<])/g, (m, prefix, item) => {
-    const cleanItem = item.trim();
-    // Don't double highlight if it's already a span
-    if (cleanItem.startsWith('<')) return m;
-    return `${prefix} <span class="chest-loot-highlight"><img src="${chestIcon}" class="inline-loot-icon" alt="Chest" /><strong>${cleanItem}</strong></span>`;
-  });
-
-  // Highlight combat terms: EX Burst, EX Mode, EX Gauge, EX Revenge, Wall Rush, Chase, Bonus Line, KP Chance
-  output = output.replace(/\b(EX Burst|EX Mode|EX Gauge|EX Revenge|Wall Rush|Chase|Bonus Line|KP Chance)\b(?![^<]*>)/g, (m) => {
-    return `<span class="mechanic-highlight">${m}</span>`;
-  });
-
-  // Highlight Paradigm roles: Commando, Ravager, Medic
-  output = output.replace(/\b(Commando|Ravager|Medic)\s+(role|mode)?\b(?![^<]*>)/g, (m, role, suffix) => {
-    return `<span class="paradigm-highlight">${role}</span>${suffix ? ` ${suffix}` : ''}`;
-  });
-
-  return output;
 }
 
 /**
@@ -442,19 +550,22 @@ export function processDrakeContentHtml(html: string, baseUrl: string = '/'): st
 
   let processed = html;
 
-  // 1. Convert boss tables to GatewayMapCard Boss Spotlight Card markup FIRST
+  // 1. Strip redundant MediaWiki bottom navigation tables (Image 1)
+  processed = removeRedundantNavigation(processed);
+
+  // 2. Convert boss tables to Boss Spotlight Card with integrated fighting tips
   processed = transformBossTables(processed, baseUrl);
 
-  // 2. Convert board tables to GatewayChessBoard markup
+  // 3. Convert board tables to GatewayChessBoard markup
   processed = transformBoardTables(processed, baseUrl);
 
-  // 3. Transform Playable Hero sections to stylized hero banners
+  // 4. Transform Playable Hero sections to stylized hero banners
   processed = transformPlayableHeroHeaders(processed, baseUrl);
 
-  // 4. Resolve remaining Wikia images to local assets
+  // 5. Resolve remaining Wikia images to local assets
   processed = fixGeneralImages(processed, baseUrl);
 
-  // 5. Add inline icons and highlights for chests, items, gil, KP, and mechanics
+  // 6. Add inline icons and highlights for chests, items, enemies, chains, gil, KP, and mechanics
   processed = applyLootAndEntityHighlights(processed, baseUrl);
 
   return processed;

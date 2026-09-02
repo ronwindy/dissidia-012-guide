@@ -1351,6 +1351,8 @@ table.data-table tr:hover td {
 .drake-wiki-html-content [data-action="edit-section"],
 .drake-wiki-html-content .mw-editsection,
 .drake-wiki-html-content .mw-editsection-bracket,
+.drake-wiki-html-content table.toccolours,
+table.toccolours,
 #toc.toc {
   display: none !important;
 }
@@ -1366,16 +1368,58 @@ table.data-table tr:hover td {
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
 }
 
-.chest-loot-highlight {
+.chest-loot-highlight,
+.item-highlight {
   display: inline-flex;
   align-items: center;
-  background: rgba(245, 158, 11, 0.12);
-  border: 1px solid rgba(245, 158, 11, 0.35);
+  background: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(245, 158, 11, 0.38);
   color: #fde68a;
-  padding: 0.1rem 0.45rem;
+  padding: 0.08rem 0.45rem;
   border-radius: 4px;
   font-size: 0.9em;
+  font-weight: 600;
   margin: 0 0.15rem;
+  vertical-align: baseline;
+}
+
+.item-icon,
+.enemy-icon,
+.chain-icon {
+  margin-right: 3px;
+  font-size: 0.85em;
+  vertical-align: middle;
+}
+
+.enemy-highlight {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(239, 68, 68, 0.38);
+  color: #fca5a5;
+  padding: 0.08rem 0.45rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-weight: 600;
+  margin: 0 0.15rem;
+  vertical-align: baseline;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.chain-highlight {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(6, 182, 212, 0.14);
+  border: 1px solid rgba(6, 182, 212, 0.4);
+  color: #67e8f9;
+  padding: 0.08rem 0.45rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  margin: 0 0.15rem;
+  vertical-align: baseline;
+  text-shadow: 0 0 6px rgba(6, 182, 212, 0.3);
 }
 
 .gil-highlight {
@@ -1449,6 +1493,24 @@ table.data-table tr:hover td {
   font-size: 0.88em;
   font-weight: 700;
   font-family: var(--font-mono);
+}
+
+/* Boss Combat Strategy & Fighting Tips Panel */
+.boss-fighting-tips-panel {
+  background: rgba(10, 15, 29, 0.65);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: var(--radius-xs);
+  padding: 1.15rem 1.25rem;
+  margin-top: 0.85rem;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.boss-fighting-tips-panel p {
+  margin-bottom: 0.85rem;
+}
+
+.boss-fighting-tips-panel p:last-child {
+  margin-bottom: 0;
 }
 
 .drake-chessboard .chess-cell.active-tile:hover {
