@@ -451,6 +451,7 @@ code {
 
 /* Collapsible Submenu Navigation */
 .nav-collapsible {
+  margin-top: 0.5rem;
   margin-bottom: 0.25rem;
 }
 
@@ -1588,6 +1589,71 @@ table.toccolours,
   font-size: 0.88em;
   font-family: var(--font-mono);
   font-weight: 600;
+}
+
+.skill-highlight {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(249, 115, 22, 0.14);
+  border: 1px solid rgba(249, 115, 22, 0.38);
+  color: #fdba74;
+  padding: 0.08rem 0.45rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  margin: 0 0.15rem;
+  vertical-align: baseline;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.skill-icon {
+  margin-right: 3px;
+  font-size: 0.85em;
+  vertical-align: middle;
+}
+
+.summon-highlight {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  color: #e9d5ff;
+  padding: 0.08rem 0.45rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  margin: 0 0.15rem;
+  vertical-align: baseline;
+  text-shadow: 0 0 6px rgba(168, 85, 247, 0.3);
+}
+
+.summon-icon {
+  margin-right: 3px;
+  font-size: 0.85em;
+  vertical-align: middle;
+}
+
+.gateway-highlight {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  color: #c7d2fe;
+  padding: 0.08rem 0.45rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  margin: 0 0.15rem;
+  vertical-align: baseline;
+}
+
+.gateway-icon {
+  margin-right: 3px;
+  font-size: 0.85em;
+  vertical-align: middle;
 }
 
 .paradigm-highlight {

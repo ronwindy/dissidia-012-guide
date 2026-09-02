@@ -90,11 +90,45 @@ export function removeRedundantNavigation(html: string): string {
   if (!html) return '';
   let output = html;
   
-  // Remove any legacy toccolours navigation tables (including nested tables inside)
-  output = output.replace(/<table(?:\s+[^>]*)?class=["'][^"']*toccolours[^"']*["'][\s\S]*?<\/table>\s*(?:<\/table>)?/gi, '');
+  // Robust balanced removal for toccolours navigation tables with any depth of nested tables
+  let searchIdx = 0;
+  while (true) {
+    const startMatch = output.slice(searchIdx).match(/<table(?:\s+[^>]*)?class=["'][^"']*toccolours[^"']*["'][^>]*>/i);
+    if (!startMatch || startMatch.index === undefined) break;
 
-  // Remove standalone tables containing Drake Clawfang's Dissidia 012 Walkthrough navigation links (without matching earlier tables)
+    const tableStart = searchIdx + startMatch.index;
+    let depth = 0;
+    let tableEnd = -1;
+    const tagRegex = /<\/?table\b[^>]*>/gi;
+    tagRegex.lastIndex = tableStart;
+
+    let tagMatch: RegExpExecArray | null;
+    while ((tagMatch = tagRegex.exec(output)) !== null) {
+      if (tagMatch[0].toLowerCase().startsWith('<table')) {
+        depth++;
+      } else {
+        depth--;
+        if (depth === 0) {
+          tableEnd = tagMatch.index + tagMatch[0].length;
+          break;
+        }
+      }
+    }
+
+    if (tableEnd !== -1) {
+      output = output.slice(0, tableStart) + output.slice(tableEnd);
+      searchIdx = tableStart;
+    } else {
+      output = output.slice(0, tableStart);
+      break;
+    }
+  }
+
+  // Remove standalone tables containing Drake Clawfang's Dissidia 012 Walkthrough navigation links
   output = output.replace(/<table(?:\s+[^>]*)?>((?:(?!<table)[\s\S])*?Drake Clawfang(?:'s)?\s+Dissidia\s+012\s+Walkthrough[\s\S]*?)<\/table>/gi, '');
+
+  // Clean HTML comments
+  output = output.replace(/<!--[\s\S]*?-->/g, '');
 
   // Clean empty paragraphs or trailing breaks left behind
   output = output.replace(/<p>\s*(?:<br\s*\/?>)?\s*<\/p>/gi, '');
@@ -496,7 +530,7 @@ function fixGeneralImages(html: string, baseUrl: string): string {
 }
 
 /**
- * 7. Applies styled badges and inline icons for loot, chests, gil, KP, enemies, items, chains, and key combat mechanics
+ * 7. Applies styled badges and inline icons for loot, chests, gil, KP, enemies, summons, skills, items, chains, gateways, and key combat mechanics
  */
 function applyLootAndEntityHighlights(html: string, baseUrl: string): string {
   const chestIcon = resolveImg('/images/story/drake/pieces/chest.png', baseUrl);
@@ -505,10 +539,10 @@ function applyLootAndEntityHighlights(html: string, baseUrl: string): string {
   return replaceInTextNodes(html, (text) => {
     let t = text;
 
-    // Highlight Gil amounts: e.g. "50 gil", "200 gil", "120 gil", "1000 gil"
+    // Highlight Gil amounts: e.g. "50 gil", "200 gil", "120 gil", "1000 gil", "15,000 gil"
     t = t.replace(/\b(\d+[\d,]*\s*gil)\b/gi, '<span class="gil-highlight"><span class="gil-coin-icon">🪙</span><strong>$1</strong></span>');
 
-    // Highlight KP amounts: e.g. "9 KP", "10 KP"
+    // Highlight KP amounts: e.g. "9 KP", "10 KP", "25 KP", "55 KP", "65 KP"
     t = t.replace(/\b(\d+\s*KP)\b/gi, '<span class="kp-highlight"><span class="kp-crystal-icon">✦</span><strong>$1</strong></span>');
 
     // Highlight Moogle mentions
@@ -518,22 +552,28 @@ function applyLootAndEntityHighlights(html: string, baseUrl: string): string {
     t = t.replace(/\b(Straight Chains?|Jump Chains?|Cross Chains?|Round Chains?|Multichains?|Multi-chains?|Multi Chains?|Chain Skills?|Chain Skill)\b/gi, '<span class="chain-highlight"><span class="chain-icon">⛓️</span><strong>$1</strong></span>');
 
     // Highlight Overworld interactive objects / items
-    t = t.replace(/\b(Orbs? of the Dead|glowing orbs? of light|Orbs? of light|Stigma of Chaos)\b/gi, '<span class="chain-highlight"><span class="chain-icon">✦</span><strong>$1</strong></span>');
+    t = t.replace(/\b(Orbs? of the Dead|glowing orbs? of light|Orbs? of light)\b/gi, '<span class="chain-highlight"><span class="chain-icon">✦</span><strong>$1</strong></span>');
+
+    // Highlight Gateways, Stigmas & Board Pieces
+    t = t.replace(/\b(Blue Gateways?|Red Gateways?|Strange Battle Pieces?|Hard Battle Pieces?|Expert Battle Pieces?|Party Battle Pieces?|Chaos Pieces?|Cosmos Pieces?|Stigma of Chaos)\b/gi, '<span class="gateway-highlight"><span class="gateway-icon">🏛️</span><strong>$1</strong></span>');
+
+    // Highlight Summons
+    t = t.replace(/\b(Ifrit\s*\(Auto\)|Ifrit|Brynhildr|Demon Wall|Bahamut|Iron Giant|Mandragora|Tonberry|Cactuar|Shiva|Ramuh|Titan|Odin|Leviathan|Phoenix|Carbuncle|Alexander|Sylph|Magus Sisters|Atomos|Scarmiglione|Cagnazzo|Barbariccia|Rubicante|Calcabrina|Asura|Land Worm|Behemoth|Deathgaze|Puchily|Ultros|Typhon|Zalera|Lich|Marilith|Kraken|Tiamat)\b/g, '<span class="summon-highlight"><span class="summon-icon">🔮</span><strong>$1</strong></span>');
 
     // Highlight Enemy & Manikin names
-    t = t.replace(/\b(Fleeting Flash(?:es)?|Delusory Dragoon(?:s)?|Capricious Reaper(?:s)?|Idle Sky Pirate(?:s)?|Imitation Gunner(?:s)?|Phantasmal Girl(?:s)?|Transient Lion(?:s)?|Imaginary Champion(?:s)?|Fallacious Tree(?:s)?|Mirage Magus(?:es)?|Mirage Magi|Phase Clown(?:s)?|Shadowy Sorceress(?:es)?|Conceptual Fool(?:s)?|Fictitious Warrior(?:s)?|Counterfeit Wraith(?:s)?|Imitation Liegeman|Imitation Liegemen|False Hero(?:es)?|False Stalwart(?:s)?|False Champion(?:s)?|Feral Chaos|Desperado Chaos)\b/g, '<span class="enemy-highlight"><span class="enemy-icon">⚔️</span><strong>$1</strong></span>');
+    t = t.replace(/\b(Phantasmal Harlequins?|Phantasmal Girls?|Capricious Reapers?|Delusory Dragoons?|Idle Sky Pirates?|Fleeting Flash(?:es)?|False Stalwarts?|Imitation Gunners?|Transient Lions?|Imaginary Champions?|Fallacious Trees?|Mirage Magus(?:es)?|Mirage Magi|Phase Clowns?|Shadowy Sorceresses?|Conceptual Fools?|Fictitious Warriors?|Counterfeit Wraiths?|Imitation Liegemen|Imitation Liegeman|False Heroes?|False Champions?|Illusory Pugilists?|Ephemeral Summoners?|Deceptive Thoughts?|Pretending Scamps?|Unknown Soldiers?|Unknown Youth|Fake Puppets?|Gruesome Pawns?|Unfettered Pawns?|Feral Chaos|Desperado Chaos)\b/g, '<span class="enemy-highlight"><span class="enemy-icon">⚔️</span><strong>$1</strong></span>');
 
-    // Highlight Specific Items, Accessories, & Equipment
-    t = t.replace(/\b(Cursed Rings?|Cracked Shields?|Rosetta Stones?|Power Rings?|Pearl Rings?|Hyper Rings?|Muscle Belts?|Earrings?|Hero's Seal|Mog's Amulet|Growth Eggs?|Super Ribbons?|Ribbons?|Chocobo Colognes?|Midgar Flowers?|Soul of Destruction|Level 1-9(?:\s*Booster)?|Red Drops?|Pink Tails?|Flash's Desires?|Attractorbs?|Pearl Necklaces?|Dragonfly Orbs?|Guardian Bangles?|Blue Gems?|Puppeteer's Wheel|Bonecrushers?|Safety Bits?|Sniper Eyes?|Door to Despair|Together as One|True Past|Encounter and Survival|Broadswords?|Bucklers?|Axis Blade|Kunai|Leather Hat|Leather Clothing|Bronze Helms?|Bronze Armor|Flamberge|Shielded Armor|Ultima Weapon)\b/g, '<span class="item-highlight"><span class="item-icon">🛡️</span><strong>$1</strong></span>');
+    // Highlight Specific Items, Accessories, Weapons, Armor & Equipment
+    t = t.replace(/\b(Level 1-9(?:\s*Booster)?|Near Opponent(?:\s*Booster|\s*booster)?|HP 100%(?:\s*Booster|\s*accessories)?|Flash's Desires?|Dragoon's Desires?|Stalwart's Hopes?|Blackcrystal Slivers?|Delicious Fish Scales?|Iifa Leaves?|Iifa Leaf|Rosetta Stones?|Soul of Destruction|Pink Tails?|Power Rings?|Hyper Rings?|Guard Rings?|Pearl Rings?|Cursed Rings?|Cracked Shields?|Iron Shields?|Muscle Belts?|Earrings?|Hero's Seal|Mog's Amulet|Growth Eggs?|Super Ribbons?|Ribbons?|Chocobo Colognes?|Midgar Flowers?|Blue Drops?|Orange Drops?|Green Drops?|Red Drops?|Yellow Drops?|White Drops?|Black Drops?|Attractorbs?|Pearl Necklaces?|Dragonfly Orbs?|Guardian Bangles?|Blue Gems?|Puppeteer's Wheel|Bonecrushers?|Safety Bits?|Sniper Eyes?|Door to Despair|Together as One|True Past|Encounter and Survival|Leather Chestplates?|Leather Clothing|Leather Hats?|Bronze Helms?|Bronze Armor|Chainmail|Linen Cuirass|Power Armlets?|Plumed Hats?|Iron Helms?|Headbands?|Broadswords?|Bucklers?|Axis Blade|Kunai|Wakizashi|Slashers?|Capella|Altair|Flamberge|Shielded Armor|Ultima Weapon|Loxley Bow|Kotetsu|Healer's Staff|Brave Blade|Rebellion)\b/g, '<span class="item-highlight"><span class="item-icon">🛡️</span><strong>$1</strong></span>');
 
-    // Highlight chest discoveries
-    t = t.replace(/(grab the chest for|open the chest for|open the two chests for|find a chest with|chest with an?|chest has an?|chest for)\s+([A-Z][a-zA-Z0-9\s-]{2,25}?)(?=[.,\n<])/g, (m, prefix, item) => {
-      const cleanItem = item.trim();
-      return `${prefix} <span class="chest-loot-highlight"><img src="${chestIcon}" class="inline-loot-icon" alt="Chest" /><strong>${cleanItem}</strong></span>`;
-    });
+    // Highlight combat mechanics and system terms
+    t = t.replace(/\b(EX Burst|EX Mode|EX Gauge|EX Revenge|EX Force|EX Charge|BRV Charge|Wall Rush(?:es|ed)?(?:\s+HP damage)?|Chase|Banish Traps?|Second Chance|Speed Boost|pre-emptive strikes?|Pre-emptive strikes?|Pre-emptive Strikes?|pre-emptive|Pre-emptive|Bonus Line|KP Chances?|KP Chance|AP Chances?|AP Chance|PP Catalog|Mognet|Battlegen(?:'d)?|Breaking|Break)\b/g, '<span class="mechanic-highlight">$1</span>');
 
-    // Highlight combat terms: EX Burst, EX Mode, EX Gauge, EX Revenge, Wall Rush, Chase, Bonus Line, KP Chance
-    t = t.replace(/\b(EX Burst|EX Mode|EX Gauge|EX Revenge|EX Charge|Wall Rush|Chase|Bonus Line|KP Chance)\b/g, '<span class="mechanic-highlight">$1</span>');
+    // Highlight Switch attack mechanics
+    t = t.replace(/\b(Switch Attacks?|Switch attacks?|Switch attack|Switch Canceling|Switch-Canceling|Switch-canceling)\b/g, '<span class="mechanic-highlight">$1</span>');
+
+    // Highlight Character Skills, Weapon Moves & Named Spells
+    t = t.replace(/\b(Switch Spear|double Switch Spear|normal Spear|Spear|charged Greatsword|Greatsword|Crossbow|Axe &amp; Shield|Axe & Shield|Sword &amp; Shield|Sword & Shield|Switch Katana|Katana|Cataclysm|Inferno|Torrent|White Whorl|Pyroclasm|Calamity Drive|Luminescent Robe|Windburst|Earthquake|Lightning Strike|Watera|Blitz|Crushing Blow|Launch|Thunder|Flourish of Steel|Ruin|Smite|Army of One|Razor Gale|Scene Drive|Scatter-Spray Blizzaga|Scatter Spray Blizzaga|Waggle-Wobbly Firaga|Extra-Crispy Firaga|Lickity-Split Thundaga|Hyperdrive|Havoc Wing|Trine|Forsaken|Firagas|Firaga|Blizzaga|Thundaga|Burst Energy|Strike Energy|Snatch Blow|Snatch Shot|Ring Holy|Flare Star|Seraphic Star|Force Symphony|Graviga|Blizzara|Blizzard Combo|Tornado|Meltdown|Flood|Spiral Blow|Lance Barrage|Crashing Dive|Gungnir|Dragon's Fang|Sky Rave|Dragoon's Pride|Machine Gun|Rocket Launcher|Sticky Bomb|Homing Bazooka|Ragnarok Blade|Satellite Laser|Split Laser|Pummel|Energy Ray|Energy Blast|Megaflare|Hellfire|Diamond Dust|Thor's Hammer|Heavenly Strike|Sonic Wings|Grand Summon|Beat Rush|Somersault|Water Strike|Moonsault Kick|Falcon Dive|Elbow Smash|Meteorodrive|Meteodrive|Dolphin Blow|Final Heaven|Burning Arrow|Radiant Sword|Bitter End|Shield Bash|Rope Knife|Reel Magick|Lord of Arms|Dark Cannon|Dark Flame|Paladin Force|Saint's Fall|Omnislash|Braver|Cross Slash|Blade Beam|Climhazzard|Meteorain|Finishing Touch|Solid Barrel|Rough Divide|Fated Circle|Blasting Zone|Lion Heart|Free Energy|Tidal Flame|Scoop Art|Shift Break|Grand Lethal|Spiral Cut|Slice &amp; Dice|Slice & Dice|Blitz Ace|Death Claw|Meteor|Ultima|Cure command|Cure skill|Cure spells?)\b/g, '<span class="skill-highlight"><span class="skill-icon">⚡</span><strong>$1</strong></span>');
 
     // Highlight Paradigm roles: Commando, Ravager, Medic
     t = t.replace(/\b(Commando|Ravager|Medic)\s+(role|mode)?\b/g, '<span class="paradigm-highlight">$1</span> $2');
