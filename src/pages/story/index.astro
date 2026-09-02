@@ -57,6 +57,39 @@ const scenarios = [
     For the optimal narrative and progression curve, complete <strong>012: Treachery of the Gods</strong> first to unlock characters and high-tier equipment, transition into <strong>013: Light to All</strong>, and finally conquer <strong>000: Confessions of the Creator</strong>.
   </AlertCallout>
 
+  <!-- Drake's Master Walkthrough Showcase Card -->
+  <div class="crystal-panel" style="margin-top: 2rem; border: 2px solid var(--color-assist); background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(13, 19, 34, 0.98) 100%); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; box-shadow: 0 0 25px rgba(16, 185, 129, 0.15);">
+    <div style="flex: 1; min-width: 300px;">
+      <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.4rem; flex-wrap: wrap;">
+        <span class="badge-pill badge-assist" style="font-weight: 800;">Primary Walkthrough</span>
+        <span class="badge-pill badge-new">All 27 Parts Included</span>
+        <span class="badge-pill badge-crystal">Progress Tracker Enabled</span>
+      </div>
+      <h2 style="margin: 0.2rem 0; font-size: 1.85rem; border: none; padding: 0; font-family: var(--font-heading); color: #fff;">
+        Drake's Master Walkthrough
+      </h2>
+      <div style="font-size: 0.95rem; color: var(--color-cosmos); font-weight: 600; margin-bottom: 0.75rem; font-family: var(--font-subheading);">
+        By Drake Clawfang (Final Fantasy Fandom Wiki) &bull; 100% Verbatim Transcripts
+      </div>
+      <p style="font-size: 0.95rem; color: var(--text-sub); line-height: 1.65; margin-bottom: 1rem;">
+        Follow the definitive, chapter-by-chapter walkthrough covering <strong>012: Treachery of the Gods (Parts 1–8)</strong>, <strong>013: Light to All (Parts 9–21)</strong>, <strong>000: Confessions of the Creator (Parts 22–26)</strong>, and all <strong>20 Reports</strong>. Includes full author commentary, character reviews, overworld step-by-step chest routes, and gateway chessboard maps.
+      </p>
+      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; font-size: 0.84rem; font-family: var(--font-mono);">
+        <a href={`${baseUrl}story/drake/gameplay-basics/`} style="color: var(--color-brv); text-decoration: underline;">&bull; Gameplay Basics</a>
+        <a href={`${baseUrl}story/drake/012-treachery/`} style="color: var(--color-cosmos); text-decoration: underline;">&bull; 012 Directory</a>
+        <a href={`${baseUrl}story/drake/013-light/`} style="color: var(--color-lufenia); text-decoration: underline;">&bull; 013 Directory</a>
+        <a href={`${baseUrl}story/drake/000-creator/`} style="color: var(--color-chaos); text-decoration: underline;">&bull; 000 Directory</a>
+        <a href={`${baseUrl}story/drake/reports/`} style="color: #fbbf24; text-decoration: underline;">&bull; Reports</a>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; align-self: center;">
+      <a href={`${baseUrl}story/drake/`} class="btn-action" style="padding: 0.85rem 2rem; font-size: 1.15rem; background: var(--color-assist); border-color: var(--color-assist); color: #000; font-weight: 800;">
+        Open Drake's Guide &rarr;
+      </a>
+    </div>
+  </div>
+
   <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem;">
     {scenarios.map(s => (
       <div class="crystal-panel" style={`display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1.5rem; border-left: 4px solid ${s.borderColor};`}>

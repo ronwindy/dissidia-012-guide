@@ -60,6 +60,12 @@ const navGroups = [
     title: "Campaign Cycles",
     links: [
       { 
+        label: "Drake's Walkthrough", 
+        href: `${baseUrl}story/drake/`, 
+        id: "story-drake",
+        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-0.5-.05"/><path d="M6 6h10"/><path d="M6 10h10"/><path d="M6 14h6"/></svg>`
+      },
+      { 
         label: "Scenario Overview", 
         href: `${baseUrl}story/`, 
         id: "story-hub",
@@ -158,9 +164,10 @@ const navGroups = [
             <div class="nav-group">
               <div class="nav-group-title">{group.title}</div>
               {group.links.map(link => {
+                const isDrakeRoute = Astro.url.pathname.includes('/story/drake') || currentPath === 'story-drake';
                 const isCharacterRoute = Astro.url.pathname.includes('/characters/') || currentPath === 'roster';
                 const isArenaRoute = Astro.url.pathname.includes('/arenas/') || currentPath === 'arenas';
-                const isActive = (link.id === 'roster' && isCharacterRoute) || (link.id === 'arenas' && isArenaRoute) || (link.id === 'home' && (currentPath === '' || currentPath === 'home')) || currentPath === link.id;
+                const isActive = (link.id === 'story-drake' && isDrakeRoute) || (link.id === 'roster' && isCharacterRoute) || (link.id === 'arenas' && isArenaRoute) || (link.id === 'home' && (currentPath === '' || currentPath === 'home')) || currentPath === link.id;
                 return (
                   <a href={link.href} class={`nav-link ${isActive ? 'active' : ''}`}>
                     <span class="nav-icon" set:html={link.icon} />
@@ -174,8 +181,8 @@ const navGroups = [
 
         <div style="padding: 1rem 1.25rem; border-top: 1px solid var(--border-panel); font-size: 0.78rem; color: var(--text-dim); background: var(--surface-panel);">
           <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span>Saved Checkpoints:</span>
-            <span id="globalProgressCount" style="color: var(--color-brv); font-weight: 700; font-family: var(--font-mono); font-size: 0.9rem;">0</span>
+            <span>Drake's Guide Progress:</span>
+            <span id="globalProgressCount" style="color: var(--color-assist); font-weight: 700; font-family: var(--font-mono); font-size: 0.9rem;">0 / 27</span>
           </div>
         </div>
       </aside>
@@ -285,7 +292,8 @@ const navGroups = [
               const list = JSON.parse(raw);
               const countEl = document.getElementById("globalProgressCount");
               if (countEl && Array.isArray(list)) {
-                countEl.textContent = list.length.toString();
+                const drakeDone = list.filter(id => id.startsWith("drake-ch-")).length;
+                countEl.textContent = `${drakeDone} / 27`;
               }
             }
           } catch (e) {

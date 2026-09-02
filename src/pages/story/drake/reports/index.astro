@@ -1,0 +1,125 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import ProgressTracker from '../../../../components/common/ProgressTracker.astro';
+import StoryNav from '../../../../components/story/StoryNav.astro';
+import { getDrakeChapter } from '../../../../data/story/drakeChaptersData';
+
+const reportChapter = getDrakeChapter('reports', 'the-reports');
+if (!reportChapter) {
+  throw new Error("Report chapter not found");
+}
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+
+const navItems = reportChapter.sections.map((s, idx) => ({
+  id: s.anchor || `report-sec-${idx}`,
+  label: s.line,
+  sublabel: `Report Section ${idx + 1}`
+}));
+---
+
+<BaseLayout title="The Reports — Drake's Walkthrough" currentPath="story-drake">
+  <!-- Header Bar -->
+  <div style="margin-bottom: 2rem;">
+    <!-- Top Breadcrumbs & Badges -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 0.75rem;">
+      <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+        <a href={`${baseUrl}story/drake/`} class="badge-pill badge-cosmos" style="text-decoration: none;">
+          &larr; Drake's Walkthrough Hub
+        </a>
+        <span class="badge-pill badge-crystal">Extras & Lore</span>
+        <span class="badge-pill badge-new">Part 27: The Reports</span>
+      </div>
+
+      <!-- Primary Report Completion Tracker -->
+      <div>
+        <ProgressTracker id="drake-ch-the-reports" label="All 20 Reports Cleared" subtext="Save Progression" />
+      </div>
+    </div>
+
+    <!-- Hero Title -->
+    <div>
+      <h1 style="margin: 0; font-family: var(--font-heading); font-size: clamp(2rem, 3.5vw, 2.75rem); letter-spacing: 0.04em;">
+        THE REPORTS
+      </h1>
+      <div style="font-size: 1.05rem; color: var(--color-cosmos); font-weight: 600; margin-top: 0.25rem; font-family: var(--font-subheading);">
+        Complete Unlock Requirements, Secret Boss Battles & Verbatim Transcripts
+      </div>
+    </div>
+  </div>
+
+  <!-- In-page Table of Contents -->
+  {navItems.length > 0 && (
+    <StoryNav title="Reports Table of Contents" items={navItems} />
+  )}
+
+  <!-- Main Verbatim Walkthrough Body -->
+  <article class="crystal-panel drake-article-body" style="padding: 2rem; margin-bottom: 2.5rem; border-top: 3px solid var(--color-brv); background: var(--surface-panel);">
+    <div class="drake-wiki-html-content" set:html={reportChapter.contentHtml} />
+  </article>
+
+  <!-- Bottom Navigation Actions -->
+  <div class="crystal-panel" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; padding: 1.25rem; background: var(--surface-panel-alt); border: 1px solid var(--border-panel);">
+    <div>
+      <a href={`${baseUrl}story/drake/000-creator/land-of-discord-and-feral-chaos/`} class="btn-action" style="padding: 0.65rem 1.25rem;">
+        &larr; Previous: Land of Discord & Feral Chaos
+      </a>
+    </div>
+
+    <div>
+      <ProgressTracker id="drake-ch-the-reports" label="Mark Reports Complete" />
+    </div>
+
+    <div>
+      <a href={`${baseUrl}story/drake/`} class="btn-action" style="padding: 0.65rem 1.25rem;">
+        Drake's Walkthrough Hub &rarr;
+      </a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .drake-wiki-html-content {
+    font-size: 0.95rem;
+    color: var(--text-main);
+    line-height: 1.75;
+  }
+
+  .drake-wiki-html-content h2 {
+    font-family: var(--font-heading);
+    font-size: 1.55rem;
+    color: var(--color-cosmos);
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(245, 158, 11, 0.3);
+    letter-spacing: 0.03em;
+  }
+
+  .drake-wiki-html-content h3 {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    color: var(--color-brv);
+    margin: 1.75rem 0 0.75rem;
+  }
+
+  .drake-wiki-html-content p {
+    margin-bottom: 1.25rem;
+  }
+
+  .drake-wiki-html-content hr {
+    border: none;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 1.5rem 0;
+  }
+
+  .drake-wiki-html-content a {
+    color: var(--color-brv);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .drake-wiki-html-content a:hover {
+    color: #fff;
+  }
+</style>

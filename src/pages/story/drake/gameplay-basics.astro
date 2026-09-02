@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import AlertCallout from '../../../components/common/AlertCallout.astro';
+import StoryNav from '../../../components/story/StoryNav.astro';
+import { drakeGameplayTopics, drakeIntro } from '../../../data/story/drakeData';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const resolveImg = (src: string) => src.startsWith('http') ? src : `${baseUrl}${src.startsWith('/') ? src.slice(1) : src}`;
+
+const navItems = drakeGameplayTopics.map(t => ({
+  id: t.id,
+  label: t.title,
+  sublabel: t.badge
+}));
+---
+
+<BaseLayout title="Gameplay Basics — Drake's Walkthrough" currentPath="story-drake">
+  <!-- Header Breadcrumb & Title -->
+  <div style="margin-bottom: 2rem;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
+      <a href={`${baseUrl}story/drake/`} class="badge-pill badge-cosmos" style="text-decoration: none;">
+        &larr; Drake's Walkthrough Hub
+      </a>
+      <span class="badge-pill badge-crystal">Core Mechanics</span>
+      <span class="badge-pill badge-new">Author: {drakeIntro.author}</span>
+    </div>
+    <h1 style="margin: 0; font-family: var(--font-heading); letter-spacing: 0.04em;">
+      GAMEPLAY BASICS
+    </h1>
+    <p style="color: var(--text-muted); font-size: 1.05rem; margin-top: 0.5rem; line-height: 1.6;">
+      Drake Clawfang's foundational breakdown of the combat systems, resource meters, Bravery/HP loop, EX Bursts, Assist combos, and AP mastery chances.
+    </p>
+  </div>
+
+  <StoryNav title="Gameplay Basics Navigation" items={navItems} />
+
+  <!-- Author Note Callout -->
+  <AlertCallout type="lore" title="AUTHOR'S OPENING COMMENTARY">
+    <em>"{drakeIntro.openingBanter}"</em>
+  </AlertCallout>
+
+  <!-- Gameplay Topics Breakdown -->
+  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 2rem;">
+    {drakeGameplayTopics.map((topic, idx) => (
+      <section id={topic.id} class="crystal-panel guide-section" style="border-top: 3px solid var(--color-brv);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; border-bottom: 1px solid var(--border-panel-subtle); padding-bottom: 0.75rem;">
+          <div style="display: flex; align-items: center; gap: 0.65rem;">
+            <span style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 800; color: var(--color-brv);">
+              0{idx + 1}
+            </span>
+            <h2 style="margin: 0; font-size: 1.5rem; border: none; padding: 0; font-family: var(--font-heading);">
+              {topic.title}
+            </h2>
+          </div>
+          <span class={`badge-pill ${topic.badgeClass}`}>{topic.badge}</span>
+        </div>
+
+        <div style="font-size: 0.95rem; color: var(--text-main); line-height: 1.75; margin-bottom: 1.5rem; background: var(--surface-panel-alt); padding: 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--border-panel-subtle);">
+          <p style="margin: 0; white-space: pre-line;">
+            {topic.content}
+          </p>
+        </div>
+
+        {topic.controls && topic.controls.length > 0 && (
+          <div>
+            <div style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--color-cosmos); text-transform: uppercase; font-weight: bold; margin-bottom: 0.75rem; letter-spacing: 0.05em;">
+              PSP Control Mappings & Tactical Directives
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.85rem;">
+              {topic.controls.map(c => (
+                <div style="background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-xs); padding: 0.85rem 1rem;">
+                  <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
+                    {c.button && (
+                      <span class="badge-pill badge-crystal" style="font-family: var(--font-mono); font-weight: 700; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+                        {c.button.includes('Square') && <img src={resolveImg('/images/story/drake/buttons/square.png')} alt="Square" style="width: 14px; height: 14px; vertical-align: middle;" />}
+                        {c.button.includes('Circle') && <img src={resolveImg('/images/story/drake/buttons/circle.png')} alt="Circle" style="width: 14px; height: 14px; vertical-align: middle;" />}
+                        {c.button}
+                      </span>
+                    )}
+                    <strong style="color: var(--text-main); font-size: 0.9rem;">{c.label}</strong>
+                  </div>
+                  <div style="font-size: 0.84rem; color: var(--text-dim); line-height: 1.5;">
+                    {c.desc}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
+    ))}
+  </div>
+
+  <!-- Bottom Navigation Actions -->
+  <div style="margin-top: 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; border-top: 1px solid var(--border-panel); padding-top: 1.5rem;">
+    <a href={`${baseUrl}story/drake/`} class="btn-action" style="padding: 0.65rem 1.25rem;">
+      &larr; Return to Drake's Walkthrough Hub
+    </a>
+    <a href={`${baseUrl}story/drake/012-treachery/prologue-chapter-1/`} class="btn-action" style="padding: 0.65rem 1.25rem;">
+      Begin Chapter 1: Prologue &rarr;
+    </a>
+  </div>
+</BaseLayout>

@@ -1,0 +1,487 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import AlertCallout from '../../../components/common/AlertCallout.astro';
+import ProgressTracker from '../../../components/common/ProgressTracker.astro';
+import StoryNav from '../../../components/story/StoryNav.astro';
+import { 
+  drakeIntro, 
+  drakeFormatAssumptions, 
+  drakeCampaigns, 
+  drakeBibliography 
+} from '../../../data/story/drakeData';
+import { drakeChapters } from '../../../data/story/drakeChaptersData';
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const resolveImg = (src: string) => src.startsWith('http') ? src : `${baseUrl}${src.startsWith('/') ? src.slice(1) : src}`;
+
+const chapters012 = drakeChapters.filter(c => c.campaign === '012-treachery');
+const chapters013 = drakeChapters.filter(c => c.campaign === '013-light');
+const chapters000 = drakeChapters.filter(c => c.campaign === '000-creator');
+const chaptersReports = drakeChapters.filter(c => c.campaign === 'reports');
+
+const storyNavItems = [
+  { id: "gameplay-basics-hub", label: "Gameplay Basics", sublabel: "Combat & Controls" },
+  { id: "format-assumptions", label: "Walkthrough Format", sublabel: "5 Author Rules" },
+  { id: "campaign-012", label: "012: Treachery of Gods", sublabel: "Parts 1 – 8" },
+  { id: "campaign-013", label: "013: Light to All", sublabel: "Parts 9 – 21" },
+  { id: "campaign-000", label: "000: Creator Gauntlet", sublabel: "Parts 22 – 26" },
+  { id: "campaign-reports", label: "The Reports", sublabel: "Part 27" },
+  { id: "bibliography", label: "Author Bibliography", sublabel: "Series Works" }
+];
+---
+
+<BaseLayout title="Drake's Walkthrough — Master Guide & Progression Hub" currentPath="story-drake">
+  <!-- Hero Section -->
+  <div style="margin-bottom: 2rem;">
+    <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.4rem; flex-wrap: wrap;">
+      <span class="badge-pill badge-cosmos">Primary Walkthrough</span>
+      <span class="badge-pill badge-new">All 27 Parts Included</span>
+      <span class="badge-pill badge-crystal">Verbatim Fandom Wiki Master</span>
+    </div>
+    <h1 style="margin: 0; font-family: var(--font-heading); font-size: clamp(2rem, 3.5vw, 3rem); letter-spacing: 0.04em;">
+      DRAKE'S WALKTHROUGH
+    </h1>
+    <div style="font-size: 1.05rem; color: var(--color-cosmos); font-weight: 600; margin-top: 0.25rem; font-family: var(--font-subheading);">
+      Original Guide by <strong style="color: #fff;">{drakeIntro.author}</strong> &bull; Complete 1:1 Transcripts & Individual Chapter Pages
+    </div>
+    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem; line-height: 1.6;">
+      {drakeIntro.tagline}
+    </p>
+  </div>
+
+  <!-- Real-time Drake Guide Progression Dashboard -->
+  <div class="crystal-panel drake-progress-dashboard" style="margin-bottom: 2rem; border-top: 3px solid var(--color-assist); background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(13, 19, 34, 0.95) 100%);">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;">
+      <div>
+        <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-assist); text-transform: uppercase; font-weight: bold; letter-spacing: 0.08em; display: flex; align-items: center; gap: 0.4rem;">
+          <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--color-assist);"></span>
+          Main Campaign Progression Tracker
+        </div>
+        <h3 style="margin: 0.2rem 0 0; font-size: 1.4rem; color: var(--text-main); font-family: var(--font-heading);">
+          Drake's Walkthrough Completion Status
+        </h3>
+      </div>
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <div style="text-align: right;">
+          <div style="font-size: 1.75rem; font-family: var(--font-heading); font-weight: 800; color: var(--color-assist); line-height: 1;" id="drakeOverallCount">
+            0 / 27
+          </div>
+          <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--text-dim);" id="drakeOverallPercent">
+            0% Complete
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress Meter Bars -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.85rem; font-family: var(--font-mono); font-size: 0.8rem;">
+      <div style="background: rgba(0,0,0,0.35); padding: 0.75rem; border-radius: var(--radius-xs); border: 1px solid rgba(255,255,255,0.06);">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+          <span style="color: var(--color-cosmos);">012: Treachery</span>
+          <strong id="prog012Text" style="color: #fff;">0 / 8</strong>
+        </div>
+        <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+          <div id="prog012Bar" style="width: 0%; height: 100%; background: var(--color-cosmos); transition: width 0.3s ease;"></div>
+        </div>
+      </div>
+
+      <div style="background: rgba(0,0,0,0.35); padding: 0.75rem; border-radius: var(--radius-xs); border: 1px solid rgba(255,255,255,0.06);">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+          <span style="color: var(--color-lufenia);">013: Light to All</span>
+          <strong id="prog013Text" style="color: #fff;">0 / 13</strong>
+        </div>
+        <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+          <div id="prog013Bar" style="width: 0%; height: 100%; background: var(--color-lufenia); transition: width 0.3s ease;"></div>
+        </div>
+      </div>
+
+      <div style="background: rgba(0,0,0,0.35); padding: 0.75rem; border-radius: var(--radius-xs); border: 1px solid rgba(255,255,255,0.06);">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+          <span style="color: var(--color-chaos);">000: Confessions</span>
+          <strong id="prog000Text" style="color: #fff;">0 / 5</strong>
+        </div>
+        <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+          <div id="prog000Bar" style="width: 0%; height: 100%; background: var(--color-chaos); transition: width 0.3s ease;"></div>
+        </div>
+      </div>
+
+      <div style="background: rgba(0,0,0,0.35); padding: 0.75rem; border-radius: var(--radius-xs); border: 1px solid rgba(255,255,255,0.06);">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+          <span style="color: var(--color-brv);">The Reports</span>
+          <strong id="progRepText" style="color: #fff;">0 / 1</strong>
+        </div>
+        <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+          <div id="progRepBar" style="width: 0%; height: 100%; background: var(--color-brv); transition: width 0.3s ease;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <StoryNav title="Drake's Walkthrough Directory" items={storyNavItems} />
+
+  <!-- Author Opening Banter Callout -->
+  <AlertCallout type="lore" title="AUTHOR'S OPENING BANTER">
+    <em>"{drakeIntro.openingBanter}"</em>
+  </AlertCallout>
+
+  <!-- Gameplay Basics Spotlight Card -->
+  <div id="gameplay-basics-hub" class="crystal-panel" style="margin: 2.5rem 0; border-left: 4px solid var(--color-brv); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
+    <div style="flex: 1; min-width: 280px;">
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
+        <span class="badge-pill badge-brv">Dedicated Subpage</span>
+        <span class="badge-pill badge-new">Core Combat Systems</span>
+      </div>
+      <h2 style="margin: 0.2rem 0; font-size: 1.6rem; border: none; padding: 0; font-family: var(--font-heading);">
+        Gameplay Basics & Combat Mechanics
+      </h2>
+      <p style="font-size: 0.92rem; color: var(--text-sub); line-height: 1.6; margin-bottom: 0.5rem;">
+        Explore Drake's explanations of Bravery and HP dynamics, Break status, EX Force/Cores and EX Bursts, Bravery Assists vs HP Assists, and CP capacity management with AP chances.
+      </p>
+    </div>
+    <a href={`${baseUrl}story/drake/gameplay-basics/`} class="btn-action" style="padding: 0.75rem 1.5rem; font-size: 1rem; white-space: nowrap;">
+      Read Gameplay Basics &rarr;
+    </a>
+  </div>
+
+  <!-- Walkthrough Format & 5 Core Playthrough Assumptions -->
+  <section id="format-assumptions" class="guide-section" style="margin-bottom: 3.5rem;">
+    <div style="border-bottom: 2px solid rgba(255,255,255,0.08); padding-bottom: 0.5rem; margin-bottom: 1.25rem;">
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+        <span class="badge-pill badge-cosmos">Author Philosophy</span>
+        <span class="badge-pill badge-crystal">5 Core Rules</span>
+      </div>
+      <h2 style="margin: 0; font-size: 1.75rem; border: none; padding: 0; font-family: var(--font-heading);">
+        Walkthrough Format & Assumptions
+      </h2>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+      {drakeFormatAssumptions.map(fa => (
+        <div class="crystal-panel" style="background: var(--surface-panel-alt); padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.5rem;">
+              <span style="font-size: 1.4rem;">{fa.icon}</span>
+              <h3 style="margin: 0; font-size: 1.15rem; color: var(--text-main); font-family: var(--font-heading);">
+                {fa.title}
+              </h3>
+            </div>
+            <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-cosmos); margin-bottom: 0.75rem; font-weight: bold; text-transform: uppercase;">
+              {fa.rule}
+            </div>
+            <p style="font-size: 0.88rem; color: var(--text-sub); line-height: 1.6; margin: 0;">
+              "{fa.rationale}"
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- 012 Campaign Directory -->
+  <section id="campaign-012" class="guide-section" style="margin-bottom: 3.5rem;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 0.75rem; border-bottom: 2px solid rgba(255,255,255,0.08); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+          <span class="badge-pill badge-cosmos">Campaign 012</span>
+          <span class="badge-pill badge-new">8 Individual Chapter Pages</span>
+        </div>
+        <h2 style="margin: 0; font-size: 1.75rem; border: none; padding: 0; font-family: var(--font-heading);">
+          012: Treachery of the Gods
+        </h2>
+      </div>
+      <a href={`${baseUrl}story/drake/012-treachery/`} class="btn-action" style="padding: 0.5rem 1rem; font-size: 0.88rem;">
+        View 012 Hub &rarr;
+      </a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem;">
+      {chapters012.map(ch => (
+        <div class="crystal-panel" style="padding: 1.15rem; display: flex; flex-direction: column; justify-content: space-between; border-left: 3px solid var(--color-cosmos);">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <div style="display: flex; align-items: center; gap: 0.65rem;">
+                {ch.portrait && (
+                  <img src={resolveImg(ch.portrait)} alt={ch.character} style="width: 42px; height: 42px; object-fit: contain; background: rgba(0,0,0,0.4); border-radius: var(--radius-xs); border: 1px solid var(--border-panel-subtle); padding: 2px;" />
+                )}
+                <div>
+                  <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-cosmos); font-weight: bold;">
+                    Part {ch.partNumber} &bull; Hero: {ch.character}
+                  </div>
+                  <h3 style="margin: 0.15rem 0 0; font-size: 1.15rem; color: var(--text-main); font-family: var(--font-heading);">
+                    <a href={`${baseUrl}story/drake/${ch.campaign}/${ch.slug}/`} style="color: inherit; text-decoration: none;">
+                      {ch.title}
+                    </a>
+                  </h3>
+                </div>
+              </div>
+            </div>
+            <div style="font-size: 0.84rem; color: var(--text-dim); margin-bottom: 0.85rem; font-family: var(--font-subheading);">
+              {ch.subtitle}
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-panel-subtle); padding-top: 0.75rem;">
+            <ProgressTracker id={ch.trackerId} label="Chapter Done" />
+            <a href={`${baseUrl}story/drake/${ch.campaign}/${ch.slug}/`} class="btn-action" style="padding: 0.35rem 0.85rem; font-size: 0.82rem;">
+              Read Guide &rarr;
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- 013 Campaign Directory -->
+  <section id="campaign-013" class="guide-section" style="margin-bottom: 3.5rem;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 0.75rem; border-bottom: 2px solid rgba(255,255,255,0.08); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+          <span class="badge-pill badge-crystal">Campaign 013</span>
+          <span class="badge-pill badge-new">13 Individual Chapter Pages</span>
+        </div>
+        <h2 style="margin: 0; font-size: 1.75rem; border: none; padding: 0; font-family: var(--font-heading);">
+          013: Light to All
+        </h2>
+      </div>
+      <a href={`${baseUrl}story/drake/013-light/`} class="btn-action" style="padding: 0.5rem 1rem; font-size: 0.88rem;">
+        View 013 Hub &rarr;
+      </a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem;">
+      {chapters013.map(ch => (
+        <div class="crystal-panel" style="padding: 1.15rem; display: flex; flex-direction: column; justify-content: space-between; border-left: 3px solid var(--color-lufenia);">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <div style="display: flex; align-items: center; gap: 0.65rem;">
+                {ch.portrait && (
+                  <img src={resolveImg(ch.portrait)} alt={ch.character} style="width: 42px; height: 42px; object-fit: contain; background: rgba(0,0,0,0.4); border-radius: var(--radius-xs); border: 1px solid var(--border-panel-subtle); padding: 2px;" />
+                )}
+                <div>
+                  <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-lufenia); font-weight: bold;">
+                    Part {ch.partNumber} &bull; Hero: {ch.character}
+                  </div>
+                  <h3 style="margin: 0.15rem 0 0; font-size: 1.15rem; color: var(--text-main); font-family: var(--font-heading);">
+                    <a href={`${baseUrl}story/drake/${ch.campaign}/${ch.slug}/`} style="color: inherit; text-decoration: none;">
+                      {ch.title}
+                    </a>
+                  </h3>
+                </div>
+              </div>
+            </div>
+            <div style="font-size: 0.84rem; color: var(--text-dim); margin-bottom: 0.85rem; font-family: var(--font-subheading);">
+              {ch.subtitle}
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-panel-subtle); padding-top: 0.75rem;">
+            <ProgressTracker id={ch.trackerId} label="Chapter Done" />
+            <a href={`${baseUrl}story/drake/${ch.campaign}/${ch.slug}/`} class="btn-action" style="padding: 0.35rem 0.85rem; font-size: 0.82rem;">
+              Read Guide &rarr;
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- 000 Campaign Directory -->
+  <section id="campaign-000" class="guide-section" style="margin-bottom: 3.5rem;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 0.75rem; border-bottom: 2px solid rgba(255,255,255,0.08); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+          <span class="badge-pill badge-chaos">Campaign 000</span>
+          <span class="badge-pill badge-new">5 Open World Region Pages</span>
+        </div>
+        <h2 style="margin: 0; font-size: 1.75rem; border: none; padding: 0; font-family: var(--font-heading);">
+          000: Confessions of the Creator
+        </h2>
+      </div>
+      <a href={`${baseUrl}story/drake/000-creator/`} class="btn-action" style="padding: 0.5rem 1rem; font-size: 0.88rem;">
+        View 000 Hub &rarr;
+      </a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem;">
+      {chapters000.map(ch => (
+        <div class="crystal-panel" style="padding: 1.15rem; display: flex; flex-direction: column; justify-content: space-between; border-left: 3px solid var(--color-chaos);">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <div style="display: flex; align-items: center; gap: 0.65rem;">
+                {ch.portrait && (
+                  <img src={resolveImg(ch.portrait)} alt={ch.character} style="width: 42px; height: 42px; object-fit: contain; background: rgba(0,0,0,0.4); border-radius: var(--radius-xs); border: 1px solid var(--border-panel-subtle); padding: 2px;" />
+                )}
+                <div>
+                  <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-chaos); font-weight: bold;">
+                    Part {ch.partNumber} &bull; Focus: {ch.character}
+                  </div>
+                  <h3 style="margin: 0.15rem 0 0; font-size: 1.15rem; color: var(--text-main); font-family: var(--font-heading);">
+                    <a href={`${baseUrl}story/drake/${ch.campaign}/${ch.slug}/`} style="color: inherit; text-decoration: none;">
+                      {ch.title}
+                    </a>
+                  </h3>
+                </div>
+              </div>
+            </div>
+            <div style="font-size: 0.84rem; color: var(--text-dim); margin-bottom: 0.85rem; font-family: var(--font-subheading);">
+              {ch.subtitle}
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-panel-subtle); padding-top: 0.75rem;">
+            <ProgressTracker id={ch.trackerId} label="Region Cleared" />
+            <a href={`${baseUrl}story/drake/${ch.campaign}/${ch.slug}/`} class="btn-action" style="padding: 0.35rem 0.85rem; font-size: 0.82rem;">
+              Read Guide &rarr;
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- The Reports Section -->
+  <section id="campaign-reports" class="guide-section" style="margin-bottom: 3.5rem;">
+    <div style="border-bottom: 2px solid rgba(255,255,255,0.08); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+        <span class="badge-pill badge-new">Extras & Lore</span>
+        <span class="badge-pill badge-crystal">20 Archival Reports</span>
+      </div>
+      <h2 style="margin: 0; font-size: 1.75rem; border: none; padding: 0; font-family: var(--font-heading);">
+        The Reports & Hidden Battles
+      </h2>
+    </div>
+
+    {chaptersReports.map(ch => (
+      <div class="crystal-panel" style="padding: 1.5rem; border-left: 4px solid var(--color-brv); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
+        <div style="flex: 1; min-width: 280px;">
+          <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.35rem;">
+            <span style="font-size: 1.75rem; font-family: var(--font-heading); font-weight: 800; color: var(--color-brv);">REP</span>
+            <span class="badge-pill badge-new">Part {ch.partNumber}</span>
+          </div>
+          <h3 style="margin: 0.2rem 0; font-size: 1.4rem; color: var(--text-main); font-family: var(--font-heading);">
+            {ch.title}
+          </h3>
+          <p style="font-size: 0.9rem; color: var(--text-sub); line-height: 1.6; margin-bottom: 1rem;">
+            Drake's full breakdown of how to obtain, unlock, and conquer all 20 storyline reports, secret Friend Cards, and hidden battles for Prishe, Gilgamesh, and Feral Chaos.
+          </p>
+          <ProgressTracker id={ch.trackerId} label="All 20 Reports Cleared" />
+        </div>
+        <div>
+          <a href={`${baseUrl}story/drake/reports/`} class="btn-action" style="padding: 0.75rem 1.5rem; font-size: 1rem;">
+            Open Reports Walkthrough &rarr;
+          </a>
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <!-- Author Bibliography -->
+  <section id="bibliography" class="guide-section" style="margin-bottom: 3rem;">
+    <div style="border-bottom: 2px solid rgba(255,255,255,0.08); padding-bottom: 0.5rem; margin-bottom: 1.25rem;">
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+        <span class="badge-pill badge-cosmos">Author Series</span>
+        <span class="badge-pill badge-crystal">Wiki Bibliography</span>
+      </div>
+      <h2 style="margin: 0; font-size: 1.75rem; border: none; padding: 0; font-family: var(--font-heading);">
+        Drake Clawfang's Final Fantasy Walkthroughs
+      </h2>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.75rem;">
+      {drakeBibliography.map(b => (
+        <div style="background: var(--surface-panel-alt); border: 1px solid var(--border-panel-subtle); border-radius: var(--radius-xs); padding: 0.85rem 1rem;">
+          <div style="font-weight: 700; color: var(--color-cosmos); font-size: 0.95rem; font-family: var(--font-heading);">
+            {b.title}
+          </div>
+          <div style="font-size: 0.78rem; font-family: var(--font-mono); color: var(--text-dim); margin-top: 0.2rem;">
+            {b.type} &bull; <span style="color: var(--color-brv);">{b.game}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Live Client-side Progress Sync Script -->
+  <script is:inline>
+    if (typeof document !== "undefined") {
+      const STORAGE_KEY = "dissidia-012-guide-progress";
+
+      const ch012Slugs = [
+        "drake-ch-prologue-chapter-1",
+        "drake-ch-chapter-2",
+        "drake-ch-chapter-3",
+        "drake-ch-chapter-4",
+        "drake-ch-chapter-5",
+        "drake-ch-chapter-6",
+        "drake-ch-chapter-7",
+        "drake-ch-epilogue"
+      ];
+
+      const ch013Slugs = [
+        "drake-ch-prologue",
+        "drake-ch-chapter-1",
+        "drake-ch-chapter-2",
+        "drake-ch-chapter-3",
+        "drake-ch-chapter-4",
+        "drake-ch-chapter-5",
+        "drake-ch-chapter-6",
+        "drake-ch-chapter-7",
+        "drake-ch-chapter-8",
+        "drake-ch-chapter-9",
+        "drake-ch-chapter-10",
+        "drake-ch-epilogue-part-1",
+        "drake-ch-epilogue-part-2"
+      ];
+
+      const ch000Slugs = [
+        "drake-ch-southern-areas",
+        "drake-ch-shantotto-and-gabranth",
+        "drake-ch-chasm-of-earth-and-flying-castle",
+        "drake-ch-gaia-and-bahamut-isles",
+        "drake-ch-land-of-discord-and-feral-chaos"
+      ];
+
+      const chRepSlugs = ["drake-ch-the-reports"];
+
+      function syncDashboard() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          const list = raw ? JSON.parse(raw) : [];
+
+          const count012 = ch012Slugs.filter(id => list.includes(id)).length;
+          const count013 = ch013Slugs.filter(id => list.includes(id)).length;
+          const count000 = ch000Slugs.filter(id => list.includes(id)).length;
+          const countRep = chRepSlugs.filter(id => list.includes(id)).length;
+          const totalDone = count012 + count013 + count000 + countRep;
+
+          const overallCountEl = document.getElementById("drakeOverallCount");
+          const overallPercentEl = document.getElementById("drakeOverallPercent");
+          if (overallCountEl) overallCountEl.textContent = `${totalDone} / 27`;
+          if (overallPercentEl) overallPercentEl.textContent = `${Math.round((totalDone / 27) * 100)}% Complete`;
+
+          const p012Text = document.getElementById("prog012Text");
+          const p012Bar = document.getElementById("prog012Bar");
+          if (p012Text) p012Text.textContent = `${count012} / 8`;
+          if (p012Bar) p012Bar.style.width = `${(count012 / 8) * 100}%`;
+
+          const p013Text = document.getElementById("prog013Text");
+          const p013Bar = document.getElementById("prog013Bar");
+          if (p013Text) p013Text.textContent = `${count013} / 13`;
+          if (p013Bar) p013Bar.style.width = `${(count013 / 13) * 100}%`;
+
+          const p000Text = document.getElementById("prog000Text");
+          const p000Bar = document.getElementById("prog000Bar");
+          if (p000Text) p000Text.textContent = `${count000} / 5`;
+          if (p000Bar) p000Bar.style.width = `${(count000 / 5) * 100}%`;
+
+          const pRepText = document.getElementById("progRepText");
+          const pRepBar = document.getElementById("progRepBar");
+          if (pRepText) pRepText.textContent = `${countRep} / 1`;
+          if (pRepBar) pRepBar.style.width = `${(countRep / 1) * 100}%`;
+        } catch (e) {
+          console.warn("Dashboard sync error", e);
+        }
+      }
+
+      syncDashboard();
+      window.addEventListener("storage", syncDashboard);
+    }
+  </script>
+</BaseLayout>

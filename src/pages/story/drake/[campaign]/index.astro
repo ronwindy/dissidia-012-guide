@@ -1,0 +1,125 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import ProgressTracker from '../../../../components/common/ProgressTracker.astro';
+import { drakeCampaigns } from '../../../../data/story/drakeData';
+import { getDrakeChaptersByCampaign } from '../../../../data/story/drakeChaptersData';
+import { drakeWorldMaps } from '../../../../data/story/drakeAssets';
+
+export function getStaticPaths() {
+  return [
+    { params: { campaign: '012-treachery' } },
+    { params: { campaign: '013-light' } },
+    { params: { campaign: '000-creator' } }
+  ];
+}
+
+const { campaign } = Astro.params;
+const campaignInfo = drakeCampaigns.find(c => c.campaignSlug === campaign) || drakeCampaigns[0];
+const chapters = getDrakeChaptersByCampaign(campaign);
+
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const resolveImg = (src: string) => src.startsWith('http') ? src : `${baseUrl}${src.startsWith('/') ? src.slice(1) : src}`;
+
+// Relevant campaign banner map
+const mapKey = campaign === '012-treachery' ? 'cornelian-plains' : campaign === '013-light' ? 'volcano-ring-gulg' : 'land-of-discord';
+const bannerMap = drakeWorldMaps[mapKey];
+---
+
+<BaseLayout title={`${campaignInfo.title} — Drake's Walkthrough`} currentPath="story-drake">
+  <!-- Header Bar -->
+  <div style="margin-bottom: 2rem;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
+      <a href={`${baseUrl}story/drake/`} class="badge-pill badge-cosmos" style="text-decoration: none;">
+        &larr; Drake's Walkthrough Hub
+      </a>
+      <span class={`badge-pill ${campaignInfo.badgeClass}`}>{campaignInfo.badge}</span>
+      <span class="badge-pill badge-new">{chapters.length} Chapters</span>
+    </div>
+    <h1 style="margin: 0; font-family: var(--font-heading); font-size: clamp(2rem, 3.5vw, 2.75rem); letter-spacing: 0.04em;">
+      {campaignInfo.title}
+    </h1>
+    <div style="font-size: 1.05rem; color: var(--color-cosmos); font-weight: 600; margin-top: 0.25rem; font-family: var(--font-subheading);">
+      {campaignInfo.subtitle} &bull; {campaignInfo.partsRange}
+    </div>
+    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem; line-height: 1.6;">
+      {campaignInfo.desc}
+    </p>
+  </div>
+
+  <!-- Campaign Progress Header -->
+  <div class="crystal-panel" style={`margin-bottom: 2rem; border-left: 4px solid ${campaignInfo.borderColor}; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;`}>
+    <div>
+      <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-cosmos); text-transform: uppercase; font-weight: bold;">
+        Campaign Directory
+      </div>
+      <div style="font-size: 1.15rem; font-family: var(--font-heading); font-weight: 700; color: var(--text-main); margin-top: 0.2rem;">
+        Featured Warriors: <span style="color: #38bdf8;">{campaignInfo.featuredHeroes.join(', ')}</span>
+      </div>
+    </div>
+    <div>
+      <a href={`${baseUrl}story/drake/${campaign}/${chapters[0]?.slug}/`} class="btn-action" style="padding: 0.65rem 1.35rem; font-size: 0.95rem;">
+        Start from Part {chapters[0]?.partNumber} &rarr;
+      </a>
+    </div>
+  </div>
+
+  <!-- Chapters Grid -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; margin-bottom: 3rem;">
+    {chapters.map(ch => (
+      <div class="crystal-panel" style={`padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between; border-top: 3px solid ${campaignInfo.borderColor};`}>
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.65rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              {ch.portrait && (
+                <img src={resolveImg(ch.portrait)} alt={ch.character} style="width: 48px; height: 48px; object-fit: contain; background: rgba(0,0,0,0.4); border-radius: var(--radius-xs); border: 1px solid var(--border-panel-subtle); padding: 2px;" />
+              )}
+              <div>
+                <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-cosmos); font-weight: bold;">
+                  Part {ch.partNumber} &bull; {ch.character}
+                </div>
+                <h3 style="margin: 0.15rem 0 0; font-size: 1.25rem; color: var(--text-main); font-family: var(--font-heading);">
+                  <a href={`${baseUrl}story/drake/${ch.campaign}/${ch.slug}/`} style="color: inherit; text-decoration: none;">
+                    {ch.title}
+                  </a>
+                </h3>
+              </div>
+            </div>
+          </div>
+          <div style="font-size: 0.86rem; color: var(--text-dim); margin-bottom: 1rem; font-family: var(--font-subheading); line-height: 1.45;">
+            {ch.subtitle}
+          </div>
+
+          <!-- Section Headings Quick List -->
+          {ch.sections && ch.sections.length > 0 && (
+            <div style="margin-bottom: 1rem; background: rgba(0,0,0,0.25); padding: 0.5rem 0.75rem; border-radius: var(--radius-xs); border: 1px solid rgba(255,255,255,0.05); font-size: 0.78rem; font-family: var(--font-mono); color: var(--text-muted);">
+              <div style="color: var(--color-brv); font-weight: bold; margin-bottom: 0.25rem; text-transform: uppercase; font-size: 0.7rem;">Sections:</div>
+              <ul style="margin: 0; padding-left: 1.1rem; line-height: 1.4;">
+                {ch.sections.slice(0, 3).map(s => (
+                  <li>{s.line}</li>
+                ))}
+                {ch.sections.length > 3 && <li>+ {ch.sections.length - 3} more...</li>}
+              </ul>
+            </div>
+          )}
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-panel-subtle); padding-top: 0.85rem;">
+          <ProgressTracker id={ch.trackerId} label="Chapter Complete" />
+          <a href={`${baseUrl}story/drake/${ch.campaign}/${ch.slug}/`} class="btn-action" style="padding: 0.4rem 0.95rem; font-size: 0.85rem;">
+            Read Guide &rarr;
+          </a>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Bottom Navigation Actions -->
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; border-top: 1px solid var(--border-panel); padding-top: 1.5rem;">
+    <a href={`${baseUrl}story/drake/`} class="btn-action" style="padding: 0.65rem 1.25rem;">
+      &larr; Return to Drake's Walkthrough Hub
+    </a>
+    <a href={`${baseUrl}story/drake/gameplay-basics/`} class="btn-action" style="padding: 0.65rem 1.25rem;">
+      Review Gameplay Basics &rarr;
+    </a>
+  </div>
+</BaseLayout>
