@@ -449,6 +449,112 @@ code {
   color: var(--text-muted);
 }
 
+/* Collapsible Submenu Navigation */
+.nav-collapsible {
+  margin-bottom: 0.25rem;
+}
+
+.nav-collapsible-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.75rem;
+  min-height: 44px;
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-subheading);
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  border: 1px solid transparent;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.nav-collapsible-summary::-webkit-details-marker,
+.nav-collapsible-summary::marker {
+  display: none;
+}
+
+.nav-collapsible-summary .nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.nav-collapsible-summary .nav-icon svg {
+  display: block;
+}
+
+.nav-collapsible-summary .nav-label {
+  flex: 1;
+}
+
+.nav-collapsible-summary:hover {
+  color: var(--text-main);
+  background: var(--surface-panel-alt);
+  border-color: rgba(56, 189, 248, 0.2);
+}
+
+.nav-collapsible-summary:hover .nav-icon {
+  color: var(--color-brv);
+  transform: scale(1.1);
+}
+
+.nav-collapsible.has-active-child > .nav-collapsible-summary {
+  color: #ffffff;
+  background: rgba(56, 189, 248, 0.08);
+  border-color: rgba(56, 189, 248, 0.25);
+  font-weight: 700;
+}
+
+.nav-collapsible.has-active-child > .nav-collapsible-summary .nav-icon {
+  color: var(--color-brv);
+}
+
+.nav-chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  transition: transform 0.2s ease, color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.nav-collapsible[open] > .nav-collapsible-summary .nav-chevron {
+  transform: rotate(180deg);
+  color: var(--color-brv);
+}
+
+.nav-collapsible-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.25rem 0 0.25rem 0.6rem;
+  margin-left: 0.85rem;
+  border-left: 1px solid rgba(56, 189, 248, 0.2);
+  margin-top: 0.2rem;
+  margin-bottom: 0.35rem;
+}
+
+.nav-sub-link {
+  font-size: 0.9rem;
+  min-height: 38px;
+  padding: 0.4rem 0.65rem;
+  border-radius: var(--radius-sm);
+}
+
+.nav-sub-link .nav-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
 /* Main Content Area */
 .app-main {
   flex: 1;
