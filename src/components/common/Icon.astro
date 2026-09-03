@@ -1,0 +1,97 @@
+---
+type IconName =
+  | 'check'
+  | 'x'
+  | 'chevron-right'
+  | 'chevron-left'
+  | 'chevron-down'
+  | 'search'
+  | 'info'
+  | 'alert-triangle'
+  | 'star'
+  | 'gem';
+
+interface Props {
+  name: IconName;
+  size?: number | string;
+  width?: number | string;
+  height?: number | string;
+  strokeWidth?: number | string;
+  class?: string;
+  viewBox?: string;
+  fill?: string;
+  stroke?: string;
+  [key: string]: any;
+}
+
+const {
+  name,
+  size = 24,
+  width,
+  height,
+  strokeWidth = 2,
+  class: className,
+  viewBox = '0 0 24 24',
+  fill = 'none',
+  stroke = 'currentColor',
+  ...rest
+} = Astro.props;
+
+const computedWidth = width ?? size;
+const computedHeight = height ?? size;
+---
+
+<svg
+  class={className}
+  width={computedWidth}
+  height={computedHeight}
+  viewBox={viewBox}
+  fill={fill}
+  stroke={stroke}
+  stroke-width={strokeWidth}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  {...rest}
+>
+  {name === 'check' && <polyline points="20 6 9 17 4 12" />}
+  {name === 'x' && (
+    <>
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </>
+  )}
+  {name === 'chevron-right' && <polyline points="9 18 15 12 9 6" />}
+  {name === 'chevron-left' && <polyline points="15 18 9 12 15 6" />}
+  {name === 'chevron-down' && <polyline points="6 9 12 15 18 9" />}
+  {name === 'search' && (
+    <>
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </>
+  )}
+  {name === 'info' && (
+    <>
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="16" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12.01" y2="8" />
+    </>
+  )}
+  {name === 'alert-triangle' && (
+    <>
+      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+      <line x1="12" y1="9" x2="12" y2="13" />
+      <line x1="12" y1="17" x2="12.01" y2="17" />
+    </>
+  )}
+  {name === 'star' && (
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+  )}
+  {name === 'gem' && (
+    <>
+      <path d="M6 3h12l4 6-10 12L2 9z" />
+      <path d="M11 3 8 9l4 12 4-12-3-6" />
+      <path d="M2 9h20" />
+    </>
+  )}
+  <slot />
+</svg>
