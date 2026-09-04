@@ -1,18 +1,20 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css";
+import Icon from "../components/common/Icon.astro";
+import type { IconName } from "../components/common/icons";
 
 interface NavLinkChild {
   label: string;
   href: string;
   id: string;
-  icon: string;
+  icon: IconName;
 }
 
 interface NavLinkItem {
   label: string;
   href?: string;
   id: string;
-  icon: string;
+  icon: IconName;
   children?: NavLinkChild[];
 }
 
@@ -27,134 +29,137 @@ interface Props {
   currentPath?: string;
 }
 
-const { 
-  title, 
+const {
+  title,
   description = "Complete move lists, story gateways, reports, crafting recipes, and combat strategies for Dissidia 012 [duodecim] Final Fantasy (PSP).",
-  currentPath = ""
+  currentPath = "",
 } = Astro.props;
 
-const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const baseUrl = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
 
 const navGroups: NavGroup[] = [
   {
-    title: "Command Central",
+    title: "General",
     links: [
-      { 
-        label: "Portal Hub", 
-        href: `${baseUrl}`, 
+      {
+        label: "Home",
+        href: `${baseUrl}`,
         id: "home",
-        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`
-      },
-      { 
-        label: "Combat Mechanics Master", 
-        href: `${baseUrl}mechanics/`, 
-        id: "mechanics",
-        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`
-      },
-      { 
-        label: "Arena & Stage Master", 
-        href: `${baseUrl}arenas/`, 
-        id: "arenas",
-        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`
-      },
-      { 
-        label: "System FAQ & Credits", 
-        href: `${baseUrl}faq/`, 
-        id: "faq",
-        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`
-      }
-    ]
-  },
-  {
-    title: "Combat Roster",
-    links: [
-      { 
-        label: "Character Database (32+)", 
-        href: `${baseUrl}characters/`, 
-        id: "roster",
-        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/><line x1="19" y1="21" x2="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" y1="14" x2="9" y2="18"/><line x1="7" y1="17" x2="3" y2="21"/><line x1="3" y1="19" x2="5" y2="21"/></svg>`
-      }
-    ]
-  },
-  {
-    title: "Campaign Cycles",
-    links: [
-      { 
-        label: "Drake's Walkthrough", 
-        href: `${baseUrl}story/drake/`, 
-        id: "story-drake",
-        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-0.5-.05"/><path d="M6 6h10"/><path d="M6 10h10"/><path d="M6 14h6"/></svg>`
+        icon: "home",
       },
       {
-        label: "Legacy Walkthrough Guide",
-        id: "legacy-walkthroughs",
-        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
-        children: [
-          { 
-            label: "Scenario Overview", 
-            href: `${baseUrl}story/`, 
-            id: "story-hub",
-            icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>`
-          },
-          { 
-            label: "012: Treachery of Gods", 
-            href: `${baseUrl}story/012-treachery/`, 
-            id: "story-012",
-            icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>`
-          },
-          { 
-            label: "013: Light to All", 
-            href: `${baseUrl}story/013-light/`, 
-            id: "story-013",
-            icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>`
-          },
-          { 
-            label: "000: Creator's Gateways", 
-            href: `${baseUrl}story/000-creator/`, 
-            id: "story-000",
-            icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>`
-          }
-        ]
-      }
-    ]
+        label: "FAQ & Credits",
+        href: `${baseUrl}faq/`,
+        id: "faq",
+        icon: "help-circle",
+      },
+    ],
   },
   {
-    title: "Archival Lore & Unlocks",
+    title: "Gameplay",
     links: [
-      { 
-        label: "20 Reports & Unlocks", 
-        href: `${baseUrl}reports/`, 
+      {
+        label: "Characters",
+        href: `${baseUrl}characters/`,
+        id: "roster",
+        icon: "swords",
+      },
+      {
+        label: "Combat Guide",
+        href: `${baseUrl}mechanics/`,
+        id: "mechanics",
+        icon: "zap",
+      },
+
+      {
+        label: "Arenas",
+        href: `${baseUrl}arenas/`,
+        id: "arenas",
+        icon: "globe",
+      },
+    ],
+  },
+  {
+    title: "Walkthroughs",
+    links: [
+      {
+        label: "Drake's Walkthrough",
+        href: `${baseUrl}story/drake/`,
+        id: "story-drake",
+        icon: "book-open",
+      },
+      {
+        label: "Legacy Walkthrough",
+        id: "legacy-walkthroughs",
+        icon: "layers",
+        children: [
+          {
+            label: "Scenario Overview",
+            href: `${baseUrl}story/`,
+            id: "story-hub",
+            icon: "map",
+          },
+          {
+            label: "012: Treachery of Gods",
+            href: `${baseUrl}story/012-treachery/`,
+            id: "story-012",
+            icon: "flame",
+          },
+          {
+            label: "013: Light to All",
+            href: `${baseUrl}story/013-light/`,
+            id: "story-013",
+            icon: "sparkles",
+          },
+          {
+            label: "000: Creator's Gateways",
+            href: `${baseUrl}story/000-creator/`,
+            id: "story-000",
+            icon: "compass",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    title: "Lore & Unlocks",
+    links: [
+      {
+        label: "20 Reports & Unlocks",
+        href: `${baseUrl}reports/`,
         id: "reports",
-        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`
-      }
-    ]
+        icon: "file-text",
+      },
+    ],
   },
   {
     title: "Equipment & Economy",
     links: [
-      { 
-        label: "Sets, KP & AP Grinding", 
-        href: `${baseUrl}crafting/`, 
+      {
+        label: "Sets, KP & AP Grinding",
+        href: `${baseUrl}crafting/`,
         id: "crafting",
-        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M11 3 8 9l4 12 4-12-3-6"/><path d="M2 9h20"/></svg>`
-      }
-    ]
+        icon: "gem",
+      },
+    ],
   },
   {
-    title: "Communications Mode",
+    title: "Extra",
     links: [
-      { 
-        label: "Quests & Friend Cards", 
-        href: `${baseUrl}quests/`, 
+      {
+        label: "Quests & Friend Cards",
+        href: `${baseUrl}quests/`,
         id: "quests",
-        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>`
-      }
-    ]
-  }
+        icon: "layout",
+      },
+    ],
+  },
 ];
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -168,85 +173,126 @@ const navGroups: NavGroup[] = [
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <div class="app-container">
-      <!-- Left Persistent PSP Command Terminal Sidebar -->
-      <aside class="app-sidebar" id="appSidebar" aria-label="Command Terminal Navigation">
+      <!-- Left Sidebar -->
+      <aside class="app-sidebar" id="appSidebar" aria-label="Sidebar">
         <div class="sidebar-header">
-          <a href={baseUrl} class="brand-link" title="Dissidia 012 [duodecim] Strategy Guide">
-            <img src={`${baseUrl}logo.png`} alt="Dissidia 012 Logo" class="sidebar-brand-img" />
+          <a
+            href={baseUrl}
+            class="brand-link"
+            title="Dissidia 012 [duodecim] Strategy Guide"
+          >
+            <img
+              src={`${baseUrl}logo.png`}
+              alt="Dissidia 012 Logo"
+              class="sidebar-brand-img"
+            />
             <div class="brand-text">
               <h1>DISSIDIA</h1>
               <span><span class="brand-num">012</span> DUODECIM GUIDE</span>
             </div>
           </a>
-          <button class="sidebar-close-btn" id="sidebarClose" aria-label="Close Command Menu">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
+          <button
+            class="sidebar-close-btn"
+            id="sidebarClose"
+            aria-label="Close Command Menu"
+          >
+            <Icon name="x" size={20} />
           </button>
         </div>
 
         <nav class="sidebar-nav" aria-label="Main Navigation">
-          {navGroups.map(group => (
-            <div class="nav-group">
-              <div class="nav-group-title">{group.title}</div>
-              {group.links.map(link => {
-                const isDrakeRoute = Astro.url.pathname.includes('/story/drake') || currentPath === 'story-drake';
-                const isCharacterRoute = Astro.url.pathname.includes('/characters/') || currentPath === 'roster';
-                const isArenaRoute = Astro.url.pathname.includes('/arenas/') || currentPath === 'arenas';
-                
-                const checkActive = (id: string) => {
-                  if (id === 'story-drake') return isDrakeRoute;
-                  if (id === 'roster') return isCharacterRoute;
-                  if (id === 'arenas') return isArenaRoute;
-                  if (id === 'home') return currentPath === '' || currentPath === 'home';
-                  return currentPath === id;
-                };
+          {
+            navGroups.map((group) => (
+              <div class="nav-group">
+                <div class="nav-group-title">{group.title}</div>
+                {group.links.map((link) => {
+                  const isDrakeRoute =
+                    Astro.url.pathname.includes("/story/drake") ||
+                    currentPath === "story-drake";
+                  const isCharacterRoute =
+                    Astro.url.pathname.includes("/characters/") ||
+                    currentPath === "roster";
+                  const isArenaRoute =
+                    Astro.url.pathname.includes("/arenas/") ||
+                    currentPath === "arenas";
 
-                if (link.children && link.children.length > 0) {
-                  const hasActiveChild = link.children.some(child => checkActive(child.id));
+                  const checkActive = (id: string) => {
+                    if (id === "story-drake") return isDrakeRoute;
+                    if (id === "roster") return isCharacterRoute;
+                    if (id === "arenas") return isArenaRoute;
+                    if (id === "home")
+                      return currentPath === "" || currentPath === "home";
+                    return currentPath === id;
+                  };
+
+                  if (link.children && link.children.length > 0) {
+                    const hasActiveChild = link.children.some((child) =>
+                      checkActive(child.id),
+                    );
+                    return (
+                      <details
+                        class={`nav-collapsible ${hasActiveChild ? "has-active-child" : ""}`}
+                        open={hasActiveChild}
+                      >
+                        <summary class="nav-collapsible-summary">
+                          <span class="nav-icon">
+                            <Icon name={link.icon} size={18} />
+                          </span>
+                          <span class="nav-label">{link.label}</span>
+                          <span class="nav-chevron" aria-hidden="true">
+                            <Icon name="chevron-down" size={14} />
+                          </span>
+                        </summary>
+                        <div class="nav-collapsible-content">
+                          {link.children.map((child) => {
+                            const isChildActive = checkActive(child.id);
+                            return (
+                              <a
+                                href={child.href}
+                                class={`nav-link nav-sub-link ${isChildActive ? "active" : ""}`}
+                              >
+                                <span class="nav-icon">
+                                  <Icon name={child.icon} size={18} />
+                                </span>
+                                <span class="nav-label">{child.label}</span>
+                              </a>
+                            );
+                          })}
+                        </div>
+                      </details>
+                    );
+                  }
+
+                  const isActive = checkActive(link.id);
                   return (
-                    <details class={`nav-collapsible ${hasActiveChild ? 'has-active-child' : ''}`} open={hasActiveChild}>
-                      <summary class="nav-collapsible-summary">
-                        <span class="nav-icon" set:html={link.icon} />
-                        <span class="nav-label">{link.label}</span>
-                        <span class="nav-chevron" aria-hidden="true">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                          </svg>
-                        </span>
-                      </summary>
-                      <div class="nav-collapsible-content">
-                        {link.children.map(child => {
-                          const isChildActive = checkActive(child.id);
-                          return (
-                            <a href={child.href} class={`nav-link nav-sub-link ${isChildActive ? 'active' : ''}`}>
-                              <span class="nav-icon" set:html={child.icon} />
-                              <span class="nav-label">{child.label}</span>
-                            </a>
-                          );
-                        })}
-                      </div>
-                    </details>
+                    <a
+                      href={link.href}
+                      class={`nav-link ${isActive ? "active" : ""}`}
+                    >
+                      <span class="nav-icon">
+                        <Icon name={link.icon} size={18} />
+                      </span>
+                      <span class="nav-label">{link.label}</span>
+                    </a>
                   );
-                }
-
-                const isActive = checkActive(link.id);
-                return (
-                  <a href={link.href} class={`nav-link ${isActive ? 'active' : ''}`}>
-                    <span class="nav-icon" set:html={link.icon} />
-                    <span class="nav-label">{link.label}</span>
-                  </a>
-                );
-              })}
-            </div>
-          ))}
+                })}
+              </div>
+            ))
+          }
         </nav>
 
-        <div style="padding: 1rem 1.25rem; border-top: 1px solid var(--border-panel); font-size: 0.78rem; color: var(--text-dim); background: var(--surface-panel);">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div
+          style="padding: 1rem 1.25rem; border-top: 1px solid var(--border-panel); font-size: 0.78rem; color: var(--text-dim); background: var(--surface-panel);"
+        >
+          <div
+            style="display: flex; justify-content: space-between; align-items: center;"
+          >
             <span>Drake's Guide Progress:</span>
-            <span id="globalProgressCount" style="color: var(--color-assist); font-weight: 700; font-family: var(--font-mono); font-size: 0.9rem;">0 / 27</span>
+            <span
+              id="globalProgressCount"
+              style="color: var(--color-assist); font-weight: 700; font-family: var(--font-mono); font-size: 0.9rem;"
+              >0 / 27</span
+            >
           </div>
         </div>
       </aside>
@@ -255,41 +301,45 @@ const navGroups: NavGroup[] = [
       <div class="app-main">
         <header class="app-header">
           <div class="header-left">
-            <button class="mobile-toggle-btn" id="sidebarToggle" aria-label="Toggle Command Menu" aria-expanded="false" aria-controls="appSidebar">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-              </svg>
+            <button
+              class="mobile-toggle-btn"
+              id="sidebarToggle"
+              aria-label="Toggle Command Menu"
+              aria-expanded="false"
+              aria-controls="appSidebar"
+            >
+              <Icon name="menu" size={24} />
             </button>
             <nav class="header-breadcrumbs" aria-label="Breadcrumbs">
               <a href={baseUrl} class="breadcrumb-home">Home</a>
-              {title !== "Dissidia 012 [duodecim] Guide Portal" && (
-                <>
-                  <span class="breadcrumb-sep">/</span>
-                  <span class="breadcrumb-current" title={title}>{title}</span>
-                </>
-              )}
+              {
+                title !== "Dissidia 012 [duodecim] Guide Portal" && (
+                  <>
+                    <span class="breadcrumb-sep">/</span>
+                    <span class="breadcrumb-current" title={title}>
+                      {title}
+                    </span>
+                  </>
+                )
+              }
             </nav>
           </div>
 
-          <div class="header-actions">
-            <a href={`${baseUrl}story/012-treachery/`} class="badge-pill badge-cosmos" style="text-decoration: none;">
-              Cycle 012
-            </a>
-            <a href={`${baseUrl}characters/`} class="badge-pill badge-new" style="text-decoration: none;">
-              32 Roster
-            </a>
-            <a href={`${baseUrl}crafting/`} class="badge-pill badge-crystal" style="text-decoration: none;">
-              Gear & KP
-            </a>
-          </div>
-
-          <a href={baseUrl} class="mobile-header-brand" aria-label="Dissidia 012 Guide Home">
-            <img src={`${baseUrl}logo.png`} alt="Dissidia 012 Logo" class="mobile-brand-img" />
+          <a
+            href={baseUrl}
+            class="mobile-header-brand"
+            aria-label="Dissidia 012 Guide Home"
+          >
+            <img
+              src={`${baseUrl}logo.png`}
+              alt="Dissidia 012 Logo"
+              class="mobile-brand-img"
+            />
             <div class="mobile-brand-text">
               <span class="mobile-brand-title">DISSIDIA</span>
-              <span class="mobile-brand-sub"><span class="brand-num">012</span> DUODECIM</span>
+              <span class="mobile-brand-sub"
+                ><span class="brand-num">012</span> DUODECIM</span
+              >
             </div>
           </a>
         </header>
@@ -342,7 +392,7 @@ const navGroups: NavGroup[] = [
         });
 
         // Close sidebar on navigation clicks
-        document.querySelectorAll(".nav-link").forEach(link => {
+        document.querySelectorAll(".nav-link").forEach((link) => {
           link.addEventListener("click", () => {
             closeMenu();
           });
@@ -356,7 +406,9 @@ const navGroups: NavGroup[] = [
               const list = JSON.parse(raw);
               const countEl = document.getElementById("globalProgressCount");
               if (countEl && Array.isArray(list)) {
-                const drakeDone = list.filter(id => id.startsWith("drake-ch-")).length;
+                const drakeDone = list.filter((id) =>
+                  id.startsWith("drake-ch-"),
+                ).length;
                 countEl.textContent = `${drakeDone} / 27`;
               }
             }
