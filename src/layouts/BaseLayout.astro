@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Icon from "../components/common/Icon.astro";
+import SidebarProgress from "../components/common/SidebarProgress.astro";
 import type { IconName } from "../components/common/icons";
 
 interface NavLinkChild {
@@ -276,20 +277,7 @@ const navGroups: NavGroup[] = [
           }
         </nav>
 
-        <div
-          style="padding: 1rem 1.25rem; border-top: 1px solid var(--border-panel); font-size: 0.78rem; color: var(--text-dim); background: var(--surface-panel);"
-        >
-          <div
-            style="display: flex; justify-content: space-between; align-items: center;"
-          >
-            <span>Drake's Guide Progress:</span>
-            <span
-              id="globalProgressCount"
-              style="color: var(--color-assist); font-weight: 700; font-family: var(--font-mono); font-size: 0.9rem;"
-              >0 / 27</span
-            >
-          </div>
-        </div>
+        <SidebarProgress />
       </aside>
 
       <!-- Main Content Shell -->
@@ -393,26 +381,6 @@ const navGroups: NavGroup[] = [
           });
         });
 
-        // Safe global progress badge synchronization
-        function updateGlobalProgress() {
-          try {
-            const raw = localStorage.getItem("dissidia-012-guide-progress");
-            if (raw) {
-              const list = JSON.parse(raw);
-              const countEl = document.getElementById("globalProgressCount");
-              if (countEl && Array.isArray(list)) {
-                const drakeDone = list.filter((id) =>
-                  id.startsWith("drake-ch-"),
-                ).length;
-                countEl.textContent = `${drakeDone} / 27`;
-              }
-            }
-          } catch (e) {
-            console.warn("Storage sync notice:", e);
-          }
-        }
-        updateGlobalProgress();
-        window.addEventListener("storage", updateGlobalProgress);
       }
     </script>
   </body>
