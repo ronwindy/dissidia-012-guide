@@ -67,7 +67,7 @@ const navGroups: NavGroup[] = [
         icon: "swords",
       },
       {
-        label: "Combat Guide",
+        label: "Combat Mechanics",
         href: `${baseUrl}mechanics/`,
         id: "mechanics",
         icon: "zap",
@@ -78,6 +78,12 @@ const navGroups: NavGroup[] = [
         href: `${baseUrl}arenas/`,
         id: "arenas",
         icon: "globe",
+      },
+      {
+        label: "Equipments & Shop",
+        href: `${baseUrl}crafting/`,
+        id: "crafting",
+        icon: "gem",
       },
     ],
   },
@@ -131,17 +137,6 @@ const navGroups: NavGroup[] = [
         href: `${baseUrl}reports/`,
         id: "reports",
         icon: "file-text",
-      },
-    ],
-  },
-  {
-    title: "Equipment & Economy",
-    links: [
-      {
-        label: "Sets, KP & AP Grinding",
-        href: `${baseUrl}crafting/`,
-        id: "crafting",
-        icon: "gem",
       },
     ],
   },
@@ -453,7 +448,12 @@ const navGroups: NavGroup[] = [
     z-index: 10;
     padding: 1.15rem 1.25rem;
     border-bottom: 2px solid rgba(56, 189, 248, 0.25);
-    background: linear-gradient(180deg, rgba(56, 189, 248, 0.08) 0%, rgba(10, 14, 26, 0.98) 100%);
+    background: linear-gradient(
+        180deg,
+        rgba(56, 189, 248, 0.12) 0%,
+        rgba(10, 14, 26, 0) 100%
+      ),
+      var(--surface-hud);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -520,7 +520,7 @@ const navGroups: NavGroup[] = [
 
   .brand-text h1 {
     font-family: var(--font-wallpoet);
-    font-size: 1.24rem;
+    font-size: 1.43rem;
     font-weight: 700;
     line-height: 1;
     margin: 0;
@@ -595,7 +595,9 @@ const navGroups: NavGroup[] = [
     align-items: center;
     justify-content: center;
     color: var(--text-dim);
-    transition: color var(--transition-fast), transform var(--transition-fast);
+    transition:
+      color var(--transition-fast),
+      transform var(--transition-fast);
     flex-shrink: 0;
   }
 
@@ -622,7 +624,11 @@ const navGroups: NavGroup[] = [
 
   .nav-link.active {
     color: #ffffff;
-    background: linear-gradient(90deg, rgba(56, 189, 248, 0.22) 0%, rgba(56, 189, 248, 0.05) 100%);
+    background: linear-gradient(
+      90deg,
+      rgba(56, 189, 248, 0.22) 0%,
+      rgba(56, 189, 248, 0.05) 100%
+    );
     border: 1px solid rgba(56, 189, 248, 0.4);
     border-left: 3px solid var(--color-brv);
     font-weight: 700;
@@ -679,7 +685,9 @@ const navGroups: NavGroup[] = [
     align-items: center;
     justify-content: center;
     color: var(--text-dim);
-    transition: color var(--transition-fast), transform var(--transition-fast);
+    transition:
+      color var(--transition-fast),
+      transform var(--transition-fast);
     flex-shrink: 0;
   }
 
@@ -719,7 +727,9 @@ const navGroups: NavGroup[] = [
     align-items: center;
     justify-content: center;
     color: var(--text-dim);
-    transition: transform 0.2s ease, color var(--transition-fast);
+    transition:
+      transform 0.2s ease,
+      color var(--transition-fast);
     flex-shrink: 0;
   }
 
@@ -845,7 +855,9 @@ const navGroups: NavGroup[] = [
     max-width: 50px;
     object-fit: contain;
     filter: drop-shadow(0 2px 8px rgba(56, 189, 248, 0.4));
-    transition: transform var(--transition-fast), filter var(--transition-fast);
+    transition:
+      transform var(--transition-fast),
+      filter var(--transition-fast);
   }
 
   .mobile-brand-text {
@@ -855,8 +867,8 @@ const navGroups: NavGroup[] = [
   }
 
   .mobile-brand-title {
-    font-family: var(--font-display);
-    font-size: 0.98rem;
+    font-family: var(--font-wallpoet);
+    font-size: 0.89rem;
     font-weight: 700;
     line-height: 1;
     letter-spacing: 0.1em;
