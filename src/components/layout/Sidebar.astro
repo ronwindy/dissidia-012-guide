@@ -121,9 +121,8 @@ const navGroups = getNavGroups(baseUrl);
   </nav>
 </aside>
 
-<script is:inline>
-  // Client-side drawer management with SSR guards
-  if (typeof document !== "undefined") {
+<script>
+  function initSidebar() {
     const toggleBtn = document.getElementById("sidebarToggle");
     const closeBtn = document.getElementById("sidebarClose");
     const sidebar = document.getElementById("appSidebar");
@@ -168,6 +167,19 @@ const navGroups = getNavGroups(baseUrl);
         closeMenu();
       });
     });
+
+    // Auto-close on resize to desktop view
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 1024 && sidebar?.classList.contains("open")) {
+        closeMenu();
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initSidebar);
+  } else {
+    initSidebar();
   }
 </script>
 
