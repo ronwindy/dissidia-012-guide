@@ -1,13 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Icon from "../components/common/Icon.astro";
-import { gameInfo, getPortals } from "../data/homeData";
+import { gameInfo } from "../data/homeData";
 
 const baseUrl = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
-
-const portals = getPortals(baseUrl);
 ---
 
 <BaseLayout title="Dissidia 012 [duodecim] Guide Portal" currentPath="home">
@@ -67,42 +65,33 @@ const portals = getPortals(baseUrl);
     </div>
   </div>
 
-  <!-- Portal Navigation Grid -->
-  <h2 style="margin-top: 3rem;">QUICK LINKS</h2>
-  <div
-    class="card-grid"
-    style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;"
-  >
-    {
-      portals.map((p) => (
-        <div class="crystal-panel portal-card">
-          <div class="portal-card-top">
-            <div class="portal-badge-bar">
-              <span class={`badge-pill ${p.badgeClass}`}>{p.badge}</span>
-            </div>
-            <div class="portal-card-body">
-              <div class={`portal-icon-box ${p.badgeClass}`}>
-                <Icon name={p.icon} size={22} />
-              </div>
-              <div class="portal-card-text">
-                <h3 class="portal-card-title">{p.title}</h3>
-                <p class="portal-card-desc">{p.desc}</p>
-              </div>
-            </div>
-          </div>
-          <div>
-            <a
-              href={p.href}
-              class="btn-action"
-              style="width: 100%; box-sizing: border-box;"
-            >
-              {p.cta} &rarr;
-            </a>
-          </div>
-        </div>
-      ))
-    }
-  </div>
+  <!-- Game Introduction -->
+  <section class="game-intro-section" aria-labelledby="intro-heading">
+    <div class="crystal-panel intro-panel">
+      <div class="intro-header">
+        <Icon name="sparkles" size={24} class="intro-header-icon" />
+        <h2 id="intro-heading" class="intro-heading">OVERVIEW & PREMISE</h2>
+      </div>
+
+      <div class="intro-body">
+        <p class="intro-lead">
+          <strong>Dissidia 012 [duodecim] Final Fantasy</strong> is the critically acclaimed 3D arena action-RPG for the PlayStation Portable, serving as both a dramatic prequel and a vastly expanded definitive edition of the original <em>Dissidia Final Fantasy</em>. Set in a desolate realm locked in an eternal war between <strong>Cosmos</strong>, the goddess of harmony, and <strong>Chaos</strong>, the god of discord, both deities summon legendary champions from across the <em>Final Fantasy</em> multiverse to wage endless battle in a tragic cycle of death and rebirth.
+        </p>
+
+        <p>
+          This installment chronicles the previously untold <strong>12th Cycle of the War</strong>. A newly summoned vanguard of heroes—led by <strong>Lightning</strong> (FFXIII), <strong>Vaan</strong> (FFXII), <strong>Laguna Loire</strong> (FFVIII), <strong>Yuna</strong> (FFX), <strong>Kain Highwind</strong> (FFIV), and <strong>Tifa Lockhart</strong> (FFVII)—uncovers the cruel truth behind their perpetual conflict. Realizing that victory in this cycle is impossible, they embark on a perilous, self-sacrificing quest to halt the inexhaustible horde of Manikins, buying precious time and leaving behind the crystals that will empower their comrades to finally break the cycle in the 13th war.
+        </p>
+
+        <p>
+          Combat in <em>Dissidia 012</em> elevates the signature Bravery battle system to new tactical depths. Warriors exchange swift <strong>Bravery Attacks</strong> to shatter defenses and siphon combat power, then convert their stored Bravery into devastating <strong>HP Attacks</strong>. The flagship <strong>Assist System</strong> allows combatants to summon allied fighters for offensive aerial combo extensions or clutch defensive escapes, while <strong>EX Revenge</strong> enables fighters to dilute time itself and turn the tides during desperate moments.
+        </p>
+
+        <p>
+          Featuring the remastered classic 13th cycle campaign (<em>013: Light to All</em>), an expansive post-game open-world adventure (<em>000: Confessions of the Creator</em>), the challenging Labyrinth dungeon crawler, and an iconic roster of over 30 heroes and villains, <em>Dissidia 012</em> stands as the ultimate celebration of <em>Final Fantasy</em> heritage and combat.
+        </p>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
@@ -157,5 +146,75 @@ const portals = getPortals(baseUrl);
     color: var(--text-dim);
     font-family: var(--font-mono);
     line-height: 1.4;
+  }
+
+  /* Game Introduction */
+  .game-intro-section {
+    margin-top: 2.5rem;
+  }
+
+  .intro-panel {
+    padding: 2rem;
+  }
+
+  .intro-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-panel-subtle);
+  }
+
+  .intro-header-icon {
+    color: var(--color-brv);
+    flex-shrink: 0;
+  }
+
+  .intro-heading {
+    margin: 0;
+    font-size: 1.35rem;
+    font-family: var(--font-heading);
+    letter-spacing: 0.06em;
+    color: var(--text-main);
+  }
+
+  .intro-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+  }
+
+  .intro-body p {
+    margin: 0;
+    color: var(--text-sub);
+    font-size: 0.98rem;
+    line-height: 1.75;
+  }
+
+  .intro-body .intro-lead {
+    font-size: 1.05rem;
+    color: var(--text-main);
+    line-height: 1.8;
+  }
+
+  .intro-body strong {
+    color: var(--text-main);
+  }
+
+  .intro-body em {
+    color: var(--color-brv);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  @media (max-width: 640px) {
+    .intro-panel {
+      padding: 1.25rem;
+    }
+
+    .intro-heading {
+      font-size: 1.15rem;
+    }
   }
 </style>
