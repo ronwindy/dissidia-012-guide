@@ -1,122 +1,395 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import AlertCallout from '../components/common/AlertCallout.astro';
-import DataTable from '../components/common/DataTable.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AlertCallout from "../components/common/AlertCallout.astro";
+import DataTable from "../components/common/DataTable.astro";
 
-const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const baseUrl = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
 
 const faqs = [
   {
     q: "What is Main Scenario 013?",
-    a: "It is a complete, enhanced remake of the first Dissidia storyline updated with Dissidia 012's new battle system, graphics engine, and Assist mechanics. Shantotto and Gabranth's dungeons are relocated to Scenario 000."
+    a: "It is a complete, enhanced remake of the first Dissidia storyline updated with Dissidia 012's new battle system, graphics engine, and Assist mechanics. Shantotto and Gabranth's dungeons are relocated to Scenario 000.",
   },
   {
     q: "How do I unlock Prishe and Gilgamesh?",
-    a: "Access Report 08 in the Museum. Trigger the secret battle 'The Maiden Bringer of Light -1-' on the phrase \"beyond the door to the Rift\" to unlock Prishe, and trigger 'The Duel of Dreams' on the phrase \"tremendous force\" to unlock Gilgamesh. Both can then be purchased in the PP Catalog."
+    a: "Access Report 08 in the Museum. Trigger the secret battle 'The Maiden Bringer of Light -1-' on the phrase \"beyond the door to the Rift\" to unlock Prishe, and trigger 'The Duel of Dreams' on the phrase \"tremendous force\" to unlock Gilgamesh. Both can then be purchased in the PP Catalog.",
   },
   {
     q: "How do I unlock Feral Chaos?",
-    a: "Clear the main storyline of Scenario 000: Confessions of the Creator and defeat the Level 130 incarnation of Feral Chaos on Floor 5 of the Edge of Discord gateway. You can then purchase him in the PP Catalog for 300 PP."
+    a: "Clear the main storyline of Scenario 000: Confessions of the Creator and defeat the Level 130 incarnation of Feral Chaos on Floor 5 of the Edge of Discord gateway. You can then purchase him in the PP Catalog for 300 PP.",
   },
   {
     q: "How do I unlock the locked / sealed regions across World Map 000?",
-    a: "Conquer the gateway dungeon 'Chasm of the Rotting Land'. Clearing it dissolves the barriers obstructing the teleportation stones and mountain passes."
+    a: "Conquer the gateway dungeon 'Chasm of the Rotting Land'. Clearing it dissolves the barriers obstructing the teleportation stones and mountain passes.",
   },
   {
     q: "Why did my dodge register as a block?",
-    a: "When you execute a dodge in the exact initial frames when an incoming attack connects, the game's startup window triggers an instant Guard/Block interaction rather than an evasion."
+    a: "When you execute a dodge in the exact initial frames when an incoming attack connects, the game's startup window triggers an instant Guard/Block interaction rather than an evasion.",
   },
   {
     q: "What are Booster Accessories and how do they work?",
-    a: "Booster accessories (identified by their white icons) provide multiplier bonuses (e.g. 1.2x, 1.5x) to your equipped basic accessories as long as their specific combat condition (e.g. 'HP = 100%', 'Opponent in EX Mode', 'Stage Damage Taken') is met."
+    a: "Booster accessories (identified by their white icons) provide multiplier bonuses (e.g. 1.2x, 1.5x) to your equipped basic accessories as long as their specific combat condition (e.g. 'HP = 100%', 'Opponent in EX Mode', 'Stage Damage Taken') is met.",
   },
   {
     q: "What is a 'Bravery Attack Finish'?",
-    a: "It refers to landing the complete sequence of a Bravery attack combo without interruption, triggering the final hit or branch transition."
+    a: "It refers to landing the complete sequence of a Bravery attack combo without interruption, triggering the final hit or branch transition.",
   },
   {
     q: "Are Zack Fair, Angeal, or Genesis in this game?",
-    a: "No. Aerith appears as an Assist character, but Crisis Core characters are not featured on the playable roster."
-  }
+    a: "No. Aerith appears as an Assist character, but Crisis Core characters are not featured on the playable roster.",
+  },
 ];
 
 const changelog = [
-  { ver: "v1.39", date: "03/16/2012", desc: "Fixed wording and polished grammar across all move lists and gateway walkthroughs." },
-  { ver: "v1.37", date: "02/01/2012", desc: "Added 4th KP grinding method and Megalixer farming update." },
-  { ver: "v1.34", date: "08/24/2011", desc: "Added Terra link glitch and Lightning Paradigm cancel glitches. Expanded Golbez, Kefka, Firion, and CoD sections." },
-  { ver: "v1.28", date: "07/10/2011", desc: "Major character strategy updates for Exdeath, Cecil, Emperor, Squall, Onion Knight, and Cloud." },
-  { ver: "v1.01", date: "04/15/2011", desc: "Added complete Prishe skillchain combinations matrix." },
-  { ver: "v1.00", date: "04/14/2011", desc: "Initial full release of the complete Dissidia 012 Move List & Master Guide." }
+  {
+    ver: "v1.39",
+    date: "03/16/2012",
+    desc: "Fixed wording and polished grammar across all move lists and gateway walkthroughs.",
+  },
+  {
+    ver: "v1.37",
+    date: "02/01/2012",
+    desc: "Added 4th KP grinding method and Megalixer farming update.",
+  },
+  {
+    ver: "v1.34",
+    date: "08/24/2011",
+    desc: "Added Terra link glitch and Lightning Paradigm cancel glitches. Expanded Golbez, Kefka, Firion, and CoD sections.",
+  },
+  {
+    ver: "v1.28",
+    date: "07/10/2011",
+    desc: "Major character strategy updates for Exdeath, Cecil, Emperor, Squall, Onion Knight, and Cloud.",
+  },
+  {
+    ver: "v1.01",
+    date: "04/15/2011",
+    desc: "Added complete Prishe skillchain combinations matrix.",
+  },
+  {
+    ver: "v1.00",
+    date: "04/14/2011",
+    desc: "Initial full release of the complete Dissidia 012 Move List & Master Guide.",
+  },
 ];
 ---
 
-<BaseLayout title="FAQ & System Mechanics Glossary" currentPath="faq">
-  <div style="margin-bottom: 2rem;">
-    <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
-      <span class="badge-pill badge-cosmos">Reference Compendium</span>
-      <span class="badge-pill badge-new">Game Mechanics</span>
+<BaseLayout title="FAQ, Credits & Changelog" currentPath="faq">
+  <div class="page-header">
+    <div class="page-badges">
+      <span class="badge-pill badge-cosmos">FAQs</span>
+      <span class="badge-pill badge-crystal">Community Credits</span>
+      <span class="badge-pill badge-chaos">Changelog Archive</span>
     </div>
-    <h1 style="margin: 0; letter-spacing: 0.04em;">FREQUENTLY ASKED QUESTIONS & MECHANICS</h1>
-    <p style="color: var(--text-muted); font-size: 1.05rem; margin-top: 0.5rem; line-height: 1.6;">
-      Essential system answers, frame mechanics, community credits, and the complete version archive for Dissidia 012 [duodecim].
+    <h1 class="page-title">FREQUENTLY ASKED QUESTIONS & CREDITS</h1>
+    <p class="page-subtitle">
+      Essential gameplay answers, community archival credits, and the complete
+      version history for <strong>Dissidia 012 [duodecim] Final Fantasy</strong
+      >.
     </p>
   </div>
 
-  <AlertCallout type="strategy" title="FULL COMBAT MECHANICS GUIDE AVAILABLE">
-    Looking for in-depth mathematical damage formulas, Assist lock/break mechanics, priority collision charts, EX Mode/Revenge systems, and frame cancel data? Check out the dedicated <a href={`${baseUrl}mechanics/`} style="color: var(--color-brv); font-weight: 700; text-decoration: underline;">Combat Mechanics Master Guide &rarr;</a>
+  <AlertCallout type="strategy" title="LOOKING FOR COMBAT MECHANICS?">
+    Looking for in-depth mathematical damage formulas, <strong
+      >Assist lock/break</strong
+    >
+    mechanics, priority collision charts, <strong>EX Mode/Revenge</strong> systems,
+    and frame cancel data? Check out the dedicated <a
+      href={`${baseUrl}mechanics/`}
+      class="mechanics-link">Combat Mechanics</a
+    > guide
   </AlertCallout>
 
   <!-- FAQ Cards -->
-  <h2>Common Gameplay Questions</h2>
-  <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem;">
-    {faqs.map(f => (
-      <div class="crystal-panel" style="margin-bottom: 0;">
-        <h3 style="margin-top: 0; font-size: 1.2rem; color: var(--color-brv); display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-heading);">
-          <span>Q:</span> {f.q}
-        </h3>
-        <p style="font-size: 0.94rem; color: var(--text-sub); line-height: 1.65; margin: 0.5rem 0 0 0;">
-          <strong style="color: var(--text-main);">A:</strong> {f.a}
-        </p>
-      </div>
-    ))}
-  </div>
+  <section class="section-container" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" class="section-title">Frequently Asked Questions</h2>
+    <div class="faq-list">
+      {
+        faqs.map((f) => (
+          <article class="crystal-panel faq-card">
+            <h3 class="faq-question">
+              <span class="faq-badge">Q</span>
+              <span class="faq-text">{f.q}</span>
+            </h3>
+            <p class="faq-answer">
+              <strong class="faq-answer-badge">A:</strong>
+              <span class="faq-answer-text">{f.a}</span>
+            </p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
 
   <!-- Credits & Acknowledgements -->
-  <h2>Credits & Archival Acknowledgements</h2>
-  <div class="crystal-panel" style="border-left: 4px solid var(--color-lufenia); margin-bottom: 2.5rem;">
-    <p style="color: var(--text-sub); font-size: 0.94rem; line-height: 1.7; margin-bottom: 1rem;">
-      Special gratitude to <strong>Suih / Zahlzeit</strong> for authoring the master Move List & Guide on GameFAQs, and to the dedicated Dissidia fighting community who contributed data, frame findings, and strategies:
-    </p>
-    <ul style="color: var(--text-sub); font-size: 0.9rem; padding-left: 1.3rem; line-height: 1.65;">
-      <li><strong>piratekingVyse2, furix, n4bcake, ChekhovsGunman, Burisu, Arc166:</strong> Moogle shop item inventories, summon pricing, and gateway corrections.</li>
-      <li><strong>Piers B, Michael Rabinowitz, Isaac Ashton, gkrebs24, Solid Steve, Bryant Jamal E., Casta Medora, KillerOfDespair:</strong> Character-specific counter strategies against Level 130 Feral Chaos.</li>
-      <li><strong>Paul Brown:</strong> Full Prishe Weaponskill Skillchain matrix.</li>
-      <li><strong>Hernan Pessolani:</strong> Ghost battle item duplication discovery.</li>
-      <li><strong>Satsukun:</strong> Lightning Paradigm Shift and Terra Link cancel discoveries.</li>
-      <li><strong>Max Raschke, Franklin Jingga, TerraBunny95:</strong> KP optimization and Gateway chest coordinates.</li>
-    </ul>
-  </div>
+  <section class="section-container" aria-labelledby="credits-heading">
+    <h2 id="credits-heading" class="section-title">
+      Credits & Archival Acknowledgements
+    </h2>
+    <div class="crystal-panel credits-panel">
+      <p class="credits-lead">
+        Special gratitude to <strong>Suih / Zahlzeit</strong> for authoring the master
+        Move List & Guide on GameFAQs, and to the dedicated Dissidia fighting community
+        who contributed data, frame findings, and strategies:
+      </p>
+      <ul class="credits-list">
+        <li>
+          <strong
+            >piratekingVyse2, furix, n4bcake, ChekhovsGunman, Burisu, Arc166:</strong
+          > Moogle shop item inventories, summon pricing, and gateway corrections.
+        </li>
+        <li>
+          <strong
+            >Piers B, Michael Rabinowitz, Isaac Ashton, gkrebs24, Solid Steve,
+            Bryant Jamal E., Casta Medora, KillerOfDespair:</strong
+          > Character-specific counter strategies against Level 130 Feral Chaos.
+        </li>
+        <li>
+          <strong>Paul Brown:</strong> Full Prishe Weaponskill Skillchain matrix.
+        </li>
+        <li>
+          <strong>Hernan Pessolani:</strong> Ghost battle item duplication discovery.
+        </li>
+        <li>
+          <strong>Satsukun:</strong> Lightning Paradigm Shift and Terra Link cancel
+          discoveries.
+        </li>
+        <li>
+          <strong>Max Raschke, Franklin Jingga, TerraBunny95:</strong> KP optimization
+          and Gateway chest coordinates.
+        </li>
+      </ul>
+    </div>
+  </section>
 
   <!-- Version History -->
-  <h2>Version Changelog Archive</h2>
-  <DataTable title="Changelog History (v1.00 - v1.39)">
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th style="width: 110px;">Version</th>
-          <th style="width: 130px;">Date</th>
-          <th>Summary of Changes</th>
-        </tr>
-      </thead>
-      <tbody>
-        {changelog.map(c => (
+  <section class="section-container" aria-labelledby="changelog-heading">
+    <h2 id="changelog-heading" class="section-title">
+      Version Changelog Archive
+    </h2>
+    <DataTable title="Changelog History (v1.00 - v1.39)">
+      <table class="data-table">
+        <thead>
           <tr>
-            <td><strong style="color: var(--color-brv); font-family: var(--font-mono);">{c.ver}</strong></td>
-            <td style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-dim);">{c.date}</td>
-            <td style="font-size: 0.92rem; color: var(--text-sub); line-height: 1.5;">{c.desc}</td>
+            <th class="col-version">Version</th>
+            <th class="col-date">Date</th>
+            <th class="col-desc">Summary of Changes</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
-  </DataTable>
+        </thead>
+        <tbody>
+          {
+            changelog.map((c) => (
+              <tr>
+                <td class="cell-version">{c.ver}</td>
+                <td class="cell-date">{c.date}</td>
+                <td class="cell-desc">{c.desc}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </DataTable>
+  </section>
 </BaseLayout>
+
+<style>
+  .page-header {
+    margin-bottom: 2rem;
+  }
+
+  .page-badges {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .page-title {
+    margin: 0;
+    letter-spacing: 0.04em;
+    font-size: clamp(1.75rem, 2.5vw, 2.35rem);
+    line-height: 1.15;
+  }
+
+  .page-subtitle {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    margin-top: 0.5rem;
+    line-height: 1.6;
+    max-width: 880px;
+  }
+
+  .mechanics-link {
+    color: var(--color-brv);
+    font-weight: 700;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .mechanics-link:hover {
+    color: var(--text-main);
+  }
+
+  .section-container {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-title {
+    font-family: var(--font-heading);
+    letter-spacing: 0.03em;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.45rem;
+    color: var(--text-main);
+  }
+
+  /* FAQ List */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .faq-card {
+    margin-bottom: 0;
+    padding: 1.35rem 1.5rem;
+    transition:
+      border-color var(--transition-fast),
+      background-color var(--transition-fast);
+  }
+
+  .faq-card:hover {
+    border-color: var(--border-panel-hover);
+    background-color: var(--surface-panel-hover);
+  }
+
+  .faq-question {
+    margin: 0 0 0.65rem 0;
+    font-size: 1.18rem;
+    color: var(--color-brv);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    font-family: var(--font-heading);
+    line-height: 1.35;
+  }
+
+  .faq-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: var(--radius-xs);
+    background: rgba(56, 189, 248, 0.15);
+    color: var(--color-brv);
+    font-size: 0.85rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    margin-top: 0.05rem;
+  }
+
+  .faq-text {
+    flex: 1;
+  }
+
+  .faq-answer {
+    font-size: 0.95rem;
+    color: var(--text-sub);
+    line-height: 1.65;
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  .faq-answer-badge {
+    color: var(--text-main);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .faq-answer-text {
+    flex: 1;
+  }
+
+  /* Credits Panel */
+  .credits-panel {
+    border-left: 4px solid var(--color-lufenia);
+    padding: 1.5rem 1.75rem;
+  }
+
+  .credits-lead {
+    color: var(--text-sub);
+    font-size: 0.96rem;
+    line-height: 1.7;
+    margin: 0 0 1.15rem 0;
+  }
+
+  .credits-lead strong {
+    color: var(--text-main);
+  }
+
+  .credits-list {
+    color: var(--text-sub);
+    font-size: 0.92rem;
+    padding-left: 1.25rem;
+    line-height: 1.65;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .credits-list li strong {
+    color: var(--text-main);
+  }
+
+  /* Changelog Table */
+  .col-version {
+    width: 110px;
+  }
+
+  .col-date {
+    width: 130px;
+  }
+
+  .col-desc {
+    min-width: 260px;
+  }
+
+  .cell-version {
+    color: var(--color-brv);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .cell-date {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+
+  .cell-desc {
+    font-size: 0.92rem;
+    color: var(--text-sub);
+    line-height: 1.55;
+  }
+
+  @media (max-width: 640px) {
+    .faq-card {
+      padding: 1.1rem 1.15rem;
+    }
+
+    .credits-panel {
+      padding: 1.15rem 1.25rem;
+    }
+  }
+</style>

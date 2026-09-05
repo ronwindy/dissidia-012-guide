@@ -246,6 +246,16 @@ code {
   color: #bae6fd;
 }
 
+strong {
+  color: var(--text-main);
+}
+
+em {
+  color: var(--color-brv);
+  font-style: normal;
+  font-weight: 600;
+}
+
 /* Landing Page Hero Brand */
 .hero-brand {
   display: flex;
@@ -572,6 +582,7 @@ table.data-table tr:hover td {
 
 /* Responsive Media Queries */
 @media (max-width: 768px) {
+
   .glass-card,
   .crystal-panel {
     padding: 1.15rem 0.95rem;
@@ -588,6 +599,7 @@ table.data-table tr:hover td {
 }
 
 @media (max-width: 480px) {
+
   .glass-card,
   .crystal-panel {
     padding: 1rem 0.75rem;
