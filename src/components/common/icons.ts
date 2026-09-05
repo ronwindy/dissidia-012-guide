@@ -22,4 +22,8 @@ export type IconName =
   | 'compass'
   | 'file-text'
   | 'layout'
-  | 'menu';
+  | 'menu'
+  | 'calendar'
+  | 'gamepad'
+  | 'building'
+  | 'user';
