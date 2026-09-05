@@ -1,5 +1,6 @@
 ---
 import Icon from "../common/Icon.astro";
+import DrakeProgressTracker from "../common/DrakeProgressTracker.astro";
 
 interface Props {
   title: string;
@@ -52,6 +53,10 @@ const { title, baseUrl } = Astro.props;
       >
     </div>
   </a>
+
+  <div class="header-right">
+    <DrakeProgressTracker />
+  </div>
 </header>
 
 <style>
@@ -117,9 +122,10 @@ const { title, baseUrl } = Astro.props;
     display: inline-block;
   }
 
-  .header-actions {
+  .header-right {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 0.75rem;
     flex-shrink: 0;
   }
@@ -224,6 +230,24 @@ const { title, baseUrl } = Astro.props;
 
   /* Responsive Media Queries */
   @media (max-width: 1024px) {
+    .app-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: center;
+      padding: 0 1.25rem;
+      gap: 0.75rem;
+    }
+
+    .header-left {
+      justify-self: start;
+      min-width: 0;
+      flex: none;
+    }
+
+    .header-breadcrumbs {
+      display: none;
+    }
+
     .mobile-toggle-btn {
       display: inline-flex;
       flex-shrink: 0;
@@ -231,6 +255,14 @@ const { title, baseUrl } = Astro.props;
 
     .mobile-header-brand {
       display: flex;
+      justify-self: center;
+      margin: 0;
+    }
+
+    .header-right {
+      display: flex;
+      justify-self: end;
+      min-width: 0;
     }
   }
 
@@ -240,27 +272,19 @@ const { title, baseUrl } = Astro.props;
       gap: 0.5rem;
     }
 
-    .header-actions {
-      display: none;
-    }
-
-    .header-breadcrumbs {
-      display: none;
-    }
-
     .header-left {
-      gap: 0.65rem;
-      flex: 0 0 auto;
-    }
-
-    .mobile-header-brand {
-      margin-left: auto;
+      gap: 0.5rem;
     }
   }
 
   @media (max-width: 480px) {
     :global(:root) {
       --header-height: 58px;
+    }
+
+    .app-header {
+      padding: 0 0.65rem;
+      gap: 0.35rem;
     }
 
     .mobile-header-brand {
@@ -281,15 +305,15 @@ const { title, baseUrl } = Astro.props;
     }
 
     .mobile-toggle-btn {
-      min-width: 44px;
-      min-height: 44px;
-      padding: 0.5rem;
+      min-width: 40px;
+      min-height: 40px;
+      padding: 0.4rem;
     }
 
     .mobile-toggle-btn :global(svg),
     .mobile-toggle-btn svg {
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
     }
   }
 

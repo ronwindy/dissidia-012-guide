@@ -1,6 +1,5 @@
 ---
 import Icon from "../common/Icon.astro";
-import SidebarProgress from "../common/SidebarProgress.astro";
 import { getNavGroups } from "../../data/navigation";
 
 interface Props {
@@ -11,6 +10,8 @@ interface Props {
 const { currentPath = "", baseUrl } = Astro.props;
 const navGroups = getNavGroups(baseUrl);
 ---
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <aside class="app-sidebar" id="appSidebar" aria-label="Sidebar">
   <div class="sidebar-header">
@@ -118,11 +119,79 @@ const navGroups = getNavGroups(baseUrl);
       ))
     }
   </nav>
-
-  <SidebarProgress />
 </aside>
 
+<script is:inline>
+  // Client-side drawer management with SSR guards
+  if (typeof document !== "undefined") {
+    const toggleBtn = document.getElementById("sidebarToggle");
+    const closeBtn = document.getElementById("sidebarClose");
+    const sidebar = document.getElementById("appSidebar");
+    const overlay = document.getElementById("sidebarOverlay");
+
+    function openMenu() {
+      sidebar?.classList.add("open");
+      overlay?.classList.add("open");
+      toggleBtn?.setAttribute("aria-expanded", "true");
+      document.body.classList.add("drawer-open");
+    }
+
+    function closeMenu() {
+      sidebar?.classList.remove("open");
+      overlay?.classList.remove("open");
+      toggleBtn?.setAttribute("aria-expanded", "false");
+      document.body.classList.remove("drawer-open");
+    }
+
+    function toggleMenu() {
+      if (sidebar?.classList.contains("open")) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    }
+
+    toggleBtn?.addEventListener("click", toggleMenu);
+    closeBtn?.addEventListener("click", closeMenu);
+    overlay?.addEventListener("click", closeMenu);
+
+    // Escape key to close drawer
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && sidebar?.classList.contains("open")) {
+        closeMenu();
+      }
+    });
+
+    // Close sidebar on navigation clicks
+    document.querySelectorAll(".nav-link").forEach((link) => {
+      link.addEventListener("click", () => {
+        closeMenu();
+      });
+    });
+  }
+</script>
+
 <style>
+  /* Sidebar Overlay (Mobile Drawer Backdrop) */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 95;
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+    pointer-events: none;
+  }
+
+  .sidebar-overlay.open {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   /* PSP Command Terminal Sidebar */
   .app-sidebar {
     width: var(--sidebar-width);
@@ -146,7 +215,8 @@ const navGroups = getNavGroups(baseUrl);
     z-index: 10;
     padding: 1.15rem 1.25rem;
     border-bottom: 2px solid rgba(56, 189, 248, 0.25);
-    background: linear-gradient(
+    background:
+      linear-gradient(
         180deg,
         rgba(56, 189, 248, 0.12) 0%,
         rgba(10, 14, 26, 0) 100%
@@ -462,6 +532,12 @@ const navGroups = getNavGroups(baseUrl);
 
   /* Responsive Media Queries */
   @media (max-width: 1024px) {
+    .sidebar-overlay.open {
+      display: block;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
     .app-sidebar {
       width: min(300px, 85vw);
       transform: translateX(-100%);
@@ -475,11 +551,16 @@ const navGroups = getNavGroups(baseUrl);
     .sidebar-close-btn {
       display: inline-flex;
     }
+
+    :global(body.drawer-open) {
+      overflow: hidden;
+    }
   }
 
   /* Print Optimization */
   @media print {
-    .app-sidebar {
+    .app-sidebar,
+    .sidebar-overlay {
       display: none !important;
     }
   }

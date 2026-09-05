@@ -6,15 +6,10 @@ import Main from "../components/layout/Main.astro";
 
 interface Props {
   title: string;
-  description?: string;
   currentPath?: string;
 }
 
-const {
-  title,
-  description = "Complete move lists, story gateways, reports, crafting recipes, and combat strategies for Dissidia 012 [duodecim] Final Fantasy (PSP).",
-  currentPath = "",
-} = Astro.props;
+const { title, currentPath = "" } = Astro.props;
 
 const baseUrl = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
@@ -26,14 +21,12 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title} | Dissidia 012 [duodecim] Guide</title>
-    <meta name="description" content={description} />
+    <title>{title}</title>
+    <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" type="image/svg+xml" href={`${baseUrl}favicon.svg`} />
     <meta name="theme-color" content="#070a13" />
   </head>
   <body style={`--site-bg: url('${baseUrl}background.jpg');`}>
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
     <div class="app-container">
       <!-- Left Sidebar -->
       <Sidebar currentPath={currentPath} baseUrl={baseUrl} />
@@ -47,56 +40,6 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
         </Main>
       </div>
     </div>
-
-    <script is:inline>
-      // Defensive client-side drawer & progress counter with SSR guards
-      if (typeof document !== "undefined") {
-        const toggleBtn = document.getElementById("sidebarToggle");
-        const closeBtn = document.getElementById("sidebarClose");
-        const sidebar = document.getElementById("appSidebar");
-        const overlay = document.getElementById("sidebarOverlay");
-
-        function openMenu() {
-          sidebar?.classList.add("open");
-          overlay?.classList.add("open");
-          toggleBtn?.setAttribute("aria-expanded", "true");
-          document.body.classList.add("drawer-open");
-        }
-
-        function closeMenu() {
-          sidebar?.classList.remove("open");
-          overlay?.classList.remove("open");
-          toggleBtn?.setAttribute("aria-expanded", "false");
-          document.body.classList.remove("drawer-open");
-        }
-
-        function toggleMenu() {
-          if (sidebar?.classList.contains("open")) {
-            closeMenu();
-          } else {
-            openMenu();
-          }
-        }
-
-        toggleBtn?.addEventListener("click", toggleMenu);
-        closeBtn?.addEventListener("click", closeMenu);
-        overlay?.addEventListener("click", closeMenu);
-
-        // Escape key to close drawer
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape" && sidebar?.classList.contains("open")) {
-            closeMenu();
-          }
-        });
-
-        // Close sidebar on navigation clicks
-        document.querySelectorAll(".nav-link").forEach((link) => {
-          link.addEventListener("click", () => {
-            closeMenu();
-          });
-        });
-      }
-    </script>
   </body>
 </html>
 
@@ -116,47 +59,11 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
     min-width: 0;
   }
 
-  .sidebar-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    z-index: 95;
-    opacity: 0;
-    transition: opacity var(--transition-normal);
-    pointer-events: none;
-  }
-
-  .sidebar-overlay.open {
-    display: block;
-    opacity: 1;
-    pointer-events: auto;
-  }
-
   /* Responsive Media Queries */
   @media (max-width: 1024px) {
-    .sidebar-overlay.open {
-      display: block;
-      opacity: 1;
-      pointer-events: auto;
-    }
-
     .app-main {
       margin-left: 0;
       width: 100%;
-    }
-
-    :global(body.drawer-open) {
-      overflow: hidden;
-    }
-  }
-
-  /* Print Optimization */
-  @media print {
-    .app-main {
-      margin-left: 0;
     }
   }
 </style>
