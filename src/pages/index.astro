@@ -41,27 +41,34 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
     </p>
 
     <!-- Game Specifications & Credits -->
-    <div class="game-specs-grid">
-      {
-        gameInfo.map((info) => (
-          <div class="stat-panel game-spec-card">
-            <div>
-              <div class="game-spec-header">
-                <Icon name={info.icon} size={18} class="game-spec-icon" />
-                <span class="game-spec-label">
-                  {info.label}
-                </span>
+    <div class="game-specs-showcase">
+      <div class="game-box-wrapper">
+        <img
+          src={`${baseUrl}3d-box.png`}
+          alt="Dissidia 012 [duodecim] Final Fantasy 3D Box Art"
+          class="game-box-img"
+          width="180"
+          height="300"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <div class="game-specs-grid">
+        {
+          gameInfo.map((info) => (
+            <div class="stat-panel game-spec-card">
+              <div>
+                <div class="game-spec-header">
+                  <Icon name={info.icon} size={18} class="game-spec-icon" />
+                  <span class="game-spec-label">{info.label}</span>
+                </div>
+                <div class="game-spec-value">{info.value}</div>
               </div>
-              <div class="game-spec-value">
-                {info.value}
-              </div>
+              <div class="game-spec-sub">{info.sub}</div>
             </div>
-            <div class="game-spec-sub">
-              {info.sub}
-            </div>
-          </div>
-        ))
-      }
+          ))
+        }
+      </div>
     </div>
   </div>
 
@@ -75,19 +82,54 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
 
       <div class="intro-body">
         <p class="intro-lead">
-          <strong>Dissidia 012 [duodecim] Final Fantasy</strong> is the critically acclaimed 3D arena action-RPG for the PlayStation Portable, serving as both a dramatic prequel and a vastly expanded definitive edition of the original <em>Dissidia Final Fantasy</em>. Set in a desolate realm locked in an eternal war between <strong>Cosmos</strong>, the goddess of harmony, and <strong>Chaos</strong>, the god of discord, both deities summon legendary champions from across the <em>Final Fantasy</em> multiverse to wage endless battle in a tragic cycle of death and rebirth.
+          <strong>Dissidia 012 [duodecim] Final Fantasy</strong> is the critically
+          acclaimed 3D arena action-RPG for the PlayStation Portable, serving as both
+          a dramatic prequel and a vastly expanded definitive edition of the original
+          <em>Dissidia Final Fantasy</em>. Set in a desolate realm locked in an
+          eternal war between <strong>Cosmos</strong>, the goddess of harmony,
+          and <strong>Chaos</strong>, the god of discord, both deities summon
+          legendary champions from across the <em>Final Fantasy</em> multiverse to
+          wage endless battle in a tragic cycle of death and rebirth.
         </p>
 
         <p>
-          This installment chronicles the previously untold <strong>12th Cycle of the War</strong>. A newly summoned vanguard of heroes—led by <strong>Lightning</strong> (FFXIII), <strong>Vaan</strong> (FFXII), <strong>Laguna Loire</strong> (FFVIII), <strong>Yuna</strong> (FFX), <strong>Kain Highwind</strong> (FFIV), and <strong>Tifa Lockhart</strong> (FFVII)—uncovers the cruel truth behind their perpetual conflict. Realizing that victory in this cycle is impossible, they embark on a perilous, self-sacrificing quest to halt the inexhaustible horde of Manikins, buying precious time and leaving behind the crystals that will empower their comrades to finally break the cycle in the 13th war.
+          This installment chronicles the previously untold <strong
+            >12th Cycle of the War</strong
+          >. A newly summoned vanguard of heroes—led by <strong
+            >Lightning</strong
+          > (FFXIII), <strong>Vaan</strong> (FFXII), <strong
+            >Laguna Loire</strong
+          > (FFVIII), <strong>Yuna</strong> (FFX), <strong>Kain Highwind</strong
+          > (FFIV), and <strong>Tifa Lockhart</strong> (FFVII)—uncovers the cruel
+          truth behind their perpetual conflict. Realizing that victory in this cycle
+          is impossible, they embark on a perilous, self-sacrificing quest to halt
+          the inexhaustible horde of Manikins, buying precious time and leaving behind
+          the crystals that will empower their comrades to finally break the cycle
+          in the 13th war.
         </p>
 
         <p>
-          Combat in <em>Dissidia 012</em> elevates the signature Bravery battle system to new tactical depths. Warriors exchange swift <strong>Bravery Attacks</strong> to shatter defenses and siphon combat power, then convert their stored Bravery into devastating <strong>HP Attacks</strong>. The flagship <strong>Assist System</strong> allows combatants to summon allied fighters for offensive aerial combo extensions or clutch defensive escapes, while <strong>EX Revenge</strong> enables fighters to dilute time itself and turn the tides during desperate moments.
+          Combat in <em>Dissidia 012</em> elevates the signature Bravery battle system
+          to new tactical depths. Warriors exchange swift <strong
+            >Bravery Attacks</strong
+          > to shatter defenses and siphon combat power, then convert their stored
+          Bravery into devastating <strong>HP Attacks</strong>. The flagship <strong
+            >Assist System</strong
+          > allows combatants to summon allied fighters for offensive aerial combo
+          extensions or clutch defensive escapes, while <strong
+            >EX Revenge</strong
+          > enables fighters to dilute time itself and turn the tides during desperate
+          moments.
         </p>
 
         <p>
-          Featuring the remastered classic 13th cycle campaign (<em>013: Light to All</em>), an expansive post-game open-world adventure (<em>000: Confessions of the Creator</em>), the challenging Labyrinth dungeon crawler, and an iconic roster of over 30 heroes and villains, <em>Dissidia 012</em> stands as the ultimate celebration of <em>Final Fantasy</em> heritage and combat.
+          Featuring the remastered classic 13th cycle campaign (<em
+            >013: Light to All</em
+          >), an expansive post-game open-world adventure (<em
+            >000: Confessions of the Creator</em
+          >), the challenging Labyrinth dungeon crawler, and an iconic roster of
+          over 30 heroes and villains, <em>Dissidia 012</em> stands as the ultimate
+          celebration of <em>Final Fantasy</em> heritage and combat.
         </p>
       </div>
     </div>
@@ -95,14 +137,45 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
 </BaseLayout>
 
 <style>
-  /* Game Specifications & Credits */
-  .game-specs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
+  /* Game Specifications & Credits Showcase */
+  .game-specs-showcase {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
     margin-top: 1.5rem;
     border-top: 1px solid var(--border-panel-subtle);
-    padding-top: 1.5rem;
+    padding-top: 1.75rem;
+  }
+
+  .game-box-wrapper {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .game-box-img {
+    width: 175px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.75))
+      drop-shadow(0 0 16px rgba(56, 189, 248, 0.2));
+    transition:
+      transform var(--transition-normal, 0.3s ease),
+      filter var(--transition-normal, 0.3s ease);
+  }
+
+  .game-box-img:hover {
+    transform: translateY(-4px) scale(1.03);
+    filter: drop-shadow(0 18px 36px rgba(0, 0, 0, 0.85))
+      drop-shadow(0 0 24px rgba(56, 189, 248, 0.35));
+  }
+
+  .game-specs-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
   }
 
   .game-spec-card {
@@ -206,6 +279,16 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
     color: var(--color-brv);
     font-style: normal;
     font-weight: 600;
+  }
+
+  @media (max-width: 860px) {
+    .game-specs-grid {
+      width: 100%;
+    }
+
+    .game-box-img {
+      width: 150px;
+    }
   }
 
   @media (max-width: 640px) {
