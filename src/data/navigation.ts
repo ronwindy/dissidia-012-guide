@@ -7,6 +7,8 @@ export interface NavLinkItem {
   icon: IconName;
 }
 
+export type NavLinkChild = NavLinkItem;
+
 export interface NavGroup {
   title: string;
   links: NavLinkItem[];
@@ -97,6 +99,17 @@ export function getNavGroups(baseUrl: string): NavGroup[] {
           label: "Part 27: The Reports",
           href: `${baseUrl}story/reports/`,
           id: "story-reports",
+          icon: "file-text",
+        },
+      ],
+    },
+    {
+      title: "Lore & Unlocks",
+      links: [
+        {
+          label: "20 Reports & Unlocks",
+          href: `${baseUrl}reports/`,
+          id: "reports",
           icon: "file-text",
         },
       ],
