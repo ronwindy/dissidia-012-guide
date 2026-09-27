@@ -160,6 +160,11 @@ const { currentPath = "", baseUrl } = Astro.props;
     :global(body.drawer-open) {
       overflow: hidden;
     }
+
+    :global(.sidebar-header),
+    .sidebar-footer {
+      display: none !important;
+    }
   }
 
   /* Print Optimization */

@@ -1,5 +1,6 @@
 ---
 import Icon from "../common/Icon.astro";
+import DrakeProgressTracker from "../common/DrakeProgressTracker.astro";
 
 interface Props {
   title: string;
@@ -39,21 +40,18 @@ const { title, baseUrl } = Astro.props;
     href={baseUrl}
     class="mobile-header-brand"
     aria-label="Dissidia 012 Guide Home"
+    title="Dissidia 012 [duodecim] Strategy Guide"
   >
     <img
       src={`${baseUrl}logo.png`}
       alt="Dissidia 012 Logo"
       class="mobile-brand-img"
     />
-    <div class="mobile-brand-text">
-      <span class="mobile-brand-title">DISSIDIA</span>
-      <span class="mobile-brand-sub"
-        ><span class="brand-num">012</span> DUODECIM</span
-      >
-    </div>
   </a>
 
-  <div class="header-right" aria-hidden="true"></div>
+  <div class="header-right">
+    <DrakeProgressTracker />
+  </div>
 </header>
 
 <style>
@@ -125,77 +123,42 @@ const { title, baseUrl } = Astro.props;
     justify-content: flex-end;
     gap: 0.75rem;
     flex-shrink: 0;
+    min-width: 0;
+  }
+
+  .header-right :global(.drake-progress-tracker) {
+    width: auto;
   }
 
   /* Mobile Header Brand */
   .mobile-header-brand {
     display: none;
     align-items: center;
-    gap: 0.65rem;
+    justify-content: center;
     text-decoration: none;
     flex-shrink: 0;
+    transition: opacity var(--transition-fast);
   }
 
   .mobile-brand-img {
-    height: 34px;
+    height: 38px;
     width: auto;
-    max-width: 50px;
+    max-width: 140px;
     object-fit: contain;
-    filter: drop-shadow(0 2px 8px rgba(56, 189, 248, 0.4));
+    filter: drop-shadow(0 2px 14px rgba(56, 189, 248, 0.45));
     transition:
       transform var(--transition-fast),
       filter var(--transition-fast);
   }
 
-  .mobile-brand-text {
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
-  }
-
-  .mobile-brand-title {
-    font-family: var(--font-wallpoet);
-    font-size: 0.89rem;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: 0.1em;
-    color: #ffffff;
-    text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
-  }
-
-  .mobile-brand-sub {
-    font-size: 0.62rem;
-    font-family: var(--font-subheading);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: #7dd3fc;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    line-height: 1;
-  }
-
-  .mobile-brand-sub .brand-num {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 0.58rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    padding: 0.02rem 0.25rem;
-    background: rgba(56, 189, 248, 0.15);
-    border: 1px solid rgba(56, 189, 248, 0.4);
-    border-radius: var(--radius-xs);
-    color: #38bdf8;
-  }
-
   .mobile-header-brand:hover {
     text-decoration: none;
+    opacity: 0.95;
   }
 
   .mobile-header-brand:hover .mobile-brand-img {
-    transform: scale(1.05);
-    filter: drop-shadow(0 2px 12px rgba(56, 189, 248, 0.6));
+    transform: scale(1.04);
+    filter: drop-shadow(0 2px 16px rgba(56, 189, 248, 0.65));
   }
 
   /* Mobile Toggle */
@@ -284,21 +247,9 @@ const { title, baseUrl } = Astro.props;
       gap: 0.35rem;
     }
 
-    .mobile-header-brand {
-      gap: 0.45rem;
-    }
-
     .mobile-brand-img {
-      height: 28px;
-      max-width: 42px;
-    }
-
-    .mobile-brand-title {
-      font-size: 0.88rem;
-    }
-
-    .mobile-brand-sub {
-      font-size: 0.56rem;
+      height: 30px;
+      max-width: 100px;
     }
 
     .mobile-toggle-btn {

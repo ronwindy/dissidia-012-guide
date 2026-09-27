@@ -111,6 +111,31 @@ const {
     letter-spacing: 0.04em;
     text-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
   }
+
+  @media (max-width: 768px) {
+    .drake-progress-tracker {
+      padding: 0.35rem 0.55rem;
+    }
+
+    .progress-inner {
+      gap: 0.35rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .progress-label {
+      display: none;
+    }
+
+    .drake-progress-tracker {
+      padding: 0.25rem 0.45rem;
+    }
+
+    .progress-count {
+      font-size: 0.72rem;
+      padding: 0.12rem 0.35rem;
+    }
+  }
 </style>
 
 <script is:inline>
@@ -118,21 +143,23 @@ const {
     function updateGlobalProgress() {
       try {
         const raw = localStorage.getItem("dissidia-012-guide-progress");
-        const countEl = document.getElementById("globalProgressCount");
-        if (!countEl) return;
+        const countEls = document.querySelectorAll(".progress-count");
+        if (!countEls.length) return;
 
-        const total = countEl.getAttribute("data-total") || "27";
-        const prefix = countEl.getAttribute("data-prefix") || "drake-ch-";
+        countEls.forEach((countEl) => {
+          const total = countEl.getAttribute("data-total") || "27";
+          const prefix = countEl.getAttribute("data-prefix") || "drake-ch-";
 
-        if (raw) {
-          const list = JSON.parse(raw);
-          if (Array.isArray(list)) {
-            const drakeDone = list.filter(
-              (id) => typeof id === "string" && id.startsWith(prefix),
-            ).length;
-            countEl.textContent = `${drakeDone} / ${total}`;
+          if (raw) {
+            const list = JSON.parse(raw);
+            if (Array.isArray(list)) {
+              const drakeDone = list.filter(
+                (id) => typeof id === "string" && id.startsWith(prefix),
+              ).length;
+              countEl.textContent = `${drakeDone} / ${total}`;
+            }
           }
-        }
+        });
       } catch (e) {
         console.warn("Storage sync notice:", e);
       }
