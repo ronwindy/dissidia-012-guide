@@ -21,14 +21,7 @@ const currentNavPath = 'story-012';
 <BaseLayout title={`${campaignInfo.title} — Drake's Walkthrough`} currentPath={currentNavPath}>
   <!-- Header Bar -->
   <div class="campaign-header">
-    <div class="header-badges">
-      <a href={`${baseUrl}story/`} class="badge-pill badge-cosmos badge-link">
-        &larr; Walkthrough Hub
-      </a>
-      <span class={`badge-pill ${campaignInfo.badgeClass}`}>{campaignInfo.badge}</span>
-      <span class="badge-pill badge-new">{chapters.length} Chapters</span>
-    </div>
-    <h1 class="campaign-title">
+    <h1>
       {campaignInfo.title}
     </h1>
     <div class="campaign-subtitle">
@@ -37,23 +30,6 @@ const currentNavPath = 'story-012';
     <p class="campaign-desc">
       {campaignInfo.desc}
     </p>
-  </div>
-
-  <!-- Campaign Progress Header -->
-  <div class="crystal-panel campaign-directory">
-    <div>
-      <div class="directory-kicker">
-        Campaign Directory
-      </div>
-      <div class="directory-featured">
-        Featured Warriors: <span class="featured-warriors">{campaignInfo.featuredHeroes.join(', ')}</span>
-      </div>
-    </div>
-    <div>
-      <a href={`${baseUrl}story/${campaign}/${chapters[0]?.slug}/`} class="btn-action btn-start">
-        Start from Part {chapters[0]?.partNumber} &rarr;
-      </a>
-    </div>
   </div>
 
   <!-- Chapters Grid -->
@@ -97,7 +73,6 @@ const currentNavPath = 'story-012';
         </div>
 
         <div class="chapter-card-footer">
-          <ProgressTracker id={ch.trackerId} label="Chapter Complete" />
           <a href={`${baseUrl}story/${ch.campaign}/${ch.slug}/`} class="btn-action btn-read">
             Read Guide &rarr;
           </a>
@@ -134,15 +109,7 @@ const currentNavPath = 'story-012';
     text-decoration: none;
   }
 
-  .campaign-title {
-    margin: 0;
-    font-family: var(--font-heading);
-    font-size: clamp(2rem, 3.5vw, 2.75rem);
-    letter-spacing: 0.04em;
-  }
-
   .campaign-subtitle {
-    font-size: 1.05rem;
     color: var(--color-cosmos);
     font-weight: 600;
     margin-top: 0.25rem;
@@ -151,7 +118,6 @@ const currentNavPath = 'story-012';
 
   .campaign-desc {
     color: var(--text-muted);
-    font-size: 1rem;
     margin-top: 0.5rem;
     line-height: 1.6;
   }
