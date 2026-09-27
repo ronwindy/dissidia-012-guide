@@ -128,6 +128,20 @@ const { title, baseUrl } = Astro.props;
 
   .header-right :global(.drake-progress-tracker) {
     width: auto;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .header-right :global(.drake-progress-tracker:hover) {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  .header-right :global(.progress-info) {
+    display: none;
   }
 
   /* Mobile Header Brand */

@@ -36,7 +36,7 @@ const {
       data-total={total}
       data-prefix={prefix}
     >
-      0 / {total}
+      0/{total}
     </span>
   </div>
 </div>
@@ -112,27 +112,42 @@ const {
     text-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
+    .progress-info {
+      display: none !important;
+    }
+
     .drake-progress-tracker {
-      padding: 0.35rem 0.55rem;
+      width: auto;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+    }
+
+    .drake-progress-tracker:hover {
+      background: transparent;
+      border-color: transparent;
+      box-shadow: none;
     }
 
     .progress-inner {
-      gap: 0.35rem;
+      justify-content: center;
+    }
+
+    .progress-count {
+      font-size: 0.78rem;
+      padding: 0.15rem 0.45rem;
     }
   }
 
   @media (max-width: 480px) {
-    .progress-label {
-      display: none;
-    }
-
     .drake-progress-tracker {
-      padding: 0.25rem 0.45rem;
+      padding: 0;
     }
 
     .progress-count {
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       padding: 0.12rem 0.35rem;
     }
   }
@@ -156,7 +171,7 @@ const {
               const drakeDone = list.filter(
                 (id) => typeof id === "string" && id.startsWith(prefix),
               ).length;
-              countEl.textContent = `${drakeDone} / ${total}`;
+              countEl.textContent = `${drakeDone}/${total}`;
             }
           }
         });
