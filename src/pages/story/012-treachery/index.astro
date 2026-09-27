@@ -20,73 +20,73 @@ const currentNavPath = 'story-012';
 
 <BaseLayout title={`${campaignInfo.title} — Drake's Walkthrough`} currentPath={currentNavPath}>
   <!-- Header Bar -->
-  <div style="margin-bottom: 2rem;">
-    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
-      <a href={`${baseUrl}story/`} class="badge-pill badge-cosmos" style="text-decoration: none;">
+  <div class="campaign-header">
+    <div class="header-badges">
+      <a href={`${baseUrl}story/`} class="badge-pill badge-cosmos badge-link">
         &larr; Walkthrough Hub
       </a>
       <span class={`badge-pill ${campaignInfo.badgeClass}`}>{campaignInfo.badge}</span>
       <span class="badge-pill badge-new">{chapters.length} Chapters</span>
     </div>
-    <h1 style="margin: 0; font-family: var(--font-heading); font-size: clamp(2rem, 3.5vw, 2.75rem); letter-spacing: 0.04em;">
+    <h1 class="campaign-title">
       {campaignInfo.title}
     </h1>
-    <div style="font-size: 1.05rem; color: var(--color-cosmos); font-weight: 600; margin-top: 0.25rem; font-family: var(--font-subheading);">
+    <div class="campaign-subtitle">
       {campaignInfo.subtitle} &bull; {campaignInfo.partsRange}
     </div>
-    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem; line-height: 1.6;">
+    <p class="campaign-desc">
       {campaignInfo.desc}
     </p>
   </div>
 
   <!-- Campaign Progress Header -->
-  <div class="crystal-panel" style={`margin-bottom: 2rem; border-left: 4px solid ${campaignInfo.borderColor}; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;`}>
+  <div class="crystal-panel campaign-directory">
     <div>
-      <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-cosmos); text-transform: uppercase; font-weight: bold;">
+      <div class="directory-kicker">
         Campaign Directory
       </div>
-      <div style="font-size: 1.15rem; font-family: var(--font-heading); font-weight: 700; color: var(--text-main); margin-top: 0.2rem;">
-        Featured Warriors: <span style="color: #38bdf8;">{campaignInfo.featuredHeroes.join(', ')}</span>
+      <div class="directory-featured">
+        Featured Warriors: <span class="featured-warriors">{campaignInfo.featuredHeroes.join(', ')}</span>
       </div>
     </div>
     <div>
-      <a href={`${baseUrl}story/${campaign}/${chapters[0]?.slug}/`} class="btn-action" style="padding: 0.65rem 1.35rem; font-size: 0.95rem;">
+      <a href={`${baseUrl}story/${campaign}/${chapters[0]?.slug}/`} class="btn-action btn-start">
         Start from Part {chapters[0]?.partNumber} &rarr;
       </a>
     </div>
   </div>
 
   <!-- Chapters Grid -->
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; margin-bottom: 3rem;">
+  <div class="chapters-grid">
     {chapters.map(ch => (
-      <div class="crystal-panel" style={`padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between; border-top: 3px solid ${campaignInfo.borderColor};`}>
+      <div class="crystal-panel chapter-card">
         <div>
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.65rem;">
-            <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <div class="chapter-card-header">
+            <div class="chapter-identity">
               {ch.portrait && (
-                <img src={resolveImg(ch.portrait)} alt={ch.character} style="width: 48px; height: 48px; object-fit: contain; background: rgba(0,0,0,0.4); border-radius: var(--radius-xs); border: 1px solid var(--border-panel-subtle); padding: 2px;" />
+                <img src={resolveImg(ch.portrait)} alt={ch.character} class="chapter-portrait" />
               )}
               <div>
-                <div style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-cosmos); font-weight: bold;">
+                <div class="chapter-meta">
                   Part {ch.partNumber} &bull; {ch.character}
                 </div>
-                <h3 style="margin: 0.15rem 0 0; font-size: 1.25rem; color: var(--text-main); font-family: var(--font-heading);">
-                  <a href={`${baseUrl}story/${ch.campaign}/${ch.slug}/`} style="color: inherit; text-decoration: none;">
+                <h3 class="chapter-title">
+                  <a href={`${baseUrl}story/${ch.campaign}/${ch.slug}/`} class="chapter-title-link">
                     {ch.title}
                   </a>
                 </h3>
               </div>
             </div>
           </div>
-          <div style="font-size: 0.86rem; color: var(--text-dim); margin-bottom: 1rem; font-family: var(--font-subheading); line-height: 1.45;">
+          <div class="chapter-subtitle">
             {ch.subtitle}
           </div>
 
           <!-- Section Headings Quick List -->
           {ch.sections && ch.sections.length > 0 && (
-            <div style="margin-bottom: 1rem; background: rgba(0,0,0,0.25); padding: 0.5rem 0.75rem; border-radius: var(--radius-xs); border: 1px solid rgba(255,255,255,0.05); font-size: 0.78rem; font-family: var(--font-mono); color: var(--text-muted);">
-              <div style="color: var(--color-brv); font-weight: bold; margin-bottom: 0.25rem; text-transform: uppercase; font-size: 0.7rem;">Sections:</div>
-              <ul style="margin: 0; padding-left: 1.1rem; line-height: 1.4;">
+            <div class="sections-preview">
+              <div class="sections-title">Sections:</div>
+              <ul class="sections-list">
                 {ch.sections.slice(0, 3).map(s => (
                   <li>{s.line}</li>
                 ))}
@@ -96,9 +96,9 @@ const currentNavPath = 'story-012';
           )}
         </div>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-top: 1px solid var(--border-panel-subtle); padding-top: 0.85rem;">
+        <div class="chapter-card-footer">
           <ProgressTracker id={ch.trackerId} label="Chapter Complete" />
-          <a href={`${baseUrl}story/${ch.campaign}/${ch.slug}/`} class="btn-action" style="padding: 0.4rem 0.95rem; font-size: 0.85rem; white-space: nowrap;">
+          <a href={`${baseUrl}story/${ch.campaign}/${ch.slug}/`} class="btn-action btn-read">
             Read Guide &rarr;
           </a>
         </div>
@@ -107,12 +107,213 @@ const currentNavPath = 'story-012';
   </div>
 
   <!-- Bottom Navigation Actions -->
-  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; border-top: 1px solid var(--border-panel); padding-top: 1.5rem;">
-    <a href={`${baseUrl}story/`} class="btn-action" style="padding: 0.65rem 1.25rem;">
+  <div class="bottom-nav">
+    <a href={`${baseUrl}story/`} class="btn-action btn-nav">
       &larr; Return to Walkthrough Hub
     </a>
-    <a href={`${baseUrl}story/gameplay-basics/`} class="btn-action" style="padding: 0.65rem 1.25rem;">
+    <a href={`${baseUrl}story/gameplay-basics/`} class="btn-action btn-nav">
       Review Gameplay Basics &rarr;
     </a>
   </div>
 </BaseLayout>
+
+<style>
+  .campaign-header {
+    margin-bottom: 2rem;
+  }
+
+  .header-badges {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+    flex-wrap: wrap;
+  }
+
+  .badge-link {
+    text-decoration: none;
+  }
+
+  .campaign-title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 3.5vw, 2.75rem);
+    letter-spacing: 0.04em;
+  }
+
+  .campaign-subtitle {
+    font-size: 1.05rem;
+    color: var(--color-cosmos);
+    font-weight: 600;
+    margin-top: 0.25rem;
+    font-family: var(--font-subheading);
+  }
+
+  .campaign-desc {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .campaign-directory {
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--color-cosmos);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .directory-kicker {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    color: var(--color-cosmos);
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .directory-featured {
+    font-size: 1.15rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--text-main);
+    margin-top: 0.2rem;
+  }
+
+  .featured-warriors {
+    color: var(--color-brv);
+  }
+
+  .btn-start {
+    padding: 0.65rem 1.35rem;
+    font-size: 0.95rem;
+  }
+
+  .chapters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 3rem;
+  }
+
+  .chapter-card {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-top: 3px solid var(--color-cosmos);
+  }
+
+  .chapter-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .chapter-identity {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .chapter-portrait {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--border-panel-subtle);
+    padding: 2px;
+  }
+
+  .chapter-meta {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    color: var(--color-cosmos);
+    font-weight: 700;
+  }
+
+  .chapter-title {
+    margin: 0.15rem 0 0;
+    font-size: 1.25rem;
+    color: var(--text-main);
+    font-family: var(--font-heading);
+  }
+
+  .chapter-title-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .chapter-title-link:hover {
+    color: var(--color-brv);
+    text-decoration: none;
+  }
+
+  .chapter-subtitle {
+    font-size: 0.86rem;
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+    font-family: var(--font-subheading);
+    line-height: 1.45;
+  }
+
+  .sections-preview {
+    margin-bottom: 1rem;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--border-panel-subtle);
+    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+  }
+
+  .sections-title {
+    color: var(--color-brv);
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+  }
+
+  .sections-list {
+    margin: 0;
+    padding-left: 1.1rem;
+    line-height: 1.4;
+  }
+
+  .chapter-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    border-top: 1px solid var(--border-panel-subtle);
+    padding-top: 0.85rem;
+  }
+
+  .btn-read {
+    padding: 0.4rem 0.95rem;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .bottom-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border-top: 1px solid var(--border-panel);
+    padding-top: 1.5rem;
+  }
+
+  .btn-nav {
+    padding: 0.65rem 1.25rem;
+  }
+</style>
