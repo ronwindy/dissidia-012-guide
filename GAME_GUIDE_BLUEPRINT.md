@@ -16,7 +16,7 @@ When constructing or modifying a game guide repository, the AI **MUST** adhere t
 | **INV-02** | **Vanilla CSS + Thematic Tokens** | All styling must rely on CSS variables declared in `src/styles/global.css` and scoped component styles. Do **not** use Tailwind or bulky CSS frameworks unless explicitly instructed by the user.
 
 |
-| **INV-03** | **Content Fidelity & Non-Omission** | **Creative freedom is encouraged** (rephrasing, improving tone, polishing layouts, structuring data into tables/cards), but the AI **must NEVER omit** any gameplay facts, instructions, stats, move lists, frame data, maps/locations, items/drops, secrets, choices, unlockables, side-content triggers, or mechanics tips from the raw sources.
+| **INV-03** | **Strict Source Faithfulness** | Created guide pages **must be strictly faithful to raw source materials**. Do **not** rewrite, rephrase, embellish, or omit content. Maintain the original text, terminology, instructions, walkthrough steps, and gameplay data exactly as presented in the source. UI components and layouts must serve solely to present the source material faithfully without altering its content, tone, or meaning.
 
 |
 | **INV-04** | **Navigational Contract** | The site must feature a Landing Page (`src/pages/index.astro`) serving as the thematic entry hub, providing immediate access to the guide's primary systems, rosters, or progression routes.
@@ -27,64 +27,38 @@ When constructing or modifying a game guide repository, the AI **MUST** adhere t
 |
 | **INV-06** | **GitHub Pages Compatibility** | All internal links, assets, and base paths must support subpath deployment via Astro's dynamic `base` config and `import.meta.env.BASE_URL`.
 
-|
-
 ---
 
 ## 2. Directory Architecture & Customization Guidelines
 
-> **AI Directive:** Structure folders and layouts dynamically to reflect the game's actual mechanics, volume, and UI style rather than forcing a generic template.
+> **AI Directive:** Maintain a minimal, lightweight directory scaffold. Improvise component breakdown, page routes, and folder organization on a per-game basis to best match the target game's systems, source materials, and mechanics.
 
 ```text
-├── .agents/                          # AI workflows, conversion rules & skills
-│   └── workflows/
-│       ├── convert-raw-to-guide.md   # Content ingestion & formatting workflow
-│       └── [game-custom-workflow].md # Game-specific scripts/prompts
 ├── .github/
 │   └── workflows/
-│       └── deploy.yml                # Automated GitHub Pages CI/CD workflow
-├── public/                           # Static assets served at root
-│   ├── favicon.svg                   # Guide icon
-│   ├── logo.png                      # Game title logo (transparent)
-│   └── [asset-buckets]/              # Thematic media (e.g. images/, maps/, sprites/, icons/)
-├── raw-sources/                      # Unedited community sources (.txt, .md, .html, .json)
-│   └── [source-folders]/             # Raw text dumps, wikis, tables, walkthroughs, move lists
+│       └── deploy.yml        # Automated GitHub Pages CI/CD workflow
+├── public/                   # Static assets (favicons, images, logos)
+├── raw-sources/              # Unedited community sources (.txt, .md, .html, .json)
 ├── src/
-│   ├── assets/                       # Optimized local media processed via Astro <Image />
-│   ├── components/                   # Game-tailored UI components
-│   │   ├── [content-helpers]/        # E.g. Objective steps, move cards, stat blocks, boss cards
-│   │   ├── [media-helpers]/          # E.g. Zoomable map viewers, sprite sheets, embeds
-│   │   ├── [feedback-helpers]/       # E.g. Alert callouts, spoiler tags, type badges, tier pills
-│   │   └── [interactive-tools]/      # E.g. Fusion planners, build calculators, item checklists
-│   ├── layouts/                      # Page layout shells reflecting the game's menu style
-│   │   ├── BaseLayout.astro          # Master shell (metadata, base theme, core navigation)
-│   │   └── [SpecializedLayout].astro # E.g. CharacterLayout, DatabaseLayout, WalkthroughLayout
-│   ├── pages/                        # Dynamic page hierarchy (routes mirror game systems)
-│   │   ├── index.astro               # Thematic landing hub
-│   │   └── [game-routes]/            # Categorized routes (see Archetypes below)
+│   ├── components/           # Reusable UI & gameplay components (improvised per game)
+│   ├── layouts/
+│   │   └── BaseLayout.astro  # Master shell (metadata, navigation, theme)
+│   ├── pages/
+│   │   └── index.astro       # Thematic landing hub (routes improvised per game)
 │   └── styles/
-│       └── global.css                # Visual tokens, typography, surfaces, game aesthetic
-├── astro.config.mjs                  # Astro configuration (base path & site URL)
-├── package.json                      # Scripts & dependencies
-├── tsconfig.json                     # Strict TypeScript configuration
-├── AGENTS.md                         # Project-specific AI assistant instructions
-└── DESIGN.md                         # Game-specific visual identity, palettes, and UI rules
-
+│       └── global.css        # Thematic tokens, typography, and base styling
+├── astro.config.mjs          # Astro configuration (base path & site URL)
+├── package.json              # Scripts & dependencies
+└── DESIGN.md                 # Game-specific visual identity, palettes, and UI rules
 ```
 
-### Route Structure Archetypes
+### Game-by-Game Improvisation Guidelines
 
-Synthesize the page hierarchy that best fits the game's actual structure:
+Do not enforce predetermined or nested folder taxonomies. Tailor the structure naturally to the game being documented:
 
-- **Character Roster / Fighting Games:** `src/pages/characters/[character-slug].astro`, `src/pages/movelists/...`, `src/pages/mechanics/...`, `src/pages/matchups/...`
-
-- **Linear Story / JRPGs / Chapter Action:** `src/pages/walkthrough/chapter-[x].astro`, `src/pages/sidequests/...`, `src/pages/endings/...`
-
-- **Stage / Mission / Level-Based:** `src/pages/stages/stage-[x].astro`, `src/pages/missions/rank-[x]/...`, `src/pages/bosses/...`
-
-- **Open-World / Exploration:** `src/pages/regions/[region-name]/[location].astro`, `src/pages/dungeons/...`, `src/pages/secrets/...`
-
-- **Databases / Encyclopedias / Dexes:** `src/pages/database/[category]/[entry-slug].astro`, `src/pages/crafting/...`
+- **Components (`src/components/`):** Organize components flatly or group them intuitively based on game mechanics (e.g., boss stats, move tables, calculators, or interactive trackers) as needed by the content.
+- **Pages & Routes (`src/pages/`):** Define route hierarchies that match the game's structure (e.g., character rosters, walkthrough chapters, mission stages, or databases).
+- **Assets (`public/`):** Place static imagery, sprites, maps, and logos directly in `public/` or in custom subfolders appropriate for the game.
 
 ---
 
@@ -136,7 +110,7 @@ flowchart TD
 
 1. Convert raw files into structured `.astro` pages utilizing the game-tailored components.
 
-2. **Apply Content Fidelity Rule (INV-03):** Maintain every statistic, choice outcome, secret flag, and combat instruction. Do not summarize away specific values.
+2. **Apply Strict Source Faithfulness (INV-03):** Ensure guide pages strictly mirror the raw source materials. Do not rewrite, rephrase, summarize, embellish, or omit any text, walkthrough steps, statistics, choice outcomes, secret flags, or combat instructions. Preserve original wording, terminology, and structure faithfully.
 
 3. For exceptionally large source files (>2,000 lines), break content logically into sub-pages or modular section components to ensure complete generation without truncation.
 
@@ -151,12 +125,11 @@ flowchart TD
 1. Configure `astro.config.mjs` with production base-path handling:
 
 ```javascript
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 export default defineConfig({
-  site: 'https://<username>.github.io',
-  base: process.env.NODE_ENV === 'production' ? '/<repo-name>/' : '/',
+  site: "https://<username>.github.io",
+  base: process.env.NODE_ENV === "production" ? "/<repo-name>/" : "/",
 });
-
 ```
 
 2. Verify all internal links, router pushes, and static assets interpolate `${baseUrl}`:
@@ -219,15 +192,14 @@ const baseUrl = import.meta.env.BASE_URL;
   --bg-primary: #121016;
   --surface-hud: #1a1622;
   --border-style: 2px solid #ffcc00;
-  --font-heading: 'GameDisplayFont', sans-serif;
-  --font-body: 'CleanBodyFont', sans-serif;
+  --font-heading: "GameDisplayFont", sans-serif;
+  --font-body: "CleanBodyFont", sans-serif;
 
   /* Domain-specific tokens */
   --color-affinity-fire: #e74c3c;
   --color-affinity-ice: #3498db;
   --color-rarity-legendary: #f39c12;
 }
-
 ```
 
 ---
@@ -268,12 +240,12 @@ const baseUrl = import.meta.env.BASE_URL;
 
 The AI must actively avoid these pitfalls:
 
-| Failure Mode                   | Reason It Fails                                         | Correct Behavior |
-| ------------------------------ | ------------------------------------------------------- | ---------------- |
-| **Clone-Stamping Past Themes** | Making every site look like a dark glassmorphism portal | Analyze the target game's actual UI and craft a tailored visual theme. |
-| **Summarizing / Truncating data** | Causes players to miss move notations, frame data, or secrets | Maintain complete fidelity for all gameplay data and instructions.|
-| **Hardcoded absolute URLs (`/images/...`)** | Breaks on GitHub Pages subpaths| Always prefix static assets and routes with `${baseUrl}`.|
-| **Desktop-only layout bias** | Causes cramped navigation or unreadable tables on mobile| Design mobile-first with $\ge 44\text{px}$ touch targets and fluid text.|
-| **Low-contrast text** | Violates legibility when referencing while gaming| Maintain high contrast ($\ge 7:1$) across all themes.|
-| **Using heavy UI frameworks** | Bloats bundle size and slows loading speed| Stick to vanilla CSS tokens and lightweight scoped styles.|
-| **Unsafe DOM scripts** | Throws client runtime errors during SSR/hydration| Guard browser scripts with `if (typeof document !== "undefined")` and defensive null-checks.|
+| Failure Mode                                           | Reason It Fails                                                                         | Correct Behavior                                                                             |
+| ------------------------------------------------------ | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| **Clone-Stamping Past Themes**                         | Making every site look like a dark glassmorphism portal                                 | Analyze the target game's actual UI and craft a tailored visual theme.                       |
+| **Summarizing, rephrasing, or truncating source data** | Causes deviation from authoritative sources and loss of original instructions or nuance | Maintain strict source faithfulness; never rewrite, rephrase, or omit source content.        |
+| **Hardcoded absolute URLs (`/images/...`)**            | Breaks on GitHub Pages subpaths                                                         | Always prefix static assets and routes with `${baseUrl}`.                                    |
+| **Desktop-only layout bias**                           | Causes cramped navigation or unreadable tables on mobile                                | Design mobile-first with $\ge 44\text{px}$ touch targets and fluid text.                     |
+| **Low-contrast text**                                  | Violates legibility when referencing while gaming                                       | Maintain high contrast ($\ge 7:1$) across all themes.                                        |
+| **Using heavy UI frameworks**                          | Bloats bundle size and slows loading speed                                              | Stick to vanilla CSS tokens and lightweight scoped styles.                                   |
+| **Unsafe DOM scripts**                                 | Throws client runtime errors during SSR/hydration                                       | Guard browser scripts with `if (typeof document !== "undefined")` and defensive null-checks. |
