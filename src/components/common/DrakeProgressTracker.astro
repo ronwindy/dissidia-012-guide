@@ -9,7 +9,7 @@ interface Props {
 }
 
 const {
-  label = "Progress:",
+  label = "Walkthrough:",
   total = 27,
   prefix = "drake-ch-",
   class: className = "",
@@ -21,13 +21,15 @@ const {
   title="Drake's Guide Completion Progress"
 >
   <div class="progress-inner">
-    <span class="progress-icon" aria-hidden="true">
-      <Icon name="book-open" size={13} />
-    </span>
-    <span class="progress-label">
-      <span class="label-full">{label}</span>
-      <span class="label-short">Progress:</span>
-    </span>
+    <div class="progress-info">
+      <span class="progress-icon" aria-hidden="true">
+        <Icon name="book-open" size={15} />
+      </span>
+      <span class="progress-label">
+        <span class="label-full">{label}</span>
+        <span class="label-short">Walkthrough:</span>
+      </span>
+    </div>
     <span
       id="globalProgressCount"
       class="progress-count"
@@ -41,9 +43,10 @@ const {
 
 <style>
   .drake-progress-tracker {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    padding: 0.35rem 0.75rem;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
     border-radius: var(--radius-sm);
     background: rgba(16, 185, 129, 0.08);
     border: 1px solid rgba(16, 185, 129, 0.28);
@@ -61,9 +64,17 @@ const {
   }
 
   .progress-inner {
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: space-between;
+    width: 100%;
     gap: 0.5rem;
+  }
+
+  .progress-info {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
   }
 
   .progress-icon {
@@ -75,7 +86,7 @@ const {
   }
 
   .progress-label {
-    font-size: 0.78rem;
+    font-size: 0.82rem;
     color: var(--text-muted);
     font-family: var(--font-subheading);
     font-weight: 600;
@@ -87,44 +98,18 @@ const {
   }
 
   .progress-count {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius-xs);
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.35);
     color: var(--color-assist);
     font-weight: 700;
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.76rem;
     letter-spacing: 0.04em;
     text-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
-  }
-
-  @media (max-width: 768px) {
-    .drake-progress-tracker {
-      padding: 0.25rem 0.55rem;
-    }
-
-    .progress-inner {
-      gap: 0.35rem;
-    }
-
-    .label-full {
-      display: none;
-    }
-
-    .label-short {
-      display: inline;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .progress-label {
-      display: none;
-    }
-
-    .drake-progress-tracker {
-      padding: 0.22rem 0.45rem;
-    }
-
-    .progress-count {
-      font-size: 0.82rem;
-    }
   }
 </style>
 

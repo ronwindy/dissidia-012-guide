@@ -1,6 +1,5 @@
 ---
 import Icon from "../common/Icon.astro";
-import DrakeProgressTracker from "../common/DrakeProgressTracker.astro";
 
 interface Props {
   title: string;
@@ -54,21 +53,19 @@ const { title, baseUrl } = Astro.props;
     </div>
   </a>
 
-  <div class="header-right">
-    <DrakeProgressTracker />
-  </div>
+  <div class="header-right" aria-hidden="true"></div>
 </header>
 
 <style>
-  /* Header */
+  /* Header - Hidden on desktop, mobile/tablet only */
   .app-header {
+    display: none;
     position: sticky;
     top: 0;
     height: var(--header-height);
     background: var(--surface-hud);
     border-bottom: 2px solid var(--border-panel);
     z-index: 90;
-    display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 1.5rem;

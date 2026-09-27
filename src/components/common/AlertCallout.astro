@@ -34,3 +34,51 @@ const displayTitle = title || defaultTitles[type] || 'NOTE';
     <slot />
   </div>
 </div>
+
+<style>
+  .callout-box {
+    border-left: 4px solid var(--color-brv);
+    background: rgba(56, 189, 248, 0.08);
+    padding: 1.25rem 1.5rem;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    margin: 1.5rem 0;
+  }
+
+  .callout-box.tip {
+    border-left-color: var(--color-assist);
+    background: rgba(16, 185, 129, 0.08);
+  }
+
+  .callout-box.warning,
+  .callout-box.missable {
+    border-left-color: var(--color-cosmos);
+    background: rgba(245, 158, 11, 0.09);
+  }
+
+  .callout-box.strategy,
+  .callout-box.boss {
+    border-left-color: var(--color-chaos);
+    background: rgba(239, 68, 68, 0.09);
+  }
+
+  .callout-box.lore {
+    border-left-color: var(--color-lufenia);
+    background: rgba(168, 85, 247, 0.09);
+  }
+
+  .callout-title {
+    font-family: var(--font-subheading);
+    font-size: 1.12rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .callout-body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>

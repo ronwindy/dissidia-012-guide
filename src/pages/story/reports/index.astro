@@ -4,6 +4,7 @@ import ProgressTracker from '../../../components/common/ProgressTracker.astro';
 import StoryNav from '../../../components/story/StoryNav.astro';
 import { getDrakeChapter } from '../../../data/story/drakeChaptersData';
 import { processDrakeContentHtml } from '../../../utils/drakeContentProcessor';
+import '../../../styles/drake-walkthrough.css';
 
 const reportChapter = getDrakeChapter('reports', 'the-reports');
 if (!reportChapter) {

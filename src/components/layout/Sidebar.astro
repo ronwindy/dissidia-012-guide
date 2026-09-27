@@ -1,5 +1,6 @@
 ---
 import Icon from "../common/Icon.astro";
+import DrakeProgressTracker from "../common/DrakeProgressTracker.astro";
 import { getNavGroups } from "../../data/navigation";
 
 interface Props {
@@ -131,6 +132,10 @@ const navGroups = getNavGroups(baseUrl);
       ))
     }
   </nav>
+
+  <div class="sidebar-footer">
+    <DrakeProgressTracker />
+  </div>
 </aside>
 
 <script>
@@ -228,7 +233,7 @@ const navGroups = getNavGroups(baseUrl);
     z-index: 100;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
+    overflow: hidden;
     transition: transform var(--transition-normal);
     box-shadow: 4px 0 24px rgba(0, 0, 0, 0.6);
   }
@@ -349,6 +354,22 @@ const navGroups = getNavGroups(baseUrl);
   .sidebar-nav {
     padding: 1rem 0.75rem;
     flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+  }
+
+  .sidebar-footer {
+    flex-shrink: 0;
+    padding: 0.75rem 0.85rem;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(10, 14, 26, 0.4) 0%,
+        rgba(56, 189, 248, 0.08) 100%
+      ),
+      var(--surface-hud);
+    border-top: 1px solid rgba(56, 189, 248, 0.22);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.35);
   }
 
   .nav-group {
