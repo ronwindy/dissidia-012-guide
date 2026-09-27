@@ -5,15 +5,7 @@ import { drakeCampaigns } from '../../../data/story/drakeData';
 import { getDrakeChaptersByCampaign } from '../../../data/story/drakeChaptersData';
 import { drakeWorldMaps } from '../../../data/story/drakeAssets';
 
-export function getStaticPaths() {
-  return [
-    { params: { campaign: '012-treachery' } },
-    { params: { campaign: '013-light' } },
-    { params: { campaign: '000-creator' } }
-  ];
-}
-
-const { campaign } = Astro.params;
+const campaign = '000-creator';
 const campaignInfo = drakeCampaigns.find(c => c.campaignSlug === campaign) || drakeCampaigns[0];
 const chapters = getDrakeChaptersByCampaign(campaign);
 
@@ -21,10 +13,9 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
 const resolveImg = (src: string) => src.startsWith('http') ? src : `${baseUrl}${src.startsWith('/') ? src.slice(1) : src}`;
 
 // Relevant campaign banner map
-const mapKey = campaign === '012-treachery' ? 'cornelian-plains' : campaign === '013-light' ? 'volcano-ring-gulg' : 'land-of-discord';
-const bannerMap = drakeWorldMaps[mapKey];
+const bannerMap = drakeWorldMaps['land-of-discord'];
 
-const currentNavPath = campaign === '012-treachery' ? 'story-012' : campaign === '013-light' ? 'story-013' : 'story-000';
+const currentNavPath = 'story-000';
 ---
 
 <BaseLayout title={`${campaignInfo.title} — Drake's Walkthrough`} currentPath={currentNavPath}>

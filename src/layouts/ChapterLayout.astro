@@ -1,64 +1,64 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import ProgressTracker from "../../../components/common/ProgressTracker.astro";
-import StoryNav from "../../../components/story/StoryNav.astro";
-import {
-  getAllDrakeChapters,
-  type DrakeChapterDetail,
-} from "../../../data/story/drakeChaptersData";
-import { processDrakeContentHtml } from "../../../utils/drakeContentProcessor";
-import "../../../styles/drake-walkthrough.css";
-
-export function getStaticPaths() {
-  const chapters = getAllDrakeChapters().filter(
-    (c) => c.campaign !== "reports",
-  );
-  return chapters.map((chapter) => ({
-    params: {
-      campaign: chapter.campaign,
-      chapter: chapter.slug,
-    },
-    props: {
-      chapter,
-    },
-  }));
-}
+import BaseLayout from './BaseLayout.astro';
+import ProgressTracker from '../components/common/ProgressTracker.astro';
+import StoryNav from '../components/story/StoryNav.astro';
+import type { DrakeSectionNav, DrakeChapterPagination } from '../data/story/drakeChaptersData';
+import '../styles/drake-walkthrough.css';
 
 interface Props {
-  chapter: DrakeChapterDetail;
+  title: string;
+  subtitle: string;
+  partNumber: number;
+  campaign: '012-treachery' | '013-light' | '000-creator' | 'reports';
+  campaignName: string;
+  character: string;
+  portrait?: string;
+  trackerId: string;
+  sections?: DrakeSectionNav[];
+  prev?: DrakeChapterPagination | null;
+  next?: DrakeChapterPagination | null;
 }
 
-const { chapter } = Astro.props;
+const {
+  title,
+  subtitle,
+  partNumber,
+  campaign,
+  campaignName,
+  character,
+  portrait,
+  trackerId,
+  sections = [],
+  prev = null,
+  next = null,
+} = Astro.props;
 
-const baseUrl = import.meta.env.BASE_URL.endsWith("/")
+const baseUrl = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
 const resolveImg = (src: string) =>
-  src.startsWith("http")
+  src.startsWith('http')
     ? src
-    : `${baseUrl}${src.startsWith("/") ? src.slice(1) : src}`;
+    : `${baseUrl}${src.startsWith('/') ? src.slice(1) : src}`;
 
-const processedContentHtml = processDrakeContentHtml(
-  chapter.contentHtml,
-  baseUrl,
-);
-
-const navItems = chapter.sections.map((s, idx) => ({
+const navItems = sections.map((s, idx) => ({
   id: s.anchor || `section-${idx}`,
   label: s.line,
   sublabel: `Section ${idx + 1}`,
 }));
 
 const currentNavPath =
-  chapter.campaign === "012-treachery"
-    ? "story-012"
-    : chapter.campaign === "013-light"
-      ? "story-013"
-      : "story-000";
+  campaign === '012-treachery'
+    ? 'story-012'
+    : campaign === '013-light'
+      ? 'story-013'
+      : campaign === 'reports'
+        ? 'story-reports'
+        : 'story-000';
 ---
 
 <BaseLayout
-  title={`${chapter.title} — Drake's Walkthrough`}
+  title={`${title} — Drake's Walkthrough`}
   currentPath={currentNavPath}
 >
   <!-- Header Bar -->
@@ -78,19 +78,19 @@ const currentNavPath =
           &larr; Walkthrough Hub
         </a>
         <a
-          href={`${baseUrl}story/${chapter.campaign}/`}
+          href={`${baseUrl}story/${campaign}/`}
           class="badge-pill badge-crystal"
           style="text-decoration: none;"
         >
-          {chapter.campaignName}
+          {campaignName}
         </a>
-        <span class="badge-pill badge-new">Part {chapter.partNumber}</span>
+        <span class="badge-pill badge-new">Part {partNumber}</span>
       </div>
 
       <!-- Primary Chapter Completion Tracker -->
       <div>
         <ProgressTracker
-          id={chapter.trackerId}
+          id={trackerId}
           label="Chapter Cleared"
           subtext="Save Progression"
         />
@@ -102,10 +102,10 @@ const currentNavPath =
       style="display: flex; align-items: center; gap: 1.25rem; margin-top: 0.5rem; flex-wrap: wrap;"
     >
       {
-        chapter.portrait && (
+        portrait && (
           <img
-            src={resolveImg(chapter.portrait)}
-            alt={chapter.character}
+            src={resolveImg(portrait)}
+            alt={character}
             style="width: 64px; height: 64px; object-fit: contain; background: rgba(0,0,0,0.5); border-radius: var(--radius-sm); border: 2px solid var(--color-cosmos); padding: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);"
           />
         )
@@ -114,13 +114,13 @@ const currentNavPath =
         <h1
           style="margin: 0; font-family: var(--font-heading); font-size: clamp(2rem, 3.5vw, 2.75rem); letter-spacing: 0.04em;"
         >
-          {chapter.title}
+          {title}
         </h1>
         <div
           style="font-size: 1.05rem; color: var(--color-cosmos); font-weight: 600; margin-top: 0.2rem; font-family: var(--font-subheading);"
         >
-          {chapter.subtitle} &bull; <span style="color: #38bdf8;"
-            >Hero / Focus: {chapter.character}</span
+          {subtitle} &bull; <span style="color: #38bdf8;"
+            >Hero / Focus: {character}</span
           >
         </div>
       </div>
@@ -139,7 +139,9 @@ const currentNavPath =
     class="crystal-panel drake-article-body"
     style="padding: 2rem; margin-bottom: 2.5rem; border-top: 3px solid var(--color-cosmos); background: var(--surface-panel);"
   >
-    <div class="drake-wiki-html-content" set:html={processedContentHtml} />
+    <div class="drake-wiki-html-content">
+      <slot />
+    </div>
   </article>
 
   <!-- Bottom Previous / Next Chapter Pagination -->
@@ -149,39 +151,39 @@ const currentNavPath =
   >
     <div>
       {
-        chapter.prev ? (
+        prev ? (
           <a
-            href={`${baseUrl}${chapter.prev.href.startsWith("/") ? chapter.prev.href.slice(1) : chapter.prev.href}`}
+            href={`${baseUrl}${prev.href.startsWith('/') ? prev.href.slice(1) : prev.href}`}
             class="btn-action"
             style="padding: 0.65rem 1.25rem;"
           >
-            &larr; {chapter.prev.title}
+            &larr; {prev.title}
           </a>
         ) : (
           <a
-            href={`${baseUrl}story/${chapter.campaign}/`}
+            href={`${baseUrl}story/${campaign}/`}
             class="btn-action"
             style="padding: 0.65rem 1.25rem;"
           >
-            &larr; {chapter.campaignName} Hub
+            &larr; {campaignName} Hub
           </a>
         )
       }
     </div>
 
     <div>
-      <ProgressTracker id={chapter.trackerId} label="Mark Chapter Complete" />
+      <ProgressTracker id={trackerId} label="Mark Chapter Complete" />
     </div>
 
     <div>
       {
-        chapter.next ? (
+        next ? (
           <a
-            href={`${baseUrl}${chapter.next.href.startsWith("/") ? chapter.next.href.slice(1) : chapter.next.href}`}
+            href={`${baseUrl}${next.href.startsWith('/') ? next.href.slice(1) : next.href}`}
             class="btn-action"
             style="padding: 0.65rem 1.25rem;"
           >
-            {chapter.next.title} &rarr;
+            {next.title} &rarr;
           </a>
         ) : (
           <a
