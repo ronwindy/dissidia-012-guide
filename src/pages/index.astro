@@ -10,20 +10,27 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
 
 <BaseLayout title="Dissidia 012 [duodecim] Guide Portal" currentPath="home">
   <!-- Hero Section -->
-  <div class="hero-panel">
-    <div class="hero-brand">
-      <img
-        src={`${baseUrl}logo.png`}
-        alt="Dissidia 012 [duodecim] Final Fantasy Logo"
-        class="hero-logo-img"
-        width="420"
-        height="240"
-        loading="eager"
-        decoding="async"
-      />
-    </div>
+  <header class="hero-brand">
+    <h1 class="sr-only">Dissidia 012 [duodecim] Final Fantasy Guide Portal</h1>
+    <img
+      src={`${baseUrl}logo.png`}
+      alt="Dissidia 012 [duodecim] Final Fantasy Logo"
+      class="hero-logo-img"
+      width="420"
+      height="240"
+      loading="eager"
+      decoding="async"
+    />
+  </header>
 
-    <!-- Game Specifications & Credits -->
+  <!-- Game Specifications & Credits -->
+  <section class="crystal-panel" aria-labelledby="specs-heading">
+    <div class="panel-header">
+      <Icon name="info" size={24} class="panel-header-icon" />
+      <h2 id="specs-heading" class="panel-heading">
+        GAME SPECIFICATIONS & CREDITS
+      </h2>
+    </div>
     <div class="game-specs-showcase">
       <div class="game-box-wrapper">
         <img
@@ -36,28 +43,28 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
           decoding="async"
         />
       </div>
-      <div class="game-specs-grid">
+      <dl class="game-specs-grid">
         {
           gameInfo.map((info) => (
             <div class="stat-panel game-spec-card">
-              <div class="game-spec-header">
+              <dt class="game-spec-header">
                 <Icon name={info.icon} size={18} class="game-spec-icon" />
                 <span class="game-spec-label">{info.label}</span>
-              </div>
-              <div class="game-spec-value">{info.value}</div>
+              </dt>
+              <dd class="game-spec-value">{info.value}</dd>
             </div>
           ))
         }
-      </div>
+      </dl>
     </div>
-  </div>
+  </section>
 
   <!-- Game Introduction -->
   <section class="game-intro-section" aria-labelledby="intro-heading">
     <div class="crystal-panel intro-panel">
-      <div class="intro-header">
-        <Icon name="sparkles" size={24} class="intro-header-icon" />
-        <h2 id="intro-heading" class="intro-heading">OVERVIEW & PREMISE</h2>
+      <div class="panel-header">
+        <Icon name="sparkles" size={24} class="panel-header-icon" />
+        <h2 id="intro-heading" class="panel-heading">OVERVIEW & PREMISE</h2>
       </div>
 
       <div class="intro-body">
@@ -117,6 +124,19 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
 </BaseLayout>
 
 <style>
+  /* Screen Reader Only */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
   /* Hero Brand & Typography */
   .hero-brand {
     display: flex;
@@ -133,14 +153,34 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
     filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.85));
   }
 
+  /* Shared Panel Header */
+  .panel-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-panel-subtle);
+  }
+
+  .panel-header-icon {
+    color: var(--color-brv);
+    flex-shrink: 0;
+  }
+
+  .panel-heading {
+    margin: 0;
+    font-size: var(--font-size-h3);
+    font-family: var(--font-heading);
+    letter-spacing: 0.06em;
+    color: var(--text-main);
+  }
+
   /* Game Specifications & Credits Showcase */
   .game-specs-showcase {
     display: flex;
     align-items: center;
     gap: 2rem;
-    margin-top: 1.5rem;
-    border-top: 1px solid var(--border-panel-subtle);
-    padding-top: 1.75rem;
   }
 
   .game-box-wrapper {
@@ -172,6 +212,8 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
+    margin: 0;
+    padding: 0;
   }
 
   .game-spec-card {
@@ -186,6 +228,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
     align-items: center;
     gap: 0.5rem;
     color: var(--color-brv);
+    margin: 0;
   }
 
   .game-spec-icon {
@@ -207,6 +250,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
     font-weight: 700;
     color: var(--text-main);
     line-height: 1.25;
+    margin: 0;
   }
 
   /* Game Introduction */
@@ -216,28 +260,6 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
 
   .intro-panel {
     padding: 2rem;
-  }
-
-  .intro-header {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border-panel-subtle);
-  }
-
-  .intro-header-icon {
-    color: var(--color-brv);
-    flex-shrink: 0;
-  }
-
-  .intro-heading {
-    margin: 0;
-    font-size: var(--font-size-h3);
-    font-family: var(--font-heading);
-    letter-spacing: 0.06em;
-    color: var(--text-main);
   }
 
   .intro-body {
@@ -264,11 +286,16 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
   }
 
   @media (max-width: 640px) {
+    .game-specs-showcase {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
     .intro-panel {
       padding: 1.25rem;
     }
 
-    .intro-heading {
+    .panel-heading {
       font-size: var(--font-size-lg);
     }
   }
