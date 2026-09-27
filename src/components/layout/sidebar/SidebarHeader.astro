@@ -1,0 +1,112 @@
+---
+import Icon from "../../common/Icon.astro";
+
+interface Props {
+  baseUrl: string;
+}
+
+const { baseUrl } = Astro.props;
+---
+
+<div class="sidebar-header">
+  <a
+    href={baseUrl}
+    class="brand-link"
+    title="Dissidia 012 [duodecim] Strategy Guide"
+  >
+    <img
+      src={`${baseUrl}logo.png`}
+      alt="Dissidia 012 Logo"
+      class="sidebar-brand-img"
+    />
+  </a>
+  <button
+    class="sidebar-close-btn"
+    id="sidebarClose"
+    aria-label="Close Command Menu"
+  >
+    <Icon name="x" size={20} />
+  </button>
+</div>
+
+<style>
+  .sidebar-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 1.15rem 1.25rem;
+    border-bottom: 2px solid rgba(56, 189, 248, 0.25);
+    background:
+      linear-gradient(
+        180deg,
+        rgba(56, 189, 248, 0.12) 0%,
+        rgba(10, 14, 26, 0) 100%
+      ),
+      var(--surface-hud);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .sidebar-close-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-panel);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  .sidebar-close-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.5);
+    color: #f87171;
+    transform: scale(1.05);
+  }
+
+  .brand-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-width: 0;
+    text-decoration: none;
+    color: var(--text-main);
+    transition: opacity var(--transition-fast);
+  }
+
+  .brand-link:hover {
+    text-decoration: none;
+    opacity: 0.95;
+  }
+
+  .sidebar-brand-img {
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+    max-height: 85px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 14px rgba(56, 189, 248, 0.45));
+    transition: transform var(--transition-fast);
+  }
+
+  .brand-link:hover .sidebar-brand-img {
+    transform: scale(1.04);
+  }
+
+  @media (max-width: 1024px) {
+    .sidebar-close-btn {
+      display: inline-flex;
+    }
+  }
+</style>

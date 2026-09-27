@@ -1,0 +1,53 @@
+---
+import SidebarNavItem from "./SidebarNavItem.astro";
+import { getNavGroups } from "../../../data/navigation";
+
+interface Props {
+  baseUrl: string;
+  currentPath?: string;
+  pathname: string;
+}
+
+const { baseUrl, currentPath = "", pathname } = Astro.props;
+const navGroups = getNavGroups(baseUrl);
+---
+
+<nav class="sidebar-nav" aria-label="Main Navigation">
+  {
+    navGroups.map((group) => (
+      <div class="nav-group">
+        <div class="nav-group-title">{group.title}</div>
+        {group.links.map((link) => (
+          <SidebarNavItem
+            link={link}
+            currentPath={currentPath}
+            pathname={pathname}
+          />
+        ))}
+      </div>
+    ))
+  }
+</nav>
+
+<style>
+  .sidebar-nav {
+    padding: 1rem 0.75rem;
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+  }
+
+  .nav-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .nav-group-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-dim);
+    padding: 0.35rem 0.75rem;
+    font-family: var(--font-subheading);
+    font-weight: 700;
+  }
+</style>
