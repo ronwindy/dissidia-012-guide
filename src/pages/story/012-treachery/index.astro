@@ -1,9 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import ProgressTracker from '../../../components/common/ProgressTracker.astro';
 import { drakeCampaigns } from '../../../data/story/drakeData';
 import { getDrakeChaptersByCampaign } from '../../../data/story/drakeChaptersData';
-import { drakeWorldMaps } from '../../../data/story/drakeAssets';
 
 const campaign = '012-treachery';
 const campaignInfo = drakeCampaigns.find(c => c.campaignSlug === campaign) || drakeCampaigns[0];
@@ -11,9 +9,6 @@ const chapters = getDrakeChaptersByCampaign(campaign);
 
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 const resolveImg = (src: string) => src.startsWith('http') ? src : `${baseUrl}${src.startsWith('/') ? src.slice(1) : src}`;
-
-// Relevant campaign banner map
-const bannerMap = drakeWorldMaps['cornelian-plains'];
 
 const currentNavPath = 'story-012';
 ---
@@ -40,17 +35,17 @@ const currentNavPath = 'story-012';
           <div class="chapter-card-header">
             <div class="chapter-identity">
               {ch.portrait && (
-                <img src={resolveImg(ch.portrait)} alt={ch.character} class="chapter-portrait" />
+                <img src={resolveImg(ch.portrait)} alt={ch.character} width="48" height="48" loading="lazy" decoding="async" class="chapter-portrait" />
               )}
               <div>
                 <div class="chapter-meta">
                   Part {ch.partNumber} &bull; {ch.character}
                 </div>
-                <h3 class="chapter-title">
+                <h2 class="chapter-title">
                   <a href={`${baseUrl}story/${ch.campaign}/${ch.slug}/`} class="chapter-title-link">
                     {ch.title}
                   </a>
-                </h3>
+                </h2>
               </div>
             </div>
           </div>
@@ -73,7 +68,7 @@ const currentNavPath = 'story-012';
         </div>
 
         <div class="chapter-card-footer">
-          <a href={`${baseUrl}story/${ch.campaign}/${ch.slug}/`} class="btn-action btn-read">
+          <a href={`${baseUrl}story/${ch.campaign}/${ch.slug}/`} class="btn-action btn-read" aria-label={`Read guide for ${ch.title}`}>
             Read Guide &rarr;
           </a>
         </div>
@@ -81,32 +76,13 @@ const currentNavPath = 'story-012';
     ))}
   </div>
 
-  <!-- Bottom Navigation Actions -->
-  <div class="bottom-nav">
-    <a href={`${baseUrl}story/`} class="btn-action btn-nav">
-      &larr; Return to Walkthrough Hub
-    </a>
-    <a href={`${baseUrl}story/gameplay-basics/`} class="btn-action btn-nav">
-      Review Gameplay Basics &rarr;
-    </a>
-  </div>
 </BaseLayout>
 
 <style>
   .campaign-header {
     margin-bottom: 2rem;
-  }
-
-  .header-badges {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.35rem;
-    flex-wrap: wrap;
-  }
-
-  .badge-link {
-    text-decoration: none;
+    border-bottom: 1px solid var(--border-panel);
+    padding-bottom: 1rem;
   }
 
   .campaign-subtitle {
@@ -120,41 +96,6 @@ const currentNavPath = 'story-012';
     color: var(--text-muted);
     margin-top: 0.5rem;
     line-height: 1.6;
-  }
-
-  .campaign-directory {
-    margin-bottom: 2rem;
-    border-left: 4px solid var(--color-cosmos);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .directory-kicker {
-    font-size: 0.75rem;
-    font-family: var(--font-mono);
-    color: var(--color-cosmos);
-    text-transform: uppercase;
-    font-weight: 700;
-  }
-
-  .directory-featured {
-    font-size: 1.15rem;
-    font-family: var(--font-heading);
-    font-weight: 700;
-    color: var(--text-main);
-    margin-top: 0.2rem;
-  }
-
-  .featured-warriors {
-    color: var(--color-brv);
-  }
-
-  .btn-start {
-    padding: 0.65rem 1.35rem;
-    font-size: 0.95rem;
   }
 
   .chapters-grid {
@@ -255,7 +196,7 @@ const currentNavPath = 'story-012';
 
   .chapter-card-footer {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     flex-wrap: wrap;
     gap: 0.75rem;
@@ -267,19 +208,5 @@ const currentNavPath = 'story-012';
     padding: 0.4rem 0.95rem;
     font-size: 0.85rem;
     white-space: nowrap;
-  }
-
-  .bottom-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    border-top: 1px solid var(--border-panel);
-    padding-top: 1.5rem;
-  }
-
-  .btn-nav {
-    padding: 0.65rem 1.25rem;
   }
 </style>
