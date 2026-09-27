@@ -1,12 +1,12 @@
 ---
-import BaseLayout from "../../../../layouts/BaseLayout.astro";
-import ProgressTracker from "../../../../components/common/ProgressTracker.astro";
-import StoryNav from "../../../../components/story/StoryNav.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ProgressTracker from "../../../components/common/ProgressTracker.astro";
+import StoryNav from "../../../components/story/StoryNav.astro";
 import {
   getAllDrakeChapters,
   type DrakeChapterDetail,
-} from "../../../../data/story/drakeChaptersData";
-import { processDrakeContentHtml } from "../../../../utils/drakeContentProcessor";
+} from "../../../data/story/drakeChaptersData";
+import { processDrakeContentHtml } from "../../../utils/drakeContentProcessor";
 
 export function getStaticPaths() {
   const chapters = getAllDrakeChapters().filter(
@@ -47,11 +47,18 @@ const navItems = chapter.sections.map((s, idx) => ({
   label: s.line,
   sublabel: `Section ${idx + 1}`,
 }));
+
+const currentNavPath =
+  chapter.campaign === "012-treachery"
+    ? "story-012"
+    : chapter.campaign === "013-light"
+      ? "story-013"
+      : "story-000";
 ---
 
 <BaseLayout
   title={`${chapter.title} — Drake's Walkthrough`}
-  currentPath="story-drake"
+  currentPath={currentNavPath}
 >
   <!-- Header Bar -->
   <div style="margin-bottom: 2rem;">
@@ -63,14 +70,14 @@ const navItems = chapter.sections.map((s, idx) => ({
         style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;"
       >
         <a
-          href={`${baseUrl}story/drake/`}
+          href={`${baseUrl}story/`}
           class="badge-pill badge-cosmos"
           style="text-decoration: none;"
         >
-          &larr; Drake's Hub
+          &larr; Walkthrough Hub
         </a>
         <a
-          href={`${baseUrl}story/drake/${chapter.campaign}/`}
+          href={`${baseUrl}story/${chapter.campaign}/`}
           class="badge-pill badge-crystal"
           style="text-decoration: none;"
         >
@@ -151,7 +158,7 @@ const navItems = chapter.sections.map((s, idx) => ({
           </a>
         ) : (
           <a
-            href={`${baseUrl}story/drake/${chapter.campaign}/`}
+            href={`${baseUrl}story/${chapter.campaign}/`}
             class="btn-action"
             style="padding: 0.65rem 1.25rem;"
           >
@@ -177,11 +184,11 @@ const navItems = chapter.sections.map((s, idx) => ({
           </a>
         ) : (
           <a
-            href={`${baseUrl}story/drake/`}
+            href={`${baseUrl}story/`}
             class="btn-action"
             style="padding: 0.65rem 1.25rem;"
           >
-            Drake's Walkthrough Hub &rarr;
+            Walkthrough Hub &rarr;
           </a>
         )
       }

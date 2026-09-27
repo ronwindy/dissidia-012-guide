@@ -1,8 +1,8 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import AlertCallout from '../../../components/common/AlertCallout.astro';
-import StoryNav from '../../../components/story/StoryNav.astro';
-import { drakeGameplayTopics, drakeIntro } from '../../../data/story/drakeData';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AlertCallout from '../../components/common/AlertCallout.astro';
+import StoryNav from '../../components/story/StoryNav.astro';
+import { drakeGameplayTopics, drakeIntro } from '../../data/story/drakeData';
 
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 const resolveImg = (src: string) => src.startsWith('http') ? src : `${baseUrl}${src.startsWith('/') ? src.slice(1) : src}`;
@@ -14,12 +14,12 @@ const navItems = drakeGameplayTopics.map(t => ({
 }));
 ---
 
-<BaseLayout title="Gameplay Basics — Drake's Walkthrough" currentPath="story-drake">
+<BaseLayout title="Gameplay Basics — Drake's Walkthrough" currentPath="story-basics">
   <!-- Header Breadcrumb & Title -->
   <div style="margin-bottom: 2rem;">
     <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
-      <a href={`${baseUrl}story/drake/`} class="badge-pill badge-cosmos" style="text-decoration: none;">
-        &larr; Drake's Walkthrough Hub
+      <a href={`${baseUrl}story/`} class="badge-pill badge-cosmos" style="text-decoration: none;">
+        &larr; Walkthrough Hub
       </a>
       <span class="badge-pill badge-crystal">Core Mechanics</span>
       <span class="badge-pill badge-new">Author: {drakeIntro.author}</span>
@@ -93,10 +93,10 @@ const navItems = drakeGameplayTopics.map(t => ({
 
   <!-- Bottom Navigation Actions -->
   <div style="margin-top: 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; border-top: 1px solid var(--border-panel); padding-top: 1.5rem;">
-    <a href={`${baseUrl}story/drake/`} class="btn-action" style="padding: 0.65rem 1.25rem;">
-      &larr; Return to Drake's Walkthrough Hub
+    <a href={`${baseUrl}story/`} class="btn-action" style="padding: 0.65rem 1.25rem;">
+      &larr; Return to Walkthrough Hub
     </a>
-    <a href={`${baseUrl}story/drake/012-treachery/prologue-chapter-1/`} class="btn-action" style="padding: 0.65rem 1.25rem;">
+    <a href={`${baseUrl}story/012-treachery/prologue-chapter-1/`} class="btn-action" style="padding: 0.65rem 1.25rem;">
       Begin Chapter 1: Prologue &rarr;
     </a>
   </div>

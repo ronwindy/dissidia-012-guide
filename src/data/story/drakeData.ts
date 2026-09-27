@@ -157,7 +157,7 @@ export const drakeCampaigns: DrakeCampaignMeta[] = [
     badge: "12th Cycle Prequel",
     badgeClass: "badge-cosmos",
     borderColor: "var(--color-cosmos)",
-    href: "/story/drake/012-treachery/",
+    href: "/story/012-treachery/",
     desc: "Follow Lightning, Vaan, Laguna, Yuna, Kain, and Tifa through the 12th cycle. Detailed character reviews, overworld step-by-step chest routes, and gateway chessboard maps.",
     featuredHeroes: ["Lightning", "Vaan", "Laguna", "Yuna", "Kain", "Tifa"]
   },
@@ -171,7 +171,7 @@ export const drakeCampaigns: DrakeCampaignMeta[] = [
     badge: "13th Cycle Classic",
     badgeClass: "badge-crystal",
     borderColor: "var(--color-lufenia)",
-    href: "/story/drake/013-light/",
+    href: "/story/013-light/",
     desc: "All 10 original Destiny Odysseys for Cloud, Terra, Squall, Zidane, Cecil, Bartz, Onion Knight, Firion, Tidus, and Warrior of Light, followed by the 4-part Shade Impulse and Chaos gauntlet.",
     featuredHeroes: ["Warrior of Light", "Firion", "Onion Knight", "Cecil", "Bartz", "Terra", "Cloud", "Squall", "Zidane", "Tidus"]
   },
@@ -185,7 +185,7 @@ export const drakeCampaigns: DrakeCampaignMeta[] = [
     badge: "Open World Endgame",
     badgeClass: "badge-chaos",
     borderColor: "var(--color-chaos)",
-    href: "/story/drake/000-creator/",
+    href: "/story/000-creator/",
     desc: "Open-world exploration of World B. Megadungeons (Dragon King's Gateway, The Forsaken Lands), secret Moogle merchants, unlocked teleport gates, and Level 130 Feral Chaos.",
     featuredHeroes: ["Party Formation", "Shantotto", "Gabranth", "Feral Chaos"]
   },
@@ -199,7 +199,7 @@ export const drakeCampaigns: DrakeCampaignMeta[] = [
     badge: "Archival Lore",
     badgeClass: "badge-new",
     borderColor: "var(--color-brv)",
-    href: "/story/drake/reports/",
+    href: "/story/reports/",
     desc: "Detailed unlock requirements, transcripts, battle setups, and author notes for all 20 Dissidia 012 Reports.",
     featuredHeroes: ["Prishe", "Gilgamesh", "Feral Chaos", "Cosmos", "Chaos"]
   }

@@ -45,9 +45,9 @@ const navGroups = getNavGroups(baseUrl);
         <div class="nav-group">
           <div class="nav-group-title">{group.title}</div>
           {group.links.map((link) => {
-            const isDrakeRoute =
-              Astro.url.pathname.includes("/story/drake") ||
-              currentPath === "story-drake";
+            const isStoryRoute =
+              Astro.url.pathname.includes("/story/") ||
+              currentPath.startsWith("story-");
             const isCharacterRoute =
               Astro.url.pathname.includes("/characters/") ||
               currentPath === "roster";
@@ -56,7 +56,19 @@ const navGroups = getNavGroups(baseUrl);
               currentPath === "arenas";
 
             const checkActive = (id: string) => {
-              if (id === "story-drake") return isDrakeRoute;
+              if (id === "story-walkthrough") return isStoryRoute;
+              if (id === "story-hub")
+                return currentPath === "story-hub" || Astro.url.pathname.endsWith("/story/") || Astro.url.pathname.endsWith("/story");
+              if (id === "story-basics")
+                return currentPath === "story-basics" || Astro.url.pathname.includes("/story/gameplay-basics");
+              if (id === "story-012")
+                return currentPath === "story-012" || Astro.url.pathname.includes("/story/012-treachery");
+              if (id === "story-013")
+                return currentPath === "story-013" || Astro.url.pathname.includes("/story/013-light");
+              if (id === "story-000")
+                return currentPath === "story-000" || Astro.url.pathname.includes("/story/000-creator");
+              if (id === "story-reports")
+                return currentPath === "story-reports" || Astro.url.pathname.includes("/story/reports");
               if (id === "roster") return isCharacterRoute;
               if (id === "arenas") return isArenaRoute;
               if (id === "home")
