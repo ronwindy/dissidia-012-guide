@@ -18,9 +18,10 @@ interface Props {
   chapter?: string;
   floors: FloorData[];
   strategy?: string;
+  showProgressTracker?: boolean;
 }
 
-const { id, title, location, chapter, floors, strategy } = Astro.props;
+const { id, title, location, chapter, floors, strategy, showProgressTracker = false } = Astro.props;
 ---
 
 <div class="crystal-panel gateway-card guide-section" id={id} style="margin-bottom: 2.5rem; border-top: 3px solid var(--color-lufenia);">
@@ -31,7 +32,7 @@ const { id, title, location, chapter, floors, strategy } = Astro.props;
       {location && <div style="font-size: 0.85rem; color: var(--text-muted); font-family: var(--font-mono);">Location: {location}</div>}
     </div>
     <div>
-      <ProgressTracker id={`gateway-${id}`} label="Cleared" />
+      {showProgressTracker && <ProgressTracker id={`gateway-${id}`} label="Cleared" />}
     </div>
   </div>
 

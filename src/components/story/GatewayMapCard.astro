@@ -76,6 +76,7 @@ interface Props {
   notes?: string;
   images?: WalkthroughImage[];
   floors?: FloorItem[];
+  showProgressTracker?: boolean;
 }
 
 const {
@@ -97,7 +98,8 @@ const {
   strategy,
   notes,
   images = [],
-  floors
+  floors,
+  showProgressTracker = false
 } = Astro.props;
 
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
@@ -174,7 +176,7 @@ function parseLegendItem(item: string | LegendItem): { key: string; text: string
       </h3>
     </div>
     <div>
-      <ProgressTracker id={`gateway-clear-${id}`} label="Cleared" />
+      {showProgressTracker && <ProgressTracker id={`gateway-clear-${id}`} label="Cleared" />}
     </div>
   </div>
 

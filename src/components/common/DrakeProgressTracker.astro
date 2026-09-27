@@ -1,0 +1,159 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  label?: string;
+  total?: number;
+  prefix?: string;
+  class?: string;
+}
+
+const {
+  label = "Progress:",
+  total = 27,
+  prefix = "drake-ch-",
+  class: className = "",
+} = Astro.props;
+---
+
+<div
+  class={`drake-progress-tracker ${className}`}
+  title="Drake's Guide Completion Progress"
+>
+  <div class="progress-inner">
+    <span class="progress-icon" aria-hidden="true">
+      <Icon name="book-open" size={13} />
+    </span>
+    <span class="progress-label">
+      <span class="label-full">{label}</span>
+      <span class="label-short">Progress:</span>
+    </span>
+    <span
+      id="globalProgressCount"
+      class="progress-count"
+      data-total={total}
+      data-prefix={prefix}
+    >
+      0 / {total}
+    </span>
+  </div>
+</div>
+
+<style>
+  .drake-progress-tracker {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-sm);
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.28);
+    color: var(--text-dim);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.06);
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .drake-progress-tracker:hover {
+    background: rgba(16, 185, 129, 0.14);
+    border-color: rgba(16, 185, 129, 0.5);
+    box-shadow: 0 0 14px rgba(16, 185, 129, 0.2);
+  }
+
+  .progress-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .progress-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-assist);
+    filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.4));
+  }
+
+  .progress-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-family: var(--font-subheading);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .label-short {
+    display: none;
+  }
+
+  .progress-count {
+    color: var(--color-assist);
+    font-weight: 700;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    text-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+  }
+
+  @media (max-width: 768px) {
+    .drake-progress-tracker {
+      padding: 0.25rem 0.55rem;
+    }
+
+    .progress-inner {
+      gap: 0.35rem;
+    }
+
+    .label-full {
+      display: none;
+    }
+
+    .label-short {
+      display: inline;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .progress-label {
+      display: none;
+    }
+
+    .drake-progress-tracker {
+      padding: 0.22rem 0.45rem;
+    }
+
+    .progress-count {
+      font-size: 0.82rem;
+    }
+  }
+</style>
+
+<script is:inline>
+  if (typeof document !== "undefined") {
+    function updateGlobalProgress() {
+      try {
+        const raw = localStorage.getItem("dissidia-012-guide-progress");
+        const countEl = document.getElementById("globalProgressCount");
+        if (!countEl) return;
+
+        const total = countEl.getAttribute("data-total") || "27";
+        const prefix = countEl.getAttribute("data-prefix") || "drake-ch-";
+
+        if (raw) {
+          const list = JSON.parse(raw);
+          if (Array.isArray(list)) {
+            const drakeDone = list.filter(
+              (id) => typeof id === "string" && id.startsWith(prefix),
+            ).length;
+            countEl.textContent = `${drakeDone} / ${total}`;
+          }
+        }
+      } catch (e) {
+        console.warn("Storage sync notice:", e);
+      }
+    }
+
+    updateGlobalProgress();
+    window.addEventListener("storage", updateGlobalProgress);
+  }
+</script>
