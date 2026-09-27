@@ -26,7 +26,7 @@ export function getNavGroups(baseUrl: string): NavGroup[] {
           icon: "home",
         },
         {
-          label: "FAQ & Credits",
+          label: "FAQ",
           href: `${baseUrl}faq/`,
           id: "faq",
           icon: "help-circle",
@@ -96,7 +96,7 @@ export function getNavGroups(baseUrl: string): NavGroup[] {
           icon: "layers",
         },
         {
-          label: "Part 27: The Reports",
+          label: "The Reports",
           href: `${baseUrl}story/reports/`,
           id: "story-reports",
           icon: "file-text",
