@@ -1,19 +1,13 @@
 import type { IconName } from "../components/common/icons";
 
-export interface NavLinkChild {
+export interface NavLinkItem {
   label: string;
   href: string;
   id: string;
   icon: IconName;
 }
 
-export interface NavLinkItem {
-  label: string;
-  href?: string;
-  id: string;
-  icon: IconName;
-  children?: NavLinkChild[];
-}
+export type NavLinkChild = NavLinkItem;
 
 export interface NavGroup {
   title: string;
@@ -72,47 +66,40 @@ export function getNavGroups(baseUrl: string): NavGroup[] {
       title: "Walkthrough",
       links: [
         {
-          label: "Drake's Walkthrough",
-          id: "story-walkthrough",
-          icon: "book-open",
-          children: [
-            {
-              label: "Walkthrough Hub",
-              href: `${baseUrl}story/`,
-              id: "story-hub",
-              icon: "map",
-            },
-            {
-              label: "Gameplay Basics",
-              href: `${baseUrl}story/gameplay-basics/`,
-              id: "story-basics",
-              icon: "compass",
-            },
-            {
-              label: "012: Treachery of Gods",
-              href: `${baseUrl}story/012-treachery/`,
-              id: "story-012",
-              icon: "flame",
-            },
-            {
-              label: "013: Light to All",
-              href: `${baseUrl}story/013-light/`,
-              id: "story-013",
-              icon: "sparkles",
-            },
-            {
-              label: "000: Creator's Gateways",
-              href: `${baseUrl}story/000-creator/`,
-              id: "story-000",
-              icon: "layers",
-            },
-            {
-              label: "Part 27: The Reports",
-              href: `${baseUrl}story/reports/`,
-              id: "story-reports",
-              icon: "file-text",
-            },
-          ],
+          label: "Walkthrough Hub",
+          href: `${baseUrl}story/`,
+          id: "story-hub",
+          icon: "map",
+        },
+        {
+          label: "Gameplay Basics",
+          href: `${baseUrl}story/gameplay-basics/`,
+          id: "story-basics",
+          icon: "compass",
+        },
+        {
+          label: "012: Treachery of Gods",
+          href: `${baseUrl}story/012-treachery/`,
+          id: "story-012",
+          icon: "flame",
+        },
+        {
+          label: "013: Light to All",
+          href: `${baseUrl}story/013-light/`,
+          id: "story-013",
+          icon: "sparkles",
+        },
+        {
+          label: "000: Creator's Gateways",
+          href: `${baseUrl}story/000-creator/`,
+          id: "story-000",
+          icon: "layers",
+        },
+        {
+          label: "Part 27: The Reports",
+          href: `${baseUrl}story/reports/`,
+          id: "story-reports",
+          icon: "file-text",
         },
       ],
     },
