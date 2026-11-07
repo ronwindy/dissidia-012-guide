@@ -1,0 +1,63 @@
+/* Reset, page background and print basics. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 17.5px;
+  scroll-behavior: smooth;
+  color-scheme: dark;
+  overflow-x: clip;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  line-height: 1.68;
+  color: var(--text-main);
+  background-color: var(--bg-color);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+/* Fixed background: crystalline gradient aura over the site image */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--bg-color);
+  background-image:
+    radial-gradient(ellipse 90% 60% at 50% -20%, rgba(56, 189, 248, 0.14), transparent),
+    radial-gradient(circle at 10% 80%, rgba(168, 85, 247, 0.08), transparent 40%),
+    radial-gradient(circle at 90% 90%, rgba(239, 68, 68, 0.08), transparent 40%),
+    linear-gradient(180deg, rgba(7, 10, 19, 0.82) 0%, rgba(7, 10, 19, 0.92) 45%, rgba(7, 10, 19, 0.98) 100%),
+    var(--site-bg, url('/background.jpg'));
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  pointer-events: none;
+}
+
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+  }
+}
