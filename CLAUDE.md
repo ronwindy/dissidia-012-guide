@@ -11,7 +11,7 @@ src/data/pages/*.html + src/data/manifest.json → Astro build
 
 - Edit page text and markup only when the user asks. Do not "improve" wording, facts or structure on your own initiative.
 - `src/data/manifest.json` (page list, order, categories, ToC entries) is also hand-owned: keep it consistent when pages or h4 headings are added, renamed or removed.
-- Bolding: only when the user asks for a page. Wrap game mechanics, characters and enemies, abilities, items and places/objectives in plain `<strong>`, every occurrence. Touch paragraph text only, not headings, links, `<em>`, or the board/card tables. Curate the term list per page.
+- Bolding: default step whenever a page is converted/added; do it without asking (the exception to "only when the user asks" above). Wrap game mechanics, characters and enemies, abilities, items and places/objectives in plain `<strong>`, every occurrence. Touch paragraph text only, not headings, links, `<em>`, or the board/card tables. Curate the term list per page.
 - Source files for the guide are not saved yet. The current `placeholder` page stands in until the user provides them.
 
 ## 2. Build
