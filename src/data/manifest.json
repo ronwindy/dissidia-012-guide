@@ -2,20 +2,647 @@
   "game": "Dissidia 012 [duodecim] Final Fantasy",
   "pages": [
     {
-      "id": "placeholder",
-      "title": "Placeholder",
+      "id": "gameplay-basics",
+      "title": "Gameplay Basics",
       "category": "Getting Started",
-      "toc": []
+      "toc": [
+        {
+          "id": "gameplay-basics",
+          "title": "Gameplay Basics"
+        },
+        {
+          "id": "walkthrough-format",
+          "title": "Walkthrough Format"
+        }
+      ]
     },
     {
       "id": "part-1",
       "title": "Prologue and Chapter 1",
       "category": "Treachery of the Gods",
       "toc": [
-        { "id": "the-adventure-begins", "title": "The Adventure Begins" },
-        { "id": "the-manikins", "title": "The Manikins" },
-        { "id": "prepare-for-fabulousness", "title": "Prepare for Fabulousness!" },
-        { "id": "the-traitor", "title": "The Traitor" }
+        {
+          "id": "the-adventure-begins",
+          "title": "The Adventure Begins"
+        },
+        {
+          "id": "the-manikins",
+          "title": "The Manikins"
+        },
+        {
+          "id": "prepare-for-fabulousness",
+          "title": "Prepare for Fabulousness!"
+        },
+        {
+          "id": "the-traitor",
+          "title": "The Traitor"
+        }
+      ]
+    },
+    {
+      "id": "part-2",
+      "title": "Chapter 2",
+      "category": "Treachery of the Gods",
+      "toc": [
+        {
+          "id": "the-fool-s-quest",
+          "title": "The Fool's Quest"
+        },
+        {
+          "id": "business-picks-up",
+          "title": "Business Picks Up"
+        },
+        {
+          "id": "a-new-path",
+          "title": "A New Path"
+        },
+        {
+          "id": "character-derailment-ftl",
+          "title": "Character Derailment FTL"
+        }
+      ]
+    },
+    {
+      "id": "part-3",
+      "title": "Chapter 3",
+      "category": "Treachery of the Gods",
+      "toc": [
+        {
+          "id": "the-greatest-attack-call-ever",
+          "title": "The Greatest Attack Call Ever"
+        },
+        {
+          "id": "exploration",
+          "title": "Exploration"
+        },
+        {
+          "id": "the-font-from-which-fear-springs",
+          "title": "The Font From Which Fear Springs"
+        }
+      ]
+    },
+    {
+      "id": "part-4",
+      "title": "Chapter 4",
+      "category": "Treachery of the Gods",
+      "toc": [
+        {
+          "id": "stay-away-from-the-summoner",
+          "title": "Stay Away From The Summoner!"
+        },
+        {
+          "id": "the-pilgrimage",
+          "title": "The Pilgrimage"
+        },
+        {
+          "id": "family-reunion",
+          "title": "Family Reunion"
+        }
+      ]
+    },
+    {
+      "id": "part-5",
+      "title": "Chapter 5",
+      "category": "Treachery of the Gods",
+      "toc": [
+        {
+          "id": "the-fabled-gun-appears",
+          "title": "The Fabled Gun Appears"
+        },
+        {
+          "id": "the-fallen-hero",
+          "title": "The Fallen Hero"
+        }
+      ]
+    },
+    {
+      "id": "part-6",
+      "title": "Chapter 6",
+      "category": "Treachery of the Gods",
+      "toc": [
+        {
+          "id": "the-dragoon-s-path",
+          "title": "The Dragoon's Path"
+        },
+        {
+          "id": "a-naive-ally",
+          "title": "A Naive Ally"
+        },
+        {
+          "id": "the-tree-s-pursuit",
+          "title": "The Tree's Pursuit"
+        }
+      ]
+    },
+    {
+      "id": "part-7",
+      "title": "Chapter 7",
+      "category": "Treachery of the Gods",
+      "toc": [
+        {
+          "id": "the-brawler-s-quest",
+          "title": "The Brawler's Quest"
+        },
+        {
+          "id": "the-snowfields",
+          "title": "The Snowfields"
+        },
+        {
+          "id": "the-chase",
+          "title": "The Chase"
+        },
+        {
+          "id": "preparations",
+          "title": "Preparations"
+        }
+      ]
+    },
+    {
+      "id": "part-8",
+      "title": "Epilogue",
+      "category": "Treachery of the Gods",
+      "toc": [
+        {
+          "id": "launch",
+          "title": "Launch"
+        },
+        {
+          "id": "the-final-path",
+          "title": "The Final Path"
+        },
+        {
+          "id": "the-last-stand",
+          "title": "The Last Stand"
+        }
+      ]
+    },
+    {
+      "id": "part-9",
+      "title": "Prologue",
+      "category": "Light to All",
+      "toc": [
+        {
+          "id": "preparations",
+          "title": "Preparations"
+        },
+        {
+          "id": "awakening",
+          "title": "Awakening"
+        }
+      ]
+    },
+    {
+      "id": "part-10",
+      "title": "Chapter 1",
+      "category": "Light to All",
+      "toc": [
+        {
+          "id": "the-buster-basher",
+          "title": "The Buster Basher"
+        },
+        {
+          "id": "a-reason-to-fight",
+          "title": "A Reason To Fight"
+        },
+        {
+          "id": "the-lonesome-road",
+          "title": "The Lonesome Road"
+        },
+        {
+          "id": "the-volcano",
+          "title": "The Volcano"
+        }
+      ]
+    },
+    {
+      "id": "part-11",
+      "title": "Chapter 2",
+      "category": "Light to All",
+      "toc": [
+        {
+          "id": "onion-powah",
+          "title": "Onion Powah!"
+        },
+        {
+          "id": "the-pursuit",
+          "title": "The Pursuit"
+        },
+        {
+          "id": "rescue-operation",
+          "title": "Rescue Operation"
+        }
+      ]
+    },
+    {
+      "id": "part-12",
+      "title": "Chapter 3",
+      "category": "Light to All",
+      "toc": [
+        {
+          "id": "the-esperkin",
+          "title": "The Esperkin"
+        },
+        {
+          "id": "a-new-ally",
+          "title": "A New Ally"
+        },
+        {
+          "id": "dream-of-the-future",
+          "title": "Dream of the Future"
+        },
+        {
+          "id": "the-lady-s-crystal",
+          "title": "The Lady's Crystal"
+        }
+      ]
+    },
+    {
+      "id": "part-13",
+      "title": "Chapter 4",
+      "category": "Light to All",
+      "toc": [
+        {
+          "id": "twilight-knights",
+          "title": "Twilight Knights"
+        },
+        {
+          "id": "a-divergent-path",
+          "title": "A Divergent Path"
+        },
+        {
+          "id": "reaffirming-the-already-affirmed",
+          "title": "Reaffirming The Already Affirmed"
+        }
+      ]
+    },
+    {
+      "id": "part-14",
+      "title": "Chapter 5",
+      "category": "Light to All",
+      "toc": [
+        {
+          "id": "the-ace",
+          "title": "The Ace"
+        },
+        {
+          "id": "love-to-hatred-turned",
+          "title": "Love to Hatred Turned"
+        },
+        {
+          "id": "and-then-there-was-one",
+          "title": "And Then There Was One"
+        },
+        {
+          "id": "dream-s-end",
+          "title": "Dream's End"
+        }
+      ]
+    },
+    {
+      "id": "part-15",
+      "title": "Chapter 6",
+      "category": "Light to All",
+      "toc": [
+        {
+          "id": "the-rebel",
+          "title": "The Rebel"
+        },
+        {
+          "id": "a-dream-of-roses",
+          "title": "A Dream of Roses"
+        },
+        {
+          "id": "the-passage-to-discord",
+          "title": "The Passage to Discord"
+        }
+      ]
+    },
+    {
+      "id": "part-16",
+      "title": "Chapter 7",
+      "category": "Light to All",
+      "toc": [
+        {
+          "id": "the-lion-the-mouse-and-the-monkey",
+          "title": "The Lion, the Mouse, and the Monkey"
+        },
+        {
+          "id": "friendship-or-duty",
+          "title": "Friendship or Duty?"
+        },
+        {
+          "id": "the-strength-of-solitude",
+          "title": "The Strength of Solitude"
+        },
+        {
+          "id": "the-witch-s-den",
+          "title": "The Witch's Den"
+        }
+      ]
+    },
+    {
+      "id": "part-17",
+      "title": "Chapter 8",
+      "category": "Light to All",
+      "toc": [
+        {
+          "id": "the-thief-steals-the-show",
+          "title": "The Thief Steals The Show"
+        },
+        {
+          "id": "the-trap",
+          "title": "The Trap"
+        },
+        {
+          "id": "reunion",
+          "title": "Reunion"
+        },
+        {
+          "id": "plan-b",
+          "title": "Plan B"
+        },
+        {
+          "id": "you-re-not-alone",
+          "title": "You're Not Alone"
+        }
+      ]
+    },
+    {
+      "id": "part-18",
+      "title": "Chapter 9",
+      "category": "Light to All",
+      "toc": [
+        {
+          "id": "the-mouse-trapped",
+          "title": "The Mouse Trapped"
+        },
+        {
+          "id": "the-escape",
+          "title": "The Escape"
+        },
+        {
+          "id": "salvation",
+          "title": "Salvation"
+        }
+      ]
+    },
+    {
+      "id": "part-19",
+      "title": "Chapter 10",
+      "category": "Light to All",
+      "toc": [
+        {
+          "id": "light-em-up",
+          "title": "Light 'Em Up"
+        },
+        {
+          "id": "a-friend-in-need",
+          "title": "A Friend In Need"
+        },
+        {
+          "id": "the-journey-north",
+          "title": "The Journey North"
+        },
+        {
+          "id": "an-old-friend",
+          "title": "An Old Friend"
+        },
+        {
+          "id": "the-dramatic-re-reveal",
+          "title": "The Dramatic Re-Reveal"
+        }
+      ]
+    },
+    {
+      "id": "part-20",
+      "title": "Epilogue Part 1",
+      "category": "Light to All",
+      "toc": [
+        {
+          "id": "preparations",
+          "title": "Preparations"
+        },
+        {
+          "id": "a-light-in-the-darkness",
+          "title": "A Light in the Darkness"
+        },
+        {
+          "id": "clipping-an-angel-s-wings",
+          "title": "Clipping An Angel's Wings"
+        },
+        {
+          "id": "cruel-truths",
+          "title": "Cruel Truths"
+        },
+        {
+          "id": "beauty-ne-er-tarnished",
+          "title": "Beauty Ne'er Tarnished"
+        }
+      ]
+    },
+    {
+      "id": "part-21",
+      "title": "Epilogue Part 2",
+      "category": "Light to All",
+      "toc": [
+        {
+          "id": "a-family-matter",
+          "title": "A Family Matter"
+        },
+        {
+          "id": "the-ham-stands-alone",
+          "title": "The Ham Stands Alone"
+        },
+        {
+          "id": "endless-chaos",
+          "title": "Endless Chaos"
+        }
+      ]
+    },
+    {
+      "id": "part-22",
+      "title": "Southern Areas",
+      "category": "Confessions of the Creator",
+      "toc": [
+        {
+          "id": "beyond-discord",
+          "title": "Beyond Discord"
+        },
+        {
+          "id": "cornelia",
+          "title": "Cornelia"
+        },
+        {
+          "id": "gulg-volcano-ring",
+          "title": "Gulg Volcano Ring"
+        },
+        {
+          "id": "elven-snowfields",
+          "title": "Elven Snowfields"
+        },
+        {
+          "id": "melmond-fens",
+          "title": "Melmond Fens"
+        }
+      ]
+    },
+    {
+      "id": "part-23",
+      "title": "Shantotto and Gabranth",
+      "category": "Confessions of the Creator",
+      "toc": [
+        {
+          "id": "sanctuary",
+          "title": "Sanctuary"
+        },
+        {
+          "id": "the-lady-s-lesson",
+          "title": "The Lady's Lesson"
+        },
+        {
+          "id": "highway-to-hell",
+          "title": "Highway to Hell"
+        },
+        {
+          "id": "the-warrior-s-judgment",
+          "title": "The Warrior's Judgment"
+        }
+      ]
+    },
+    {
+      "id": "part-24",
+      "title": "Chasm of Earth and Flying Castle",
+      "category": "Confessions of the Creator",
+      "toc": [
+        {
+          "id": "the-cavern-of-earth",
+          "title": "The Cavern of Earth"
+        },
+        {
+          "id": "the-depths-of-the-earth",
+          "title": "The Depths of the Earth"
+        },
+        {
+          "id": "release-the-seals",
+          "title": "Release the Seals"
+        },
+        {
+          "id": "god-in-fire",
+          "title": "God in Fire"
+        },
+        {
+          "id": "to-the-desert",
+          "title": "To the Desert"
+        },
+        {
+          "id": "the-flying-castle",
+          "title": "The Flying Castle"
+        }
+      ]
+    },
+    {
+      "id": "part-25",
+      "title": "Gaia and Bahamut Isles",
+      "category": "Confessions of the Creator",
+      "toc": [
+        {
+          "id": "the-forgotten-land",
+          "title": "The Forgotten Land"
+        },
+        {
+          "id": "forging-deeper",
+          "title": "Forging Deeper"
+        },
+        {
+          "id": "beyond-the-desert",
+          "title": "Beyond the Desert"
+        },
+        {
+          "id": "the-dragon-king-s-lair",
+          "title": "The Dragon King's Lair"
+        },
+        {
+          "id": "five-final-floors",
+          "title": "Five Final Floors"
+        }
+      ]
+    },
+    {
+      "id": "part-26",
+      "title": "Land of Discord and Feral Chaos",
+      "category": "Confessions of the Creator",
+      "toc": [
+        {
+          "id": "return-to-where-it-began",
+          "title": "Return to Where It Began"
+        },
+        {
+          "id": "return-to-onrac",
+          "title": "Return to Onrac"
+        },
+        {
+          "id": "god-in-fire",
+          "title": "God in Fire"
+        }
+      ]
+    },
+    {
+      "id": "reports",
+      "title": "The Reports",
+      "category": "Extras",
+      "toc": [
+        {
+          "id": "report-01",
+          "title": "Report 01"
+        },
+        {
+          "id": "report-02",
+          "title": "Report 02"
+        },
+        {
+          "id": "report-05",
+          "title": "Report 05"
+        },
+        {
+          "id": "report-06",
+          "title": "Report 06"
+        },
+        {
+          "id": "report-07",
+          "title": "Report 07"
+        },
+        {
+          "id": "report-08",
+          "title": "Report 08"
+        },
+        {
+          "id": "report-09",
+          "title": "Report 09"
+        },
+        {
+          "id": "report-12",
+          "title": "Report 12"
+        },
+        {
+          "id": "report-15",
+          "title": "Report 15"
+        },
+        {
+          "id": "report-16",
+          "title": "Report 16"
+        },
+        {
+          "id": "report-17",
+          "title": "Report 17"
+        },
+        {
+          "id": "report-18",
+          "title": "Report 18"
+        },
+        {
+          "id": "report-19",
+          "title": "Report 19"
+        }
       ]
     }
   ]

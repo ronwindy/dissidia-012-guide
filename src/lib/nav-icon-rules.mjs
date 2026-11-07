@@ -6,10 +6,23 @@ export const NAV_FALLBACK_ICON = 'Dot';
 export const NAV_CATEGORY_ICONS = {
   'Getting Started': 'BookOpen',
   'Treachery of the Gods': 'Swords',
+  'Light to All': 'Sun',
+  'Confessions of the Creator': 'Skull',
+  Extras: 'ScrollText',
 };
 
 // First matching rule wins.
-export const NAV_ENTRY_RULES = [];
+export const NAV_ENTRY_RULES = [
+  [/^Prologue/i, 'Sunrise'],
+  [/^Epilogue/i, 'Sunset'],
+  [/^Chapter \d+/i, 'Flag'],
+  [/Reports/i, 'ScrollText'],
+  [/Gameplay/i, 'Gamepad2'],
+  [/Shantotto|Gabranth/i, 'Users'],
+  [/Feral Chaos|Land of Discord/i, 'Flame'],
+  [/Chasm|Castle/i, 'Castle'],
+  [/Gaia|Bahamut|Southern/i, 'Map'],
+];
 
 export function navCategoryIconName(category) {
   return NAV_CATEGORY_ICONS[category] ?? NAV_FALLBACK_ICON;
