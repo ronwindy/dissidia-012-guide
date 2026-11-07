@@ -27,7 +27,7 @@ src/data/pages/*.html + src/data/manifest.json → Astro build
 - `public/` still holds images from the old guide (characters, arenas, Drake walkthrough); they are unused until pages reference them.
 
 ## 4. Workflow rules
-- Follow `AGENTS.md` (no mutating git without approval, no browser testing unless asked).
+- No mutating git without approval, no browser testing unless asked.
 - Ask before adding a new component or feature beyond section 3.
 
 ## 5. Out of scope
