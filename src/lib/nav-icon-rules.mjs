@@ -5,6 +5,7 @@ export const NAV_FALLBACK_ICON = 'Dot';
 
 export const NAV_CATEGORY_ICONS = {
   'Getting Started': 'BookOpen',
+  'Treachery of the Gods': 'Swords',
 };
 
 // First matching rule wins.
