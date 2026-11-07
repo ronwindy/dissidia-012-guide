@@ -1,0 +1,42 @@
+---
+import { ArrowUp } from "@lucide/astro";
+---
+
+<button type="button" id="back-to-top" class="back-to-top" aria-label="Back to top" hidden><ArrowUp size={20} aria-hidden="true" /></button>
+
+<script is:inline>
+  (function () {
+    var topBtn = document.getElementById('back-to-top');
+    if (!topBtn) return;
+    var syncTop = function () { topBtn.hidden = window.scrollY < window.innerHeight; };
+    window.addEventListener('scroll', syncTop, { passive: true });
+    topBtn.addEventListener('click', function () { window.scrollTo({ top: 0 }); });
+    syncTop();
+  })();
+</script>
+
+<style>
+  .back-to-top {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 80;
+    display: inline-flex;
+    padding: 0.6rem;
+    border: 1px solid var(--border-panel-hover);
+    border-radius: var(--radius-sm);
+    background: var(--surface-hud);
+    color: var(--color-brv);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .back-to-top[hidden] {
+    display: none;
+  }
+
+  .back-to-top:hover {
+    background: var(--color-brv);
+    color: var(--text-inverse);
+  }
+</style>

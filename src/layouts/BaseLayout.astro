@@ -5,7 +5,8 @@ import project from "../../project.config.json";
 import Sidebar from "../components/layout/Sidebar.astro";
 import Header from "../components/layout/Header.astro";
 import Main from "../components/layout/Main.astro";
-import { ArrowUp } from "@lucide/astro";
+import BackToTop from "../components/layout/BackToTop.astro";
+import ReadingProgress from "../components/layout/ReadingProgress.astro";
 
 interface Props {
   title?: string;
@@ -53,58 +54,8 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
       </div>
     </div>
 
-    <button type="button" id="back-to-top" class="back-to-top" aria-label="Back to top" hidden><ArrowUp size={20} aria-hidden="true" /></button>
-
-    <script is:inline>
-      (function () {
-        var topBtn = document.getElementById('back-to-top');
-        if (!topBtn) return;
-        var syncTop = function () { topBtn.hidden = window.scrollY < window.innerHeight; };
-        window.addEventListener('scroll', syncTop, { passive: true });
-        topBtn.addEventListener('click', function () { window.scrollTo({ top: 0 }); });
-        syncTop();
-      })();
-    </script>
-
-    <script is:inline>
-      // Reading progress: per-page "read" marks and the last page opened, kept in this browser only.
-      (function () {
-        var KEY = 'd012-progress-v1';
-        var state = { done: {}, last: '' };
-        try { var raw = JSON.parse(localStorage.getItem(KEY) || '{}'); if (raw && raw.done) state = { done: raw.done, last: raw.last || '' }; } catch (e) {}
-        function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
-        var current = document.querySelector('.app-sidebar a[aria-current="page"]');
-        if (current) { state.last = current.getAttribute('data-page-id'); save(); }
-
-        function paint() {
-          var links = document.querySelectorAll('a[data-page-id]');
-          links.forEach(function (a) { a.toggleAttribute('data-done', !!state.done[a.getAttribute('data-page-id')]); });
-          var n = Object.keys(state.done).length;
-          document.querySelectorAll('.progress').forEach(function (box) {
-            var total = Number(box.getAttribute('data-progress-total')) || 1;
-            box.querySelector('[data-progress-count]').textContent = String(n);
-            box.querySelector('[data-progress-fill]').style.width = Math.min(100, Math.round((n / total) * 100)) + '%';
-          });
-          document.querySelectorAll('[data-progress-resume]').forEach(function (a) {
-            var target = document.querySelector('a[data-page-id="' + state.last + '"]');
-            if (state.last && target) { a.href = target.href; a.hidden = false; a.textContent = 'Continue reading: ' + target.textContent.trim(); } else { a.hidden = true; }
-          });
-          document.querySelectorAll('[data-mark-read]').forEach(function (b) {
-            var on = !!state.done[b.getAttribute('data-mark-read')];
-            b.setAttribute('aria-pressed', String(on));
-            b.textContent = on ? 'Read ✓ (click to undo)' : 'Mark as read';
-          });
-        }
-        document.querySelectorAll('[data-mark-read]').forEach(function (b) {
-          b.addEventListener('click', function () {
-            var id = b.getAttribute('data-mark-read');
-            if (state.done[id]) delete state.done[id]; else state.done[id] = 1;
-            save(); paint();
-          });
-        });
-        paint();
-      })();
-    </script>
+    <BackToTop />
+    <ReadingProgress />
   </body>
 </html>
 
@@ -131,30 +82,6 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
     justify-content: center;
     gap: 2rem;
     padding: 0 1.5rem;
-  }
-
-  .back-to-top {
-    position: fixed;
-    right: 1rem;
-    bottom: 1rem;
-    z-index: 80;
-    display: inline-flex;
-    padding: 0.6rem;
-    border: 1px solid var(--border-panel-hover);
-    border-radius: var(--radius-sm);
-    background: var(--surface-hud);
-    color: var(--color-brv);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-  }
-
-  .back-to-top[hidden] {
-    display: none;
-  }
-
-  .back-to-top:hover {
-    background: var(--color-brv);
-    color: var(--text-inverse);
   }
 
   /* Responsive Media Queries */
