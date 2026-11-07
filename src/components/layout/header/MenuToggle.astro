@@ -1,0 +1,66 @@
+---
+import { Menu } from "@lucide/astro";
+---
+
+<button
+  class="mobile-toggle-btn"
+  id="sidebarToggle"
+  aria-label="Toggle Command Menu"
+  aria-expanded="false"
+  aria-controls="appSidebar"
+>
+  <Menu size={24} aria-hidden="true" />
+</button>
+
+<style>
+  .mobile-toggle-btn {
+    display: inline-flex;
+    flex-shrink: 0;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+      180deg,
+      rgba(56, 189, 248, 0.14),
+      rgba(56, 189, 248, 0.04)
+    );
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    border-radius: var(--radius-sm);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      0 0 12px rgba(56, 189, 248, 0.18);
+    color: var(--text-main);
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: all var(--transition-fast);
+  }
+
+  .mobile-toggle-btn :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+
+  .mobile-toggle-btn:hover {
+    background: var(--surface-panel-alt);
+    border-color: var(--color-brv);
+  }
+
+  .mobile-toggle-btn:active {
+    transform: scale(0.94);
+    box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.35);
+  }
+
+  @media (max-width: 480px) {
+    .mobile-toggle-btn {
+      min-width: 40px;
+      min-height: 40px;
+      padding: 0.4rem;
+    }
+
+    .mobile-toggle-btn :global(svg) {
+      width: 20px;
+      height: 20px;
+    }
+  }
+</style>
