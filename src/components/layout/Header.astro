@@ -51,6 +51,44 @@ const { title, baseUrl } = Astro.props;
   <div class="header-right"></div>
 </header>
 
+<script>
+  const header = document.querySelector<HTMLElement>(".app-header");
+  const toggle = document.getElementById("sidebarToggle");
+
+  if (header) {
+    let lastY = window.scrollY;
+    let ticking = false;
+
+    const update = () => {
+      const y = window.scrollY;
+      const delta = y - lastY;
+      const menuOpen = toggle?.getAttribute("aria-expanded") === "true";
+
+      if (y <= header.offsetHeight || menuOpen) {
+        header.classList.remove("is-hidden");
+      } else if (delta > 8) {
+        header.classList.add("is-hidden");
+      } else if (delta < -2) {
+        header.classList.remove("is-hidden");
+      }
+
+      if (Math.abs(delta) > 2) lastY = y;
+      ticking = false;
+    };
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true },
+    );
+  }
+</script>
+
 <style>
   /* Header - Hidden on desktop, mobile/tablet only */
   .app-header {
@@ -66,6 +104,17 @@ const { title, baseUrl } = Astro.props;
     padding: 0 1.5rem;
     gap: 1rem;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    transition: transform 0.28s ease;
+  }
+
+  .app-header.is-hidden {
+    transform: translateY(-100%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .app-header {
+      transition: none;
+    }
   }
 
   .header-left {
@@ -213,9 +262,68 @@ const { title, baseUrl } = Astro.props;
     }
 
     .header-right {
-      display: flex;
+      display: none;
+    }
+
+    .app-header {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      background:
+        radial-gradient(
+          ellipse 60% 140% at 100% 0%,
+          rgba(56, 189, 248, 0.16),
+          transparent 70%
+        ),
+        linear-gradient(180deg, #111a2f 0%, var(--surface-hud) 100%);
+      border-bottom: 1px solid var(--border-panel);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .app-header::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--color-brv) 30%,
+        var(--color-brv) 70%,
+        transparent
+      );
+      opacity: 0.75;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+      pointer-events: none;
+    }
+
+    .mobile-header-brand {
+      grid-column: 3;
       justify-self: end;
-      min-width: 0;
+    }
+
+    .mobile-brand-img {
+      height: 44px;
+      max-width: 170px;
+    }
+
+    .mobile-toggle-btn {
+      background: linear-gradient(
+        180deg,
+        rgba(56, 189, 248, 0.14),
+        rgba(56, 189, 248, 0.04)
+      );
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        0 0 12px rgba(56, 189, 248, 0.18);
+    }
+
+    .mobile-toggle-btn:active {
+      transform: scale(0.94);
+      box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.35);
     }
   }
 
@@ -241,8 +349,8 @@ const { title, baseUrl } = Astro.props;
     }
 
     .mobile-brand-img {
-      height: 30px;
-      max-width: 100px;
+      height: 36px;
+      max-width: 130px;
     }
 
     .mobile-toggle-btn {
