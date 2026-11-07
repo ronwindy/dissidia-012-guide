@@ -66,7 +66,7 @@
   --font-wallpoet: 'Wallpoet', cursive, sans-serif;
   --font-display: 'Cinzel', Georgia, 'Times New Roman', serif;
   --font-heading: 'Rajdhani', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-subheading: 'Rajdhani', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-subheading: 'Jost', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-body: 'Jost', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   /* Fluid Font Sizes */
@@ -110,7 +110,7 @@
 }
 
 html {
-  font-size: 16px;
+  font-size: 17.5px;
   scroll-behavior: smooth;
   color-scheme: dark;
   overflow-x: clip;

@@ -17,7 +17,7 @@ Use the CSS variables in `global.css` rather than hardcoding values:
 
 ## 3. Typography
 
-- `--font-wallpoet`: h1 titles. `--font-heading` / `--font-subheading` (Rajdhani): headings, nav, buttons. `--font-body` (Jost): reading text. `--font-display` (Cinzel).
+- `--font-wallpoet`: h1 titles. `--font-heading` (Rajdhani): h2–h4. `--font-subheading` / `--font-body` (Jost): reading text, nav, ToC, buttons, h5/h6. `--font-display` (Cinzel).
 - No monospace anywhere.
 
 ## 4. Layout
