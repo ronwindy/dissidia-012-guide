@@ -1,28 +1,20 @@
 ---
-import DrakeProgressTracker from "../common/DrakeProgressTracker.astro";
 import SidebarHeader from "./sidebar/SidebarHeader.astro";
 import SidebarNav from "./sidebar/SidebarNav.astro";
 
 interface Props {
-  currentPath?: string;
+  currentId?: string;
   baseUrl: string;
 }
 
-const { currentPath = "", baseUrl } = Astro.props;
+const { currentId = "", baseUrl } = Astro.props;
 ---
 
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <aside class="app-sidebar" id="appSidebar" aria-label="Sidebar">
   <SidebarHeader baseUrl={baseUrl} />
-  <SidebarNav
-    baseUrl={baseUrl}
-    currentPath={currentPath}
-    pathname={Astro.url.pathname}
-  />
-  <div class="sidebar-footer">
-    <DrakeProgressTracker />
-  </div>
+  <SidebarNav currentId={currentId} />
 </aside>
 
 <script>
@@ -125,20 +117,6 @@ const { currentPath = "", baseUrl } = Astro.props;
     box-shadow: 4px 0 24px rgba(0, 0, 0, 0.6);
   }
 
-  .sidebar-footer {
-    flex-shrink: 0;
-    padding: 0.75rem 0.85rem;
-    background:
-      linear-gradient(
-        180deg,
-        rgba(10, 14, 26, 0.4) 0%,
-        rgba(56, 189, 248, 0.08) 100%
-      ),
-      var(--surface-hud);
-    border-top: 1px solid rgba(56, 189, 248, 0.22);
-    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.35);
-  }
-
   /* Responsive Media Queries */
   @media (max-width: 1024px) {
     .sidebar-overlay.open {
@@ -161,8 +139,7 @@ const { currentPath = "", baseUrl } = Astro.props;
       overflow: hidden;
     }
 
-    :global(.sidebar-header),
-    .sidebar-footer {
+    :global(.sidebar-header) {
       display: none !important;
     }
   }

@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import project from '../../../project.config.json';
+import PageToc from '../../components/PageToc.astro';
+import { getPages, getPageHtml, getPageToc, getNeighbours } from '../../lib/guideData';
+
+export function getStaticPaths() {
+  return getPages().map((page) => ({ params: { id: page.id }, props: { page } }));
+}
+
+const { page } = Astro.props;
+const { prev, next } = getNeighbours(page.id);
+const html = getPageHtml(page.id);
+const toc = getPageToc(page.id);
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+const href = (id: string) => `${baseUrl}/guide/${id}`;
+---
+
+<BaseLayout
+  title={`${page.title} - ${project.pageTitleSuffix}`}
+  description={`${project.pageDescriptionPrefix} - ${page.category}: ${page.title}`}
+  currentId={page.id}
+>
+  <article>
+    <p class="breadcrumb">
+      <a href={`${baseUrl}/`}>Contents</a> / {page.category}
+    </p>
+    <div class="guide-body" set:html={html} />
+
+    <div class="page-actions">
+      <button type="button" class="mark-read" data-mark-read={page.id} aria-pressed="false">Mark as read</button>
+    </div>
+
+    <nav class="page-nav" aria-label="Previous and next">
+      {prev ? <a href={href(prev.id)}>&larr; {prev.title}</a> : <span></span>}
+      {next ? <a href={href(next.id)}>{next.title} &rarr;</a> : <span></span>}
+    </nav>
+  </article>
+  <PageToc slot="aside" entries={toc} />
+</BaseLayout>

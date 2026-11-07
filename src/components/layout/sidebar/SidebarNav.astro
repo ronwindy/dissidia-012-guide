@@ -1,33 +1,65 @@
 ---
-import SidebarNavItem from "./SidebarNavItem.astro";
-import { getNavGroups } from "../../../data/navigation";
+import { getToc } from '../../../lib/guideData';
+import { navCategoryIcon, navEntryIcon } from '../../../lib/icons';
 
 interface Props {
-  baseUrl: string;
-  currentPath?: string;
-  pathname: string;
+  currentId?: string;
 }
 
-const { baseUrl, currentPath = "", pathname } = Astro.props;
-const navGroups = getNavGroups(baseUrl);
+const { currentId = '' } = Astro.props;
+const categories = getToc();
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+const total = categories.reduce((n, c) => n + c.entries.length, 0);
 ---
 
-<nav class="sidebar-nav" aria-label="Main Navigation">
-  {
-    navGroups.map((group) => (
-      <div class="nav-group">
-        <div class="nav-group-title">{group.title}</div>
-        {group.links.map((link) => (
-          <SidebarNavItem
-            link={link}
-            currentPath={currentPath}
-            pathname={pathname}
-          />
-        ))}
-      </div>
-    ))
-  }
+<nav class="sidebar-nav" aria-label="Guide sections">
+  <div class="progress" data-progress-total={total}>
+    <div class="progress-text"><span data-progress-count>0</span> / {total} read</div>
+    <div class="progress-bar"><div data-progress-fill></div></div>
+    <a class="progress-resume" data-progress-resume href={`${baseUrl}/`} hidden>Continue reading</a>
+  </div>
+
+  {categories.map((cat) => (
+    <details class="nav-group" open={cat.entries.some((e) => e.id === currentId)} data-category-id={cat.category}>
+      <summary class="nav-group-title">
+        {(() => { const CatIcon = navCategoryIcon(cat.category); return <CatIcon class="nav-icon" size={16} aria-hidden="true" />; })()}
+        <span>{cat.category}</span>
+      </summary>
+      <ul>
+        {cat.entries.map((entry) => {
+          const EntryIcon = navEntryIcon(cat.category, entry.title);
+          return (
+            <li>
+              <a
+                class="nav-link"
+                href={`${baseUrl}/guide/${entry.id}`}
+                data-page-id={entry.id}
+                aria-current={entry.id === currentId ? 'page' : undefined}
+              >
+                <EntryIcon class="nav-icon" size={18} aria-hidden="true" />
+                <span class="nav-label">{entry.title}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </details>
+  ))}
 </nav>
+
+<script>
+  // Remember which categories are open for this browser session.
+  document.querySelectorAll<HTMLDetailsElement>('.sidebar-nav details[data-category-id]').forEach((details) => {
+    const key = `nav-cat-${details.dataset.categoryId}`;
+    try {
+      const stored = sessionStorage.getItem(key);
+      if (stored !== null && !details.querySelector('[aria-current="page"]')) details.open = stored === 'true';
+    } catch {}
+    details.addEventListener('toggle', () => {
+      try { sessionStorage.setItem(key, String(details.open)); } catch {}
+    });
+  });
+</script>
 
 <style>
   .sidebar-nav {
@@ -38,10 +70,25 @@ const navGroups = getNavGroups(baseUrl);
   }
 
   .nav-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .nav-group ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-group li {
+    margin: 0;
   }
 
   .nav-group-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    list-style: none;
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.14em;
@@ -49,6 +96,136 @@ const navGroups = getNavGroups(baseUrl);
     padding: 0.35rem 0.75rem;
     font-family: var(--font-subheading);
     font-weight: 700;
+    transition: color var(--transition-fast);
+  }
+
+  .nav-group-title::-webkit-details-marker {
+    display: none;
+  }
+
+  .nav-group-title::after {
+    content: '';
+    margin-left: auto;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(-45deg);
+    transition: transform var(--transition-fast);
+  }
+
+  .nav-group[open] > .nav-group-title::after {
+    transform: rotate(45deg);
+  }
+
+  .nav-group-title:hover {
+    color: var(--color-brv);
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.55rem 0.75rem;
+    min-height: 44px;
+    color: var(--text-muted);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-subheading);
+    font-size: 0.98rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    border: 1px solid transparent;
+  }
+
+  .nav-link .nav-icon {
+    color: var(--text-dim);
+    transition:
+      color var(--transition-fast),
+      transform var(--transition-fast);
+    flex-shrink: 0;
+  }
+
+  .nav-link .nav-label {
+    flex: 1;
+  }
+
+  .nav-link:hover {
+    color: var(--text-main);
+    background: var(--surface-panel-alt);
+    border-color: rgba(56, 189, 248, 0.2);
+    text-decoration: none;
+  }
+
+  .nav-link:hover .nav-icon {
+    color: var(--color-brv);
+    transform: scale(1.1);
+  }
+
+  .nav-link[aria-current='page'] {
+    color: #ffffff;
+    background: linear-gradient(
+      90deg,
+      rgba(56, 189, 248, 0.22) 0%,
+      rgba(56, 189, 248, 0.05) 100%
+    );
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    border-left: 3px solid var(--color-brv);
+    font-weight: 700;
+    box-shadow: inset 0 0 12px rgba(56, 189, 248, 0.12);
+  }
+
+  .nav-link[aria-current='page'] .nav-icon {
+    color: var(--color-brv);
+    filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.6));
+  }
+
+  /* Read marks (set by the reading-progress script in BaseLayout) */
+  .nav-link[data-done]::after {
+    content: '✓';
+    margin-left: auto;
+    color: var(--color-assist);
+    font-weight: 700;
+  }
+
+  /* Reading progress */
+  .progress {
+    padding: 0.25rem 0.75rem 1rem;
+  }
+
+  .progress-text {
+    margin-bottom: 0.4rem;
+    font-family: var(--font-subheading);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .progress-bar {
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+  }
+
+  .progress-bar > div {
+    width: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-brv), #7dd3fc);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+    transition: width 0.3s;
+  }
+
+  .progress-resume {
+    display: block;
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+  }
+
+  .progress-resume[hidden] {
+    display: none;
   }
 
   @media (max-width: 1024px) {

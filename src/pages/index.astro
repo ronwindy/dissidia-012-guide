@@ -1,14 +1,17 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Icon from "../components/common/Icon.astro";
+import { Info, Sparkles } from "@lucide/astro";
 import { gameInfo } from "../data/homeData";
+import { getToc } from "../lib/guideData";
+import { navCategoryIcon, navEntryIcon } from "../lib/icons";
 
 const baseUrl = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
+const categories = getToc();
 ---
 
-<BaseLayout title="Dissidia 012 [duodecim] Guide Portal" currentPath="home">
+<BaseLayout>
   <!-- Hero Section -->
   <header class="hero-brand">
     <h1 class="sr-only">Dissidia 012 [duodecim] Final Fantasy Guide Portal</h1>
@@ -26,7 +29,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
   <!-- Game Specifications & Credits -->
   <section class="crystal-panel" aria-labelledby="specs-heading">
     <div class="panel-header">
-      <Icon name="info" size={24} class="panel-header-icon" />
+      <Info size={24} class="panel-header-icon" aria-hidden="true" />
       <h2 id="specs-heading" class="panel-heading">
         GAME SPECIFICATIONS & CREDITS
       </h2>
@@ -48,7 +51,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
           gameInfo.map((info) => (
             <div class="stat-panel game-spec-card">
               <dt class="game-spec-header">
-                <Icon name={info.icon} size={18} class="game-spec-icon" />
+                <info.icon size={18} class="game-spec-icon" aria-hidden="true" />
                 <span class="game-spec-label">{info.label}</span>
               </dt>
               <dd class="game-spec-value">{info.value}</dd>
@@ -63,7 +66,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
   <section class="game-intro-section" aria-labelledby="intro-heading">
     <div class="crystal-panel intro-panel">
       <div class="panel-header">
-        <Icon name="sparkles" size={24} class="panel-header-icon" />
+        <Sparkles size={24} class="panel-header-icon" aria-hidden="true" />
         <h2 id="intro-heading" class="panel-heading">OVERVIEW & PREMISE</h2>
       </div>
 
@@ -120,6 +123,35 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
         </p>
       </div>
     </div>
+  </section>
+
+  <!-- Guide Contents -->
+  <section class="crystal-panel" aria-labelledby="contents-heading">
+    <div class="panel-header">
+      <h2 id="contents-heading" class="panel-heading">GUIDE CONTENTS</h2>
+    </div>
+    <a class="progress-resume" data-progress-resume href={baseUrl} hidden>Continue reading</a>
+    {categories.map((cat) => (
+      <div class="contents-cat">
+        <h3 class="contents-cat-title">
+          {(() => { const CatIcon = navCategoryIcon(cat.category); return <CatIcon size={18} aria-hidden="true" />; })()}
+          <span>{cat.category}</span>
+        </h3>
+        <ul class="section-index">
+          {cat.entries.map((entry) => {
+            const EntryIcon = navEntryIcon(cat.category, entry.title);
+            return (
+              <li>
+                <a href={`${baseUrl}guide/${entry.id}`} data-page-id={entry.id}>
+                  <EntryIcon size={18} aria-hidden="true" />
+                  <span>{entry.title}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    ))}
   </section>
 </BaseLayout>
 
@@ -273,6 +305,37 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
     color: var(--text-sub);
     font-size: var(--font-size-base);
     line-height: 1.75;
+  }
+
+  .contents-cat-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1.25rem 0 0.5rem;
+    font-size: var(--font-size-lg);
+    color: var(--color-brv);
+  }
+
+  .section-index {
+    list-style: none;
+    padding-left: 0.25rem;
+    margin: 0;
+  }
+
+  .section-index a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 44px;
+  }
+
+  .progress-resume {
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .progress-resume[hidden] {
+    display: none;
   }
 
   @media (max-width: 860px) {

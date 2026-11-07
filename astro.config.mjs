@@ -1,11 +1,14 @@
 import { defineConfig } from 'astro/config';
+import { readFileSync } from 'node:fs';
+
+const project = JSON.parse(readFileSync(new URL('./project.config.json', import.meta.url), 'utf8'));
 
 // https://astro.build/config
 export default defineConfig({
+  site: project.site,
+  base: project.base,
   output: 'static',
-  site: 'https://thaicongdanh.github.io',
-  base: process.env.NODE_ENV === 'production' ? '/dissidia-012-guide/' : '/',
   build: {
-    format: 'directory'
-  }
+    format: 'file'
+  },
 });

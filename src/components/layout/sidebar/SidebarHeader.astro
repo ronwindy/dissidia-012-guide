@@ -1,5 +1,5 @@
 ---
-import Icon from "../../common/Icon.astro";
+import { X } from "@lucide/astro";
 
 interface Props {
   baseUrl: string;
@@ -25,7 +25,7 @@ const { baseUrl } = Astro.props;
     id="sidebarClose"
     aria-label="Close Command Menu"
   >
-    <Icon name="x" size={20} />
+    <X size={20} aria-hidden="true" />
   </button>
 </div>
 

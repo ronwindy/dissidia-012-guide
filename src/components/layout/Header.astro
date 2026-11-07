@@ -1,6 +1,5 @@
 ---
-import Icon from "../common/Icon.astro";
-import DrakeProgressTracker from "../common/DrakeProgressTracker.astro";
+import { Menu } from "@lucide/astro";
 
 interface Props {
   title: string;
@@ -19,12 +18,12 @@ const { title, baseUrl } = Astro.props;
       aria-expanded="false"
       aria-controls="appSidebar"
     >
-      <Icon name="menu" size={24} />
+      <Menu size={24} aria-hidden="true" />
     </button>
     <nav class="header-breadcrumbs" aria-label="Breadcrumbs">
       <a href={baseUrl} class="breadcrumb-home">Home</a>
       {
-        title !== "Dissidia 012 [duodecim] Guide Portal" && (
+        title && (
           <>
             <span class="breadcrumb-sep">/</span>
             <span class="breadcrumb-current" title={title}>
@@ -49,9 +48,7 @@ const { title, baseUrl } = Astro.props;
     />
   </a>
 
-  <div class="header-right">
-    <DrakeProgressTracker />
-  </div>
+  <div class="header-right"></div>
 </header>
 
 <style>
@@ -124,24 +121,6 @@ const { title, baseUrl } = Astro.props;
     gap: 0.75rem;
     flex-shrink: 0;
     min-width: 0;
-  }
-
-  .header-right :global(.drake-progress-tracker) {
-    width: auto;
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    padding: 0;
-  }
-
-  .header-right :global(.drake-progress-tracker:hover) {
-    background: transparent;
-    border-color: transparent;
-    box-shadow: none;
-  }
-
-  .header-right :global(.progress-info) {
-    display: none;
   }
 
   /* Mobile Header Brand */
