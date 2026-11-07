@@ -32,7 +32,14 @@ main article {
 
 .guide-body h4 {
   color: var(--color-ex-gauge);
-  margin: 1.25rem 0 0.4rem;
+  margin: 1.75rem 0 0.75rem;
+  font-size: 1.4rem;
+  padding: 0.7rem 1.1rem;
+  background: linear-gradient(to right, rgba(251, 191, 36, 0.14), transparent);
+  border-top: 3px solid;
+  border-bottom: 3px solid;
+  border-left: 6px solid;
+  border-image: linear-gradient(to right, var(--color-ex-gauge), transparent) 1;
 }
 
 .guide-body hr {
