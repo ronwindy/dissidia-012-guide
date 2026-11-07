@@ -6,6 +6,17 @@
       "title": "Placeholder",
       "category": "Getting Started",
       "toc": []
+    },
+    {
+      "id": "part-1",
+      "title": "Prologue and Chapter 1",
+      "category": "Treachery of the Gods",
+      "toc": [
+        { "id": "the-adventure-begins", "title": "The Adventure Begins" },
+        { "id": "the-manikins", "title": "The Manikins" },
+        { "id": "prepare-for-fabulousness", "title": "Prepare for Fabulousness!" },
+        { "id": "the-traitor", "title": "The Traitor" }
+      ]
     }
   ]
 }

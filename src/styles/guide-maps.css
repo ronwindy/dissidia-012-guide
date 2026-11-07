@@ -1,0 +1,86 @@
+/* Walkthrough extras: aligned figures, map boards and boss/enemy cards. */
+.guide-body figure {
+  margin: 0 0 0.75rem;
+}
+
+.guide-body figure.left {
+  float: left;
+  margin-right: 1rem;
+}
+
+.guide-body figure.right {
+  float: right;
+  margin-left: 1rem;
+}
+
+.guide-body figure img {
+  max-width: 100%;
+  height: auto;
+}
+
+.guide-body table.board {
+  float: right;
+  margin: 0 0 1rem 1rem;
+  border-collapse: separate;
+  border-spacing: 2px;
+  background: #000;
+  text-align: center;
+}
+
+.guide-body table.board th {
+  min-width: 40px;
+  height: 40px;
+  padding: 0;
+  background: #068fb0;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.guide-body table.board td {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: transparent;
+}
+
+.guide-body table.board thead td {
+  background: var(--text-main);
+}
+
+.guide-body table.board td.floor {
+  background: #cabd62;
+}
+
+.guide-body table.board img {
+  display: block;
+  width: 40px;
+  height: 40px;
+}
+
+.guide-body table.card {
+  float: right;
+  width: 275px;
+  margin: 0 0 1rem 1rem;
+  border-collapse: collapse;
+  text-align: center;
+  font-size: var(--font-size-sm);
+}
+
+.guide-body table.card td {
+  padding: 0.25rem 0.4rem;
+  border: 1px solid var(--border-panel);
+}
+
+.guide-body hr {
+  clear: both;
+}
+
+@media (max-width: 640px) {
+  .guide-body table.board,
+  .guide-body table.card,
+  .guide-body figure.left,
+  .guide-body figure.right {
+    float: none;
+    margin-inline: auto;
+  }
+}
