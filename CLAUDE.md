@@ -15,7 +15,7 @@ src/data/pages/*.html + src/data/manifest.json → Astro build
 - Source files for the guide are not saved yet. The current `placeholder` page stands in until the user provides them.
 
 ## 2. Build
-- Build: `cmd /c npm run build` (avoids PowerShell ExecutionPolicy errors). Ad-hoc JavaScript: temp `.mjs` file, not long `node -e`.
+- Build: `npm run build` (run it normally, not through `cmd /c`). Ad-hoc JavaScript: temp `.mjs` file, not long `node -e`.
 - Site settings (title, base, site URL) live in `project.config.json`.
 
 ## 3. Presentation (look decisions live in `DESIGN.md`)

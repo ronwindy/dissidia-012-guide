@@ -12,7 +12,7 @@ const { entries } = Astro.props;
 {entries.length > 0 && (
   <nav class="page-toc" aria-label="On this page" data-page-toc>
     <details class="page-toc-box">
-      <summary>On this page</summary>
+      <summary><span class="page-toc-label">On this page</span></summary>
       <ol class="page-toc-list">
         {entries.map((e) => <li><a href={`#${e.id}`} data-toc-link>{e.title}</a></li>)}
       </ol>
@@ -25,9 +25,21 @@ const { entries } = Astro.props;
     var nav = document.querySelector('[data-page-toc]');
     if (!nav) return;
     var box = nav.querySelector('details');
-    var wide = window.matchMedia('(min-width: 1280px)');
-    var sync = function () { if (wide.matches) box.setAttribute('open', ''); else box.removeAttribute('open'); };
+    var wide = window.matchMedia('(min-width: 1280px), (orientation: landscape) and (max-height: 500px) and (min-width: 700px)');
+    var land = window.matchMedia('(orientation: landscape) and (max-height: 500px) and (min-width: 700px)');
+    var KEY = 'toc-collapsed';
+    var stored = function () { try { return localStorage.getItem(KEY) === '1'; } catch (e) { return false; } };
+    var sync = function () {
+      if (!wide.matches) box.removeAttribute('open');
+      else if (land.matches && stored()) box.removeAttribute('open');
+      else box.setAttribute('open', '');
+    };
     sync();
+    box.addEventListener('toggle', function () {
+      if (!land.matches) return;
+      try { localStorage.setItem(KEY, box.open ? '0' : '1'); } catch (e) {}
+    });
+    if (land.addEventListener) land.addEventListener('change', sync);
     if (wide.addEventListener) wide.addEventListener('change', sync);
 
     var links = Array.prototype.slice.call(nav.querySelectorAll('[data-toc-link]'));
