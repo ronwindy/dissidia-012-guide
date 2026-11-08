@@ -1,5 +1,4 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import { getCollection, render } from 'astro:content';
 
 export interface PageEntry {
   id: string;
@@ -17,29 +16,24 @@ export interface TocCategory {
   entries: PageEntry[];
 }
 
-const DATA_DIR = path.resolve(process.cwd(), 'src/data');
-
-/** Pages in manifest order. */
-export function getPages(): PageEntry[] {
-  const manifest = JSON.parse(fs.readFileSync(path.join(DATA_DIR, 'manifest.json'), 'utf-8'));
-  return manifest.pages.map(({ id, title, category }: PageEntry) => ({ id, title, category }));
+/** Pages sorted by frontmatter `order`. */
+export async function getPages(): Promise<PageEntry[]> {
+  const entries = await getCollection('guide');
+  return entries
+    .sort((a, b) => a.data.order - b.data.order)
+    .map((e) => ({ id: e.id, title: e.data.title, category: e.data.category }));
 }
 
-/** On-page ToC entries (heading ids and titles) from the manifest; empty when the page has none. */
-export function getPageToc(id: string): PageToc[] {
-  const manifest = JSON.parse(fs.readFileSync(path.join(DATA_DIR, 'manifest.json'), 'utf-8'));
-  return manifest.pages.find((p: { id: string }) => p.id === id)?.toc ?? [];
-}
-
-/** Page markup from src/data/pages. */
-export function getPageHtml(id: string): string {
-  return fs.readFileSync(path.join(DATA_DIR, 'pages', `${id}.html`), 'utf-8');
+/** On-page ToC entries: the h4 headings of a page. */
+export async function getPageToc(entry: Parameters<typeof render>[0]): Promise<PageToc[]> {
+  const { headings } = await render(entry);
+  return headings.filter((h) => h.depth === 4).map((h) => ({ id: h.slug, title: h.text }));
 }
 
 /** Sidebar data: pages grouped by consecutive category. */
-export function getToc(): TocCategory[] {
+export async function getToc(): Promise<TocCategory[]> {
   const categories: TocCategory[] = [];
-  for (const page of getPages()) {
+  for (const page of await getPages()) {
     let cat = categories[categories.length - 1];
     if (!cat || cat.category !== page.category) {
       cat = { category: page.category, entries: [] };
@@ -50,8 +44,8 @@ export function getToc(): TocCategory[] {
   return categories;
 }
 
-export function getNeighbours(id: string): { prev?: PageEntry; next?: PageEntry } {
-  const pages = getPages();
+export async function getNeighbours(id: string): Promise<{ prev?: PageEntry; next?: PageEntry }> {
+  const pages = await getPages();
   const at = pages.findIndex((p) => p.id === id);
   return at < 0 ? {} : { prev: pages[at - 1], next: pages[at + 1] };
 }

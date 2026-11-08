@@ -1,0 +1,78 @@
+---
+import { pieces, defaultAlt } from './pieces';
+
+interface Props {
+  /** Number of columns (A, B, C, ...). */
+  cols: number;
+  /** Number of rows. Defaults to 7. */
+  rows?: number;
+  /** Floor cells per row number, as column letters: { 1: "E", 2: "CDEF" }. */
+  floor: Record<string, string>;
+  /** One entry per piece: "E1 chest Tanegashima" (cell, icon key, optional label) or "B4 text AC". */
+  pieces?: string[];
+}
+
+const { cols, rows = 7, floor, pieces: entries = [] } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const letters = Array.from({ length: cols }, (_, i) => String.fromCharCode(65 + i));
+const rowNums = Array.from({ length: rows }, (_, i) => i + 1);
+
+type Item =
+  | { kind: 'text'; text: string }
+  | { kind: 'img'; src: string; alt: string; title?: string; width: number; height: number };
+const cells = new Map<string, Item[]>();
+for (const entry of entries) {
+  const m = entry.match(/^([A-Z]\d+) (\S+)(?: (.*))?$/);
+  if (!m) throw new Error(`Bad board piece: "${entry}"`);
+  const [, at, key, label] = m;
+  const list = cells.get(at) ?? [];
+  if (key === 'text') {
+    list.push({ kind: 'text', text: label ?? '' });
+  } else {
+    const icon = pieces[key];
+    if (!icon) throw new Error(`Unknown board piece icon "${key}" in "${entry}"`);
+    list.push({
+      kind: 'img',
+      src: `${base}/drake/${icon.file}`,
+      alt: label ?? defaultAlt(icon.file),
+      title: label,
+      width: icon.width,
+      height: icon.height,
+    });
+  }
+  cells.set(at, list);
+}
+const isFloor = (letter: string, row: number) => (floor[String(row)] ?? '').includes(letter);
+---
+
+<table class="board">
+  <thead>
+    <tr>
+      <td></td>
+      {letters.map((l) => <th scope="col">{l}</th>)}
+    </tr>
+  </thead>
+  <tbody>
+    {rowNums.map((r) => (
+      <tr>
+        <th scope="row">{r}</th>
+        {letters.map((l) => {
+          if (!isFloor(l, r)) return <td />;
+          const items = cells.get(`${l}${r}`) ?? [];
+          return (
+            <td class="floor">
+              {items.map((it) =>
+                it.kind === 'text' ? (
+                  <strong>{it.text}</strong>
+                ) : (
+                  <img src={it.src} alt={it.alt} title={it.title} width={it.width} height={it.height} loading="lazy" />
+                ),
+              )}
+            </td>
+          );
+        })}
+      </tr>
+    ))}
+  </tbody>
+</table>

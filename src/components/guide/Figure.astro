@@ -1,0 +1,20 @@
+---
+interface Props {
+  side: 'left' | 'right';
+  /** Image path under public/, e.g. "drake/Laguna012.PNG". */
+  src: string;
+  width: number;
+  height: number;
+  /** Alt text; defaults to the image file name without extension. */
+  alt?: string;
+  title?: string;
+}
+
+const { side, src, width, height, title } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const alt = Astro.props.alt ?? src.replace(/^.*\//, '').replace(/\.[^.]+$/, '');
+---
+
+<figure class={side}>
+  <img src={`${base}/${src}`} alt={alt} title={title} width={width} height={height} loading="lazy" />
+</figure>

@@ -1,16 +1,24 @@
 ---
+import { render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import project from '../../../project.config.json';
-import { getPages, getPageHtml, getPageToc, getNeighbours } from '../../lib/guideData';
+import Board from '../../components/guide/Board.astro';
+import EnemyCard from '../../components/guide/EnemyCard.astro';
+import Figure from '../../components/guide/Figure.astro';
+import { getPages, getPageToc, getNeighbours } from '../../lib/guideData';
+import { getCollection } from 'astro:content';
 
-export function getStaticPaths() {
-  return getPages().map((page) => ({ params: { id: page.id }, props: { page } }));
+export async function getStaticPaths() {
+  const entries = await getCollection('guide');
+  return entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
 }
 
-const { page } = Astro.props;
-const { prev, next } = getNeighbours(page.id);
-const html = getPageHtml(page.id);
-const toc = getPageToc(page.id);
+const { entry } = Astro.props;
+const pages = await getPages();
+const page = pages.find((p) => p.id === entry.id)!;
+const { prev, next } = await getNeighbours(entry.id);
+const { Content } = await render(entry);
+const toc = await getPageToc(entry);
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const href = (id: string) => `${baseUrl}/guide/${id}`;
 ---
@@ -25,7 +33,9 @@ const href = (id: string) => `${baseUrl}/guide/${id}`;
     <p class="breadcrumb">
       <a href={`${baseUrl}/`}>Contents</a> / {page.category}
     </p>
-    <div class="guide-body" set:html={html} />
+    <div class="guide-body">
+      <Content components={{ Board, EnemyCard, Figure }} />
+    </div>
 
     <div class="page-actions">
       <button type="button" class="mark-read" data-mark-read={page.id} aria-pressed="false">Mark as read</button>

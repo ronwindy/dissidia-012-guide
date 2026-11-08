@@ -1,0 +1,57 @@
+---
+interface Props {
+  /** Label row, e.g. "Boss" or "Enemy". */
+  kind: string;
+  name: string;
+  /** Image path under public/, e.g. "drake/CoDDissidiaRender.PNG". */
+  image: string;
+  imageWidth: number;
+  imageHeight: number;
+  /** Alt text; defaults to the image file name without extension. */
+  alt?: string;
+  hp: string;
+  level: string;
+  bravery: string;
+  braveAttacks: string;
+  hpAttacks: string;
+  summon: string;
+  difficulty: string;
+}
+
+const { kind, name, image, imageWidth, imageHeight, hp, level, bravery, braveAttacks, hpAttacks, summon, difficulty } =
+  Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const alt = Astro.props.alt ?? image.replace(/^.*\//, '').replace(/\.[^.]+$/, '');
+---
+
+<table class="card">
+  <tbody>
+    <tr><td colspan="6"><strong>{kind}</strong></td></tr>
+    <tr><td colspan="6"><strong>{name}</strong></td></tr>
+    <tr>
+      <td colspan="6"><img src={`${base}/${image}`} alt={alt} width={imageWidth} height={imageHeight} loading="lazy" /></td>
+    </tr>
+    <tr>
+      <td colspan="2"><strong>HP</strong></td>
+      <td colspan="2"><strong>Level</strong></td>
+      <td colspan="2"><strong>Bravery</strong></td>
+    </tr>
+    <tr>
+      <td colspan="2">{hp}</td>
+      <td colspan="2">{level}</td>
+      <td colspan="2">{bravery}</td>
+    </tr>
+    <tr><td colspan="6"><strong>Brave Attacks</strong></td></tr>
+    <tr><td colspan="6">{braveAttacks}</td></tr>
+    <tr><td colspan="6"><strong>HP Attacks</strong></td></tr>
+    <tr><td colspan="6">{hpAttacks}</td></tr>
+    <tr>
+      <td colspan="3"><strong>Summon</strong></td>
+      <td colspan="3"><strong>Difficulty</strong></td>
+    </tr>
+    <tr>
+      <td colspan="3">{summon}</td>
+      <td colspan="3">{difficulty}</td>
+    </tr>
+  </tbody>
+</table>
