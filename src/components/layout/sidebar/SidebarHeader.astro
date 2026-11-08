@@ -50,7 +50,7 @@ const { baseUrl } = Astro.props;
     flex-shrink: 0;
   }
 
-  /* Gold HUD divider with a bright core, separating header from entries */
+  /* Cyan HUD divider with a bright core, separating header from entries */
   .sidebar-header::after {
     content: '';
     position: absolute;
@@ -61,12 +61,12 @@ const { baseUrl } = Astro.props;
     background: linear-gradient(
       90deg,
       transparent,
-      var(--color-ex-gauge) 20%,
-      #fff3c4 50%,
-      var(--color-ex-gauge) 80%,
+      var(--color-brv) 20%,
+      #e0f7ff 50%,
+      var(--color-brv) 80%,
       transparent
     );
-    box-shadow: 0 0 10px rgba(251, 191, 36, 0.55);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.55);
   }
 
   .sidebar-close-btn {
@@ -131,8 +131,8 @@ const { baseUrl } = Astro.props;
     font-weight: 700;
     letter-spacing: 0.32em;
     text-transform: uppercase;
-    color: var(--color-ex-gauge);
-    text-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+    color: var(--color-brv);
+    text-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
   }
 
   /* Mobile drawer (incl. landscape): compact bar, logo left, close right */

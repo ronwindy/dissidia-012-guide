@@ -207,15 +207,11 @@ const total = categories.reduce((n, c) => n + c.entries.length, 0);
     .page-toc-list a { transition: none; }
   }
 
-  /* Category accent, cycled by order */
+  /* Single cyan accent for every category */
   .nav-group {
     --cat: 56, 189, 248;
     margin-bottom: 0.85rem;
   }
-  .nav-group:nth-of-type(5n + 2) { --cat: 251, 191, 36; }
-  .nav-group:nth-of-type(5n + 3) { --cat: 192, 132, 252; }
-  .nav-group:nth-of-type(5n + 4) { --cat: 16, 185, 129; }
-  .nav-group:nth-of-type(5n + 5) { --cat: 244, 63, 94; }
 
   .nav-group ul {
     list-style: none;
@@ -290,7 +286,7 @@ const total = categories.reduce((n, c) => n + c.entries.length, 0);
     background: rgba(255, 255, 255, 0.025);
     clip-path: polygon(0 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%);
     font-family: var(--font-subheading);
-    font-size: 0.98rem;
+    font-size: 0.88rem;
     font-weight: 500;
     letter-spacing: 0.03em;
     text-decoration: none;
