@@ -35,11 +35,15 @@ main article {
   margin: 1.75rem 0 0.75rem;
   font-size: 1.4rem;
   padding: 0.7rem 1.1rem;
-  background: linear-gradient(to right, rgba(251, 191, 36, 0.14), transparent);
-  border-top: 3px solid;
-  border-bottom: 3px solid;
-  border-left: 6px solid;
-  border-image: linear-gradient(to right, var(--color-ex-gauge), transparent) 1;
+  padding-right: 2.2rem;
+  border: 0;
+  /* Solid gold left bar, soft gold wash, gold + cyan underline, all as background layers */
+  background:
+    linear-gradient(var(--color-ex-gauge), var(--color-ex-gauge)) left / 6px 100% no-repeat,
+    linear-gradient(to right, var(--color-ex-gauge), transparent 85%) left bottom / 100% 2px no-repeat,
+    linear-gradient(to right, rgba(251, 191, 36, 0.22), rgba(251, 191, 36, 0.03));
+  /* HUD cut corner on the right end */
+  clip-path: polygon(0 0, 100% 0, calc(100% - 1.1rem) 100%, 0 100%);
 }
 
 .guide-body hr {
