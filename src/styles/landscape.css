@@ -37,7 +37,7 @@
   /* Compact vertical rhythm, text stays ~16px. */
   .guide-body p, p { margin-bottom: 0.9rem; }
   main article { padding: 0.9rem 1rem 1.1rem; }
-  .guide-body h4 { margin: 1.1rem 0 0.5rem; padding: 0.4rem 0.9rem; padding-right: 1.8rem; font-size: 1.25rem; }
+  .guide-body h4 { margin: 1.6rem 0 0.8rem; padding: 0.8rem 1.1rem; padding-right: 2.2rem; font-size: 1.5rem; }
   .guide-body h2 { margin-top: 1.2rem; }
   .guide-body h3 { margin-top: 1rem; }
   .crystal-panel { padding: 1rem; margin-bottom: 1rem; }

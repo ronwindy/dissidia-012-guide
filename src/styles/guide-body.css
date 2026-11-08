@@ -33,18 +33,19 @@ main article {
 
 .guide-body h4 {
   color: var(--color-ex-gauge);
-  margin: 1.75rem 0 0.75rem;
-  font-size: 1.4rem;
-  padding: 0.7rem 1.1rem;
-  padding-right: 2.2rem;
+  margin: 3rem 0 1.5rem;
+  font-size: 2rem;
+  line-height: 1.15;
+  padding: 1.5rem 1.6rem 1.5rem 1.8rem;
+  padding-right: 3rem;
   border: 0;
   /* Solid gold left bar, soft gold wash, gold + cyan underline, all as background layers */
   background:
-    linear-gradient(var(--color-ex-gauge), var(--color-ex-gauge)) left / 6px 100% no-repeat,
-    linear-gradient(to right, var(--color-ex-gauge), transparent 85%) left bottom / 100% 2px no-repeat,
-    linear-gradient(to right, rgba(251, 191, 36, 0.22), rgba(251, 191, 36, 0.03));
+    linear-gradient(var(--color-ex-gauge), var(--color-ex-gauge)) left / 8px 100% no-repeat,
+    linear-gradient(to right, var(--color-ex-gauge), transparent 85%) left bottom / 100% 3px no-repeat,
+    linear-gradient(to right, rgba(251, 191, 36, 0.28), rgba(251, 191, 36, 0.04));
   /* HUD cut corner on the right end */
-  clip-path: polygon(0 0, 100% 0, calc(100% - 1.1rem) 100%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 1.6rem) 100%, 0 100%);
 }
 
 .guide-body hr {
