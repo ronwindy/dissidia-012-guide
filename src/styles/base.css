@@ -18,7 +18,7 @@ html {
 
 @media (max-width: 1024px) {
   html {
-    font-size: 16.5px;
+    font-size: 18px;
   }
 }
 
@@ -31,7 +31,7 @@ html {
 body {
   font-family: var(--font-body);
   font-size: var(--font-size-base);
-  line-height: 1.68;
+  line-height: 1.75;
   color: var(--text-main);
   background-color: var(--bg-color);
   min-height: 100vh;

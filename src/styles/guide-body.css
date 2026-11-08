@@ -20,6 +20,13 @@ main article {
   overflow-wrap: anywhere;
 }
 
+/* Comfortable line length for prose; tables, maps and images stay full width. */
+.guide-body > p,
+.guide-body > ul,
+.guide-body > ol {
+  max-width: 65ch;
+}
+
 .guide-body h1 {
   padding-bottom: 0.5rem;
   border-bottom: 2px solid var(--border-panel);
