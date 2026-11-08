@@ -17,14 +17,8 @@ main article {
 }
 
 .guide-body {
+  display: flow-root; /* contain right-floated boards and boss cards inside the card */
   overflow-wrap: anywhere;
-}
-
-/* Comfortable line length for prose; tables, maps and images stay full width. */
-.guide-body > p,
-.guide-body > ul,
-.guide-body > ol {
-  max-width: 65ch;
 }
 
 .guide-body h1 {

@@ -6,18 +6,21 @@ import Sidebar from "../components/layout/Sidebar.astro";
 import Header from "../components/layout/Header.astro";
 import Main from "../components/layout/Main.astro";
 import BackToTop from "../components/layout/BackToTop.astro";
+import type { PageToc } from "../lib/guideData";
 import ReadingProgress from "../components/layout/ReadingProgress.astro";
 
 interface Props {
   title?: string;
   description?: string;
   currentId?: string;
+  toc?: PageToc[];
 }
 
 const {
   title = project.defaultTitle,
   description = project.defaultDescription,
   currentId = "",
+  toc = [],
 } = Astro.props;
 
 const baseUrl = import.meta.env.BASE_URL.endsWith("/")
@@ -39,7 +42,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
   <body style={`--site-bg: url('${baseUrl}background.jpg');`}>
     <div class="app-container">
       <!-- Left Sidebar -->
-      <Sidebar currentId={currentId} baseUrl={baseUrl} />
+      <Sidebar currentId={currentId} baseUrl={baseUrl} toc={toc} />
 
       <!-- Main Content Shell -->
       <div class="app-main">
@@ -49,7 +52,6 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
           <Main>
             <slot />
           </Main>
-          <slot name="aside" />
         </div>
       </div>
     </div>
@@ -75,7 +77,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
     min-width: 0;
   }
 
-  /* Content column: page body plus optional on-page ToC */
+  /* Content column: page body */
   .content-col {
     display: flex;
     align-items: flex-start;
@@ -93,27 +95,6 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
 
     .content-col {
       padding: 0;
-    }
-  }
-
-  @media (max-width: 1279px) {
-    .content-col:has(.page-toc) {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0;
-    }
-
-    .content-col:has(.page-toc) :global(.page-toc) {
-      order: -1;
-      width: auto;
-      max-width: var(--max-content-width);
-      margin: 1rem 1.5rem 0;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .content-col:has(.page-toc) :global(.page-toc) {
-      margin: 0.85rem 0.85rem 0;
     }
   }
 </style>

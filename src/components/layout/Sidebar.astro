@@ -1,20 +1,22 @@
 ---
 import SidebarHeader from "./sidebar/SidebarHeader.astro";
 import SidebarNav from "./sidebar/SidebarNav.astro";
+import type { PageToc } from "../../lib/guideData";
 
 interface Props {
   currentId?: string;
   baseUrl: string;
+  toc?: PageToc[];
 }
 
-const { currentId = "", baseUrl } = Astro.props;
+const { currentId = "", baseUrl, toc = [] } = Astro.props;
 ---
 
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <aside class="app-sidebar" id="appSidebar" aria-label="Sidebar">
   <SidebarHeader baseUrl={baseUrl} />
-  <SidebarNav currentId={currentId} />
+  <SidebarNav currentId={currentId} toc={toc} />
 </aside>
 
 <script>
@@ -58,7 +60,7 @@ const { currentId = "", baseUrl } = Astro.props;
     });
 
     // Close sidebar on navigation clicks
-    document.querySelectorAll(".nav-link").forEach((link) => {
+    document.querySelectorAll(".nav-link, [data-toc-link]").forEach((link) => {
       link.addEventListener("click", () => {
         closeMenu();
       });

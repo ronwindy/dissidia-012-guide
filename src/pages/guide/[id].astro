@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import project from '../../../project.config.json';
-import PageToc from '../../components/PageToc.astro';
 import { getPages, getPageHtml, getPageToc, getNeighbours } from '../../lib/guideData';
 
 export function getStaticPaths() {
@@ -20,6 +19,7 @@ const href = (id: string) => `${baseUrl}/guide/${id}`;
   title={`${page.title} - ${project.pageTitleSuffix}`}
   description={`${project.pageDescriptionPrefix} - ${page.category}: ${page.title}`}
   currentId={page.id}
+  toc={toc}
 >
   <article>
     <p class="breadcrumb">
@@ -36,5 +36,4 @@ const href = (id: string) => `${baseUrl}/guide/${id}`;
       {next ? <a href={href(next.id)}>{next.title} &rarr;</a> : <span></span>}
     </nav>
   </article>
-  <PageToc slot="aside" entries={toc} />
 </BaseLayout>

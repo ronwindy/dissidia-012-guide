@@ -2,17 +2,27 @@
 import { getToc } from '../../../lib/guideData';
 import { navCategoryIcon, navEntryIcon } from '../../../lib/icons';
 
+import type { PageToc } from '../../../lib/guideData';
+
 interface Props {
   currentId?: string;
+  toc?: PageToc[];
 }
 
-const { currentId = '' } = Astro.props;
+const { currentId = '', toc = [] } = Astro.props;
+const hasToc = toc.length > 0;
 const categories = getToc();
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const total = categories.reduce((n, c) => n + c.entries.length, 0);
 ---
 
-<nav class="sidebar-nav" aria-label="Guide sections">
+<nav class="sidebar-nav" aria-label="Guide sections" data-sidebar-tabs data-has-toc={hasToc ? 'true' : 'false'}>
+  <div class="nav-tabs" role="tablist">
+    <button type="button" role="tab" class="nav-tab" data-tab="guide" id="tab-guide" aria-controls="panel-guide">Guide</button>
+    <button type="button" role="tab" class="nav-tab" data-tab="page" id="tab-page" aria-controls="panel-page" disabled={!hasToc}>This Page</button>
+  </div>
+
+  <div class="nav-panel" role="tabpanel" id="panel-guide" aria-labelledby="tab-guide" data-panel="guide">
   <div class="progress" data-progress-total={total}>
     <div class="progress-text"><span data-progress-count>0</span> / {total} read</div>
     <div class="progress-bar"><div data-progress-fill></div></div>
@@ -45,6 +55,15 @@ const total = categories.reduce((n, c) => n + c.entries.length, 0);
       </ul>
     </details>
   ))}
+  </div>
+
+  <div class="nav-panel" role="tabpanel" id="panel-page" aria-labelledby="tab-page" data-panel="page" hidden>
+    {hasToc && (
+      <ol class="page-toc-list" data-page-toc-list>
+        {toc.map((e) => <li><a href={`#${e.id}`} data-toc-link>{e.title}</a></li>)}
+      </ol>
+    )}
+  </div>
 </nav>
 
 <script>
@@ -61,12 +80,156 @@ const total = categories.reduce((n, c) => n + c.entries.length, 0);
   });
 </script>
 
+<script>
+  // Tabs: "This Page" is the default when the page has headings.
+  (() => {
+    const nav = document.querySelector<HTMLElement>('[data-sidebar-tabs]');
+    if (!nav) return;
+    const tabs = Array.from(nav.querySelectorAll<HTMLButtonElement>('.nav-tab'));
+    const panels = Array.from(nav.querySelectorAll<HTMLElement>('.nav-panel'));
+    const hasToc = nav.dataset.hasToc === 'true';
+    const show = (name: string) => {
+      tabs.forEach((t) => {
+        const on = t.dataset.tab === name;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+      });
+      panels.forEach((p) => { p.hidden = p.dataset.panel !== name; });
+    };
+    tabs.forEach((t) => t.addEventListener('click', () => { if (!t.disabled) show(t.dataset.tab!); }));
+    show(hasToc ? 'page' : 'guide');
+
+    // Page-heading scroll-spy and reading-progress track.
+    const list = nav.querySelector<HTMLElement>('[data-page-toc-list]');
+    if (!list) return;
+    const links = Array.from(list.querySelectorAll<HTMLAnchorElement>('[data-toc-link]'));
+    const heads = links.map((a) => document.getElementById(a.getAttribute('href')!.slice(1)));
+    const article = document.querySelector<HTMLElement>('.guide-body');
+    let current = -1;
+    const update = () => {
+      if (article) {
+        const r = article.getBoundingClientRect();
+        const total = r.height - window.innerHeight * 0.5;
+        const p = total > 0 ? Math.min(1, Math.max(0, (window.innerHeight * 0.25 - r.top) / total)) : 0;
+        list.style.setProperty('--toc-progress', p.toFixed(3));
+      }
+      let at = -1;
+      for (let i = 0; i < heads.length; i++) {
+        const h = heads[i];
+        if (h && h.getBoundingClientRect().top <= 120) at = i; else break;
+      }
+      if (at === current) return;
+      current = at;
+      links.forEach((a, i) => {
+        if (i === at) {
+          a.setAttribute('aria-current', 'true');
+          if (!list.closest('[hidden]')) {
+            const top = a.offsetTop, bottom = top + a.offsetHeight;
+            if (top < nav.scrollTop || bottom > nav.scrollTop + nav.clientHeight) nav.scrollTop = top - nav.clientHeight / 2;
+          }
+        } else a.removeAttribute('aria-current');
+      });
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
+</script>
+
 <style>
   .sidebar-nav {
     padding: 0.9rem 0.75rem 1rem;
     flex: 1;
     overflow-y: auto;
     min-height: 0;
+  }
+
+
+  /* Tabs */
+  .nav-tabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 0.9rem;
+    border-bottom: 1px solid var(--border-panel);
+  }
+  .nav-tab {
+    flex: 1;
+    min-height: 40px;
+    padding: 0.4rem 0.5rem;
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    color: var(--text-muted);
+    font-family: var(--font-subheading);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color var(--transition-fast), background var(--transition-fast);
+  }
+  .nav-tab:hover:not(:disabled) { color: var(--text-main); background: rgba(56, 189, 248, 0.08); }
+  .nav-tab[aria-selected='true'] {
+    color: var(--color-brv);
+    border-bottom-color: var(--color-brv);
+    background: linear-gradient(180deg, transparent, rgba(56, 189, 248, 0.14));
+  }
+  .nav-tab:disabled { opacity: 0.4; cursor: default; }
+  .nav-panel[hidden] { display: none; }
+
+  /* This Page list: vertical reading-progress track on its left edge */
+  .page-toc-list {
+    --toc-progress: 0;
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0.25rem 0.25rem 0.6rem 0.9rem;
+  }
+  .page-toc-list::before,
+  .page-toc-list::after {
+    content: '';
+    position: absolute;
+    left: 0.25rem;
+    top: 0.25rem;
+    width: 3px;
+    border-radius: 2px;
+  }
+  .page-toc-list::before { bottom: 0.6rem; background: rgba(255, 255, 255, 0.1); }
+  .page-toc-list::after {
+    height: calc((100% - 0.85rem) * var(--toc-progress, 0));
+    background: var(--color-brv);
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.55);
+    transition: height 0.2s;
+  }
+  .page-toc-list li { margin: 0; }
+  .page-toc-list a {
+    display: block;
+    padding: 0.4rem 0.6rem;
+    margin: 0.05rem 0;
+    min-height: 36px;
+    font-family: var(--font-subheading);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    line-height: 1.25;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: background 0.15s, color 0.15s;
+  }
+  .page-toc-list a:hover {
+    color: var(--text-main);
+    background: linear-gradient(90deg, rgba(56, 189, 248, 0.18), transparent);
+    border-left-color: var(--color-brv);
+  }
+  .page-toc-list a[aria-current] {
+    color: #fff;
+    background: linear-gradient(90deg, rgba(56, 189, 248, 0.22), rgba(56, 189, 248, 0.05));
+    font-weight: 700;
+    border-left-color: var(--color-brv);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .page-toc-list a, .page-toc-list::after { transition: none; }
   }
 
   /* Category accent, cycled by order */
