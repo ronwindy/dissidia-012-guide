@@ -1,0 +1,63 @@
+/* Gateway panel: <Gateway> frame with labeled <GatewaySection> blocks. */
+.guide-body .gateway {
+  margin: 1.25rem 0 1.75rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-top-color: rgba(255, 255, 255, 0.28);
+  background: linear-gradient(135deg, rgba(20, 28, 50, 0.55), rgba(8, 12, 24, 0.7));
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  padding: 0.85rem 1rem;
+  display: flow-root; /* contain the floated Board */
+}
+
+.guide-body .gateway > :first-child { margin-top: 0; }
+
+.guide-body .gateway-section {
+  overflow: hidden; /* keep the section text beside the floated Board, not under it */
+  --accent: var(--color-brv);
+  --accent-rgb: 56, 189, 248;
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.guide-body .gateway-section--chain { --accent: #34d399; --accent-rgb: 52, 211, 153; }
+.guide-body .gateway-section--assist { --accent: #a78bfa; --accent-rgb: 167, 139, 250; }
+.guide-body .gateway-section--enemies { --accent: #fb923c; --accent-rgb: 251, 146, 60; }
+.guide-body .gateway-section--objective { --accent: var(--color-ex-gauge); --accent-rgb: 251, 191, 36; }
+.guide-body .gateway-section--treasure { --accent: #facc15; --accent-rgb: 250, 204, 21; }
+.guide-body .gateway-section--warnings { --accent: #f87171; --accent-rgb: 248, 113, 113; }
+
+.guide-body .gateway-section__head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0.6rem;
+  width: fit-content;
+  border-radius: var(--radius-sm, 4px);
+  background: rgba(var(--accent-rgb), 0.14);
+  border: 1px solid rgba(var(--accent-rgb), 0.3);
+  color: var(--accent);
+}
+
+.guide-body .gateway-section__icon { width: 1rem; height: 1rem; flex: none; }
+
+.guide-body .gateway-section__label {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.guide-body .gateway-section__body > :first-child { margin-top: 0; }
+.guide-body .gateway-section__body > :last-child { margin-bottom: 0; }
+
+@media (max-width: 480px) {
+  .guide-body .gateway { padding: 0.7rem 0.75rem; }
+}
+
+@media print {
+  .guide-body .gateway { background: transparent; box-shadow: none; border-color: #999; }
+}

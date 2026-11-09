@@ -1,0 +1,40 @@
+---
+interface Props {
+  /** Category; sets label and icon. Omit for an unlabeled general section. */
+  kind?: 'chain' | 'assist' | 'enemies' | 'objective' | 'treasure' | 'tips' | 'warnings';
+  /** Override the default label. */
+  title?: string;
+}
+
+const { kind, title } = Astro.props;
+const labels = {
+  chain: 'Chain',
+  assist: 'Assist',
+  enemies: 'Enemies',
+  objective: 'Objective',
+  treasure: 'Treasure',
+  tips: 'Strategy',
+  warnings: 'Watch out',
+};
+const label = kind ? (title ?? labels[kind]) : title;
+---
+
+<div class={`gateway-section${kind ? ` gateway-section--${kind}` : ''}`}>
+  {label && (
+    <div class="gateway-section__head">
+      {kind && (
+        <svg class="gateway-section__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          {kind === 'chain' && (<><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></>)}
+          {kind === 'assist' && (<><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></>)}
+          {kind === 'enemies' && (<><circle cx="9" cy="12" r="1" /><circle cx="15" cy="12" r="1" /><path d="M8 20v2h8v-2" /><path d="m12.5 17-.5-1-.5 1h1z" /><path d="M16 20a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20" /></>)}
+          {kind === 'objective' && (<><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></>)}
+          {kind === 'treasure' && (<><path d="M6 3h12l4 6-10 13L2 9Z" /><path d="M11 3 8 9l4 13 4-13-3-6" /><path d="M2 9h20" /></>)}
+          {kind === 'tips' && (<><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /><path d="M9 18h6" /><path d="M10 22h4" /></>)}
+          {kind === 'warnings' && (<><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></>)}
+        </svg>
+      )}
+      <span class="gateway-section__label">{label}</span>
+    </div>
+  )}
+  <div class="gateway-section__body"><slot /></div>
+</div>
