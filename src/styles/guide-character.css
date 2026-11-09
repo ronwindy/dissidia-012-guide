@@ -1,0 +1,115 @@
+/* Character intro panel: frosted-glass card with a gold HUD header, used by <CharacterIntro>. */
+.guide-body .char-intro {
+  --gold: var(--color-ex-gauge);
+  position: relative;
+  margin: 1.5rem 0;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(251, 191, 36, 0.38);
+  border-top-color: rgba(255, 255, 255, 0.3);
+  background:
+    radial-gradient(ellipse at top left, rgba(251, 191, 36, 0.14), transparent 55%),
+    radial-gradient(ellipse at bottom right, rgba(56, 189, 248, 0.12), transparent 60%),
+    linear-gradient(135deg, rgba(20, 28, 50, 0.55), rgba(8, 12, 24, 0.7));
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 0 24px rgba(251, 191, 36, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 0 40px rgba(251, 191, 36, 0.04);
+  overflow: hidden;
+  display: flow-root; /* contain the floated portrait */
+}
+
+/* HUD corner brackets */
+.guide-body .char-intro::before,
+.guide-body .char-intro::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  border: 2px solid var(--gold);
+  opacity: 0.85;
+}
+
+.guide-body .char-intro::before {
+  bottom: 8px;
+  left: 8px;
+  border-width: 0 0 2px 2px;
+}
+
+.guide-body .char-intro::after {
+  bottom: 8px;
+  right: 8px;
+  border-width: 0 2px 2px 0;
+}
+
+.guide-body .char-intro__head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  padding: 0.65rem 1.4rem 0.65rem 1.1rem;
+  border-bottom: 1px solid rgba(251, 191, 36, 0.45);
+  background:
+    linear-gradient(to right, rgba(251, 191, 36, 0.3), rgba(251, 191, 36, 0.04) 80%),
+    linear-gradient(rgba(255, 255, 255, 0.06), transparent);
+  box-shadow: 0 1px 14px rgba(251, 191, 36, 0.18);
+}
+
+.guide-body .char-intro__label {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-shadow: 0 0 10px rgba(251, 191, 36, 0.55);
+}
+
+.guide-body .char-intro__name {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-main);
+}
+
+.guide-body .char-intro__body {
+  padding: 1.1rem 1.4rem 1.4rem;
+  display: flow-root;
+}
+
+.guide-body .char-intro__body > :last-child {
+  margin-bottom: 0;
+}
+
+.guide-body .char-intro__portrait {
+  float: left;
+  margin: 0 1.5rem 0.75rem 0;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 0 18px rgba(251, 191, 36, 0.18), 0 4px 14px rgba(0, 0, 0, 0.45);
+}
+
+.guide-body .char-intro__portrait img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 640px) {
+  .guide-body .char-intro__body {
+    padding: 1rem;
+  }
+
+  .guide-body .char-intro__portrait {
+    float: none;
+    margin: 0 auto 1rem;
+    width: fit-content;
+  }
+}

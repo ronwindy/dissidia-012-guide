@@ -11,7 +11,7 @@ src/content/guide/*.mdx (content collection) → Astro build
 
 - Edit page text and markup only when the user asks. Do not "improve" wording, facts or structure on your own initiative.
 - Each page's frontmatter (`title`, `category`, `order`) replaces the old manifest: it sets the page list, order and sidebar categories. Keep `order` unique and consecutive when pages are added, moved or removed. The on-page ToC is built automatically from the `####` headings.
-- Prose is Markdown (`**bold**`, `*italic*`, `---`, `####` section headings). Map boards, boss/enemy cards and character portraits are components used directly in the MDX: `<Board>`, `<EnemyCard>`, `<Figure>` (`src/components/guide/`; board icon keys in `pieces.ts`). Tables that do not fit a component stay as raw JSX/HTML in the page.
+- Prose is Markdown (`**bold**`, `*italic*`, `---`, `####` section headings). Map boards, boss/enemy cards and character portraits are components used directly in the MDX: `<Board>`, `<EnemyCard>`, `<Figure>`, `<CharacterIntro>` (`src/components/guide/`; board icon keys in `pieces.ts`). Tables that do not fit a component stay as raw JSX/HTML in the page.
 - Bolding: default step whenever a page is converted/added; do it without asking (the exception to "only when the user asks" above). Wrap game mechanics, characters and enemies, abilities, items and places/objectives in `**…**`, every occurrence. Touch paragraph text only, not headings, links, `*italics*`, or the board/card components. Curate the term list per page.
 - Source files for the guide are not saved yet. The current `placeholder` page stands in until the user provides them.
 

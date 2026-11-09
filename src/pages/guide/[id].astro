@@ -5,6 +5,7 @@ import project from '../../../project.config.json';
 import Board from '../../components/guide/Board.astro';
 import EnemyCard from '../../components/guide/EnemyCard.astro';
 import Figure from '../../components/guide/Figure.astro';
+import CharacterIntro from '../../components/guide/CharacterIntro.astro';
 import { getPages, getPageToc, getNeighbours } from '../../lib/guideData';
 import { getCollection } from 'astro:content';
 
@@ -34,7 +35,7 @@ const href = (id: string) => `${baseUrl}/guide/${id}`;
       <a href={`${baseUrl}/`}>Contents</a> / {page.category}
     </p>
     <div class="guide-body">
-      <Content components={{ Board, EnemyCard, Figure }} />
+      <Content components={{ Board, EnemyCard, Figure, CharacterIntro }} />
     </div>
 
     <div class="page-actions">
