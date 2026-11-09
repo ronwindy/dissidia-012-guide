@@ -6,6 +6,7 @@
 @import './typography.css';
 @import './panels.css';
 @import './guide-body.css';
-@import './guide-maps.css';
+@import './guide-figures.css';
+@import './guide-boards.css';
 @import './page-nav.css';
 @import './landscape.css';

@@ -49,6 +49,7 @@ main article {
 }
 
 .guide-body hr {
+  clear: both; /* end any floated figure, board or card */
   margin: 1.5rem 0;
   border: 0;
   border-top: 1px solid var(--border-panel-subtle);
