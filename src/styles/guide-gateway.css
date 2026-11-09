@@ -1,4 +1,4 @@
-/* Gateway panel: <Gateway> frame with labeled <GatewaySection> blocks. */
+/* Gateway panel: <Gateway> frame with labeled <PanelSection> blocks. */
 .guide-body .gateway {
   margin: 1.25rem 0 1.75rem;
   border-radius: var(--radius-md);
@@ -46,20 +46,20 @@
 
 .guide-body .gateway__body > :first-child { margin-top: 0; }
 
-.guide-body .gateway-section {
+.guide-body .panel-section {
   --accent: var(--color-brv);
   --accent-rgb: 56, 189, 248;
   margin-top: 1rem;
 }
 
-.guide-body .gateway-section--chain { --accent: #34d399; --accent-rgb: 52, 211, 153; }
-.guide-body .gateway-section--assist { --accent: #a78bfa; --accent-rgb: 167, 139, 250; }
-.guide-body .gateway-section--enemies { --accent: #fb923c; --accent-rgb: 251, 146, 60; }
-.guide-body .gateway-section--objective { --accent: var(--color-ex-gauge); --accent-rgb: 251, 191, 36; }
-.guide-body .gateway-section--treasure { --accent: #facc15; --accent-rgb: 250, 204, 21; }
-.guide-body .gateway-section--warnings { --accent: #f87171; --accent-rgb: 248, 113, 113; }
+.guide-body .panel-section--chain { --accent: #34d399; --accent-rgb: 52, 211, 153; }
+.guide-body .panel-section--assist { --accent: #a78bfa; --accent-rgb: 167, 139, 250; }
+.guide-body .panel-section--enemies { --accent: #fb923c; --accent-rgb: 251, 146, 60; }
+.guide-body .panel-section--objective { --accent: var(--color-ex-gauge); --accent-rgb: 251, 191, 36; }
+.guide-body .panel-section--treasure { --accent: #facc15; --accent-rgb: 250, 204, 21; }
+.guide-body .panel-section--warnings { --accent: #f87171; --accent-rgb: 248, 113, 113; }
 
-.guide-body .gateway-section__head {
+.guide-body .panel-section__head {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -72,9 +72,9 @@
   color: var(--accent);
 }
 
-.guide-body .gateway-section__icon { width: 1rem; height: 1rem; flex: none; }
+.guide-body .panel-section__icon { width: 1rem; height: 1rem; flex: none; }
 
-.guide-body .gateway-section__label {
+.guide-body .panel-section__label {
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: 0.85rem;
@@ -82,8 +82,8 @@
   text-transform: uppercase;
 }
 
-.guide-body .gateway-section__body > :first-child { margin-top: 0; }
-.guide-body .gateway-section__body > :last-child { margin-bottom: 0; }
+.guide-body .panel-section__body > :first-child { margin-top: 0; }
+.guide-body .panel-section__body > :last-child { margin-bottom: 0; }
 
 @media (max-width: 480px) {
   .guide-body .gateway__head { padding: 0.4rem 0.75rem; }

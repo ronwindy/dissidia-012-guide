@@ -113,3 +113,10 @@
     width: fit-content;
   }
 }
+
+/* Keep lists (bullets included) clear of the floated portrait */
+.guide-body .char-intro__body > ul,
+.guide-body .char-intro__body > ol {
+  display: flow-root;
+  padding-left: 1.4rem;
+}
