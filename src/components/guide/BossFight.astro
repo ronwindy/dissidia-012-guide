@@ -1,0 +1,13 @@
+---
+// Panel for a boss fight: holds the <EnemyCard> followed by <GatewaySection> blocks.
+---
+
+<section class="gateway gateway--boss">
+  <header class="gateway__head">
+    <svg class="gateway__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="m14.5 17.5 6 6" /><path d="m3 3 8 8" /><path d="M20.5 3.5 9 15" /><path d="m3 21 4-4" />
+    </svg>
+    <span class="gateway__title">Boss Fight</span>
+  </header>
+  <div class="gateway__body"><slot /></div>
+</section>
