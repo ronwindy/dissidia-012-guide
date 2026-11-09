@@ -1,0 +1,77 @@
+/* Call-out box: bordered HUD panel with a colored header strip, used by <Callout>. */
+.guide-body .callout {
+  --accent: var(--color-ex-gauge);
+  --accent-rgb: 251, 191, 36;
+  position: relative;
+  margin: 1.5rem 0;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(var(--accent-rgb), 0.45);
+  border-top-color: rgba(255, 255, 255, 0.25);
+  background:
+    linear-gradient(135deg, rgba(var(--accent-rgb), 0.1), transparent 60%),
+    linear-gradient(135deg, rgba(20, 28, 50, 0.55), rgba(8, 12, 24, 0.7));
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.45),
+    0 0 18px rgba(var(--accent-rgb), 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+}
+
+.guide-body .callout--tip {
+  --accent: var(--color-brv);
+  --accent-rgb: 56, 189, 248;
+}
+
+.guide-body .callout--warning {
+  --accent: #f87171;
+  --accent-rgb: 248, 113, 113;
+}
+
+.guide-body .callout--info {
+  --accent: #a78bfa;
+  --accent-rgb: 167, 139, 250;
+}
+
+.guide-body .callout__head {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.45rem 1rem;
+  background: rgba(var(--accent-rgb), 0.14);
+  border-bottom: 1px solid rgba(var(--accent-rgb), 0.3);
+  color: var(--accent);
+}
+
+.guide-body .callout__icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex: none;
+}
+
+.guide-body .callout__label {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.guide-body .callout__body {
+  padding: 0.85rem 1rem;
+}
+
+.guide-body .callout__body > :first-child { margin-top: 0; }
+.guide-body .callout__body > :last-child { margin-bottom: 0; }
+
+@media (max-width: 480px) {
+  .guide-body .callout__head { padding: 0.4rem 0.75rem; }
+  .guide-body .callout__body { padding: 0.75rem; }
+}
+
+@media print {
+  .guide-body .callout {
+    background: transparent;
+    box-shadow: none;
+    border-color: #999;
+  }
+}
