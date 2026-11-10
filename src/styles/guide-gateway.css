@@ -82,6 +82,11 @@
   text-transform: uppercase;
 }
 
+.guide-body .panel-section__body {
+  padding-left: 0.75rem;
+  border-left: 2px solid rgba(var(--accent-rgb), 0.45);
+}
+
 .guide-body .panel-section__body > :first-child { margin-top: 0; }
 .guide-body .panel-section__body > :last-child { margin-bottom: 0; }
 
