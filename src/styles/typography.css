@@ -45,7 +45,11 @@ h4 {
   letter-spacing: 0.05em;
 }
 
-h5,
+h5 {
+  font-size: 1.35rem;
+  letter-spacing: 0.05em;
+}
+
 h6 {
   font-family: var(--font-subheading);
   font-weight: 700;

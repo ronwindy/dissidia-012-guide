@@ -48,6 +48,16 @@ main article {
   clip-path: polygon(0 0, 100% 0, calc(100% - 1.6rem) 100%, 0 100%);
 }
 
+.guide-body h5 {
+  color: var(--color-brv);
+  margin: 2rem 0 0.9rem;
+  padding: 0.4rem 0.9rem;
+  /* Cyan left bar and a cyan underline that fades out, as background layers */
+  background:
+    linear-gradient(var(--color-brv), var(--color-brv)) left / 4px 100% no-repeat,
+    linear-gradient(to right, var(--color-brv), transparent 85%) left bottom / 100% 2px no-repeat;
+}
+
 .guide-body hr {
   clear: both; /* end any floated figure, board or card */
   margin: 1.5rem 0;
