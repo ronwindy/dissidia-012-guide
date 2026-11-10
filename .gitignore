@@ -24,3 +24,6 @@ Thumbs.db
 
 # Copyrighted source material
 /sources/
+
+# Generated joined chapters (from src/content/guide/<chapter>/)
+/src/content/generated/

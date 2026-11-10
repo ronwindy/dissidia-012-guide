@@ -1,8 +1,8 @@
 import { defineCollection, z } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { guideLoader } from './lib/chapterLoader.mjs';
 
 const guide = defineCollection({
-  loader: glob({ pattern: '*.mdx', base: './src/content/guide' }),
+  loader: guideLoader(),
   schema: z.object({
     title: z.string(),
     category: z.string(),

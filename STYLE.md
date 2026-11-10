@@ -2,6 +2,10 @@
 
 My reading of how the author writes and marks up a chapter, taken from `src/content/guide/part-3.mdx` (hand-edited by the author). It is an interpretation, not a spec: correct anything that is wrong. Use it to convert/format new chapters; it does not authorise rewording existing text.
 
+## 0. File layout
+
+A chapter is a folder `src/content/guide/part-N/` of numbered files joined in filename order: `00-intro.mdx` (frontmatter, title, character intro, build tip), `01-gateway-1.mdx` (gateway plus the exploration/story prose after it, up to the next gateway heading), …, last file = final gateway, boss fight and aftermath. Insert a section by renumbering the prefixes.
+
 ## 1. Chapter skeleton
 
 ```text
