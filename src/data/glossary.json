@@ -1,9 +1,6 @@
 {
   "_doc": "Terms bolded automatically by src/lib/remark-glossary.mjs. See BOLDING.md. Add a term here; restart dev server.",
-  "skipPages": [
-    "part-3",
-    "gameplay-basics"
-  ],
+  "skipPages": ["part-3", "gameplay-basics"],
   "terms": {
     "Characters": [
       "Cosmos",
@@ -123,7 +120,8 @@
       "EAG",
       "Mognet",
       "PP Catalog",
-      "Mine"
+      "Mine",
+      "AI Breaker"
     ],
     "Abilities and attacks": [
       "Heavenly Strike",
@@ -226,11 +224,6 @@
       "blue gateway"
     ],
     "References (always bold)": [],
-    "Series and meta": [
-      "FFX",
-      "FF8",
-      "X-2",
-      "D012"
-    ]
+    "Series and meta": ["FFX", "FF8", "X-2", "D012"]
   }
 }
