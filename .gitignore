@@ -24,3 +24,6 @@ Thumbs.db
 
 # Copyrighted source material
 /sources/
+
+# Local scratch files
+/scratch/
