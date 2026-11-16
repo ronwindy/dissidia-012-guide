@@ -73,8 +73,8 @@
 
   /* Header controls scale down with the slim header. */
   :root:root:root body .mobile-toggle-btn {
-    min-width: 34px;
-    min-height: 34px;
+    min-width: 36px;
+    min-height: 36px;
     padding: 0.25rem;
   }
   :root:root:root body .mobile-toggle-btn svg {

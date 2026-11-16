@@ -24,4 +24,12 @@ Use the CSS variables in `tokens.css` rather than hardcoding values:
 
 - Fixed left sidebar (logo, reading progress, category groups); below 1024px a header with logo and a slide-in drawer.
 - Guide page: centered reading column (`--reading-width`) with a sticky on-page ToC on screens 1280px and wider, collapsible above the text otherwise.
-- Touch targets at least 44px. Wide tables sit in a scrollable `.table-wrap`.
+- Touch targets at least 44px; in the slim landscape header chrome, 36px is the accepted minimum. Wide tables sit in a scrollable `.table-wrap`.
+
+## 5. Default View: iPhone 13 Landscape (844×390)
+
+- Every design decision is judged at **844×390 first**. Vertical space is the scarce resource (390px tall), so keep headers, padding and vertical rhythm compact.
+- Navigation stays the header + slide-in drawer at this width (no persistent rail, no auto-hide header).
+- Landscape adjustments live in [`src/styles/landscape.css`](src/styles/landscape.css) (late override layer). Respect the notch with `env(safe-area-inset-*)`.
+- Portrait phone (390×844) and desktop (1280+) must not break, but get no design priority.
+- Checklist for any style change: look at 844×390 first, then confirm 390×844 and 1280+ are still usable.

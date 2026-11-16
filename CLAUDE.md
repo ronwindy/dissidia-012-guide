@@ -22,6 +22,7 @@ src/content/guide/*.mdx (content collection) → Astro build
 - Site settings (title, base, site URL) live in `project.config.json`.
 
 ## 3. Presentation (look decisions live in `DESIGN.md`)
+- Default view is iPhone 13 landscape (844×390): design and check styling there first; portrait and desktop must not break (`DESIGN.md` section 5).
 - Pages render each section's MDX `<Content />` inside `.guide-body` (`src/pages/guide/[id].astro`, which also registers the guide components); restyle via `src/styles/` (tokens in `tokens.css`, imported by `global.css`).
 - Panel icons: Lucide components from `@lucide/astro` (`Gateway`/`BossFight` share `PanelShell.astro`).
 - Shell: fixed sidebar with logo, mobile header + drawer (`src/components/layout/`), background, favicon.
