@@ -29,7 +29,8 @@ Use the CSS variables in `tokens.css` rather than hardcoding values:
 ## 5. Default View: iPhone 13 Landscape (844×390)
 
 - Every design decision is judged at **844×390 first**. Vertical space is the scarce resource (390px tall), so keep headers, padding and vertical rhythm compact.
-- Navigation stays the header + slide-in drawer at this width (no persistent rail, no auto-hide header).
+- Navigation stays the header + slide-in drawer at this width (no persistent rail). The header hides on scroll down and returns on scroll up.
+- Header (board R): drawer button on the left as a chamfered plate with cyan glow, logo centred, and the page label ("category · title") on the right with a gold tick and a cyan band that holds from the tick to the end of the text. Shards frame both ends. The page label is hidden below 700px width.
 - Landscape adjustments live in [`src/styles/landscape.css`](src/styles/landscape.css) (late override layer). Respect the notch with `env(safe-area-inset-*)`.
 - Portrait phone (390×844) and desktop (1280+) must not break, but get no design priority.
 - Checklist for any style change: look at 844×390 first, then confirm 390×844 and 1280+ are still usable.

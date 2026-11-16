@@ -4,14 +4,52 @@ import HeaderBrand from "./header/HeaderBrand.astro";
 
 interface Props {
   baseUrl: string;
+  /** Page label shown on the right, e.g. "Category · Title". Omit to hide. */
+  pageLabel?: string;
 }
 
-const { baseUrl } = Astro.props;
+const { baseUrl, pageLabel } = Astro.props;
 ---
 
 <header class="app-header">
   <MenuToggle />
   <HeaderBrand baseUrl={baseUrl} />
+  {
+    pageLabel && (
+      <p class="header-label">
+        <span class="label-tick" aria-hidden="true"></span>
+        <span class="label-text">{pageLabel}</span>
+      </p>
+    )
+  }
+
+  <!-- Shards framing both ends (board R). Decorative only. -->
+  <svg class="header-shard header-shard-left" viewBox="0 0 120 44" aria-hidden="true" focusable="false">
+    <polygon points="0,0 56,0 30,44 0,30" fill="rgba(56,189,248,0.18)"></polygon>
+    <polygon points="0,44 40,44 14,20" fill="rgba(251,191,36,0.24)"></polygon>
+    <polygon points="70,0 96,0 60,44" fill="rgba(56,189,248,0.10)"></polygon>
+  </svg>
+  <svg class="header-shard header-shard-right" viewBox="0 0 120 44" aria-hidden="true" focusable="false">
+    <polygon points="0,0 56,0 30,44 0,30" fill="rgba(56,189,248,0.18)"></polygon>
+    <polygon points="0,44 40,44 14,20" fill="rgba(251,191,36,0.24)"></polygon>
+    <polygon points="70,0 96,0 60,44" fill="rgba(56,189,248,0.10)"></polygon>
+  </svg>
+
+  <!-- Chamfered bottom edge with a light spill (board R). Decorative only. -->
+  <svg class="header-trim" viewBox="0 0 844 44" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="trimSpill" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#38bdf8" stop-opacity="0"></stop>
+        <stop offset="0.3" stop-color="#38bdf8" stop-opacity="0.9"></stop>
+        <stop offset="0.7" stop-color="#38bdf8" stop-opacity="0.9"></stop>
+        <stop offset="1" stop-color="#38bdf8" stop-opacity="0"></stop>
+      </linearGradient>
+    </defs>
+    <path d="M0 35.5 L10 45.5 H834 L844 35.5" fill="none" stroke="rgba(0,0,0,0.75)" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+    <path d="M0 37 L10 47 H834 L844 37" fill="none" stroke="#38bdf8" stroke-width="6" stroke-opacity="0.16" vector-effect="non-scaling-stroke"></path>
+    <path d="M1.5 33.5 L10 42 H834 L842.5 33.5" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="1" vector-effect="non-scaling-stroke"></path>
+    <path d="M0 34 L10 44 H834 L844 34" fill="none" stroke="url(#trimSpill)" stroke-width="0.8" stroke-opacity="0.6" vector-effect="non-scaling-stroke"></path>
+  </svg>
 </header>
 
 <script>
@@ -82,6 +120,43 @@ const { baseUrl } = Astro.props;
     transform: translateY(-100%);
   }
 
+  /* Keep real content above the decorative shards and trim. */
+  .app-header > :not(.header-shard):not(.header-trim) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .header-shard {
+    position: absolute;
+    top: 0;
+    width: 120px;
+    height: 44px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .header-shard-left {
+    left: 0;
+  }
+
+  /* Mirror the left shards on the right end. */
+  .header-shard-right {
+    right: 0;
+    transform: scaleX(-1);
+  }
+
+  .header-trim {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 44px;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 0;
+  }
+
   .app-header::after {
     content: "";
     position: absolute;
@@ -99,6 +174,82 @@ const { baseUrl } = Astro.props;
     opacity: 0.75;
     box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
     pointer-events: none;
+  }
+
+  /* Brand sits in the centre column. */
+  .app-header :global(.mobile-header-brand) {
+    grid-column: 2;
+    justify-self: center;
+  }
+
+  /* Page label: gold tick, Rajdhani, with a cyan band from the tick to the end of the text. */
+  .header-label {
+    grid-column: 3;
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    max-width: 280px;
+    min-width: 0;
+    font-family: "Rajdhani", system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    color: #e2e8f0;
+    z-index: 0;
+  }
+
+  .header-label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 8px;
+    bottom: 8px;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      rgba(56, 189, 248, 0.08) 0%,
+      rgba(56, 189, 248, 0.24) 18%,
+      rgba(56, 189, 248, 0.24) 70%,
+      rgba(56, 189, 248, 0) 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      180deg,
+      transparent 0%,
+      #000 35%,
+      #000 65%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      180deg,
+      transparent 0%,
+      #000 35%,
+      #000 65%,
+      transparent 100%
+    );
+  }
+
+  .label-tick {
+    width: 3px;
+    height: 16px;
+    background: #fbbf24;
+    flex-shrink: 0;
+  }
+
+  .label-text {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (max-width: 700px) {
+    .header-label {
+      display: none;
+    }
   }
 
   @media (min-width: 1025px) {

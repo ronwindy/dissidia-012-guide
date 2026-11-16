@@ -71,16 +71,7 @@
     width: min(340px, 60vw);
   }
 
-  /* Header controls scale down with the slim header. */
-  :root:root:root body .mobile-toggle-btn {
-    min-width: 36px;
-    min-height: 36px;
-    padding: 0.25rem;
-  }
-  :root:root:root body .mobile-toggle-btn svg {
-    width: 18px;
-    height: 18px;
-  }
+  /* Header brand scales down with the slim header. */
   :root:root:root body .mobile-brand-img {
     height: 32px;
     max-width: 120px;

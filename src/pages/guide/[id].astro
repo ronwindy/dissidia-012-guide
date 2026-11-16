@@ -34,6 +34,7 @@ const href = (id: string) => `${baseUrl}/guide/${id}`;
   description={`${project.pageDescriptionPrefix} - ${page.category}: ${page.title}`}
   currentId={page.id}
   toc={toc}
+  pageLabel={`${page.category} · ${page.title}`}
 >
   <article>
     <p class="breadcrumb">

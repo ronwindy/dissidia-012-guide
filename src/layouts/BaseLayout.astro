@@ -14,6 +14,7 @@ interface Props {
   description?: string;
   currentId?: string;
   toc?: PageToc[];
+  pageLabel?: string;
 }
 
 const {
@@ -21,6 +22,7 @@ const {
   description = project.defaultDescription,
   currentId = "",
   toc = [],
+  pageLabel,
 } = Astro.props;
 
 const baseUrl = import.meta.env.BASE_URL.endsWith("/")
@@ -46,7 +48,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
 
       <!-- Main Content Shell -->
       <div class="app-main">
-        <Header baseUrl={baseUrl} />
+        <Header baseUrl={baseUrl} pageLabel={pageLabel} />
 
         <div class="content-col">
           <Main>
