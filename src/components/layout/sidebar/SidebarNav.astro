@@ -1,5 +1,5 @@
 ---
-import { getToc } from '../../../lib/guideData';
+import { getToc, CONTENTS_ID } from '../../../lib/guideData';
 import { navCategoryIcon, navEntryIcon } from '../../../lib/icons';
 
 import type { PageToc } from '../../../lib/guideData';
@@ -13,7 +13,7 @@ const { currentId = '', toc = [] } = Astro.props;
 const hasToc = toc.length > 0;
 const categories = await getToc();
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
-const total = categories.reduce((n, c) => n + c.entries.length, 0);
+const total = categories.reduce((n, c) => n + c.entries.filter((e) => e.id !== CONTENTS_ID).length, 0);
 ---
 
 <nav class="sidebar-nav" aria-label="Guide sections" data-sidebar-tabs data-has-toc={hasToc ? 'true' : 'false'}>
@@ -43,7 +43,7 @@ const total = categories.reduce((n, c) => n + c.entries.length, 0);
               <a
                 class="nav-link"
                 href={`${baseUrl}/guide/${entry.id}`}
-                data-page-id={entry.id}
+                data-page-id={entry.id === CONTENTS_ID ? undefined : entry.id}
                 aria-current={entry.id === currentId ? 'page' : undefined}
               >
                 <EntryIcon class="nav-icon" size={18} aria-hidden="true" />

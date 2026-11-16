@@ -1,14 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { Info, Sparkles } from "@lucide/astro";
+import { Info, Sparkles, List } from "@lucide/astro";
 import { gameInfo } from "../data/homeData";
-import { getToc } from "../lib/guideData";
-import { navCategoryIcon, navEntryIcon } from "../lib/icons";
 
 const baseUrl = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
-const categories = await getToc();
 ---
 
 <BaseLayout>
@@ -125,33 +122,13 @@ const categories = await getToc();
     </div>
   </section>
 
-  <!-- Guide Contents -->
-  <section class="crystal-panel" aria-labelledby="contents-heading">
-    <div class="panel-header">
-      <h2 id="contents-heading" class="panel-heading">GUIDE CONTENTS</h2>
-    </div>
+  <!-- Guide Contents link -->
+  <section class="contents-link" aria-label="Guide contents">
     <a class="progress-resume" data-progress-resume href={baseUrl} hidden>Continue reading</a>
-    {categories.map((cat) => (
-      <div class="contents-cat">
-        <h3 class="contents-cat-title">
-          {(() => { const CatIcon = navCategoryIcon(cat.category); return <CatIcon size={18} aria-hidden="true" />; })()}
-          <span>{cat.category}</span>
-        </h3>
-        <ul class="section-index">
-          {cat.entries.map((entry) => {
-            const EntryIcon = navEntryIcon(cat.category, entry.title);
-            return (
-              <li>
-                <a href={`${baseUrl}guide/${entry.id}`} data-page-id={entry.id}>
-                  <EntryIcon size={18} aria-hidden="true" />
-                  <span>{entry.title}</span>
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    ))}
+    <a class="contents-button" href={`${baseUrl}guide/contents`}>
+      <List size={20} aria-hidden="true" />
+      <span>Open the guide contents</span>
+    </a>
   </section>
 
   <!-- Credit -->
@@ -319,26 +296,24 @@ const categories = await getToc();
     line-height: 1.75;
   }
 
-  .contents-cat-title {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin: 1.25rem 0 0.5rem;
-    font-size: var(--font-size-lg);
-    color: var(--color-brv);
+  .contents-link {
+    margin-top: 2rem;
+    text-align: center;
   }
 
-  .section-index {
-    list-style: none;
-    padding-left: 0.25rem;
-    margin: 0;
-  }
-
-  .section-index a {
+  .contents-button {
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
     min-height: 44px;
+    padding: 0.6rem 1.25rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-brv);
+    border: 1px solid var(--color-brv);
+    text-decoration: none;
   }
 
   .progress-resume {

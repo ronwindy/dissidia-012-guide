@@ -16,6 +16,7 @@ export const NAV_ENTRY_RULES = [
   [/^Prologue/i, 'Sunrise'],
   [/^Epilogue/i, 'Sunset'],
   [/^Chapter \d+/i, 'Flag'],
+  [/^Contents$/i, 'List'],
   [/Reports/i, 'ScrollText'],
   [/Gameplay/i, 'Gamepad2'],
   [/Shantotto|Gabranth/i, 'Users'],

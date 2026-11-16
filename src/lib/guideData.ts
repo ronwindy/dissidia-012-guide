@@ -5,6 +5,9 @@ import { join } from 'node:path';
 type GuideEntry = CollectionEntry<'guide'>;
 type Heading = { depth: number; slug: string; text: string };
 
+/** The contents page is navigation: it is left out of read progress and of its own list. */
+export const CONTENTS_ID = 'contents';
+
 export interface PageEntry {
   id: string;
   title: string;

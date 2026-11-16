@@ -6,7 +6,7 @@
     try { var raw = JSON.parse(localStorage.getItem(KEY) || '{}'); if (raw && raw.done) state = { done: raw.done, last: raw.last || '' }; } catch (e) {}
     function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
     var current = document.querySelector('.app-sidebar a[aria-current="page"]');
-    if (current) { state.last = current.getAttribute('data-page-id'); save(); }
+    if (current && current.getAttribute('data-page-id')) { state.last = current.getAttribute('data-page-id'); save(); }
 
     function paint() {
       var links = document.querySelectorAll('a[data-page-id]');

@@ -1,0 +1,68 @@
+---
+import { getToc, CONTENTS_ID } from '../../lib/guideData';
+import { navCategoryIcon, navEntryIcon } from '../../lib/icons';
+
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+const categories = (await getToc())
+  .map((cat) => ({ ...cat, entries: cat.entries.filter((e) => e.id !== CONTENTS_ID) }))
+  .filter((cat) => cat.entries.length > 0);
+---
+
+<a class="progress-resume" data-progress-resume href={`${baseUrl}/`} hidden>Continue reading</a>
+{categories.map((cat) => {
+  const CatIcon = navCategoryIcon(cat.category);
+  return (
+    <div class="contents-cat">
+      <h3 class="contents-cat-title">
+        <CatIcon size={18} aria-hidden="true" />
+        <span>{cat.category}</span>
+      </h3>
+      <ul class="section-index">
+        {cat.entries.map((entry) => {
+          const EntryIcon = navEntryIcon(cat.category, entry.title);
+          return (
+            <li>
+              <a href={`${baseUrl}/guide/${entry.id}`} data-page-id={entry.id}>
+                <EntryIcon size={18} aria-hidden="true" />
+                <span>{entry.title}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+})}
+
+<style>
+  .contents-cat-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1.25rem 0 0.5rem;
+    font-size: var(--font-size-lg);
+    color: var(--color-brv);
+  }
+
+  .section-index {
+    list-style: none;
+    padding-left: 0.25rem;
+    margin: 0;
+  }
+
+  .section-index a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 44px;
+  }
+
+  .progress-resume {
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .progress-resume[hidden] {
+    display: none;
+  }
+</style>
