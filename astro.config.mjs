@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import { readFileSync } from 'node:fs';
 import remarkGlossary from './src/lib/remark-glossary.mjs';
+import rehypeSectionIds from './src/lib/rehype-section-ids.mjs';
 
 const project = JSON.parse(readFileSync(new URL('./project.config.json', import.meta.url), 'utf8'));
 
@@ -17,6 +18,7 @@ export default defineConfig({
   markdown: {
     smartypants: false,
     remarkPlugins: [remarkGlossary],
+    rehypePlugins: [rehypeSectionIds],
   },
   integrations: [mdx()],
 });

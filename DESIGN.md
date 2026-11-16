@@ -1,6 +1,6 @@
 # Visual Design Guide: Dissidia 012 [duodecim] Guide
 
-> **Single Source of Truth:** All active values (hex codes, font imports, sizes) live in [`src/styles/global.css`](src/styles/global.css).
+> **Single Source of Truth:** All active values (hex codes, font sizes, font families) live in [`src/styles/tokens.css`](src/styles/tokens.css). [`src/styles/global.css`](src/styles/global.css) holds the Google Fonts import and imports the other style files.
 
 ## 1. Aesthetic Vision
 
@@ -9,7 +9,7 @@
 
 ## 2. Tokens
 
-Use the CSS variables in `global.css` rather than hardcoding values:
+Use the CSS variables in `tokens.css` rather than hardcoding values:
 
 - **Surfaces:** `--bg-color`, `--surface-panel`, `--surface-hud`.
 - **Accents:** `--color-brv` (cyan, primary interaction), `--color-hp` (crimson), `--color-ex-gauge` / `--color-cosmos` (gold), `--color-chaos`, `--color-lufenia` (purple), `--color-assist` (green, read marks).

@@ -1,0 +1,20 @@
+---
+// Internal shell for Gateway and BossFight: icon, title, then the slotted panel body.
+interface Props {
+  /** Lucide icon component. */
+  icon: any;
+  title: string;
+  /** Extra class on the panel, e.g. `gateway--boss`. */
+  modifier?: string;
+}
+
+const { icon: Icon, title, modifier } = Astro.props;
+---
+
+<section class:list={['gateway', modifier]}>
+  <header class="gateway__head">
+    <Icon class="gateway__icon" stroke-width={2.25} aria-hidden="true" />
+    <span class="gateway__title">{title}</span>
+  </header>
+  <div class="gateway__body"><slot /></div>
+</section>

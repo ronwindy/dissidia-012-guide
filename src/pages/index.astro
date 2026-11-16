@@ -153,9 +153,21 @@ const categories = await getToc();
       </div>
     ))}
   </section>
+
+  <!-- Credit -->
+  <p class="site-credit">
+    Walkthrough based on <a href="https://finalfantasy.fandom.com/wiki/Walkthrough:Dissidia_012_Final_Fantasy/Drake" rel="noopener">Drake's walkthrough on the Final Fantasy Wiki (Fandom)</a>, licensed <a href="https://creativecommons.org/licenses/by-sa/3.0/" rel="noopener">CC BY-SA</a>.
+  </p>
 </BaseLayout>
 
 <style>
+  .site-credit {
+    margin: 2rem 0 0;
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    text-align: center;
+  }
+
   /* Screen Reader Only */
   .sr-only {
     position: absolute;

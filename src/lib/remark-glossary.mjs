@@ -13,7 +13,7 @@ const glossary = JSON.parse(
 );
 
 const escapeRe = (s) =>
-  s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/&/g, "&");
+  s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const terms = [...new Set(Object.values(glossary.terms).flat())]
   .filter(Boolean)
@@ -82,7 +82,10 @@ function visit(node) {
 
 export default function remarkGlossary() {
   return (tree, file) => {
-    const page = (file.path ?? "").replace(/\\/g, "/").split("/").pop()?.replace(/\.mdx?$/, "");
+    // Page key: the chapter folder for files under guide/<chapter>/, else the file basename.
+    const p = (file.path ?? "").replace(/\\/g, "/");
+    const chapter = p.match(/\/content\/guide\/([^/]+)\/[^/]+\.mdx?$/);
+    const page = chapter ? chapter[1] : p.split("/").pop()?.replace(/\.mdx?$/, "");
     if (glossary.skipPages.includes(page)) return;
     visit(tree);
   };

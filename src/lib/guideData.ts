@@ -1,9 +1,15 @@
-import { getCollection, render } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
+type GuideEntry = CollectionEntry<'guide'>;
+type Heading = { depth: number; slug: string; text: string };
 
 export interface PageEntry {
   id: string;
   title: string;
   category: string;
+  order: number;
 }
 
 export interface PageToc {
@@ -16,17 +22,94 @@ export interface TocCategory {
   entries: PageEntry[];
 }
 
-/** Pages sorted by frontmatter `order`. */
-export async function getPages(): Promise<PageEntry[]> {
-  const entries = await getCollection('guide');
-  return entries
-    .sort((a, b) => a.data.order - b.data.order)
-    .map((e) => ({ id: e.id, title: e.data.title, category: e.data.category }));
+interface Page extends PageEntry {
+  /** Section entries in page order (a single-file page has one). */
+  sections: GuideEntry[];
 }
 
-/** On-page ToC entries: the h4 headings of a page. */
-export async function getPageToc(entry: Parameters<typeof render>[0]): Promise<PageToc[]> {
-  const { headings } = await render(entry);
+// Build runs from the project root; import.meta.url points into dist/ once bundled.
+const GUIDE_DIR = join(process.cwd(), 'src/content/guide');
+
+function hasFrontmatter(id: string): boolean {
+  return /^---\r?\n/.test(readFileSync(join(GUIDE_DIR, `${id}.mdx`), 'utf8'));
+}
+
+function metaOf(where: string, data: GuideEntry['data']): Omit<PageEntry, 'id'> {
+  const { title, category, order } = data;
+  if (!title || !category || order === undefined) {
+    throw new Error(`Guide: ${where} needs title, category and order in its frontmatter.`);
+  }
+  return { title, category, order };
+}
+
+let pagesCache: Promise<Page[]> | undefined;
+
+/** Builds the page list from the collection and enforces the chapter rules. */
+function loadPages(): Promise<Page[]> {
+  pagesCache ??= (async () => {
+    const entries = await getCollection('guide');
+    const singles = new Map<string, GuideEntry>();
+    const folders = new Map<string, GuideEntry[]>();
+    for (const entry of entries) {
+      const slash = entry.id.indexOf('/');
+      if (slash < 0) {
+        singles.set(entry.id, entry);
+      } else {
+        const chapter = entry.id.slice(0, slash);
+        folders.set(chapter, [...(folders.get(chapter) ?? []), entry]);
+      }
+    }
+
+    const pages: Page[] = [];
+    for (const [id, entry] of singles) {
+      if (folders.has(id)) {
+        throw new Error(`Guide: both "${id}.mdx" and the "${id}/" folder exist. Keep only one.`);
+      }
+      pages.push({ id, ...metaOf(`"${id}.mdx"`, entry.data), sections: [entry] });
+    }
+
+    for (const [id, files] of folders) {
+      const sections = [...files].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+      const head = sections.find((s) => s.id.split('/')[1].startsWith('00-'));
+      if (!head) {
+        throw new Error(`Guide: folder "${id}/" has no 00-* file to hold the page title, category and order.`);
+      }
+      const meta = metaOf(`"${head.id}.mdx"`, head.data);
+      for (const s of sections) {
+        if (s !== head && hasFrontmatter(s.id)) {
+          throw new Error(`Guide: "${s.id}.mdx" has frontmatter. Only the 00-* file of a chapter may.`);
+        }
+      }
+      pages.push({ id, ...meta, sections });
+    }
+
+    pages.sort((a, b) => a.order - b.order);
+    const consecutive = pages.every((p, i) => p.order === i + 1);
+    if (!consecutive) {
+      const found = pages.map((p) => `${p.id}=${p.order}`).join(', ');
+      throw new Error(
+        `Guide: "order" must be unique and consecutive 1..${pages.length}. Found: ${found}.`,
+      );
+    }
+    return pages;
+  })();
+  return pagesCache;
+}
+
+/** Pages sorted by frontmatter `order`. */
+export async function getPages(): Promise<PageEntry[]> {
+  return (await loadPages()).map(({ id, title, category, order }) => ({ id, title, category, order }));
+}
+
+/** Section entries of one page, in page order. */
+export async function getPageSections(id: string): Promise<GuideEntry[]> {
+  const page = (await loadPages()).find((p) => p.id === id);
+  if (!page) throw new Error(`Guide: no page "${id}".`);
+  return page.sections;
+}
+
+/** On-page ToC entries: the h4 headings of all sections, in order. */
+export function getPageToc(headings: Heading[]): PageToc[] {
   return headings.filter((h) => h.depth === 4).map((h) => ({ id: h.slug, title: h.text }));
 }
 
