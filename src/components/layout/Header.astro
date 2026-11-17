@@ -35,6 +35,16 @@ const { baseUrl, pageLabel } = Astro.props;
     <polygon points="70,0 96,0 60,44" fill="rgba(56,189,248,0.10)"></polygon>
   </svg>
 
+  <!-- Glass gloss, clipped to the header box. Decorative only. -->
+  <div class="header-gloss" aria-hidden="true">
+    <span class="hg-cap"></span>
+    <span class="hg-streak hg-streak-a"></span>
+    <span class="hg-streak hg-streak-b"></span>
+    <span class="hg-streak hg-streak-c"></span>
+    <span class="hg-sweep"></span>
+    <span class="hg-bevel"></span>
+  </div>
+
   <!-- Chamfered bottom edge with a light spill (board R). Decorative only. -->
   <svg class="header-trim" viewBox="0 0 844 44" preserveAspectRatio="none" aria-hidden="true" focusable="false">
     <defs>
@@ -121,9 +131,60 @@ const { baseUrl, pageLabel } = Astro.props;
   }
 
   /* Keep real content above the decorative shards and trim. */
-  .app-header > :not(.header-shard):not(.header-trim) {
+  .app-header > :not(.header-shard):not(.header-trim):not(.header-gloss) {
     position: relative;
     z-index: 1;
+  }
+
+  /* Glass gloss layers, clipped inside the header; above shards, below content. */
+  .header-gloss {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .header-gloss > span {
+    position: absolute;
+  }
+  .hg-cap {
+    left: -10%;
+    right: -10%;
+    top: 0;
+    height: 52%;
+    border-radius: 0 0 50% 50% / 0 0 100% 100%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.03));
+  }
+  .hg-streak {
+    top: -10px;
+    height: 70px;
+    transform: skewX(-28deg);
+  }
+  .hg-streak-a {
+    left: 96px;
+    width: 34px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+  }
+  .hg-streak-b {
+    left: 140px;
+    width: 10px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.10), transparent);
+  }
+  .hg-streak-c {
+    right: 140px;
+    width: 26px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+  }
+  .hg-sweep {
+    inset: 0;
+    background: linear-gradient(100deg, transparent 0%, rgba(147, 220, 255, 0.10) 40%, transparent 65%);
+  }
+  .hg-bevel {
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35) 30%, rgba(255, 255, 255, 0.12) 70%, transparent);
   }
 
   .header-shard {
