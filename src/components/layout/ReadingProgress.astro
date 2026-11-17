@@ -24,7 +24,9 @@
       document.querySelectorAll('[data-mark-read]').forEach(function (b) {
         var on = !!state.done[b.getAttribute('data-mark-read')];
         b.setAttribute('aria-pressed', String(on));
-        b.textContent = on ? 'Read ✓ (click to undo)' : 'Mark as read';
+        var label = b.querySelector('[data-mark-label]');
+        if (label) label.textContent = on ? 'Read' : 'Mark as read';
+        b.title = on ? 'Click to mark as unread' : '';
       });
     }
     document.querySelectorAll('[data-mark-read]').forEach(function (b) {

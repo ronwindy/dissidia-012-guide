@@ -44,15 +44,15 @@ const href = (id: string) => `${baseUrl}/guide/${id}`;
       {sections.map(({ Content }) => <Content components={components} />)}
     </div>
 
-    {page.id !== CONTENTS_ID && (
-      <div class="page-actions">
-        <button type="button" class="mark-read" data-mark-read={page.id} aria-pressed="false">Mark as read</button>
-      </div>
-    )}
-
     <nav class="page-nav" aria-label="Previous and next">
-      {prev ? <a href={href(prev.id)}>&larr; {prev.title}</a> : <span></span>}
-      {next ? <a href={href(next.id)}>{next.title} &rarr;</a> : <span></span>}
+      {prev ? <a class="page-nav__prev" href={href(prev.id)}>&larr; {prev.title}</a> : <span class="page-nav__prev"></span>}
+      {page.id !== CONTENTS_ID ? (
+        <button type="button" class="mark-read" data-mark-read={page.id} aria-pressed="false">
+          <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path class="mark-read__tick" d="M8 12.5l3 3 5-6"></path></svg>
+          <span data-mark-label>Mark as read</span>
+        </button>
+      ) : <span class="page-nav__mid"></span>}
+      {next ? <a class="page-nav__next" href={href(next.id)}>{next.title} &rarr;</a> : <span class="page-nav__next"></span>}
     </nav>
   </article>
 </BaseLayout>
