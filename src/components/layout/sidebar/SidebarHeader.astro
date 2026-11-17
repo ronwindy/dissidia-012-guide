@@ -9,6 +9,10 @@ const { baseUrl } = Astro.props;
 ---
 
 <div class="sidebar-header">
+  <span class="hd-gloss" aria-hidden="true"></span>
+  <span class="hd-streak hd-streak-a" aria-hidden="true"></span>
+  <span class="hd-streak hd-streak-b" aria-hidden="true"></span>
+  <span class="hd-sweep" aria-hidden="true"></span>
   <a
     href={baseUrl}
     class="brand-link"
@@ -19,7 +23,6 @@ const { baseUrl } = Astro.props;
       alt="Dissidia 012 Logo"
       class="sidebar-brand-img"
     />
-    <span class="brand-sub">Strategy Guide</span>
   </a>
   <button
     class="sidebar-close-btn"
@@ -31,26 +34,63 @@ const { baseUrl } = Astro.props;
 </div>
 
 <style>
+  /* Glass header panel, ~58px: logo left, plain glowing close X right. */
   .sidebar-header {
     position: sticky;
     top: 0;
     z-index: 10;
-    padding: 1rem 1.25rem 0.9rem;
-    background:
-      linear-gradient(
-        180deg,
-        rgba(56, 189, 248, 0.16) 0%,
-        rgba(10, 14, 26, 0) 100%
-      ),
-      var(--surface-hud);
+    height: 58px;
+    box-sizing: border-box;
+    padding: 0 0.75rem 0 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
     flex-shrink: 0;
+    overflow: hidden;
+    background:
+      /* top bevel highlight */
+      linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35) 30%, rgba(255, 255, 255, 0.12) 70%, transparent) top / 100% 1px no-repeat,
+      linear-gradient(180deg, rgba(56, 189, 248, 0.20) 0%, rgba(56, 189, 248, 0.05) 55%, rgba(10, 14, 26, 0) 100%),
+      linear-gradient(180deg, #131c33, #0a0e1a);
   }
 
-  /* Cyan HUD divider with a bright core, separating header from entries */
+  /* Glass gloss layers (same shapes as the design mock). Not scoped-pseudo so they can be skewed. */
+  .hd-gloss,
+  .hd-streak,
+  .hd-sweep {
+    position: absolute;
+    pointer-events: none;
+  }
+  .hd-gloss {
+    left: -10%;
+    right: -10%;
+    top: 0;
+    height: 52%;
+    border-radius: 0 0 50% 50% / 0 0 100% 100%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.03));
+  }
+  .hd-streak {
+    top: -10px;
+    height: 90px;
+    transform: skewX(-28deg);
+  }
+  .hd-streak-a {
+    left: 96px;
+    width: 34px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+  }
+  .hd-streak-b {
+    left: 140px;
+    width: 10px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.10), transparent);
+  }
+  .hd-sweep {
+    inset: 0;
+    background: linear-gradient(100deg, transparent 0%, rgba(147, 220, 255, 0.10) 40%, transparent 65%);
+  }
+
+  /* Bright cyan HUD divider with a bright core, separating header from entries */
   .sidebar-header::after {
     content: '';
     position: absolute;
@@ -61,49 +101,61 @@ const { baseUrl } = Astro.props;
     background: linear-gradient(
       90deg,
       transparent,
-      var(--color-brv) 20%,
+      var(--color-brv) 18%,
       #e0f7ff 50%,
-      var(--color-brv) 80%,
+      var(--color-brv) 82%,
       transparent
     );
-    box-shadow: 0 0 10px rgba(56, 189, 248, 0.55);
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.6), 0 1px 0 rgba(0, 0, 0, 0.5);
+    pointer-events: none;
   }
 
   .sidebar-close-btn {
     display: none;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
-    min-height: 44px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border-panel);
-    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    padding: 0;
     margin-left: auto;
+    background: transparent;
+    border: 0;
+    color: #bae6fd;
+    cursor: pointer;
+    filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.9));
+    transition: color var(--transition-fast);
+    flex-shrink: 0;
   }
 
   .sidebar-close-btn:hover {
-    background: rgba(239, 68, 68, 0.15);
-    border-color: rgba(239, 68, 68, 0.5);
-    color: #f87171;
+    color: #ffffff;
   }
 
   .brand-link {
+    position: relative;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 0.3rem;
     flex: 1;
     min-width: 0;
     text-decoration: none;
     color: var(--text-main);
     transition: opacity var(--transition-fast);
+  }
+
+  /* Soft cyan backlight behind the logo */
+  .brand-link::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 50%;
+    width: 120px;
+    height: 70px;
+    margin-top: -35px;
+    background: radial-gradient(ellipse at 50% 50%, rgba(56, 189, 248, 0.32), transparent 68%);
+    pointer-events: none;
+    z-index: -1;
   }
 
   .brand-link:hover {
@@ -112,12 +164,12 @@ const { baseUrl } = Astro.props;
   }
 
   .sidebar-brand-img {
-    width: 100%;
-    max-width: 220px;
-    height: auto;
-    max-height: 85px;
+    position: relative;
+    height: 40px;
+    width: auto;
+    max-width: 180px;
     object-fit: contain;
-    filter: drop-shadow(0 2px 14px rgba(56, 189, 248, 0.45));
+    filter: drop-shadow(0 1px 10px rgba(56, 189, 248, 0.5));
     transition: transform var(--transition-fast);
   }
 
@@ -125,41 +177,8 @@ const { baseUrl } = Astro.props;
     transform: scale(1.04);
   }
 
-  .brand-sub {
-    font-family: var(--font-heading);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--color-brv);
-    text-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
-  }
-
-  /* Mobile drawer (incl. landscape): compact bar, logo left, close right */
+  /* Drawer (<= 1024px): show the close X */
   @media (max-width: 1024px) {
-    .sidebar-header {
-      padding: 0.4rem 0.75rem;
-      min-height: 56px;
-    }
-
-    .brand-link {
-      flex-direction: row;
-      justify-content: flex-start;
-      gap: 0.65rem;
-    }
-
-    .sidebar-brand-img {
-      width: auto;
-      max-width: 120px;
-      max-height: 38px;
-    }
-
-    .brand-sub {
-      font-size: 0.66rem;
-      letter-spacing: 0.22em;
-      white-space: nowrap;
-    }
-
     .sidebar-close-btn {
       display: inline-flex;
     }
